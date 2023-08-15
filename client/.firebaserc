@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "soliqs-web23s": {
+      "hosting": {
+        "client": [
+          "soliqs-web23s"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "soliqs-web23s"
+  }
+}
