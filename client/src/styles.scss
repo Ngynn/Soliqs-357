@@ -1,1 +1,156 @@
-/* You can add global styles to this file, and also import other style files */
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+
+@import "@angular/material/theming";
+
+// 0. Custom palette
+@include mat.core();
+$my-primary: (
+  50: #ffecf2,
+  100: #ffd8e9,
+  200: #ffafd7,
+  300: #f08ac2,
+  400: #d270a7,
+  500: #b4578c,
+  600: #963f72,
+  700: #79275a,
+  800: #5d0d42,
+  900: #3c0029,
+
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    600: rgba(black, 0.87),
+    700: rgba(black, 0.87),
+    800: white,
+    900: white,
+  ),
+);
+
+$my-secondary: (
+  50: #ffecf2,
+  100: #fdd9e8,
+  200: #dfbdcc,
+  300: #c3a3b1,
+  400: #a78896,
+  500: #8c6f7c,
+  600: #725763,
+  700: #58404c,
+  800: #402a35,
+  900: #291520,
+
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    600: rgba(black, 0.87),
+    700: rgba(black, 0.87),
+    800: white,
+    900: white,
+  ),
+);
+
+$my-tertiary: (
+  50: #ffede5,
+  100: #ffdbc9,
+  200: #f3ba9b,
+  300: #d5a082,
+  400: #b88669,
+  500: #9b6c51,
+  600: #7f543b,
+  700: #643d26,
+  800: #4a2812,
+  900: #311302,
+
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    600: rgba(black, 0.87),
+    700: rgba(black, 0.87),
+    800: white,
+    900: white,
+  ),
+);
+
+$my-error: (
+  50: #ffedea,
+  100: #ffdad6,
+  200: #ffb4ab,
+  300: #ff897d,
+  400: #ff5449,
+  500: #de3730,
+  600: #ba1a1a,
+  700: #93000a,
+  800: #690005,
+  900: #410002,
+
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    600: rgba(black, 0.87),
+    700: rgba(black, 0.87),
+    800: white,
+    900: white,
+  ),
+);
+
+// 1. Light Theme
+$client-primary: mat.define-palette($my-primary, 600);
+$client-accent: mat.define-palette($my-secondary, 600);
+$client-warn: mat.define-palette($my-error, 600);
+
+$client-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $client-primary,
+      accent: $client-accent,
+      warn: $client-warn,
+    ),
+  )
+);
+
+// 2. Dark Theme
+$dark-primary: mat.define-palette($my-primary, 400);
+$dark-accent: mat.define-palette($my-secondary, 400);
+$dark-warn: mat.define-palette($my-error, 400);
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $dark-primary,
+      accent: $dark-accent,
+      warn: $dark-warn,
+    ),
+  )
+);
+
+@include mat.all-component-themes($client-theme);
+
+.dark-theme {
+  @include angular-material-color($dark-theme);
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0 150px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

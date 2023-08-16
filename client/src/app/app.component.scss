@@ -1,0 +1,21 @@
+.parent {
+  display: grid;
+  grid-template-columns: 15.625rem 36.938rem 26.25rem;
+  height: 100%;
+}
+
+.blue {
+  background-color: blue;
+  color: white;
+}
+
+.purple {
+  background-color: purple;
+  color: white;
+}
+
+.coral {
+  background-color: coral;
+  color: white;
+  margin: 0 15px;
+}
