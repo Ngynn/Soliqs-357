@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="left" >
+        <img src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t1.15752-9/365422020_289665707081833_8704193589860466338_n.png?_nc_cat=106&ccb=1-7&_nc_sid=ae9488&_nc_ohc=nHv-KOwAoYAAX-VIPSD&_nc_ht=scontent.fsgn5-9.fna&oh=03_AdQ9wyrASHiaQtM9ZlFtvk-blKrST7j819U4zk0ZmN2qdA&oe=65042EA0" alt="">
+    </div>
+    <div class="right">
+        <div class="title">
+            <h1>Soliqs bring everyone closer together</h1>
+            <h2>Join us now .</h2>
+            
+        </div>
+        <div class="btnGroup">
+            <button class="btnLgGoogle"><img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" alt="">Login with Goole</button>
+            <div class="or">or</div>
+            <button class="btnSignUp" (click)="openSignUpDialog()">Sign up</button>
+            <div class="qst">Have an account ?</div>
+            <button class="btnSignIn" (click)="openDialog()">Sign in</button>
+        </div>
+        <dialog class="signInDL" #appDialog>
+            <img class="btnClose" (click)="closeDialog()" src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="">
+            <form class="form">
+                <div style="font-family: 'Open Sans', sans-serif;">SIGN IN TO SOLIQS</div>
+                <div class="emailUser">
+                    <!-- <div>Email</div> -->
+                    <input type="text" placeholder="Email">
+                </div>
+                <div class="password">
+                    <!-- <div>Password</div> -->
+                    <input type="text" placeholder="Password">
+                </div>
+                <button class="signIn">Log in</button>
+              </form>
+              
+        </dialog>
+
+        <dialog class="signUpDL" #appDialog2>
+            <img class="btnClose" (click)="closeSingUpDialog()" src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="">
+            <form class="form">
+                <div style="font-family: 'Open Sans', sans-serif;">SIGN UP TO SOLIQS</div>
+                <div class="emailUser">
+                    <!-- <div>Email</div> -->
+                    <input type="text" placeholder="Email">
+                </div>
+                <div class="password">
+                    <!-- <div>Password</div> -->
+                    <input type="text" placeholder="Password">
+                </div>
+                <button class="signIn">Log in</button>
+              </form>
+        </dialog>
+
+    </div>
+</div>
