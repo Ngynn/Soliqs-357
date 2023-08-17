@@ -16,9 +16,19 @@
 .title {
     display: grid;
     place-items: center;
-    margin-bottom: 20%;
+    margin-top: 5%;
+    margin-bottom: 14%;
     font-size: 20px;
     font-family: 'Open Sans', sans-serif;
+    #one {
+        // font-weight: bold;
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+    #two {
+        // font-weight: bold;
+        font-size: 1.5rem;
+    }
     
 }
 
@@ -26,12 +36,12 @@
     display: grid;
     grid-template-rows: auto 1fr auto;
     place-items: center;
+    font-family: 'Open Sans', sans-serif;
     .or {
         margin-top: 10px;
         margin-bottom: 10px;
     }
     .qst {
-        margin-top: 35px;
         margin-bottom: 10px;
         justify-content: left;
         margin-right: 100px;
@@ -78,7 +88,7 @@
         height: 50px;
         font-size: 15px;
         font-weight: bold;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         cursor: pointer;
     }
 }
@@ -96,26 +106,29 @@
 }
 
 
+.btnClose {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
+    margin-top: 10px;
+    width: 13px;
+    height: 13px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
 .signInDL {
     border: none;
-    width: 20%;
-    height: 40%;
-    border-radius: 25px;
+    border-radius: 12px;
+    font-family: 'Open Sans', sans-serif;
+    width: 20rem;
+    background-color: #FCF1F3;
     
-    .btnClose {
-        display: flex;
-        justify-content: flex-end;
-        margin-right: 10px;
-        margin-top: 10px;
-        width: 13px;
-        height: 13px;
-        margin-bottom: 20px;
-        cursor: pointer;
-    }
     .form {
         display: grid;
         place-items: center;
         word-wrap: break-word;
+        
         input {
             margin-bottom: 20px;
             height: 30px;
@@ -126,8 +139,8 @@
             border-radius: 5px;
         }
         button {
-            background-color: #FFDBC8;
-            color: #311302;
+            background-color: #944170;
+            color: #FFFFFF;
             border: none;
             border-radius: 100px;
             width: 250px;
@@ -154,20 +167,12 @@
 
 .signUpDL {
     border: none;
-    width: 20%;
-    height: 40%;
-    border-radius: 25px;
-    
-    .btnClose {
-        display: flex;
-        justify-content: flex-end;
-        margin-right: 10px;
-        margin-top: 10px;
-        width: 13px;
-        height: 13px;
-        margin-bottom: 20px;
-        cursor: pointer;
-    }
+    border-radius: 12px;
+    font-family: 'Open Sans', sans-serif;
+    width: 20rem;
+    background-color: #FCF1F3;
+
+
     .form {
         display: grid;
         place-items: center;
@@ -180,10 +185,11 @@
             // font-weight: bold;
             color: #311302;
             border-radius: 5px;
+            background-color: #FFF8F8;
         }
         button {
-            background-color: #FFDBC8;
-            color: #311302;
+            background-color: #944170;
+            color: #FFFFFF;
             border: none;
             border-radius: 100px;
             width: 250px;
@@ -208,3 +214,19 @@
     }
 }
 
+
+.dateBirth {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Open Sans', sans-serif;
+    input {
+    margin-top: 10px;
+
+         height: 30px;
+         width: 300px;
+         font-size: 15px;
+         // font-weight: bold;
+         color: #311302;
+         border-radius: 5px;
+    }
+}
