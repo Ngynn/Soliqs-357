@@ -48,21 +48,7 @@ export class SidebarComponent {
         .classList.remove('dark-theme');
     }
   }
-  openPostDialog() {
-    this.dialog.nativeElement.showModal();
-    this.cdr.detectChanges();
-  }
-  closePostDialog() {
-    this.dialog.nativeElement.close();
-    this.cdr.detectChanges();
-  }
-
   changeBackgroundColor(selectedNav: any) {
-    // Nếu màu nền chưa được chọn, thực hiện chuyển hướng
-    // don't change color whel click 2 time
-    if (selectedNav.backgroundColor) {
-      return;
-    }
     this.navItems.forEach((nav) => {
       if (nav === selectedNav) {
         nav.backgroundColor = !nav.backgroundColor;
@@ -71,5 +57,13 @@ export class SidebarComponent {
       }
     });
     this.router.navigate([selectedNav.route]);
+  }
+  openPostDialog() {
+    this.dialog.nativeElement.showModal();
+    this.cdr.detectChanges();
+  }
+  closePostDialog() {
+    this.dialog.nativeElement.close();
+    this.cdr.detectChanges();
   }
 }
