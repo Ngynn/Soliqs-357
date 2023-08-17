@@ -15,10 +15,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
-  @ViewChild('appDialog', { static: true })
-  dialog!: ElementRef<HTMLDialogElement>;
-  cdr = inject(ChangeDetectorRef);
-
   themeColor: 'primary' | 'accent' | 'warn' = 'primary'; // ? notice this
   isDark = false; // ? notice this
   constructor(
@@ -28,15 +24,27 @@ export class SidebarComponent {
 
   navItems = [
     { icon: 'home', text: 'Home', backgroundColor: false, route: '/home' },
-    { icon: 'search', text: 'Search', backgroundColor: false },
+    {
+      icon: 'search',
+      text: 'Search',
+      backgroundColor: false,
+      route: '/search',
+    },
     { icon: 'notifications', text: 'Notifications', backgroundColor: false },
     { icon: 'chat', text: 'Message', backgroundColor: false, route: '/chat' },
-    { icon: 'diversity_2', text: 'Group', backgroundColor: false },
+    {
+      icon: 'diversity_2',
+      text: 'Group',
+      backgroundColor: false,
+      route: '/group',
+    },
     { icon: 'account_circle', text: 'Profile', backgroundColor: false },
   ];
 
   ngOnInit(): void {}
-
+  @ViewChild('appDialog', { static: true })
+  dialog!: ElementRef<HTMLDialogElement>;
+  cdr = inject(ChangeDetectorRef);
   // ? notice below
   toggleTheme(): void {
     this.isDark = !this.isDark;
@@ -48,7 +56,11 @@ export class SidebarComponent {
         .classList.remove('dark-theme');
     }
   }
+
   changeBackgroundColor(selectedNav: any) {
+    if (selectedNav.backgroundColor) {
+      return;
+    }
     this.navItems.forEach((nav) => {
       if (nav === selectedNav) {
         nav.backgroundColor = !nav.backgroundColor;
