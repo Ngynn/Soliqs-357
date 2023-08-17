@@ -1,21 +1,27 @@
 .parent {
-  display: grid;
-  grid-template-columns: 15.625rem 36.938rem 26.25rem;
   height: 100%;
+  width: 100%;
+  display: flex;
 }
 
-.blue {
-  background-color: blue;
+.left {
+
   color: white;
+  height: 100%;
+  width: 20%;
 }
 
-.purple {
-  background-color: purple;
+.right {
+
   color: white;
+  height: 100%;
+  width: 30%;
 }
 
-.coral {
+.main {
   background-color: coral;
   color: white;
   margin: 0 15px;
+  height: 100%;
+  width: 50%;
 }
