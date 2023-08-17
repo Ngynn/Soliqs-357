@@ -14,7 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TrendingComponent } from './components/trending/trending.component';
 
 @NgModule({
-  declarations: [AppComponent, TrendingComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

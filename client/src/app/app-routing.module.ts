@@ -5,7 +5,9 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./pages/main/main.module').then((m) => m.MainModule),
+      import('./pages/navigator/navigator.module').then(
+        (m) => m.NavigatorModule
+      ),
   },
 ];
 
