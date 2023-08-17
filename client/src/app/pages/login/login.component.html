@@ -1,61 +1,72 @@
 <div class="container">
-    <div class="left" >
-        <img src="https://o.remove.bg/downloads/10ed9dd2-27f3-4893-b2cc-82eb664d4adf/365422020_289665707081833_8704193589860466338_n-removebg-preview.png" alt="">
+  <div class="left">
+    <img src="../../../assets/soliqs-icon.png" alt="" />
+  </div>
+  <div class="right">
+    <div class="title">
+      <div id="one">Soliqs bring everyone closer together</div>
+      <div id="two">Join us now .</div>
     </div>
-    <div class="right">
-        <div class="title">
-            <div id="one">Soliqs bring everyone closer together</div>
-            <div id="two">Join us now .</div>
-            
-        </div>
-        <div class="btnGroup">
-            <button class="btnLgGoogle"><img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" alt="">Login with Google</button>
-            <div class="or">or</div>
-            <button class="btnSignUp" (click)="openSignUpDialog()">Sign up</button>
-            <div class="qst">Have an account ?</div>
-            <button class="btnSignIn" (click)="openDialog()">Sign in</button>
-        </div>
-        <dialog class="signInDL" style="color: #1F1A1C" #appDialog>
-            <div class="btnClose" (click)="closeDialog()">
-                <img   src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="">
-            </div>
-            <form class="form">
-                <h3 style="font-family: 'Open Sans', sans-serif; color: #1F1A1C;">SIGN IN TO SOLIQS</h3>
-                <div class="emailUser">
-                    <!-- <div>Email</div> -->
-                    <input type="text" placeholder="Email">
-                </div>
-                <div class="password">
-                    <!-- <div>Password</div> -->
-                    <input type="text" placeholder="Password">
-                </div>
-                <button class="signIn">Log in</button>
-              </form>
-              
-        </dialog>
-
-        <dialog class="signUpDL" style="color: #1F1A1C;" #appDialog2>
-            <div class="btnClose" (click)="closeSingUpDialog()">
-                <img   src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="">
-
-            </div>
-            <form class="form">
-                <h3 style="font-family: 'Open Sans', sans-serif; color: #1F1A1C;">CREATE YOUR ACCOUNT</h3>
-                <div class="emailUser">
-                    <!-- <div>Email</div> -->
-                    <input type="text" placeholder="Email">
-                </div>
-                <div class="password">
-                    <!-- <div>Password</div> -->
-                    <input type="text" placeholder="Password">
-                </div>
-                <form class="dateBirth" action="/action_page.php">
-                    <label for="birthday">Date of birth:</label>
-                    <input type="date" id="birthday" name="birthday">
-                  </form>
-                <button class="signIn">Sign up</button>
-              </form>
-        </dialog>
-
+    <div class="btnGroup">
+      <button class="btnLgGoogle">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/300/300221.png"
+          alt=""
+        />Login with Google
+      </button>
+      <div class="or">or</div>
+      <button class="btnSignUp" (click)="openSignUpDialog()">Sign up</button>
+      <div class="qst">Have an account ?</div>
+      <button class="btnSignIn" (click)="openDialog()">Sign in</button>
     </div>
+    <dialog class="signInDL" style="color: #1f1a1c" #appDialog>
+      <div class="btnClose" (click)="closeDialog()">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"
+          alt=""
+        />
+      </div>
+      <form class="form">
+        <h3 style="font-family: 'Open Sans', sans-serif; color: #1f1a1c">
+          SIGN IN TO SOLIQS
+        </h3>
+        <div class="emailUser">
+          <!-- <div>Email</div> -->
+          <input type="text" placeholder="Email" />
+        </div>
+        <div class="password">
+          <!-- <div>Password</div> -->
+          <input type="text" placeholder="Password" />
+        </div>
+        <button class="signIn">Log in</button>
+      </form>
+    </dialog>
+
+    <dialog class="signUpDL" style="color: #1f1a1c" #appDialog2>
+      <div class="btnClose" (click)="closeSingUpDialog()">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"
+          alt=""
+        />
+      </div>
+      <form class="form">
+        <h3 style="font-family: 'Open Sans', sans-serif; color: #1f1a1c">
+          CREATE YOUR ACCOUNT
+        </h3>
+        <div class="emailUser">
+          <!-- <div>Email</div> -->
+          <input type="text" placeholder="Email" />
+        </div>
+        <div class="password">
+          <!-- <div>Password</div> -->
+          <input type="text" placeholder="Password" />
+        </div>
+        <form class="dateBirth" action="/action_page.php">
+          <label for="birthday">Date of birth:</label>
+          <input type="date" id="birthday" name="birthday" />
+        </form>
+        <button class="signIn">Sign up</button>
+      </form>
+    </dialog>
+  </div>
 </div>
