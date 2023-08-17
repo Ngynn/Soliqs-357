@@ -25,6 +25,7 @@ export class SidebarComponent {
     private overlayContainer: OverlayContainer,
     private router: Router
   ) {}
+
   navItems = [
     { icon: 'home', text: 'Home', backgroundColor: false, route: '/home' },
     { icon: 'search', text: 'Search', backgroundColor: false },
@@ -33,6 +34,7 @@ export class SidebarComponent {
     { icon: 'diversity_2', text: 'Group', backgroundColor: false },
     { icon: 'account_circle', text: 'Profile', backgroundColor: false },
   ];
+
   ngOnInit(): void {}
 
   // ? notice below
