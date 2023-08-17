@@ -10,6 +10,7 @@ export class SidebarComponent {
   themeColor: 'primary' | 'accent' | 'warn' = 'primary'; // ? notice this
   isDark = false; // ? notice this
   constructor(private overlayContainer: OverlayContainer) {}
+
   navItems = [
     { icon: 'home', text: 'Home', backgroundColor: false },
     { icon: 'search', text: 'Search', backgroundColor: false },
@@ -18,6 +19,7 @@ export class SidebarComponent {
     { icon: 'diversity_2', text: 'Group', backgroundColor: false },
     { icon: 'account_circle', text: 'Profile', backgroundColor: false },
   ];
+
   ngOnInit(): void {}
 
   // ? notice below
@@ -31,6 +33,7 @@ export class SidebarComponent {
         .classList.remove('dark-theme');
     }
   }
+
   changeBackgroundColor(selectedNav: any) {
     this.navItems.forEach((nav) => {
       if (nav === selectedNav) {
