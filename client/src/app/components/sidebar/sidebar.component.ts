@@ -10,7 +10,14 @@ export class SidebarComponent {
   themeColor: 'primary' | 'accent' | 'warn' = 'primary'; // ? notice this
   isDark = false; // ? notice this
   constructor(private overlayContainer: OverlayContainer) {}
-
+  navItems = [
+    { icon: 'home', text: 'Home', backgroundColor: false },
+    { icon: 'search', text: 'Search', backgroundColor: false },
+    { icon: 'notifications', text: 'Notifications', backgroundColor: false },
+    { icon: 'chat', text: 'Message', backgroundColor: false },
+    { icon: 'diversity_2', text: 'Group', backgroundColor: false },
+    { icon: 'account_circle', text: 'Profile', backgroundColor: false },
+  ];
   ngOnInit(): void {}
 
   // ? notice below
@@ -23,5 +30,14 @@ export class SidebarComponent {
         .getContainerElement()
         .classList.remove('dark-theme');
     }
+  }
+  changeBackgroundColor(selectedNav: any) {
+    this.navItems.forEach((nav) => {
+      if (nav === selectedNav) {
+        nav.backgroundColor = !nav.backgroundColor;
+      } else {
+        nav.backgroundColor = false; // Đặt lại màu nền cho biểu tượng cũ
+      }
+    });
   }
 }
