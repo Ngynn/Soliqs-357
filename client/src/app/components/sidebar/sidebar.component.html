@@ -7,11 +7,13 @@
       class="nav"
       *ngFor="let nav of navItems; let i = index"
       (click)="changeBackgroundColor(nav)"
+      [ngClass]="{ selected: nav.backgroundColor }"
     >
-      <mat-icon class="icon">home</mat-icon>
-      <span class="text">Home</span>
+      <mat-icon class="icon">{{ nav.icon }}</mat-icon>
+      <span class="text">{{ nav.text }}</span>
     </div>
-    <div class="nav">
+  </div>
+  <!-- <div class="nav">
       <mat-icon class="icon">search</mat-icon>
       <span class="text">Search</span>
     </div>
@@ -31,11 +33,45 @@
       <mat-icon class="icon">account_circle</mat-icon>
       <span class="text">Profile</span>
     </div>
-  </div>
+  </div> -->
 
-  <div class="btn">
+  <div class="btn" (click)="openPostDialog()">
     <span class="textbtn">Post</span>
   </div>
+  <dialog class="signInDL" style="color: #1f1a1c" #appDialog>
+    <div class="btnClose" (click)="closePostDialog()">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"
+        alt=""
+      />
+    </div>
+    <div class="post">
+      <div class="top">
+        <div class="avatar">
+          <img
+            src="https://static01.nyt.com/images/2022/12/30/multimedia/30soccer-ronaldo-1-76fd/30soccer-ronaldo-1-76fd-videoSixteenByNine3000.jpg"
+            alt=""
+          />
+        </div>
+        <div class="input">
+          <input placeholder="What is happening?!" />
+        </div>
+      </div>
+      <div class="bottom">
+        <div class="icon">
+          <mat-icon style="margin-right: 30px">image</mat-icon>
+          <mat-icon style="margin-right: 30px">gif</mat-icon>
+          <mat-icon style="margin-right: 30px">poll</mat-icon>
+          <mat-icon style="margin-right: 30px">emoji_emotions</mat-icon>
+          <mat-icon style="margin-right: 30px">schedule</mat-icon>
+        </div>
+        <div class="divice"></div>
+        <div class="button">
+          <button mat-raised-button color="primary">Post</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
   <div class="none"></div>
   <div class="user">
     <div class="avata">
