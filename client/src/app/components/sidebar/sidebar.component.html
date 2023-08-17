@@ -1,9 +1,13 @@
 <div class="container">
   <div class="logo">
-    <img class="soliqs" src="../../../assets/Soliqs.png" alt="logo" />
+    <img class="soliqs" src="../../../assets/soliqs-icon.png" alt="logo" />
   </div>
   <div class="navigate">
-    <div class="nav">
+    <div
+      class="nav"
+      *ngFor="let nav of navItems; let i = index"
+      (click)="changeBackgroundColor(nav)"
+    >
       <mat-icon class="icon">home</mat-icon>
       <span class="text">Home</span>
     </div>
@@ -35,7 +39,7 @@
   <div class="none"></div>
   <div class="user">
     <div class="avata">
-      <img class="userimg" src="../../../assets/Soliqs.png" />
+      <img class="userimg" src="../../../assets/soliqs-logo.png" />
     </div>
 
     <div class="name">

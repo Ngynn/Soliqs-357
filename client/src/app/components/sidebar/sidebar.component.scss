@@ -3,7 +3,7 @@
     height: 100%;
    display: flex;
 flex-direction: column;  
-align-items: center;
+// align-items: center;
 
     .navigate{
         display: flex;
@@ -92,6 +92,7 @@ align-items: center;
         }
         .more{
             display: flex;
+            cursor: pointer;
             .icon{
                 color: black;
             }
@@ -101,6 +102,6 @@ align-items: center;
 
 .soliqs{
 
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
 }

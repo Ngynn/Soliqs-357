@@ -50,14 +50,17 @@ justify-content: center;
     h2{
         color: black;
         margin: 0;
-        font-size: 20px;
+        font-size: 18px;
         
     }
     .follow{
         display: flex;
         flex-wrap: wrap;
-        width: 100%;
+        width: calc(100% - 20px) ;
         margin-top: 20px;
+        padding: 10px;
+      
+        cursor: pointer;
     
 
         .avata{
@@ -92,7 +95,7 @@ justify-content: center;
             }
         }
         .none{
-            width: calc(30% - 20px);
+            width: calc(30% - 30px);
         }
         .more{
             display: flex;
@@ -106,9 +109,12 @@ justify-content: center;
             background-color: #944170;
         }
     }
+    .follow:hover{
+        background-color: #dcdcdc;
+    }
     p{
         color: rgb(73, 73, 73);
-        font-size: 14px;
+        font-size: 13px;
         margin: 10px 0;
     }
 }
@@ -122,7 +128,7 @@ justify-content: center;
     padding: 10px;
     p{
         color: rgb(73, 73, 73);
-        font-size: 14px;
+        font-size: 13px;
         margin: 10px 0;
     }
 
@@ -130,7 +136,7 @@ justify-content: center;
     h2{
         color: black;
         margin: 0;
-        font-size: 20px;
+        font-size: 18px;
       
     }
 
@@ -147,18 +153,18 @@ justify-content: center;
             .placeTrend
             {
                 color: rgb(180, 180, 180);
-                font-size: 15px;
+                font-size: 13px;
             }
             .textTrend
             {
                 color: black;
                 font-weight: 500;
-                font-size: 20px;
+                font-size: 15px;
             }
             .numofpost
             {
                 color: rgb(180, 180, 180);
-                font-size: 15px;
+                font-size: 13px;
             }
 
         }
