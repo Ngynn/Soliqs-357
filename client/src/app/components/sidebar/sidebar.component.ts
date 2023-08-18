@@ -14,7 +14,8 @@ import { Router } from '@angular/router';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
+  currentPage?: string = '';
   themeColor: 'primary' | 'accent' | 'warn' = 'primary'; // ? notice this
   isDark = false; // ? notice this
   constructor(
@@ -41,11 +42,22 @@ export class SidebarComponent {
     { icon: 'account_circle', text: 'Profile', backgroundColor: false },
   ];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const currentRoute = this.router.url;
+
+    this.navItems.forEach((nav) => {
+      if (nav.route === currentRoute) {
+        nav.backgroundColor = true;
+      } else {
+        nav.backgroundColor = false;
+      }
+    });
+  }
+
   @ViewChild('appDialog', { static: true })
   dialog!: ElementRef<HTMLDialogElement>;
   cdr = inject(ChangeDetectorRef);
-  // ? notice below
+
   toggleTheme(): void {
     this.isDark = !this.isDark;
     if (this.isDark) {
@@ -62,12 +74,15 @@ export class SidebarComponent {
       return;
     }
     this.navItems.forEach((nav) => {
-      if (nav === selectedNav) {
-        nav.backgroundColor = !nav.backgroundColor;
+      if (nav == selectedNav) {
+        nav.backgroundColor = true;
+        this.currentPage = nav.route;
       } else {
-        nav.backgroundColor = false; // Đặt lại màu nền cho biểu tượng cũ
+        nav.backgroundColor = false;
+        // Đặt lại màu nền cho biểu tượng cũ
       }
     });
+
     this.router.navigate([selectedNav.route]);
   }
   openPostDialog() {

@@ -1,33 +1,42 @@
 <div class="container">
-  <div class="logo">
-    <img class="soliqs" src="../../../assets/soliqs-icon.png" alt="logo" />
-  </div>
+  <div class="topall">
+    <div class="logo">
+      <img class="soliqs" src="../../../assets/soliqs-icon.png" alt="logo" />
+    </div>
 
-  <div class="navigate">
-    <div
-      class="nav"
-      *ngFor="let nav of navItems; let i = index"
-      (click)="changeBackgroundColor(nav)"
-      [ngClass]="{ selected: nav.backgroundColor }"
-    >
-      <mat-icon class="icon">{{ nav.icon }}</mat-icon>
-      <span class="text">{{ nav.text }}</span>
+    <div class="navigate">
+      <div
+        class="nav"
+        *ngFor="let nav of navItems; let i = index"
+        (click)="changeBackgroundColor(nav)"
+        [ngClass]="{
+          selected: currentPage == nav.route,
+          colored: nav.backgroundColor
+        }"
+      >
+        <mat-icon class="icon">{{ nav.icon }}</mat-icon>
+        <span class="text">{{ nav.text }}</span>
+      </div>
+    </div>
+
+    <div class="btn" (click)="openPostDialog()">
+      <span class="textbtn">Post</span>
     </div>
   </div>
-
-  <div class="btn" (click)="openPostDialog()">
-    <span class="textbtn">Post</span>
-  </div>
-  <div class="mimi"></div>
 
   <div class="user">
-    <div class="avata">
-      <img class="userimg" src="../../../assets/soliqs-logo.png" />
-    </div>
+    <div class="userinfor">
+      <div class="avata">
+        <img
+          class="userimg"
+          src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t1.15752-9/366771992_2233146796876152_8078942035329504350_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=ae9488&_nc_ohc=IhL8hfoyqJUAX8zzvsD&_nc_ht=scontent.fsgn2-6.fna&oh=03_AdSKGWWisJkoiKs4Eo-hlui9ItWDsOXZkM2W_v2VFhY6uQ&oe=6506ABA0"
+        />
+      </div>
 
-    <div class="name">
-      <span class="text">User Name</span>
-      <span class="text">@User Name</span>
+      <div class="name">
+        <span class="text">Nguyễn Minh Mập</span>
+        <span class="text">@MậpMủmMỉm</span>
+      </div>
     </div>
 
     <div class="more">
