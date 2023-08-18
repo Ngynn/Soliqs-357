@@ -10,13 +10,17 @@
   background-color: #944170;
   height: 100%;
   color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .title {
   display: grid;
   place-items: center;
-  margin-top: 5%;
-  margin-bottom: 14%;
+
+  margin-bottom: 5%;
   font-size: 20px;
   font-family: "Open Sans", sans-serif;
   #one {
@@ -52,7 +56,7 @@
     width: 250px;
     height: 50px;
     font-size: 15px;
-    font-weight: bold;
+   font-family: "Open Sans", sans-serif;
 
     cursor: pointer;
     display: flex;
@@ -72,9 +76,10 @@
     width: 250px;
     height: 50px;
     font-size: 15px;
-    font-weight: bold;
     margin-bottom: 20px;
     cursor: pointer;
+    font-family: "Open Sans", sans-serif;
+
   }
   .btnSignIn {
     background-color: #ffdbc8;
@@ -84,9 +89,10 @@
     width: 250px;
     height: 50px;
     font-size: 15px;
-    font-weight: bold;
     margin-bottom: 10px;
     cursor: pointer;
+    font-family: "Open Sans", sans-serif;
+
   }
 }
 
@@ -114,27 +120,30 @@
   cursor: pointer;
 }
 
+.logoInDL {
+  width: 10%;
+  object-fit: cover;
+  margin-bottom: 10px;
+
+}
+
+
 .signInDL {
   border: none;
   border-radius: 12px;
   font-family: "Open Sans", sans-serif;
   width: 20rem;
-  background-color: #fcf1f3;
-
   .form {
     display: grid;
     place-items: center;
     word-wrap: break-word;
-
     input {
       margin-bottom: 20px;
       height: 30px;
       width: 300px;
       font-size: 15px;
       // font-weight: bold;
-      color: #311302;
-      border-radius: 5px;
-    }
+        }
     button {
       background-color: #944170;
       color: #ffffff;
@@ -143,7 +152,6 @@
       width: 250px;
       height: 50px;
       font-size: 15px;
-      font-weight: bold;
       margin-bottom: 20px;
       cursor: pointer;
       margin-top: 40px;
@@ -165,7 +173,6 @@
   border-radius: 12px;
   font-family: "Open Sans", sans-serif;
   width: 20rem;
-  background-color: #fcf1f3;
 
   .form {
     display: grid;
@@ -176,10 +183,6 @@
       height: 30px;
       width: 300px;
       font-size: 15px;
-      // font-weight: bold;
-      color: #311302;
-      border-radius: 5px;
-      background-color: #fff8f8;
     }
     button {
       background-color: #944170;
@@ -189,7 +192,6 @@
       width: 250px;
       height: 50px;
       font-size: 15px;
-      font-weight: bold;
       margin-bottom: 20px;
       cursor: pointer;
       margin-top: 40px;
@@ -216,8 +218,5 @@
     height: 30px;
     width: 300px;
     font-size: 15px;
-    // font-weight: bold;
-    color: #311302;
-    border-radius: 5px;
   }
 }
