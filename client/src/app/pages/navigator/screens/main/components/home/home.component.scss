@@ -9,7 +9,7 @@
 
 
 ::ng-deep .mat-mdc-tab-header{
-  width: 99%;
+  width: 101%;
   position: sticky;
 
   top: 0;
@@ -188,15 +188,17 @@
     }
 
     .img-item {
-      width: calc(100% - 80px);
+      width: calc(100%);
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       grid-gap: 3px;
-      padding-left: 80px;
+  
       border-radius: 20px;
+      overflow: hidden;
       img {
         width: 100%;
         height: auto;
+        float: left;
 
       }
     }
