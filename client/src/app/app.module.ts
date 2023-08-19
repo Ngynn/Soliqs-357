@@ -9,7 +9,7 @@ import { SharedModule } from 'src/shared/shared.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideAuth, getAuth, Auth } from '@angular/fire/auth';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TrendingComponent } from './components/trending/trending.component';
 

@@ -5,10 +5,12 @@ import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
 import { SharedModule } from 'src/shared/shared.module';
 import { HomeComponent } from './components/home/home.component';
+import { SearchComponent } from './components/search/search.component';
+import { GroupComponent } from './components/group/group.component';
 import { DetailComponent } from './components/detail/detail.component';
 
 @NgModule({
-  declarations: [MainComponent, HomeComponent, DetailComponent],
+  declarations: [MainComponent, HomeComponent, SearchComponent, GroupComponent, DetailComponent],
   imports: [CommonModule, MainRoutingModule, SharedModule],
 })
 export class MainModule {}

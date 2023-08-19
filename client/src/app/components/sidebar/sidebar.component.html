@@ -1,86 +1,47 @@
 <div class="container">
-  <div class="logo">
-    <img class="soliqs" src="../../../assets/soliqs-icon.png" alt="logo" />
-  </div>
-  <div class="navigate">
-    <div
-      class="nav"
-      *ngFor="let nav of navItems; let i = index"
-      (click)="changeBackgroundColor(nav)"
-      [ngClass]="{ selected: nav.backgroundColor }"
-    >
-      <mat-icon class="icon">{{ nav.icon }}</mat-icon>
-      <span class="text">{{ nav.text }}</span>
-    </div>
-  </div>
-  <!-- <div class="nav">
-      <mat-icon class="icon">search</mat-icon>
-      <span class="text">Search</span>
-    </div>
-    <div class="nav">
-      <mat-icon class="icon">notifications</mat-icon>
-      <span class="text">Notifications</span>
-    </div>
-    <div class="nav">
-      <mat-icon class="icon">chat</mat-icon>
-      <span class="text">Message</span>
-    </div>
-    <div class="nav">
-      <mat-icon class="icon">diversity_2</mat-icon>
-      <span class="text">Group</span>
-    </div>
-    <div class="nav">
-      <mat-icon class="icon">account_circle</mat-icon>
-      <span class="text">Profile</span>
-    </div>
-  </div> -->
-
-  <div class="btn" (click)="openPostDialog()">
-    <span class="textbtn">Post</span>
-  </div>
-  <dialog class="signInDL" style="color: #1f1a1c" #appDialog>
-    <div class="btnClose" (click)="closePostDialog()">
+  <div class="topall">
+    <div class="logo">
       <img
-        src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"
-        alt=""
+        class="soliqs"
+        (click)="return('home')"
+        src="../../../assets/soliqs-icon.png"
+        alt="logo"
       />
     </div>
-    <div class="post">
-      <div class="top">
-        <div class="avatar">
-          <img
-            src="https://static01.nyt.com/images/2022/12/30/multimedia/30soccer-ronaldo-1-76fd/30soccer-ronaldo-1-76fd-videoSixteenByNine3000.jpg"
-            alt=""
-          />
-        </div>
-        <div class="input">
-          <input placeholder="What is happening?!" />
-        </div>
+
+    <div class="navigate">
+      <div
+        class="nav"
+        *ngFor="let nav of navItems; let i = index"
+        (click)="changeBackgroundColor(nav)"
+        [ngClass]="{
+          selected: currentPage == nav.route,
+          colored: nav.backgroundColor
+        }"
+      >
+        <mat-icon class="icon">{{ nav.icon }}</mat-icon>
+        <span class="text">{{ nav.text }}</span>
       </div>
-      <div class="bottom">
-        <div class="icon">
-          <mat-icon style="margin-right: 30px">image</mat-icon>
-          <mat-icon style="margin-right: 30px">gif</mat-icon>
-          <mat-icon style="margin-right: 30px">poll</mat-icon>
-          <mat-icon style="margin-right: 30px">emoji_emotions</mat-icon>
-          <mat-icon style="margin-right: 30px">schedule</mat-icon>
-        </div>
-        <div class="divice"></div>
-        <div class="button">
-          <button mat-raised-button color="primary">Post</button>
-        </div>
-      </div>
-    </div>
-  </dialog>
-  <div class="none"></div>
-  <div class="user">
-    <div class="avata">
-      <img class="userimg" src="../../../assets/soliqs-logo.png" />
     </div>
 
-    <div class="name">
-      <span class="text">User Name</span>
-      <span class="text">@User Name</span>
+    <div class="btn" (click)="openPostDialog()">
+      <span class="textbtn">Post</span>
+    </div>
+  </div>
+
+  <div class="user">
+    <div class="userinfor">
+      <div class="avata">
+        <img
+          class="userimg"
+          src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t1.15752-9/366771992_2233146796876152_8078942035329504350_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=ae9488&_nc_ohc=IhL8hfoyqJUAX8zzvsD&_nc_ht=scontent.fsgn2-6.fna&oh=03_AdSKGWWisJkoiKs4Eo-hlui9ItWDsOXZkM2W_v2VFhY6uQ&oe=6506ABA0"
+        />
+      </div>
+
+      <div class="name">
+        <span class="text">Nguyễn Minh Mập</span>
+        <span class="text">@MậpMủmMỉm</span>
+      </div>
     </div>
 
     <div class="more">
@@ -88,3 +49,34 @@
     </div>
   </div>
 </div>
+<dialog class="postDL" style="color: #1f1a1c" #appDialog>
+  <div class="btnClose" (click)="closePostDialog()">
+    <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
+  </div>
+  <div class="post">
+    <div class="top">
+      <div class="avatar">
+        <img
+          src="https://static01.nyt.com/images/2022/12/30/multimedia/30soccer-ronaldo-1-76fd/30soccer-ronaldo-1-76fd-videoSixteenByNine3000.jpg"
+          alt=""
+        />
+      </div>
+      <div class="input">
+        <textarea placeholder="What is happening?!"></textarea>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="icon">
+        <mat-icon style="margin-right: 30px">image</mat-icon>
+        <mat-icon style="margin-right: 30px">gif</mat-icon>
+        <mat-icon style="margin-right: 30px">poll</mat-icon>
+        <mat-icon style="margin-right: 30px">emoji_emotions</mat-icon>
+        <mat-icon style="margin-right: 30px">schedule</mat-icon>
+      </div>
+      <div class="divice"></div>
+      <div class="button">
+        <button mat-raised-button color="primary">Post</button>
+      </div>
+    </div>
+  </div>
+</dialog>

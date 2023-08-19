@@ -1,10 +1,11 @@
 .container {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   // align-items: center;
-
+.topall{
   .navigate {
     display: flex;
     flex-direction: column;
@@ -21,18 +22,17 @@
       cursor: pointer;
 
       .text {
-        color: black;
+        color: #291520
       }
 
       .icon {
         margin: 0 20px;
-        color: black;
+        color: #291520
       }
     }
     .nav:hover {
-      // box-shadow: inset;
-      border: 1px solid green;
-      border-radius: 10px;
+      border-radius: 20px;
+      background-color: #fdd9e8;
     }
   }
 
@@ -46,70 +46,54 @@
     border: none;
     border-radius: 20px;
     background-color: #944170;
+    cursor: pointer;
 
     .textbtn {
       font-size: 19px;
     }
   }
-  .none {
-    height: 260px;
-   
-  }
+}
 
   .user {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
     width: 100%;
-    justify-content: center;
 
-    .avata {
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      margin-top: 2px;
-      .userimg {
-        height: 100%;
-        border-radius: 50%;
-        width: 100%;
-        background-color: #FCF1F3;
-  
-     border-radius: 10px;
-        .nav{
-            display:flex;
-            flex-direction: row;
-            align-items: center;
-            width: 100%;
-            height: 50px;
-            cursor: pointer;
-       
-            .text{
-                color: black;
-            }
-           
-            .icon{
-                margin: 0 20px;
-                color: black;
-            }
-        }
-        .nav:hover{
-            // box-shadow: inset;
-        
-            border-radius: 10px ;
-        }
-        .nav.selected {
-            border-radius: 20px;
-            background-color: #FDD9E8; /* Màu nền mới khi được chọn */
-          }
-        object-fit: cover;
-      }
-    }
-
-    .name {
-      margin: 0 10px;
+    .userinfor {
       display: flex;
-      flex-direction: column;
-      .text {
-        color: black;
+      flex-direction: row;
+      .avata {
+      
+        width: 40px;
+        height: 40px;
+        margin-top: 2px;
+
+        .userimg {
+          height: 100%;
+          border-radius: 50%;
+          width: 100%;
+          background-color: #fcf1f3;
+
+         
+         
+          .nav:hover {
+            // box-shadow: inset;
+
+            border-radius: 10px;
+          }
+
+          object-fit: cover;
+        }
+      }
+
+      .name {
+        margin: 0 10px;
+        display: flex;
+        flex-direction: column;
+        .text {
+          color: black;
+        }
       }
     }
     .more {
@@ -122,97 +106,132 @@
   }
 }
 
-.soliqs{
+.post {
+  width: 100%;
 
+  .top {
+    justify-content: flex-start;
+    display: flex;
+    margin-bottom: 30px;
+
+    .avatar {
+      margin: 0 20px;
+
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .input {
+    textarea {
+      overflow: auto;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      width: 500px;
+      height: 150px;
+      outline: none;
+      border: none;
+      font-size: 20px;
+      white-space: normal;
+      font-family: sans-serif;
+      resize: none;
+    }
+
+    textarea::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .bottom {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+
+    .divice {
+      width: 48%;
+    }
+
+    .icon {
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      color: #944170;
+    }
+
+    .button {
+      button {
+        border-radius: 30px;
+        width: 80px;
+        height: 40px;
+      }
+    }
+  }
+}
+.btnClose {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+  margin-top: 10px;
+  width: 13px;
+  height: 13px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.postDL {
+  width: 580px;
+  border: none;
+  border-radius: 14px;
+}
+dialog {
+  position: fixed;
+  inset-block-start: 0px;
+  inset-block-end: 54%;
+
+  user-select: text;
+  visibility: visible;
+  overflow: auto;
+}
+.logo {
+  
+  margin: 15px 0;
+  .soliqs {
     width: 50px;
     height: 50px;
-}
-.post {
-    width: 100%;
-    border-bottom: 1px solid #d4c2c8;
-  
-    .top {
-     
-      justify-content: flex-start;
-      display: flex;
-      margin-bottom: 30px;
-  
-      .avatar {
-        margin: 0 20px;
-  
-        img {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-        }
-      }
-    }
-  
-    .input {
-        input {
-        overflow-wrap: break-word;
-        overflow: hidden;
-        word-wrap: break-word;
-        max-width: 100%;
-        width: 100%;
-        height:100px;
-        outline: none;
-        border: none;
-        font-size: 20px;
-        resize: vertical
-      }
-    }
-  
-    .bottom {
-      width: calc(100% - 90px);
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      margin-bottom: 10px;
-  
-      .divice {
-        width: 48%;
-      }
-  
-      padding-left: 90px;
-  
-      .icon {
-        align-items: center;
-        justify-content: center;
-        display: flex;
-        color: #944170;
-      }
-  
-      .button {
-        button {
-          border-radius: 30px;
-          width: 80px;
-          height: 40px;
-        }
-      }
-    }
-  }
-  .btnClose {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 10px;
-    margin-top: 10px;
-    width: 13px;
-    height: 13px;
-    margin-bottom: 20px;
     cursor: pointer;
   }
-
-  dialog{
-    position: fixed;
-    inset-block-start: 0px;
-    inset-block-end: 54%;
- 
-    user-select: text;
-    visibility: visible;
-    overflow: auto;
-  }
-.soliqs {
-  width: 50px;
-  height: 50px;
 }
+
+.colored {
+  border-radius: 20px;
+  background-color: #fdd9e8; 
+  font-weight: 500;/* Màu nền mới khi được chọn */
+}
+// .selected {
+//   border-radius: 20px;
+//   background-color: #fdd9e8;
+//   font-weight: 500; /* Thay thế 'yourSelectedColor' bằng màu bạn muốn */
+// }
+
+
+ // .nav {
+          //   display: flex;
+          //   flex-direction: row;
+          //   align-items: center;
+          //   width: 100%;
+          //   height: 50px;
+          //   cursor: pointer;
+
+          //   .text {
+          //     color: black;
+          //   }
+
+          //   .icon {
+          //     margin: 0 20px;
+          //     color: black;
+          //   }
+          // }
