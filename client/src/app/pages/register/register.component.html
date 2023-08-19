@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="left">
+      <img src="../../../assets/imgs/logo-official.png" alt="" />
+    </div>
+    <div class="right">
+        <div class="btnGroup">
+            <div class="title">
+                Register account
+            </div>
+            <mat-form-field class="fieldUser" appearance="fill">
+                <mat-label>Username</mat-label>
+                <input matInput placeholder="">
+              </mat-form-field>
+              <mat-form-field class="fieldPhone" appearance="fill">
+                <mat-label>Phone</mat-label>
+                <input matInput placeholder="">
+              </mat-form-field>
+              <mat-form-field class="fieldEmail" appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="">
+              </mat-form-field>
+            <div class="tagDate">
+                Date of birth
+            </div>
+            <mat-form-field class="datePicker" appearance="fill">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            
+              <button class="btnConfirm">
+                Confirm
+              </button>
+        </div>
+  </div>
+  
