@@ -7,6 +7,9 @@
       <div id="one">Soliqs bring everyone closer together</div>
       <div id="two">Join us now .</div>
     </div>
+    <div>
+      
+    </div>
     <div class="btnGroup">
       
       <button class="btnLgGoogle" (click)="loginWithGoogle()">
@@ -15,67 +18,8 @@
           alt=""
         />Login with Google
       </button>
-      <div class="or">or</div>
-      <button class="btnSignUp" (click)="openSignUpDialog()">Sign up</button>
-      <div class="qst">Have an account ?</div>
-      <button class="btnSignIn" (click)="openDialog()">Sign in</button>
+
     </div>
     
   </div>
 </div>
-
-<!-- SignInDialog -->
-<dialog class="signInDL" style="color: #1f1a1c" #appDialog>
-  <div class="btnClose" (click)="closeDialog()">
-    <img
-      src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"
-      alt=""
-    />
-  </div>
-  <form class="form">
-    <img class="logoInDL" src="../../../assets/imgs/logo-official (2).png" alt="" />
-    <div style="font-family: 'Open Sans', sans-serif; color: #1f1a1c; font-size: large;" >
-      SIGN IN TO SOLIQS
-    </div>
-    <div class="emailUser">
-      <!-- <div>Email</div> -->
-      <input type="text" placeholder="Email" />
-    </div>
-    <div class="password">
-      <!-- <div>Password</div> -->
-      <input type="password" id="pwd" name="pwd" minlength="8"  placeholder="Password" />
-    </div>
-    <button class="signIn">Log in</button>
-  </form>
-</dialog>
-
-
-<!-- SignUpDialog -->
-<dialog class="signUpDL" style="color: #1f1a1c" #appDialog2>
-  <div class="btnClose" (click)="closeSingUpDialog()">
-    <img
-      src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"
-      alt=""
-    />
-  </div>
-  
-  <form class="form">
-    <img class="logoInDL" src="../../../assets/imgs/logo-official (2).png" alt="" />
-    <div style="font-family: 'Open Sans', sans-serif; color: #1f1a1c; font-size: large;">
-      CREATE YOUR ACCOUNT
-    </div>
-    <div class="emailUser">
-      <!-- <div>Email</div> -->
-      <input type="text" placeholder="Email" />
-    </div>
-    <div class="password">
-      <!-- <div>Password</div> -->
-      <input type="password" id="pwd" name="pwd" minlength="8"  placeholder="Password" />
-    </div>
-    <form class="dateBirth" action="/action_page.php">
-      <label for="birthday">Date of birth:</label>
-      <input type="date" id="birthday" name="birthday" />
-    </form>
-    <button class="signIn">Sign up</button>
-  </form>
-</dialog>

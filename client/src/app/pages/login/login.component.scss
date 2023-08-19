@@ -1,3 +1,6 @@
+* {
+  font-family: "Open Sans", sans-serif;
+}
 .container {
   width: 100vw;
   height: 100vh;
@@ -10,23 +13,24 @@
   background-color: #944170;
   height: 100%;
   color: #ffffff;
+  display: grid;
+    grid-template-rows: 200px 1fr 200px;
+  
+
+}
+
+.title {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
 
-.title {
-  display: grid;
-  place-items: center;
-
-  margin-bottom: 5%;
   font-size: 20px;
   font-family: "Open Sans", sans-serif;
   #one {
     // font-weight: bold;
     font-size: 2rem;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
   #two {
     // font-weight: bold;
@@ -39,15 +43,7 @@
   grid-template-rows: auto 1fr auto;
   place-items: center;
   font-family: "Open Sans", sans-serif;
-  .or {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  .qst {
-    margin-bottom: 10px;
-    justify-content: left;
-    margin-right: 100px;
-  }
+  
   .btnLgGoogle {
     background-color: #ffdbc8;
     color: #311302;
@@ -68,32 +64,6 @@
       margin-right: 10px;
     }
   }
-  .btnSignUp {
-    background-color: #ffdbc8;
-    color: #311302;
-    border: none;
-    border-radius: 100px;
-    width: 250px;
-    height: 50px;
-    font-size: 15px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    font-family: "Open Sans", sans-serif;
-
-  }
-  .btnSignIn {
-    background-color: #ffdbc8;
-    color: #311302;
-    border: none;
-    border-radius: 100px;
-    width: 250px;
-    height: 50px;
-    font-size: 15px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    font-family: "Open Sans", sans-serif;
-
-  }
 }
 
 .left {
@@ -109,114 +79,9 @@
   }
 }
 
-.btnClose {
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 10px;
-  margin-top: 10px;
-  width: 13px;
-  height: 13px;
-  margin-bottom: 20px;
-  cursor: pointer;
-}
-
-.logoInDL {
-  width: 10%;
-  object-fit: cover;
-  margin-bottom: 10px;
-
-}
 
 
-.signInDL {
-  border: none;
-  border-radius: 12px;
-  font-family: "Open Sans", sans-serif;
-  width: 20rem;
-  .form {
-    display: grid;
-    place-items: center;
-    word-wrap: break-word;
-    input {
-      margin-bottom: 20px;
-      height: 30px;
-      width: 300px;
-      font-size: 15px;
-      // font-weight: bold;
-        }
-    button {
-      background-color: #944170;
-      color: #ffffff;
-      border: none;
-      border-radius: 100px;
-      width: 250px;
-      height: 50px;
-      font-size: 15px;
-      margin-bottom: 20px;
-      cursor: pointer;
-      margin-top: 40px;
-    }
-    .emailUser {
-      display: flex;
-      flex-direction: column;
-      margin-top: 15px;
-    }
-    .password {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-}
 
-.signUpDL {
-  border: none;
-  border-radius: 12px;
-  font-family: "Open Sans", sans-serif;
-  width: 20rem;
 
-  .form {
-    display: grid;
-    place-items: center;
-    word-wrap: break-word;
-    input {
-      margin-bottom: 20px;
-      height: 30px;
-      width: 300px;
-      font-size: 15px;
-    }
-    button {
-      background-color: #944170;
-      color: #ffffff;
-      border: none;
-      border-radius: 100px;
-      width: 250px;
-      height: 50px;
-      font-size: 15px;
-      margin-bottom: 20px;
-      cursor: pointer;
-      margin-top: 40px;
-    }
-    .emailUser {
-      display: flex;
-      flex-direction: column;
-      margin-top: 15px;
-    }
-    .password {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-}
 
-.dateBirth {
-  display: flex;
-  flex-direction: column;
-  font-family: "Open Sans", sans-serif;
-  input {
-    margin-top: 10px;
 
-    height: 30px;
-    width: 300px;
-    font-size: 15px;
-  }
-}
