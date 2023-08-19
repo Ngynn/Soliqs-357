@@ -85,6 +85,15 @@ export class SidebarComponent implements OnInit {
 
     this.router.navigate([selectedNav.route]);
   }
+  return(icon: string) {
+    // Chuyển hướng đến trang home
+    this.router.navigate(['/home']);
+
+    // Đặt màu nền của biểu tượng tương ứng thành true và của các biểu tượng khác thành false
+    this.navItems.forEach((nav) => {
+      nav.backgroundColor = nav.icon === icon;
+    });
+  }
   openPostDialog() {
     this.dialog.nativeElement.showModal();
     this.cdr.detectChanges();
