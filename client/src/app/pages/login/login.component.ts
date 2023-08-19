@@ -22,6 +22,10 @@ export class LoginComponent {
     this.authService.loginWithGoogle();
   }
 
+  logout() {
+    this.authService.logout();
+  }
+
   @ViewChild('appDialog', { static: true })
   dialog!: ElementRef<HTMLDialogElement>;
   cdr = inject(ChangeDetectorRef);
