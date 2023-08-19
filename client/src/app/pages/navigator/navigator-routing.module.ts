@@ -12,6 +12,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./screens/main/main.module').then((m) => m.MainModule),
       },
+
       {
         path: 'chat',
         loadChildren: () =>
