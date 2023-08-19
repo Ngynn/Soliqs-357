@@ -48,29 +48,24 @@
   background-color: #fcf1f3;
   border-radius: 10px;
   margin-top: 10px;
- 
-  .textmore{
+
+  .textmore {
     display: flex;
     flex-direction: column;
     height: 40px;
-    
+
     cursor: pointer;
-   
+
     justify-content: center;
-    p{
+    p {
       margin: 10px 0 8px 10px;
-        color: rgb(73, 73, 73);
-        font-size: 13px;
-       
-      
-     
-     
-      }
-}
-.textmore:hover{
-    background-color: #FDD9E8;
-}
- 
+      color: rgb(73, 73, 73);
+      font-size: 13px;
+    }
+  }
+  .textmore:hover {
+    background-color: #fdd9e8;
+  }
 
   .title {
     h2 {
@@ -94,7 +89,7 @@
 
       .avata {
         border-radius: 50%;
-        width: 40px;
+        width: 47px;
         height: 40px;
         margin-top: 2px;
         margin-left: 2px;
@@ -143,9 +138,8 @@
     }
   }
   .follow:hover {
-    background-color: #FDD9E8;
+    background-color: #fdd9e8;
   }
-  
 }
 .trend {
   display: flex;
@@ -154,30 +148,27 @@
   background-color: #fcf1f3;
   border-radius: 10px;
   margin-top: 10px;
-  padding: 10px;
-  .textmore{
+
+  .textmore {
     display: flex;
     flex-direction: column;
     height: 40px;
-   
+
     justify-content: center;
-    p{
-        color: rgb(73, 73, 73);
-        font-size: 13px;
-        margin: 10px 0;
-      
-     
-     
-      }
-}
-.textmore:hover{
-    background-color: #FDD9E8;
-}
+    p {
+      color: rgb(73, 73, 73);
+      font-size: 13px;
+      margin: 10px 0 8px 10px;
+    }
+  }
+  .textmore:hover {
+    background-color: #fdd9e8;
+  }
 
   h2 {
     font-weight: 500;
     color: black;
-    margin: 0;
+    margin: 10px 0 0 10px;
     font-size: 18px;
   }
 
@@ -185,8 +176,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 10px;
     cursor: pointer;
+    padding: 5px;
 
     .trendName {
       display: flex;
@@ -211,4 +203,3 @@
     }
   }
 }
-
