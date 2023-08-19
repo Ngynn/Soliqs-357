@@ -4,6 +4,7 @@ import { MainComponent } from './main.component';
 import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/search/search.component';
 import { GroupComponent } from './components/group/group.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
         path: 'group',
         component: GroupComponent,
       },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+      }
     ],
   },
 ];
