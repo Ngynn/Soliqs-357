@@ -1,0 +1,342 @@
+<div class="top_bar">
+  <div id="left">
+    <div id="box">
+      <mat-icon id="back">arrow_back</mat-icon>
+    </div>
+  </div>
+  <div id="right">
+    <div id="box">
+      <h2>Apple Hub</h2>
+      <div>4,000 posts</div>
+    </div>
+  </div>
+</div>
+
+<div class="bio">
+  <div id="background">
+    <img
+      src="https://pbs.twimg.com/profile_banners/2935618898/1670404168/1500x500"
+      alt=""
+    />
+  </div>
+  <div id="infor">
+    <div id="infor_head">
+      <div id="box">
+        <div id="avt">
+          <div id="avtImg">
+            <img
+              src="https://pbs.twimg.com/profile_images/1521011653222932481/S1BEvjDb_400x400.jpg"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+      <div id="edit_btn">
+        <button id="edit" mat-stroked-button>
+          <span>Edit Profile</span>
+        </button>
+      </div>
+    </div>
+    <div id="user">
+      <div id="name">
+        <span>Apple Hub</span>
+      </div>
+      <div id="id">
+        <span>@theapplehub</span>
+      </div>
+    </div>
+    <div id="date">
+      <mat-icon id="icon">calendar_month</mat-icon>
+      <span>Joined december 2014</span>
+    </div>
+    <div id="relationship">
+      <div id="following">
+        <span id="count">1</span>
+        <span id="desc">Following</span>
+      </div>
+      <div id="followers">
+        <span id="count">0</span>
+        <span id="desc">Followers</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-tab-group class="tabs">
+  <mat-tab label="Posts"> </mat-tab>
+  <mat-tab label="Replies"> </mat-tab>
+  <mat-tab label="High lights"> </mat-tab>
+  <mat-tab label="Media"> </mat-tab>
+  <mat-tab label="Likes"> </mat-tab>
+</mat-tab-group>
+
+<div class="post_list">
+  <div id="space"></div>
+  <div id="post">
+    <div id="left">
+      <div id="avt">
+        <img
+          src="https://pbs.twimg.com/profile_images/1671510098169180161/xdQUtnOJ_400x400.jpg"
+          alt=""
+        />
+      </div>
+    </div>
+    <div id="right">
+      <div id="post_head">
+        <div id="head_left">
+          <span id="user_name">
+            <b>Netflix</b>
+          </span>
+          <span id="user_id">@netflix</span>
+          <span id="date">- Aug 15</span>
+        </div>
+        <div id="head_right">
+          <div id="box">
+            <mat-icon>more_horiz</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <span
+          >Gal Gadot's first movie (Fast & Furious) is on Netflix now — and her
+          latest movie (Heart of Stone) is on Netflix Friday!</span
+        >
+      </div>
+      <div id="img_list">
+        <div id="img">
+          <img
+            src="https://static.timesofisrael.com/www/uploads/2023/08/AP23209802394541-e1691732064114-640x400.jpg"
+            alt=""
+          />
+        </div>
+      </div>
+      <div id="service">
+        <div id="comments">
+          <div id="icon" (click)="openCommentDialog()">
+            <div class="box">
+              <mat-icon [ngStyle]="{'color': item2.sync ? '#944170' : '#504349'}">chat_bubble_outline</mat-icon>
+            </div>
+          </div>
+          <div id="count">
+            <span>120</span>
+          </div>
+        </div>
+        <div id="repost">
+          <div class="box" (click)="repost2()">
+            <mat-icon [ngStyle]="{'color': item2.sync ? '#944170' : '#504349'}">repeat</mat-icon>
+          </div>
+          <span>654</span>
+        </div>
+        <div id="like">
+          <div class="box" (click)="like2()">
+            <mat-icon [ngStyle]="{'color': item2.favorite ? '#944170' : '#504349'}">favorite_border</mat-icon>
+          </div>
+          <span>8,820</span>
+        </div>
+        <div id="view">
+          <div class="box" (click)="monitoring2()">
+            <mat-icon [ngStyle]="{'color': item2.monitoring ? '#944170' : '#504349'}">bar_chart_4_bars</mat-icon>
+          </div>
+          <span>2M</span>
+        </div>
+        <div id="share">
+          <div class="box">
+            <mat-icon >upload</mat-icon>
+          </div>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="post">
+    <div id="left">
+      <div id="avt">
+        <img
+          src="https://pbs.twimg.com/profile_images/1671510098169180161/xdQUtnOJ_400x400.jpg"
+          alt=""
+        />
+      </div>
+    </div>
+    <div id="right">
+      <div id="post_head">
+        <div id="head_left">
+          <span id="user_name">
+            <b>Netflix</b>
+          </span>
+          <span id="user_id">@netflix</span>
+          <span id="date">- Aug 15</span>
+        </div>
+        <div id="head_right">
+          <div id="box">
+            <mat-icon>more_horiz</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <span
+          >Gal Gadot's first movie (Fast & Furious) is on Netflix now — and her
+          latest movie (Heart of Stone) is on Netflix Friday!</span
+        >
+      </div>
+      <div id="img_list">
+        <div id="img">
+          <img
+            src="https://static.timesofisrael.com/www/uploads/2023/08/AP23209802394541-e1691732064114-640x400.jpg"
+            alt=""
+          />
+        </div>
+      </div>
+      <div id="service">
+        <div id="comments">
+          <div id="icon">
+            <div class="box">
+              <mat-icon>chat_bubble_outline</mat-icon>
+            </div>
+          </div>
+          <div id="count">
+            <span>120</span>
+          </div>
+        </div>
+        <div id="repost">
+          <div class="box">
+            <mat-icon>repeat</mat-icon>
+          </div>
+          <span>654</span>
+        </div>
+        <div id="like">
+          <div class="box">
+            <mat-icon>favorite_border</mat-icon>
+          </div>
+          <span>8,820</span>
+        </div>
+        <div id="view">
+          <div class="box">
+            <mat-icon>bar_chart_4_bars</mat-icon>
+          </div>
+          <span>2M</span>
+        </div>
+        <div id="share">
+          <div class="box">
+            <mat-icon>upload</mat-icon>
+          </div>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="post">
+    <div id="left">
+      <div id="avt">
+        <img
+          src="https://pbs.twimg.com/profile_images/1671510098169180161/xdQUtnOJ_400x400.jpg"
+          alt=""
+        />
+      </div>
+    </div>
+    <div id="right">
+      <div id="post_head">
+        <div id="head_left">
+          <span id="user_name">
+            <b>Netflix</b>
+          </span>
+          <span id="user_id">@netflix</span>
+          <span id="date">- Aug 15</span>
+        </div>
+        <div id="head_right">
+          <div id="box">
+            <mat-icon>more_horiz</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <span
+          >Gal Gadot's first movie (Fast & Furious) is on Netflix now — and her
+          latest movie (Heart of Stone) is on Netflix Friday!</span
+        >
+      </div>
+      <div id="img_list">
+        <div id="img">
+          <img
+            src="https://static.timesofisrael.com/www/uploads/2023/08/AP23209802394541-e1691732064114-640x400.jpg"
+            alt=""
+          />
+        </div>
+      </div>
+      <div id="service">
+        <div id="comments">
+          <div id="icon">
+            <div class="box">
+              <mat-icon>chat_bubble_outline</mat-icon>
+            </div>
+          </div>
+          <div id="count">
+            <span>120</span>
+          </div>
+        </div>
+        <div id="repost">
+          <div class="box">
+            <mat-icon>repeat</mat-icon>
+          </div>
+          <span>654</span>
+        </div>
+        <div id="like">
+          <div class="box">
+            <mat-icon>favorite_border</mat-icon>
+          </div>
+          <span>8,820</span>
+        </div>
+        <div id="view">
+          <div class="box">
+            <mat-icon>bar_chart_4_bars</mat-icon>
+          </div>
+          <span>2M</span>
+        </div>
+        <div id="share">
+          <div class="box">
+            <mat-icon>upload</mat-icon>
+          </div>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <dialog class="comment-dialog" style="color: #1f1a1c" #appDialog2>
+    <div class="btnClose" (click)="closeCommentDialog()">
+      <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
+    </div>
+    <div class="top-dialog">
+      <div class="avatar-top-dialog">
+        <img src="../../../../../../../assets/imgs/Rectangle 14.png" alt="" />
+      </div>
+      <div class="content-top-dialog">
+        <div class="container-user-top-dialog">
+          <div class="username-top-dialog">Netflix</div>
+          <div class="tagname-top-dialog">@netflix</div>
+          <div class="time-top-dialog">- Aug 15</div>
+        </div>
+        <div class="content-user-top-dialog">
+            Gal Gadot's first movie (Fast & Furious) is on Netflix now — and her
+            latest movie (Heart of Stone) is on Netflix Friday!
+        </div>
+      </div>
+    </div>
+    <div class="input-comment"><input type="text" placeholder="Post your comment!"></div>
+
+    <div class="bottom-dialog">
+      <div class="icon-dialog">
+        <mat-icon style="margin-right: 10px">image</mat-icon>
+        <mat-icon style="margin-right: 10px">gif</mat-icon>
+        <mat-icon style="margin-right: 10px">poll</mat-icon>
+        <mat-icon style="margin-right: 10px">emoji_emotions</mat-icon>
+        <mat-icon style="margin-right: 10px">schedule</mat-icon>
+      </div>
+      <div class="button-comment">
+        <button mat-raised-button color="primary">Post</button>
+      </div>
+    </div>
+
+  </dialog>
+</div>
