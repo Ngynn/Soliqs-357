@@ -1,11 +1,16 @@
 .container {
-  width: calc(100% - 20px);
-  height: calc(100vh - 20px);
+  width: 16%;
+  height: calc(100vh - 40px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 10px;
+  padding: 20px 0;
+  position: fixed;
   // align-items: center;
+ // how to keep container when scroll
+  
+
+
 .topall{
   .navigate {
     display: flex;
@@ -13,6 +18,7 @@
     width: 100%;
     background-color: #fcf1f3;
     border-radius: 10px;
+    position: sticky;
     .nav {
       display: flex;
       flex-direction: row;
@@ -36,7 +42,6 @@
       }
     }
     .nav:hover {
-     
       border-radius: 20px;
       background-color: #fdd9e8;
     }
@@ -242,3 +247,6 @@ dialog {
           //     color: black;
           //   }
           // }
+      
+
+   
