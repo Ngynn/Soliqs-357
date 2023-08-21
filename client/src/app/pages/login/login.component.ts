@@ -104,15 +104,16 @@ export class LoginComponent {
   }
 
   openSnackBar(message:string) {
-    const config = new MatSnackBarConfig();
-    config.horizontalPosition = 'end'; // Hiển thị ở bên phải
-    config.verticalPosition = 'top'; // Hiển thị ở góc trên
-    this._snackBar.open(message, 'close', {
-      panelClass: 'snackbar-user'
-    });
+    this._snackBar.open(message,'', {
+      panelClass: 'snackbar-user',
+      horizontalPosition:'end',
+      verticalPosition: 'top',
+    },
+    
+    );
     setTimeout(() => {
       this._snackBar.dismiss();
-    }, 200000);
+    }, 2000);
   }
 
   logout() {
