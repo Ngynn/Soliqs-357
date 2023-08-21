@@ -30,6 +30,8 @@ export class AuthService {
   }
 
   logout() {
+    console.log('logout');
+
     return from(this.auth.signOut());
   }
 }

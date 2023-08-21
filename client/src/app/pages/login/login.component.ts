@@ -115,6 +115,10 @@ export class LoginComponent {
     }, 200000);
   }
 
+  logout() {
+    this.authService.logout();
+  }
+
   @ViewChild('appDialog', { static: true })
   dialog!: ElementRef<HTMLDialogElement>;
   cdr = inject(ChangeDetectorRef);
