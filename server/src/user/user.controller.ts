@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,Headers, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Headers,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -7,24 +18,46 @@ import { User } from './entities/user.entity';
 
 @Controller('v1/user')
 export class UserController {
-  constructor(private readonly userService: UserService,private authService: AuthService) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+  ) {}
+
+  // @Post()
+  // async create(@Headers() headers: any) {
+  //   try {
+  //     let authHeader = headers.authorization;
+  //     authHeader = authHeader.repalce('Bearer ', '');
+  //     let data = await this.authService.verifyToken(authHeader);
+  //     let user: User = {
+  //       uid: data.uid,
+  //       email: data.email,
+  //       name: data.name,
+  //       picture: data.picture,
+  //     };
+  //     const createdUser = await this.userService.create(user);
+  //     return createdUser;
+  //   } catch (error) {
+  //     throw new HttpException('Invalid', HttpStatus.FORBIDDEN);
+  //   }
+  // }
 
   @Post()
   async create(@Headers() headers: any) {
-    try{
+    try {
       let authHeader = headers.authorization;
-      authHeader = authHeader.replace('Bearer','');
+      authHeader = authHeader.replace('Bearer ', '');
       let data = await this.authService.verifyToken(authHeader);
-      let user: User ={
+      let user: User = {
         uid: data.uid,
         email: data.email,
         name: data.name,
-        picture: data.picture
+        picture: data.picture,
       };
-      return this.userService.create(user);
-    }
-    catch(error){
-      throw new HttpException('Invalid', HttpStatus.FORBIDDEN)
+      const createdUser = await this.userService.create(user);
+      return createdUser;
+    } catch (error) {
+      throw new HttpException('Invalid token', HttpStatus.FORBIDDEN);
     }
   }
 

@@ -1,4 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AuthState } from 'src/app/ngrx/states/auth.state';
 
 @Component({
   selector: 'app-home',
@@ -6,6 +9,17 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } f
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  idToken$: Observable<string> = this.store.select('idToken','idToken');
+  constructor(private store: Store<{ idToken: AuthState }>){
+    this.idToken$.subscribe(value =>{
+      console.log('hello id token')
+      console.log(value);
+      if(value){
+        console.log(value);
+
+      }
+    })
+  }
 
   listImg: string[] = [
     "https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg",

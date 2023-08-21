@@ -7,7 +7,7 @@ export class AuthService {
 
     async verifyToken(idToken: string) {
         try {
-            const verifiedToken = admin.auth().verifyIdToken(idToken);
+            let verifiedToken = await admin.auth().verifyIdToken(idToken);
             return verifiedToken;
         } catch {
             return null;
