@@ -32,7 +32,7 @@
         </div>
       </div>
       <div id="edit_btn">
-        <button id="edit" mat-stroked-button>
+        <button id="edit" mat-stroked-button (click)="openEditProfileDialog()">
           <span>Edit Profile</span>
         </button>
       </div>
@@ -337,6 +337,91 @@
         <button mat-raised-button color="primary">Post</button>
       </div>
     </div>
+  </dialog>
 
+  <dialog class="editProfile_dialog" style="color: #1f1a1c;" #appDialog3>
+    <div id="top">
+      <div id="left">
+        <div class="btnClose" (click)="closeEditProfileDialog()">
+          <div id="box">
+            <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
+          </div>
+        </div>
+      </div>
+
+      <div id="mid">
+        <div id="dialog_name">
+          <span>Edit profile</span>
+        </div>
+      </div>
+      
+      <div id="right">
+        <div id="save_btn">
+          <button id="save" mat-stroked-button>
+            <span>Save</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="main">
+      <div id="background">
+        <div id="addImg"></div>
+        <mat-icon style="color: white; position: absolute;">add_a_photo</mat-icon>
+      </div>
+      
+      <div id="avt">
+        <div id="avtImg">
+          <div id="addImg"></div>
+          <mat-icon style="color: white; position: absolute">add_a_photo</mat-icon>
+        </div>
+      </div>
+
+      <div id="container_name">
+        <div class="box">
+          <div id="name">
+            <span>Name</span>
+          </div>
+          <div id="input_name"><input type="text"></div>
+        </div>
+      </div>
+
+      <div id="container_bio">
+        <div class="box">
+          <div id="bio">
+            <span>Bio</span>
+          </div>
+          <div id="input_bio"><input type="text"></div>
+        </div>
+      </div>
+      
+      <div id="container_location">
+        <div class="box">
+          <div id="location">
+            <span>Location</span>
+          </div>
+          <div id="input_location"><input type="text"></div>
+        </div>
+      </div>
+
+      <div id="container_website">
+        <div class="box">
+          <div id="website">
+            <span>Website</span>
+          </div>
+          <div id="input_website"><input type="text"></div>
+        </div>
+      </div>
+
+      <div id="container_birthday">
+        <div id="birthday">
+          <span id="title">Birthday </span>
+          <span id="edit">- Edit</span>
+        </div>
+        <div id="date">January 11, 2000</div>
+      </div>
+
+      <div></div>
+    </div>
   </dialog>
 </div>
