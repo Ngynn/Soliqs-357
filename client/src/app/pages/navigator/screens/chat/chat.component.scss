@@ -1,0 +1,148 @@
+.container {
+    display: flex;
+    word-wrap: break-word;
+    padding-left: 10px;
+    height: 100vh;
+    
+
+  }
+
+.left {
+    // background-color: antiquewhite;
+    height: 100%;
+    margin-right: 25px;
+    width: 25%;
+    .friendList {
+        height: 100%;
+        .head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 10px 0 10px; 
+        }
+        .searchBar {
+            // display: flex;
+            // align-items: center;
+            // justify-content: center;
+            .searching {
+                display: flex;
+                background-color: #FCF1F3;
+                border-radius: 10px;
+                align-items: center;
+                width: 100%;
+                margin-bottom: 30px;
+                
+                .iconSearch {
+                    margin-left: 10px;
+    
+                }
+                input {
+                    width: 100%;
+                    height: 30px;
+                    border-radius: 10px;
+                    border: none;
+                    outline: none;
+                    // padding-left: 10px;
+                    background-color: #FCF1F3;
+                    color: #504349;
+                    margin: 7px;
+    
+                }
+            }
+            
+        }
+        .listUser {
+            .user {
+                display: flex;
+                align-items: center;
+                background-color: #FCF1F3;
+                border-radius: 15px;
+                margin: 15px 0 1px 0;
+                border-style: solid;
+                border-width: 1px;
+                border-color: #D4C2C8;
+                .leftUser {
+                    .avatar {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        margin: 10px;
+                    }
+                }
+                .rightUser {
+                    .nameUser {
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+            
+        }
+    }
+
+}
+
+
+.right {
+    // background-color: #944170;
+    height: 100%;
+    width: 75%; 
+    .head {
+        height: 7%;
+        background-color: #FDD9E8 ;
+        display: flex;
+        align-items: center;
+        .avatar {
+            margin-left: 10px;
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+        }
+        .name {
+            margin-left: 10px;
+            margin-bottom: 25px;
+
+        }
+        .iconInfo {
+            cursor: pointer;
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+    }
+    .chatBox {
+        background-color: #FCF1F3;
+        height: 93%;
+        .chatScreen {
+            height: 85%;
+        }
+        .chatPlace {
+            input {
+                width: 500px;
+                border: none;
+                outline: none;
+            }
+            height: 12%;
+            background-color: #FFFFFF;
+            margin: 10px;
+            height: 100px;
+            border-radius: 10px;
+            box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+        }
+    }
+}
+
+.addMess {
+    height: 30px;
+    width: 30px;
+}
+
+
+
+
+
+
+

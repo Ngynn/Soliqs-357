@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ChatRoutingModule } from './chat-routing.module';
 import { ChatComponent } from './chat.component';
+import { SharedModule } from 'src/shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { ChatComponent } from './chat.component';
   ],
   imports: [
     CommonModule,
-    ChatRoutingModule
+    ChatRoutingModule,
+    SharedModule
   ]
 })
 export class ChatModule { }
