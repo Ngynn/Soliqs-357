@@ -12,18 +12,22 @@ import { environment } from '../environments/environment';
 import { provideAuth, getAuth, Auth } from '@angular/fire/auth';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TrendingComponent } from './components/trending/trending.component';
-
+import { AuthReducer } from './ngrx/reducers/auth.reducer';
+import { HttpClientModule } from '@angular/common/http';
+import { UserReducer } from './ngrx/reducers/user.reducer';
+import { Userffects } from './ngrx/effects/user.effects';
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot({idToken: AuthReducer, user: UserReducer}, {}),
+    EffectsModule.forRoot([Userffects]),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

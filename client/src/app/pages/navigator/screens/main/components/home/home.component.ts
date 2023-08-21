@@ -1,12 +1,48 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AuthState } from 'src/app/ngrx/states/auth.state';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  idToken$: Observable<string> = this.store.select('idToken','idToken');
+  constructor(private store: Store<{ idToken: AuthState }>){
+    this.idToken$.subscribe(value =>{
+      console.log('hello id token')
+      console.log(value);
+      if(value){
+        console.log(value);
 
+      }
+    })
+  }
+
+  listImg: string[] = [
+    "https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg",
+    "https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjoGr1Xb3hX9FcOZWi8b07rG9MpxsyEHwaGQ&usqp=CAU",
+    "https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg",
+    "https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg",
+    "https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg",
+    "https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg",
+    "https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg",
+    "https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg",
+    
+  ]
+  
+  showRemaining: boolean = false;
+  showMoreImages() {
+    this.showRemaining = true;
+  }
+  ngOnInit(): void {
+    if (this.listImg.length > 4) {
+      this.showRemaining = true;
+    }
+  }
   item1 = {
     sync: false,
     favorite: false,
