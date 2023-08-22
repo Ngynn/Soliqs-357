@@ -30,6 +30,10 @@ export class ProfileComponent {
   @ViewChild('appDialog2', { static: true })
   dialog2!: ElementRef<HTMLDialogElement>;
   cdr2 = inject(ChangeDetectorRef);
+
+  @ViewChild('appDialog3', { static: true })
+  dialog3!: ElementRef<HTMLDialogElement>;
+  cdr3 = inject(ChangeDetectorRef);
   
   openCommentDialog() {
     this.dialog2.nativeElement.showModal();
@@ -135,5 +139,14 @@ export class ProfileComponent {
     else{
       this.item4.monitoring = false;
     }
+  }
+
+  openEditProfileDialog() {
+    this.dialog3.nativeElement.showModal();
+    this.cdr3.detectChanges();
+  }
+  closeEditProfileDialog() {
+    this.dialog3.nativeElement.close();
+    this.cdr3.detectChanges();
   }
 }
