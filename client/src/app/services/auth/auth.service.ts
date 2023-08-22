@@ -8,7 +8,7 @@ import * as AuthAction from '../../ngrx/actions/auth.actions';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private auth: Auth,private store: Store<{idToken: AuthState}>) {}
+  constructor(private auth: Auth) {}
 
   loginWithGoogle() {
     return from(
@@ -19,8 +19,7 @@ export class AuthService {
             new GoogleAuthProvider()
           );
           let idToken = await creadential.user.getIdToken();
-          console.log(idToken);
-          this.store.dispatch(AuthAction.getIdToken({idToken}))
+          // console.log(idToken);
           resolve(idToken);
         } catch {
           reject('Cannot login with Google');
@@ -30,8 +29,6 @@ export class AuthService {
   }
 
   logout() {
-    console.log('logout');
-
     return from(this.auth.signOut());
   }
 }

@@ -2,46 +2,41 @@ import { createReducer, on } from '@ngrx/store';
 import { UserState } from '../states/user.state';
 import * as UserAction from '../actions/user.actions';
 import { state } from '@angular/animations';
+import { User } from 'src/app/models/user.model';
 
 export const initualState: UserState = {
+  user: <User>{},
   isLoading: false,
   isSuccess: false,
-  message: {},
-  error: '',
+  errorMessage: '',
 };
-export const UserReducer = createReducer(
+export const userReducer = createReducer(
   initualState,
   on(UserAction.createUser, (state, action) => {
     console.log(action.type);
-    let newState = {
+    return {
       ...state,
       isLoading: true,
       isSuccess: false,
-      message: {},
-      error: '',
+      errorMessage: '',
     };
-    return newState;
   }),
   on(UserAction.createUserSuccess, (state, action) => {
     console.log(action.type);
-    let newState = {
+    return {
       ...state,
       isLoading: false,
       isSuccess: true,
-      message: action.message,
-      error: '',
+      errorMessage: '',
     };
-    return newState;
   }),
-  on(UserAction.createUserFailure, (state, action) => {
-    console.log(action.type);
-    let newState = {
+  on(UserAction.createUserFailure, (state, { type, errorMessage }) => {
+    console.log(type);
+    return {
       ...state,
       isLoading: false,
       isSuccess: false,
-      message: {},
-      error: action.errorMessage,
+      errorMessage,
     };
-    return newState;
   })
 );
