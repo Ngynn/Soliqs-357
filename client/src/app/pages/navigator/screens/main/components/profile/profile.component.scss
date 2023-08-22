@@ -712,6 +712,11 @@
           font-size: 15px;
           color: #1D9BF0;
         }
+
+        #edit:hover{
+          cursor: pointer;
+          text-decoration: underline;
+        }
       }
       #date{
         font-size: 20px;
