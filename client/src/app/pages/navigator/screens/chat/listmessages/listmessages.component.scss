@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    word-wrap: break-word;
+    height: 100vh;
+    
+}
+
+.left {
+    height: 100%;
+    width: 100%;
+    
+        .listUser {
+            cursor: pointer;
+            .user {
+                display: flex;
+                align-items: center;
+                background-color: #FCF1F3;
+                border-radius: 15px;
+                margin: 15px 0 1px 0;
+                border-style: solid;
+                border-width: 1px;
+                border-color: #D4C2C8;
+                .leftUser {
+                    .avatar {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        margin: 10px;
+                    }
+                }
+                .rightUser {
+                    .nameUser {
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+            
+        }
+    }

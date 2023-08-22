@@ -14,7 +14,7 @@
   height: 100%;
   color: #ffffff;
   display: grid;
-    grid-template-rows: 200px 1fr 200px;
+  grid-template-rows: 200px 1fr 200px;
   
 
 }
@@ -52,7 +52,7 @@
     width: 250px;
     height: 50px;
     font-size: 15px;
-   font-family: "Open Sans", sans-serif;
+    font-family: "Open Sans", sans-serif;
 
     cursor: pointer;
     display: flex;
