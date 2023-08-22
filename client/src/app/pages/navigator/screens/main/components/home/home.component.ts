@@ -181,5 +181,16 @@ export class HomeComponent implements OnInit {
     this.dialog2.nativeElement.close();
     this.cdr2.detectChanges();
   }
+  @ViewChild('appDialogDetailPost', { static: true })
+  dialogDetailPost!: ElementRef<HTMLDialogElement>;
+  cdrDetailPost = inject(ChangeDetectorRef);
+  openDetailDialog() {
+    this.dialogDetailPost.nativeElement.showModal();
+    this.cdrDetailPost.detectChanges();
+  }
+  closeDetailDialog() {
+    this.dialogDetailPost.nativeElement.close();
+    this.cdrDetailPost.detectChanges();
+  }
 
 }
