@@ -60,7 +60,7 @@
                 </div>
                 <div class="container-item-img">
                   <div class="img-item">
-                    <img
+                    <img (click)="openDetailDialog()"
                       src="https://assets.manutd.com/AssetPicker/images/0/0/15/126/1015537/NPS_RV_ArticleHeader1630396112507_large.jpg"
                       alt="" />
                   </div>
@@ -497,4 +497,10 @@
     </div>
 
   </dialog>
+
 </div>
+<dialog #appDialogDetailPost class="detail-dialog">
+  <button (click)="closeDetailDialog()">close</button>
+  <app-detail>
+  </app-detail>
+</dialog>
