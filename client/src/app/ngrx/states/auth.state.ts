@@ -1,3 +1,3 @@
-export interface AuthState{
-    idToken: string;
+export interface AuthState {
+  idToken: string;
 }

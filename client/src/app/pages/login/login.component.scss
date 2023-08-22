@@ -13,37 +13,35 @@
   background-color: #944170;
   height: 100%;
   color: #ffffff;
-  display: grid;
-    grid-template-rows: 200px 1fr 200px;
-  
-
-}
-
-.title {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
 
-  font-size: 20px;
-  font-family: "Open Sans", sans-serif;
+.title {
+  height: 50%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+
   #one {
-    // font-weight: bold;
-    font-size: 2rem;
-    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 45px;
+    margin: 20px 0 10px 0;
   }
   #two {
-    // font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 32px;
+    font-weight: 300;
   }
 }
 
 .btnGroup {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  place-items: center;
-  font-family: "Open Sans", sans-serif;
-  
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
   .btnLgGoogle {
     background-color: #ffdbc8;
     color: #311302;
@@ -52,7 +50,6 @@
     width: 250px;
     height: 50px;
     font-size: 15px;
-   font-family: "Open Sans", sans-serif;
 
     cursor: pointer;
     display: flex;
@@ -78,10 +75,3 @@
     object-fit: cover;
   }
 }
-
-
-
-
-
-
-

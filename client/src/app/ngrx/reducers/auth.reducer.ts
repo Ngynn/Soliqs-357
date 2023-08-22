@@ -9,7 +9,7 @@ export const initialState: AuthState = {
 export const AuthReducer = createReducer(
   initialState,
   on(AuthAction.getIdToken, (state, action) => {
-    console.log(action.type,action.idToken);
+    console.log(action.type, action.idToken);
     return {
       ...state,
       idToken: action.idToken,
