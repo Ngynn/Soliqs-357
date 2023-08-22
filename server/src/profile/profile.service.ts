@@ -1,11 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { HttpCode, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { Profile } from './entities/profile.entity';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class ProfileService {
-  create(createProfileDto: CreateProfileDto) {
-    return 'This action adds a new profile';
+  constructor(@InjectModel(Profile.name) private profileModel: Model<Profile>){}
+  async create(createProfileDto: CreateProfileDto) {
+    try{
+      let isExits = await this.profileModel.findOne({id: createProfileDto.id})
+      if(isExits){
+        return new HttpException(HttpCode,HttpStatus.BAD_REQUEST);
+      }else{
+        return await new this.profileModel(createProfileDto).save();
+      }
+    }
+    catch(error){
+      return error
+    }
   }
 
   findAll() {
