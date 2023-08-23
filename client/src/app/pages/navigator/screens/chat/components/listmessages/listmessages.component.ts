@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listmessages',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./listmessages.component.scss']
 })
 export class ListmessagesComponent {
+  
+  constructor(private router: Router ) { }
+  
+ 
 
+  
+  
 }

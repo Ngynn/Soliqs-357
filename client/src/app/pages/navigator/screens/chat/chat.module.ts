@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { ChatRoutingModule } from './chat-routing.module';
 import { ChatComponent } from './chat.component';
 import { SharedModule } from 'src/shared/shared.module';
-import { ListmessagesComponent } from './listmessages/listmessages.component';
-import { ChatboxComponent } from './chatbox/chatbox.component';
+import { ListmessagesComponent } from './components/listmessages/listmessages.component';
+import { ChatboxComponent } from './components/chatbox/chatbox.component';
+import { ConversationComponent } from './components/conversation/conversation.component';
 
 
 
@@ -15,6 +16,7 @@ import { ChatboxComponent } from './chatbox/chatbox.component';
     ChatComponent,
     ListmessagesComponent,
     ChatboxComponent,
+    ConversationComponent,
   ],
   imports: [
     CommonModule,

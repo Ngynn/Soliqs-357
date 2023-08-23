@@ -1,21 +1,33 @@
 <div class="container">
   <div class="left">
-    <div class="head">
-      <!-- <div class="name" style="font-size: x-large;">Chat</div> -->
-      <h2 class="name" style="font-weight: 500">Chat</h2>
-
-      <div class="icon">
-        <img (click)="openDialog()"
-          class="addMess"
-          src="https://cdn-icons-png.flaticon.com/512/3526/3526416.png"
-          alt=""
-        />
+    <div class="list">
+      <div class="head">
+        <h2 class="name" style="font-weight: 500">Chat</h2>
+  
+        <div class="icon">
+          <img (click)="openDialog()"
+            class="addMess"
+            src="https://cdn-icons-png.flaticon.com/512/3526/3526416.png"
+            alt=""
+          />
+        </div>
       </div>
     </div>
- 
-
+    <div class="listMessage">
+      <!-- Welcome to your inbox -->
+    </div>
+    </div>
+    
+  
   <div class="right">
-    <app-chatbox></app-chatbox>
+    <div class="newMess">
+      <div class="select">
+        Select a new message for chatting
+      </div>
+      <div class="newBtn" >
+        <button>New message</button>
+      </div>
+    </div>
   </div>
 </div>
 

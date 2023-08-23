@@ -24,6 +24,8 @@
             margin-left: 20px;
             margin-bottom: 25px;
             width: 80%;
+            display: flex;
+            justify-content: flex-start;
 
         }
         .iconInfo {
@@ -40,7 +42,7 @@
         background-color: #FCF1F3;
         height: 90%;
         .chatScreen {
-            height: 80%;
+            height: 85%;
             .bubleChatUser {
                 display: flex;
                 width: 100%;
@@ -118,6 +120,7 @@
             }
         }
         .chatPlace {
+            height: 15%;
             .row1{
             display: flex;
             }
@@ -130,6 +133,7 @@
                 border: none;
                 outline: none;
                 margin: 15px 0 0 15px;
+                font-size: medium;
                 
             }
             height: 12%;
@@ -141,7 +145,7 @@
             .sendBtn {
                 cursor: pointer;
                 display: flex;
-                margin: 15px 15px 0 25px ;
+                margin: 15px 15px 0 55px ;
 
                 .iconSend {
                     width: 20px;
@@ -154,15 +158,16 @@
                 img {
                     width: 25px;
                     height: 25px;
-                margin: 15px 0 0 15px;
-
+                    margin: 20px 0 0 20px;
+                    cursor: pointer;
                 }
             }
             .imgBtn {
                 img {
                     width: 25px;
                     height: 25px;
-                margin: 15px 0 0 25px;
+                    margin: 20px 0 0 25px;
+                    cursor: pointer;
 
                 }
             }
