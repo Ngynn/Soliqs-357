@@ -4,6 +4,6 @@ export class CreateUserDto {
         public email: string,
         public name: string,
         public picture: string,
-        public idProfile: string
+        public profile: string
     ) { }
 }

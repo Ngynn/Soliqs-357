@@ -26,20 +26,20 @@ export class Profile {
     @Prop()
     coverImg: string;
 
-    @Prop()
-    followers: number;
+    @Prop({default:null})
+    followers: string[];
 
-    @Prop()
-    following: number;
+    @Prop({default:null})
+    following: string[];
 
-    @Prop()
+    @Prop({default:null})
     blocked: string[];
     
 
-    @Prop()
+    @Prop({default:null})
     posts: string[];
 
-    @Prop()
+    @Prop({default:null})
     messages: string[];
 
 

@@ -1,4 +1,4 @@
-import { HttpCode, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpCode, HttpException, HttpStatus, Inject, Injectable, forwardRef } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthService } from 'src/auth/auth.service';
@@ -6,10 +6,11 @@ import { User } from './entities/user.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserModule } from './user.module';
+import { ProfileService } from 'src/profile/profile.service';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>){}
+  constructor(@InjectModel(User.name) private userModel: Model<User>, ){}
   async create(createUserDto: CreateUserDto){
     try{
       let isExits = await this.userModel.findOne({uid: createUserDto.uid})
@@ -28,15 +29,33 @@ export class UserService {
     return `This action returns all user`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    try {
+      const updatedUser = await this.userModel.findOneAndUpdate(
+        { uid: id },
+        { ...updateUserDto },
+        { new: true },
+      );
+      return updatedUser;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+ async remove(id: string) {
+    try{
+      let isExits = await this.userModel.findOne({id: id})
+      if(isExits){
+        return new HttpException(HttpCode,HttpStatus.BAD_REQUEST);
+      }else{
+        return await this.userModel.findByIdAndDelete(id);
+      }
+    }catch(error){
+      return error
+    }
   }
 }

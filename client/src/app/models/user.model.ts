@@ -6,5 +6,6 @@ export interface User{
     _id: string,
     createdAt: string,
     updatedAt: string,
+    profile: string,
     __v: string
 }

@@ -1,13 +1,14 @@
-import { HttpCode, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpCode, HttpException, HttpStatus, Inject, Injectable, forwardRef } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './entities/profile.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class ProfileService {
-  constructor(@InjectModel(Profile.name) private profileModel: Model<Profile>){}
+  constructor(@InjectModel(Profile.name) private profileModel: Model<Profile>, ){}
   async create(createProfileDto: CreateProfileDto) {
     try{
       let isExits = await this.profileModel.findOne({id: createProfileDto.id})
@@ -26,15 +27,40 @@ export class ProfileService {
     return `This action returns all profile`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} profile`;
+  async findOne(id: string) {
+     try{
+      return await this.profileModel.findOne({id: id})
+     }
+     catch(error){
+      return error
+
+     }
   }
 
-  update(id: number, updateProfileDto: UpdateProfileDto) {
-    return `This action updates a #${id} profile`;
+  async update(id: string, updateProfileDto: UpdateProfileDto) {
+    try{
+      let isExits = await this.profileModel.findOne({id: id})
+      if(isExits){
+        return new HttpException(HttpCode,HttpStatus.BAD_REQUEST);
+      }else{
+        return await  this.profileModel.findByIdAndUpdate(id,{...updateProfileDto},{new : true});
+      }
+    } catch(error){
+      return error
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} profile`;
+  async remove(id: string) {
+    try{
+      let isExits = await this.profileModel.findOne({id: id})
+      if(isExits){
+        return new HttpException(HttpCode,HttpStatus.BAD_REQUEST);
+      }else{
+        return await this.profileModel.findByIdAndDelete(id);
+      }
+    }catch(error){
+      return error
+    }
+  
   }
 }
