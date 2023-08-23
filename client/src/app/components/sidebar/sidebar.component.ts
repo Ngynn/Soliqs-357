@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit {
       icon: 'diversity_2',
       text: 'Group',
       backgroundColor: false,
-      route: '/group',
+      route: '/group/suggest',
     },
     { icon: 'account_circle', text: 'Profile', backgroundColor: false },
   ];
@@ -46,8 +46,11 @@ export class SidebarComponent implements OnInit {
     const currentRoute = this.router.url;
 
     this.navItems.forEach((nav) => {
+      //how to backround color group's true when route is /group/internal
+
       if (nav.route === currentRoute) {
         nav.backgroundColor = true;
+        console.log(nav.text, 'BackgroundColor set to true');
       } else {
         nav.backgroundColor = false;
       }
