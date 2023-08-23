@@ -1,6 +1,8 @@
+import { User } from 'src/app/models/user.model';
+
 export interface UserState {
+  user: User;
   isLoading: boolean;
   isSuccess: boolean;
-  message: any;
-  error: string;
+  errorMessage: any;
 }
