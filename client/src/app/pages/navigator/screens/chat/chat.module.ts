@@ -6,7 +6,8 @@ import { ChatComponent } from './chat.component';
 import { SharedModule } from 'src/shared/shared.module';
 import { ListmessagesComponent } from './components/listmessages/listmessages.component';
 import { ChatboxComponent } from './components/chatbox/chatbox.component';
-import { ConversationComponent } from './components/conversation/conversation.component';
+import { ConversationComponent } from './conversation/conversation.component';
+import { DefaultchatComponent } from './components/defaultchat/defaultchat.component';
 
 
 
@@ -17,6 +18,7 @@ import { ConversationComponent } from './components/conversation/conversation.co
     ListmessagesComponent,
     ChatboxComponent,
     ConversationComponent,
+    DefaultchatComponent,
   ],
   imports: [
     CommonModule,

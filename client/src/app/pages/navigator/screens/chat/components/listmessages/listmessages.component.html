@@ -7,13 +7,12 @@
             <mat-icon
               class="iconSearch"
               style="color: rgb(55, 55, 55); font-size: 25px; width: 15%"
-              >search</mat-icon
-            >
+              >search</mat-icon>
             <input type="text" placeholder="Search new message" />
           </div>
         </div>
         <div class="listUser">
-          <div class="user"  >
+          <div class="user" (click)="goToChatbox()" >
             <div class="leftUser">
               <img 
                 class="avatar"
@@ -26,7 +25,7 @@
               <div class="lastMessage">Hello</div>
             </div>
           </div>
-          <!-- <div class="user">
+          <!-- <div class="user" (click)="goToChatbox2()">
             <div class="leftUser">
               <img
                 class="avatar"
@@ -44,9 +43,13 @@
     </div>
   </div>
 
-  <div class="right">
-    <app-chatbox></app-chatbox>
-  </div>
+  <!-- <div class="right">
+    <router-outlet></router-outlet>
+  </div> -->
+
+
+
+  
 
 
 </div>

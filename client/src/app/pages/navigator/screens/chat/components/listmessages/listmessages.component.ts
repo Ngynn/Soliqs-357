@@ -10,7 +10,14 @@ export class ListmessagesComponent {
   
   constructor(private router: Router ) { }
   
- 
+  goToChatbox() {
+    this.router.navigate(['chat/t/id']);
+    
+  }
+
+  
+
+
 
   
   
