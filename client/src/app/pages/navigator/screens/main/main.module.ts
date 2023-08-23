@@ -7,6 +7,8 @@ import { SharedModule } from 'src/shared/shared.module';
 import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/search/search.component';
 import { GroupComponent } from './components/group/group.component';
+import { DetailComponent } from './components/detail/detail.component';
+
 import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
@@ -14,7 +16,9 @@ import { ProfileComponent } from './components/profile/profile.component';
     MainComponent,
     HomeComponent,
     SearchComponent,
+    GroupComponent,
     ProfileComponent,
+    DetailComponent,
   ],
   imports: [CommonModule, MainRoutingModule, SharedModule],
 })
