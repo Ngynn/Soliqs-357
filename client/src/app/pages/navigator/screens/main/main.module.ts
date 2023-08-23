@@ -16,7 +16,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     MainComponent,
     HomeComponent,
     SearchComponent,
-    GroupComponent,
+
     ProfileComponent,
     DetailComponent,
   ],
