@@ -1,0 +1,468 @@
+<div class="container">
+  <div class="header">
+    <div class="left">
+      <mat-icon>arrow_back</mat-icon>
+      <h2>Communities</h2>
+    </div>
+    <div class="right">
+      <mat-icon>more_horiz</mat-icon>
+    </div>
+  </div>
+  <div class="inforgroup">
+    <div class="coverimg">
+      <img
+        src="https://scontent.fsgn2-5.fna.fbcdn.net/v/t1.15752-9/366774247_238564161987247_3766690792070356198_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=ae9488&_nc_ohc=ksBDf23WpwUAX9JiNAL&_nc_ht=scontent.fsgn2-5.fna&oh=03_AdQUGy8WUKW4JTeoNfMSgDq6b7mAtFPa8AG1INKd0LXMqw&oe=650A8709"
+      />
+    </div>
+    <div class="groupname">
+      <h2>Sếp Lu Lu mãi đỉnh</h2>
+      <span>Đây là nơi lưu trữ những hình ảnh đẹp của sếp lulu</span>
+    </div>
+    <div class="member">
+      <div class="imgmember">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png"
+        />
+        <img
+          src="https://upload.wikimedia.org/wikipedia/vi/thumb/5/5c/Chelsea_crest.svg/1200px-Chelsea_crest.svg.png"
+        />
+        <img
+          src="https://cdn.punchng.com/wp-content/uploads/2022/12/19070956/5f5e3cbe-1224-4a46-b8e7-612f5de03c8c.jpg"
+        />
+
+        <span class="numofmember"> 55.5K </span>
+        <span class="textmember">Member</span>
+      </div>
+      <div class="btn">
+        <mat-icon>ios_share</mat-icon>
+        <button mat-raised-button color="primary">Join</button>
+      </div>
+    </div>
+  </div>
+  <div class="navigate">
+    <mat-tab-group animationDuration="0ms">
+      <mat-tab label="Home">
+        <div class="move">
+          <div class="posts">
+            <div class="item">
+              <div class="top-item">
+                <div class="avatar-top-item">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png"
+                    alt=""
+                  />
+                </div>
+                <div class="content-top-item">
+                  <div class="container-user-top-item">
+                    <div class="left-container-user-top-item">
+                      <div class="username-top-item">Nguyễn Minh Mập</div>
+                      <div class="tagname-top-item">@MậpMủmMỉm</div>
+                      <div class="time-top-item">Aug 15</div>
+                      <div class="divice-content-top-item"></div>
+                    </div>
+                    <div class="icon-content-top-item">
+                      <mat-icon>more_horiz</mat-icon>
+                    </div>
+                  </div>
+                  <div class="content-user-top-item">
+                    Hình ảnh sếp Lu Lu khi thấy chúng tôi làm cho sếp bất ngờ
+                  </div>
+                </div>
+              </div>
+              <div class="img-item">
+                <img
+                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
+                  alt=""
+                />
+              </div>
+              <div class="reaction">
+                <div class="item-reaction" (click)="openCommentDialog()">
+                  <mat-icon>sms</mat-icon>
+                  <div class="count">13k</div>
+                </div>
+                <div class="item-reaction" (click)="repost1()">
+                  <mat-icon
+                    [ngStyle]="{ color: item1.sync ? '#944170' : '#504349' }"
+                    >sync</mat-icon
+                  >
+                  <div class="count">11k</div>
+                </div>
+                <div class="item-reaction" (click)="like1()">
+                  <mat-icon
+                    [ngStyle]="{
+                      color: item1.favorite ? '#944170' : '#504349'
+                    }"
+                    >favorite</mat-icon
+                  >
+                  <div class="count">14k</div>
+                </div>
+                <div class="item-reaction" (click)="monitoring1()">
+                  <mat-icon
+                    [ngStyle]="{
+                      color: item1.monitoring ? '#944170' : '#504349'
+                    }"
+                    >legend_toggle</mat-icon
+                  >
+                  <div class="count">2M</div>
+                </div>
+                <div class="item-reaction">
+                  <mat-icon>file_upload</mat-icon>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="top-item">
+                <div class="avatar-top-item">
+                  <img
+                    src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
+                    alt=""
+                  />
+                </div>
+                <div class="content-top-item">
+                  <div class="container-user-top-item">
+                    <div class="left-container-user-top-item">
+                      <div class="username-top-item">Trần Thành Huy</div>
+                      <div class="tagname-top-item">@HuyHóngHớt</div>
+                      <div class="time-top-item">Aug 15</div>
+                      <div class="divice-content-top-item"></div>
+                    </div>
+                    <div class="icon-content-top-item">
+                      <mat-icon>more_horiz</mat-icon>
+                    </div>
+                  </div>
+                  <div class="content-user-top-item">
+                    Hình ảnh sếp Lu Lu cảm thấy hạnh phúc khi thấy chúng tôi làm
+                    việc chăm chỉ
+                  </div>
+                </div>
+              </div>
+              <div class="img-item">
+                <img
+                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
+                  alt=""
+                />
+                <img
+                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
+                  alt=""
+                />
+              </div>
+              <div class="reaction">
+                <div class="item-reaction" (click)="openCommentDialog()">
+                  <mat-icon>sms</mat-icon>
+                  <div class="count">13k</div>
+                </div>
+                <div class="item-reaction" (click)="repost4()">
+                  <mat-icon
+                    [ngStyle]="{ color: item4.sync ? '#944170' : '#504349' }"
+                    >sync</mat-icon
+                  >
+                  <div class="count">11k</div>
+                </div>
+                <div class="item-reaction" (click)="like4()">
+                  <mat-icon
+                    [ngStyle]="{
+                      color: item4.favorite ? '#944170' : '#504349'
+                    }"
+                    >favorite</mat-icon
+                  >
+                  <div class="count">14k</div>
+                </div>
+                <div class="item-reaction" (click)="monitoring4()">
+                  <mat-icon
+                    [ngStyle]="{
+                      color: item4.monitoring ? '#944170' : '#504349'
+                    }"
+                    >legend_toggle</mat-icon
+                  >
+                  <div class="count">2M</div>
+                </div>
+                <div class="item-reaction">
+                  <mat-icon>file_upload</mat-icon>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="top-item">
+                <div class="avatar-top-item">
+                  <img
+                    src="../../../../../../../assets/imgs/Rectangle 14.png"
+                    alt=""
+                  />
+                </div>
+                <div class="content-top-item">
+                  <div class="container-user-top-item">
+                    <div class="left-container-user-top-item">
+                      <div class="username-top-item">Nguyễn Long</div>
+                      <div class="tagname-top-item">@LongLanhLợi</div>
+                      <div class="time-top-item">Aug 15</div>
+                      <div class="divice-content-top-item"></div>
+                    </div>
+                    <div class="icon-content-top-item">
+                      <mat-icon>more_horiz</mat-icon>
+                    </div>
+                  </div>
+                  <div class="content-user-top-item">
+                    Đây là hình ảnh khi Sếp Lu Lu suy nghĩ về con Bug
+                  </div>
+                </div>
+              </div>
+              <div class="img-item">
+                <img
+                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
+                  alt=""
+                />
+                <img
+                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
+                  alt=""
+                />
+              </div>
+              <div class="reaction">
+                <div class="item-reaction" (click)="openCommentDialog()">
+                  <mat-icon>sms</mat-icon>
+                  <div class="count">13k</div>
+                </div>
+                <div class="item-reaction" (click)="repost2()">
+                  <mat-icon
+                    [ngStyle]="{ color: item2.sync ? '#944170' : '#504349' }"
+                    >sync</mat-icon
+                  >
+                  <div class="count">11k</div>
+                </div>
+                <div class="item-reaction" (click)="like2()">
+                  <mat-icon
+                    [ngStyle]="{
+                      color: item2.favorite ? '#944170' : '#504349'
+                    }"
+                    >favorite</mat-icon
+                  >
+                  <div class="count">14k</div>
+                </div>
+                <div class="item-reaction" (click)="monitoring2()">
+                  <mat-icon
+                    [ngStyle]="{
+                      color: item2.monitoring ? '#944170' : '#504349'
+                    }"
+                    >legend_toggle</mat-icon
+                  >
+                  <div class="count">2M</div>
+                </div>
+                <div class="item-reaction">
+                  <mat-icon>file_upload</mat-icon>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="top-item">
+                <div class="avatar-top-item">
+                  <img
+                    src="../../../../../../../assets/imgs/Rectangle 14.png"
+                    alt=""
+                  />
+                </div>
+                <div class="content-top-item">
+                  <div class="container-user-top-item">
+                    <div class="left-container-user-top-item">
+                      <div class="username-top-item">Netflix</div>
+                      <div class="tagname-top-item">@netflix</div>
+                      <div class="time-top-item">Aug 15</div>
+                      <div class="divice-content-top-item"></div>
+                    </div>
+                    <div class="icon-content-top-item">
+                      <mat-icon>more_horiz</mat-icon>
+                    </div>
+                  </div>
+                  <div class="content-user-top-item">
+                    Gal Gadot's first movie (Fast & Furious) is on Netflix now —
+                    and her latest movie (Heart of Stone) is on Netflix Friday!
+                  </div>
+                </div>
+              </div>
+              <div class="img-item">
+                <img
+                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
+                  alt=""
+                />
+                <img
+                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
+                  alt=""
+                />
+                <img
+                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
+                  alt=""
+                />
+                <img
+                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
+                  alt=""
+                />
+              </div>
+              <div class="reaction">
+                <div class="item-reaction" (click)="openCommentDialog()">
+                  <mat-icon>sms</mat-icon>
+                  <div class="count">13k</div>
+                </div>
+                <div class="item-reaction" (click)="repost3()">
+                  <mat-icon
+                    [ngStyle]="{ color: item3.sync ? '#944170' : '#504349' }"
+                    >sync</mat-icon
+                  >
+                  <div class="count">11k</div>
+                </div>
+                <div class="item-reaction" (click)="like3()">
+                  <mat-icon
+                    [ngStyle]="{
+                      color: item3.favorite ? '#944170' : '#504349'
+                    }"
+                    >favorite</mat-icon
+                  >
+                  <div class="count">14k</div>
+                </div>
+                <div class="item-reaction" (click)="monitoring3()">
+                  <mat-icon
+                    [ngStyle]="{
+                      color: item3.monitoring ? '#944170' : '#504349'
+                    }"
+                    >legend_toggle</mat-icon
+                  >
+                  <div class="count">2M</div>
+                </div>
+                <div class="item-reaction">
+                  <mat-icon>file_upload</mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="About">
+        <div class="about">
+          <div class="abouttitle">
+            <h2>Community Infor</h2>
+          </div>
+          <div class="allAbout">
+            <div class="abouticon">
+              <mat-icon>people</mat-icon>
+            </div>
+            <div class="textabout">
+              <span>Only members can Tweet, like, or reply.</span>
+            </div>
+          </div>
+          <div class="allAbout">
+            <div class="abouticon">
+              <mat-icon>public</mat-icon>
+            </div>
+            <div class="textabout">
+              <span class="public">All Communities are publicly visible.</span>
+              <span>Anyone can join this Community.</span>
+            </div>
+          </div>
+          <div class="allAbout">
+            <div class="abouticon">
+              <mat-icon>calendar_month</mat-icon>
+            </div>
+            <div class="textaboutCalendar">
+              <span>Created 16 tháng 12, 2021 by</span>
+              <span class="createBy"> @MậpMủmMỉm</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about">
+          <div class="abouttitle">
+            <h2>Rules</h2>
+          </div>
+          <div class="rulesSoliqs">
+            <span
+              >These are set and enforced by Community admins and are in
+              addition to <a>Soliqs’s rules </a>
+            </span>
+          </div>
+
+          <div class="allRules">
+            <div class="numOfRules">
+              <span>1</span>
+            </div>
+            <div class="textRules">
+              <span> Keep Tweets on topic</span>
+            </div>
+          </div>
+          <div class="allRules">
+            <div class="numOfRules">
+              <span>2</span>
+            </div>
+            <div class="textRules">
+              <span>No tweets about dog cruelty or asking for help</span>
+              <span class="second"
+                >It’s just a Community for dog photos or videos & memes</span
+              >
+            </div>
+          </div>
+          <div class="allRules">
+            <div class="numOfRules">
+              <span>3</span>
+            </div>
+            <div class="textRules">
+              <span> Be kind and respectful.</span>
+            </div>
+          </div>
+          <div class="allRules">
+            <div class="numOfRules">
+              <span>4</span>
+            </div>
+            <div class="textRules">
+              <span> Explore and share.</span>
+            </div>
+          </div>
+          <div class="allRules">
+            <div class="numOfRules">
+              <span>5</span>
+            </div>
+            <div class="textRules">
+              <span>No classifieds please</span>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <dialog class="comment-dialog" style="color: #1f1a1c" #appDialog2>
+    <div class="btnClose" (click)="closeCommentDialog()">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"
+        alt=""
+      />
+    </div>
+    <div class="top-dialog">
+      <div class="avatar-top-dialog">
+        <img src="../../../../../../../assets/imgs/Rectangle 14.png" alt="" />
+      </div>
+      <div class="content-top-dialog">
+        <div class="container-user-top-dialog">
+          <div class="username-top-dialog">Netflix</div>
+          <div class="tagname-top-dialog">@netflix</div>
+          <div class="time-top-dialog">Aug 15</div>
+        </div>
+        <div class="content-user-top-dialog">
+          Ronaldo chính thức gia nhập Manchester United, trở về mái nhà xưa sau
+          12 năm xa cách
+        </div>
+      </div>
+    </div>
+    <div class="input-comment">
+      <input type="text" placeholder="Post your comment!" />
+    </div>
+
+    <div class="bottom-dialog">
+      <div class="icon-dialog">
+        <mat-icon style="margin-right: 10px">image</mat-icon>
+        <mat-icon style="margin-right: 10px">gif</mat-icon>
+        <mat-icon style="margin-right: 10px">poll</mat-icon>
+        <mat-icon style="margin-right: 10px">emoji_emotions</mat-icon>
+        <mat-icon style="margin-right: 10px">schedule</mat-icon>
+      </div>
+      <div class="button-comment">
+        <button mat-raised-button color="primary">Post</button>
+      </div>
+    </div>
+  </dialog>
+</div>

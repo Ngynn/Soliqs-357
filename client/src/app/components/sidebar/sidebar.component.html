@@ -15,7 +15,7 @@
         *ngFor="let nav of navItems; let i = index"
         (click)="changeBackgroundColor(nav)"
         [ngClass]="{
-          selected: currentPage == nav.route,
+          selected: currentPage === nav.route,
           colored: nav.backgroundColor
         }"
       >
