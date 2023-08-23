@@ -34,6 +34,7 @@ export class UserController {
         email: data.email,
         name: data.name,
         picture: data.picture,
+        idProfile: null,
       };
       const createdUser = await this.userService.create(user);
       return createdUser;
