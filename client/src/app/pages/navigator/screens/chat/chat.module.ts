@@ -3,15 +3,29 @@ import { CommonModule } from '@angular/common';
 
 import { ChatRoutingModule } from './chat-routing.module';
 import { ChatComponent } from './chat.component';
+import { SharedModule } from 'src/shared/shared.module';
+import { ListmessagesComponent } from './components/listmessages/listmessages.component';
+import { ChatboxComponent } from './components/chatbox/chatbox.component';
+import { DefaultchatComponent } from './components/defaultchat/defaultchat.component';
+import { Chatbox2Component } from './components/chatbox2/chatbox2.component';
+import { ConversationComponent } from './components/conversation/conversation.component';
+
+
 
 
 @NgModule({
   declarations: [
-    ChatComponent
+    ChatComponent,
+    ListmessagesComponent,
+    ChatboxComponent,
+    DefaultchatComponent,
+    Chatbox2Component,
+    ConversationComponent
   ],
   imports: [
     CommonModule,
-    ChatRoutingModule
+    ChatRoutingModule,
+    SharedModule
   ]
 })
 export class ChatModule { }
