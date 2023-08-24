@@ -48,6 +48,7 @@
     .chatBox {
         background-color: #FCF1F3;
         height: 100%;
+        width: 100%;
         .chatScreen {
             height: 85%;
             .bubleChatUser {
@@ -61,20 +62,22 @@
                         align-items: flex-end;
                     }
                     display: flex;
-                    width: 100%;
                     justify-content: flex-end;
                     margin: 10px;
                     .message {
                         height: 100%;
-                        width: 100%;
+                        max-width: 500px;
+                        word-wrap: break-word;
+
                         background-color: #944170;
                         display: grid;
-                        border-radius: 10px;
-                        place-items: center;
+                        border-radius: 18px;
+                        text-align: justify;
+                        margin: 10px 0;
                         .mess {
-                            margin: 0 10px;
+                            margin: 5px 15px;
                             color: #FCF1F3;
-                            
+                            // max-width: 100%;
                         }
                     }
                 }
@@ -98,20 +101,24 @@
                         align-items: flex-start;
                     }
                     display: flex;
-                    width: 100%;
+                    // width: 100%;
                     justify-content: flex-start;
                     margin: 10px;
                     .message {
                         height: 100%;
-                        width: 100%;
+                        max-width: 500px;
+                        word-wrap: break-word;
                         background-color: #944170;
                         display: grid;
-                        border-radius: 10px;
-                        place-items: center;
+                        border-radius: 18px;
+                        text-align: justify;
+                        margin: 3px 0;
+
+                        
                         .mess {
-                            margin: 0 10px;
-                            color: #FCF1F3;
-                            
+                            // width: 100%;
+                            margin: 5px 15px;
+                            color: #FCF1F3;  
                         }
                     }
                 }

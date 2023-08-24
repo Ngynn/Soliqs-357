@@ -254,3 +254,108 @@
         }
     }
 }
+
+.newMessage {
+    border: none;
+    height: 500px;
+    width: 400px;
+    border-radius: 15px;
+    .btnClose {
+        img {
+            height: 15px;
+            width: 15px;
+        }
+    }
+    
+    .form {
+        height: 100%;
+        .title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-size: 20px;
+            font-family: "Open Sans", sans-serif; 
+        }
+        .list {
+            height: 100%;
+        }
+        .searchBar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .searching {
+                display: flex;
+                background-color: #FCF1F3;
+                border-radius: 10px;
+                align-items: center;
+                width: 100%;
+                margin-bottom: 20px;
+                margin-top: 20px;
+
+                
+                .iconSearch {
+                    width: 100px;
+                    margin-left: 10px;
+    
+                }
+                input {
+                    width: 100%;
+                    height: 30px;
+                    border-radius: 10px;
+                    border: none;
+                    outline: none;
+                    // padding-left: 10px;
+                    background-color: #FCF1F3;
+                    color: #504349;
+                    margin: 7px;
+                    font-size: medium;
+    
+                }
+            }
+            
+        }
+        .startBtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            button {
+                width: 150px;
+                height: 50px;
+                border: none;
+                background-color: #944170;
+                color: #FCF1F3;
+                border-radius: 15px;
+                font-size: medium;
+                font-family: "Open Sans", sans-serif;
+            }
+            button:hover {
+                cursor: pointer;
+                background-color: #944170e6;
+                
+            }
+            
+        }
+       
+        .user {
+            display: flex;
+            align-items: center;
+          
+            img {
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+            }
+            .leftUser {
+                .avatar {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    margin: 10px;
+                }
+            }
+            
+        }
+        
+    }
+}

@@ -117,8 +117,10 @@
             margin-bottom: 30px;
             width: 150px;
             height: 40px;
-            border-color: #827379;
+            // border-color: #827379;
             border-width: 2px ;
+            border-style: solid;
+            border-color: #827379;
             background-color: transparent; 
             color: #944170;
             border-radius: 55px;
@@ -137,6 +139,11 @@
             border-radius: 55px;
             // font-weight: bold;
             font-weight: 600;
+        }
+        .leaveBtn:hover {
+            
+            background-color: #FDD9E8e6;
+            
         }
         
     }
