@@ -2,74 +2,255 @@
     display: flex;
     word-wrap: break-word;
     padding-left: 10px;
-    height: 100%;
-    width: 25%;
-    
+    height: 100vh;
 }
 
-
-
 .left {
-    height: 90%;
-    width: 100%;
-        .searchBar {
-            // display: flex;
-            // align-items: center;
-            // justify-content: center;
-            .searching {
-                display: flex;
-                background-color: #FCF1F3;
-                border-radius: 10px;
-                align-items: center;
-                width: 100%;
-                margin-bottom: 30px;
-                
-                .iconSearch {
-                    margin-left: 10px;
-    
-                }
-                input {
-                    width: 100%;
-                    height: 30px;
-                    border-radius: 10px;
-                    border: none;
-                    outline: none;
-                    // padding-left: 10px;
-                    background-color: #FCF1F3;
-                    color: #504349;
-                    margin: 7px;
-    
-                }
-            }
-            
-        }
-        .listUser {
-            cursor: pointer;
-            .user {
-                display: flex;
-                align-items: center;
-                background-color: #FCF1F3;
-                border-radius: 15px;
-                border-style: solid;
-                border-width: 1px;
-                border-color: #D4C2C8;
-                .leftUser {
-                    display: flex;
-                    align-items: center;
-                    margin: 10px;
-                    .avatar {
-                        width: 50px;
-                        height: 50px;
-                        border-radius: 50%;
-                    }
-                }
-                .rightUser {
-                    font-size: 17px;
-                    font-family: "Open Sans", sans-serif;
-                }
-            }
-            
+  height: 100%;
+  width: 30%;
+  padding-right: 10px;
+
+
+  .head {
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    .addMess {
+        width: 30px;
+        height: 30px;
         }
     }
+  .searchBar {
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    .searching {
+      display: flex;
+      background-color: #fcf1f3;
+      border-radius: 10px;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 30px;
 
-    
+      .iconSearch {
+        margin-left: 10px;
+      }
+      input {
+        width: 100%;
+        height: 30px;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        // padding-left: 10px;
+        background-color: #fcf1f3;
+        color: #504349;
+        margin: 7px;
+      }
+    }
+  }
+  .listUser {
+    height: 90%;
+    cursor: pointer;
+    .user {
+      display: flex;
+      align-items: center;
+      background-color: #fcf1f3;
+      border-radius: 15px;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #d4c2c8;
+      margin-bottom: 15px ;
+      .leftUser {
+        display: flex;
+        align-items: center;
+        margin: 10px;
+        .avatar {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+        }
+      }
+      .rightUser {
+        font-size: 17px;
+        font-family: "Open Sans", sans-serif;
+      }
+    }
+  }
+}
+
+.right {
+    height: 100%;
+    width: 70%; 
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    .head {
+        height: 10%;
+        background-color: #FDD9E8 ;
+        display: flex;
+        align-items: center;
+        .avatar {
+            margin-left: 15px;
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+        }
+        .name {
+            margin-left: 20px;
+            margin-bottom: 25px;
+            width: 80%;
+            display: flex;
+            justify-content: flex-start;
+
+        }
+        .iconInfo {
+            cursor: pointer;
+            display: flex;
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+    }
+    .chatBox {
+        background-color: #FCF1F3;
+        height: 100%;
+        .chatScreen {
+            height: 85%;
+            .bubleChatUser {
+                display: flex;
+                width: 100%;
+                justify-content: flex-end;
+                .buble {
+                    .bubleGroup {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-end;
+                    }
+                    display: flex;
+                    width: 100%;
+                    justify-content: flex-end;
+                    margin: 10px;
+                    .message {
+                        height: 100%;
+                        width: 100%;
+                        background-color: #944170;
+                        display: grid;
+                        border-radius: 10px;
+                        place-items: center;
+                        .mess {
+                            margin: 0 10px;
+                            color: #FCF1F3;
+                            
+                        }
+                    }
+                }
+                .avatar {
+                    img {
+                        height: 50px;
+                        width: 50px;
+                        border-radius: 50px;
+                        margin-left: 10px;
+                    }
+                }
+            }
+            .bubleChatFriend {
+                display: flex;
+                width: 100%;
+                justify-content: flex-start;
+                .buble {
+                    .bubleGroup {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+                    display: flex;
+                    width: 100%;
+                    justify-content: flex-start;
+                    margin: 10px;
+                    .message {
+                        height: 100%;
+                        width: 100%;
+                        background-color: #944170;
+                        display: grid;
+                        border-radius: 10px;
+                        place-items: center;
+                        .mess {
+                            margin: 0 10px;
+                            color: #FCF1F3;
+                            
+                        }
+                    }
+                }
+                .avatar {
+                    img {
+                        height: 50px;
+                        width: 50px;
+                        border-radius: 50px;
+                        margin-right: 10px;
+
+                    }
+                }
+            }
+        }
+        .chatPlace {
+            height: 15%;
+            .row1{
+            display: flex;
+            }
+            .row2{
+                display: flex;
+            }
+            input {
+                width: 85%;
+                height: 30%;
+                border: none;
+                outline: none;
+                margin: 15px 15px 0 15px ;
+                font-size: medium;
+                
+            }
+            height: 12%;
+            background-color: #FFFFFF;
+            margin: 0 25px 25px 25px;
+            height: 100px;
+            border-radius: 10px;
+            box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+            .sendBtn {
+                width: 15%;
+                cursor: pointer;
+                display: flex;
+                margin: 15px 15px 0 255px ;
+
+                .iconSend {
+                    width: 20px;
+                    height: 20px;
+                color: #944170;
+
+                }
+            }
+            .emojiBtn {
+                img {
+                    width: 25px;
+                    height: 25px;
+                    margin: 20px 0 0 20px;
+                    cursor: pointer;
+                }
+            }
+            .imgBtn {
+                img {
+                    width: 25px;
+                    height: 25px;
+                    margin: 20px 0 0 25px;
+                    cursor: pointer;
+
+                }
+            }
+        }
+    }
+}

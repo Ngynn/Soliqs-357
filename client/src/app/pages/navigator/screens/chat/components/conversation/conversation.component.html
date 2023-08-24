@@ -4,7 +4,7 @@
             <div class="backBtn" (click)="backToChatbox()">
                 <img src="https://cdn-icons-png.flaticon.com/512/507/507257.png" alt="">
             </div>
-            <div>
+            <div style="font-size: larger;">
                 Conversation Info
             </div>
         </div>
@@ -16,11 +16,20 @@
               />
             </div>
             <div class="name">Adam Levine</div>
-            <button class="follow">Following</button>
+            <div class="follow">
+                <button >Following</button>
+            </div>
+            
         </div>
-        <div>
-            <button>Block</button>
-            <button>Leave Conversation</button>
+        <div class="noti">
+            <h2 style="font-weight: 500;">Notification</h2>
+            <mat-slide-toggle class="slideBtn"></mat-slide-toggle>
+        </div>
+        <div class="btnGroup">
+            <button class="blockBtn">Block username</button>
+          
+            <button class="leaveBtn">Leave Conversation</button>
+
         </div>
     </div>
 </div>

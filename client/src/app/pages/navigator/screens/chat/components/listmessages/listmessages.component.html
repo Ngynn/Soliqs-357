@@ -1,6 +1,20 @@
 <div class="container">
   <div class="left">
     <div class="friendList">
+      <div class="list">
+        <div class="head">
+          <h2  class="name" style="font-weight: 500; cursor: pointer;" >Chat</h2>
+    
+          <div class="icon">
+            <img (click)="openDialog()"
+              class="addMess"
+              src="https://cdn-icons-png.flaticon.com/512/3526/3526416.png"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+      
       <div class="under">
         <div class="searchBar">
           <div class="searching">
@@ -25,7 +39,7 @@
               <div class="lastMessage">Hello</div>
             </div>
           </div>
-          <!-- <div class="user" (click)="goToChatbox2()">
+          <div class="user" (click)="goToChatbox2()">
             <div class="leftUser">
               <img
                 class="avatar"
@@ -34,18 +48,18 @@
               />
             </div>
             <div class="rightUser">
-              <div class="nameUser">Adam</div>
-              <div class="lastMessage">Hello</div>
+              <div class="nameUser">Justin</div>
+              <div class="lastMessage">Hello u</div>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- <div class="right">
+  <div class="right">
     <router-outlet></router-outlet>
-  </div> -->
+  </div>
 
 
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,8 +13,26 @@ export class ChatboxComponent {
   isInfo = false;
   goToInfo() {
     this.isInfo = true;
-    this.router.navigate(['chat/user/info']);
+    this.router.navigate(['chat/inbox/info']);
   }
+
+  goToChatbox() {
+    this.router.navigate(['chat/inbox/id']);
+    
+  }
+
+  // @ViewChild('appDialog', { static: true })
+  // dialog!: ElementRef<HTMLDialogElement>;
+  // cdr = inject(ChangeDetectorRef);
+  
+  // openDialog() {
+  //   this.dialog.nativeElement.showModal();
+  //   this.cdr.detectChanges();
+  // }
+  // closeDialog() {
+  //   this.dialog.nativeElement.close();
+  //   this.cdr.detectChanges();
+  // }
 
   
 

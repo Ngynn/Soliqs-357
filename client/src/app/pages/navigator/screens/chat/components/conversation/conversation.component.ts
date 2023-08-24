@@ -10,6 +10,6 @@ export class ConversationComponent {
   constructor(private router: Router ) { }
 
   backToChatbox() {
-    this.router.navigate(['chat/user']);
+    this.router.navigate(['chat/inbox/id']);
   }
 }

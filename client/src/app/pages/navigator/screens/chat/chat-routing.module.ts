@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ChatComponent } from './chat.component';
 import { ListmessagesComponent } from './components/listmessages/listmessages.component';
 import { ChatboxComponent } from './components/chatbox/chatbox.component';
-import { ConversationComponent } from './conversation/conversation.component';
 import { DefaultchatComponent } from './components/defaultchat/defaultchat.component';
+import { ChatComponent } from './chat.component';
+import { Chatbox2Component } from './components/chatbox2/chatbox2.component';
+import { ConversationComponent } from './components/conversation/conversation.component';
 
 const routes: Routes = [
   {
@@ -13,19 +14,27 @@ const routes: Routes = [
     
   },
   {
-    path: 't',
+    path: 'inbox',
     component: ListmessagesComponent,
-    // children: [
-    //   {
-    //     path: 'id',
-    //     component: ChatboxComponent,
-    //   },
-    // ],
+    children: [
+      {
+        path: 'id',
+        component: ChatboxComponent,
+      },
+      {
+        path: 'id2',
+        component: Chatbox2Component,
+      },
+      {
+        path: 'info',
+        component: ConversationComponent,
+      },
+    ],
   },
-  {
-    path: 't/:id',
-    component: ChatboxComponent,
-  },
+  // {
+  //   path: 't/:id',
+  //   component: ChatboxComponent,
+  // },
   
 ];
 
