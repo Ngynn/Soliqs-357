@@ -23,25 +23,6 @@ export class UserController {
     private authService: AuthService,
   ) {}
 
-  // @Post()
-  // async create(@Headers() headers: any) {
-  //   try {
-  //     let authHeader = headers.authorization;
-  //     authHeader = authHeader.repalce('Bearer ', '');
-  //     let data = await this.authService.verifyToken(authHeader);
-  //     let user: User = {
-  //       uid: data.uid,
-  //       email: data.email,
-  //       name: data.name,
-  //       picture: data.picture,
-  //     };
-  //     const createdUser = await this.userService.create(user);
-  //     return createdUser;
-  //   } catch (error) {
-  //     throw new HttpException('Invalid', HttpStatus.FORBIDDEN);
-  //   }
-  // }
-
   @Post()
   async create(@Headers() headers: any) {
     try {
@@ -53,6 +34,7 @@ export class UserController {
         email: data.email,
         name: data.name,
         picture: data.picture,
+        idProfile: null,
       };
       const createdUser = await this.userService.create(user);
       return createdUser;

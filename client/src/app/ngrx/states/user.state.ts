@@ -1,8 +1,8 @@
-import { Observable } from "rxjs";
+import { User } from 'src/app/models/user.model';
 
-export interface UserState{
-    isLoading: boolean;
-    isSuccess: boolean;
-    message: any;
-    error: string;
+export interface UserState {
+  user: User;
+  isLoading: boolean;
+  isSuccess: boolean;
+  errorMessage: any;
 }

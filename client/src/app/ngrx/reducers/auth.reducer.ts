@@ -1,18 +1,80 @@
 import { createReducer, on } from '@ngrx/store';
-import * as AuthAction from '../actions/auth.actions';
+import * as AuthActions from '../actions/auth.actions';
 import { AuthState } from '../states/auth.state';
 
 export const initialState: AuthState = {
   idToken: '',
-  // ... other initial state properties
+  isLoading: false,
+  isSuccessful: false,
+  errorMessage: '',
 };
-export const AuthReducer = createReducer(
+export const authReducer = createReducer(
   initialState,
-  on(AuthAction.getIdToken, (state, action) => {
-    console.log(action.type,action.idToken);
+  on(AuthActions.login, (state, action) => {
+    console.log(action.type);
     return {
       ...state,
-      idToken: action.idToken,
+      isLoading: true,
+      isSuccessful: false,
+      errorMessage: '',
+    };
+  }),
+
+  on(AuthActions.loginSuccess, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      isLoading: false,
+      isSuccessful: true,
+      errorMessage: '',
+    };
+  }),
+
+  on(AuthActions.loginFailure, (state, { errorMessage, type }) => {
+    console.log(type);
+    return {
+      ...state,
+      isLoading: false,
+      isSuccessful: false,
+      errorMessage,
+    };
+  }),
+
+  on(AuthActions.logout, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      isLoading: true,
+      isSuccessful: false,
+      errorMessage: '',
+    };
+  }),
+
+  on(AuthActions.logoutSuccess, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      isLoading: false,
+      isSuccessful: true,
+      errorMessage: '',
+    };
+  }),
+
+  on(AuthActions.logoutFailure, (state, { errorMessage, type }) => {
+    console.log(type);
+    return {
+      ...state,
+      isLoading: false,
+      isSuccessful: false,
+      errorMessage,
+    };
+  }),
+
+  on(AuthActions.storedIdToken, (state, { idToken, type }) => {
+    console.log(type);
+    return {
+      ...state,
+      idToken,
     };
   })
 );

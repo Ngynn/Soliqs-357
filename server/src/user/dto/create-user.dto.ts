@@ -3,6 +3,7 @@ export class CreateUserDto {
         public uid: string,
         public email: string,
         public name: string,
-        public picture: string
+        public picture: string,
+        public idProfile: string
     ) { }
 }
