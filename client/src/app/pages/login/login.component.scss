@@ -19,17 +19,12 @@
 
 }
 
+
+
 .title {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-}
-
-.title {
-  height: 50%;
-  width: 90%;
-  display: flex;
   flex-direction: column;
 
   #one {
@@ -44,10 +39,11 @@
 }
 
 .btnGroup {
-  height: 50%;
+  height: 100%;
   display: flex;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
+  place-items: center;
 
   .btnLgGoogle {
     background-color: #ffdbc8;
@@ -63,7 +59,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+
 
     img {
       width: 24px;
