@@ -12,5 +12,7 @@ export class CreateProfileDto {
         public blocked: string[],
         public posts: string[],
         public messages: string[],
+        public phone: string,
+        public dateOfBirth: string
     ){}
 }

@@ -15,7 +15,7 @@ export const logoutSuccess = createAction('[Auth] Logout Success');
 
 export const logoutFailure = createAction(
   '[Auth] Logout Failure',
-  props<{ errorMessage: string }>()
+  props<{ errorLogOutMessage: string }>()
 );
 
 export const storedIdToken = createAction(

@@ -21,10 +21,15 @@ export class Profile {
     bio: string;
 
     @Prop()
+    phone: string;
+
+    @Prop()
     avatar: string;
 
     @Prop()
     coverImg: string;
+    @Prop()
+    dateOfbirth: string;
 
     @Prop({default:null})
     followers: string[];

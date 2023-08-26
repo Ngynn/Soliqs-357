@@ -29,9 +29,15 @@ export class UserService {
     return `This action returns all user`;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} user`;
-  }
+  async findOne(id: string) {
+    try{
+     return await this.userModel.findOne({uid: id})
+    }
+    catch(error){
+     return error
+
+    }
+ }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     try {
