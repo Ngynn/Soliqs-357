@@ -15,8 +15,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { userReducer } from './ngrx/reducers/user.reducer';
 import { Userffects } from './ngrx/effects/user.effects';
 import { AuthEffects } from './ngrx/effects/auth.effects';
+import { DetailComponent } from './pages/detail/detail.component';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, DetailComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

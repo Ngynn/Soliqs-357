@@ -39,7 +39,12 @@ export class SidebarComponent implements OnInit {
       backgroundColor: false,
       route: '/group/suggest',
     },
-    { icon: 'account_circle', text: 'Profile', backgroundColor: false },
+    {
+      icon: 'account_circle',
+      text: 'Profile',
+      backgroundColor: false,
+      route: '/profile',
+    },
   ];
 
   ngOnInit(): void {

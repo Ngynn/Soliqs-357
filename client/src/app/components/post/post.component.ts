@@ -2,66 +2,29 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Input,
   ViewChild,
   inject,
 } from '@angular/core';
+import { DetailComponent } from '../detail/detail.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-internal',
-  templateUrl: './internal.component.html',
-  styleUrls: ['./internal.component.scss'],
+  selector: 'app-post',
+  templateUrl: './post.component.html',
+  styleUrls: ['./post.component.scss'],
 })
-export class InternalComponent {
-  posts = [
-    {
-      avatarUrl:
-        'https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png',
-      username: 'Nguyễn Minh Mập1',
-      tagname: '@MậpMủmMỉm',
-      time: '15 tháng 8',
-      content: 'Hình ảnh sếp Lu Lu khi thấy chúng tôi làm cho sếp bất ngờ',
-      imageUrls: [
-        'https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      ],
+export class PostComponent {
+  constructor(private router: Router) {}
+  @Input() post!: [] | any;
+  itemSelected: any;
+  Selectitem(item: any) {
+    this.itemSelected = item;
+    console.log(this.itemSelected);
+    this.router.navigate([`photo/${item.id}`]);
+  }
 
-      commentCount: '13k',
-      repostCount: '11k',
-      likeCount: '14k',
-      monitoringCount: '200k',
-    },
-    {
-      avatarUrl:
-        'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
-      username: 'Trần Thành Huy1',
-      tagname: '@HuyHuyHuy',
-      time: '15 tháng 8',
-      content: 'hình ảnh nhân vật ',
-      imageUrls: [
-        'https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      ],
-
-      commentCount: '12k',
-      repostCount: '13k',
-      likeCount: '15k',
-      monitoringCount: '200k',
-    },
-    {
-      avatarUrl:
-        'https://img.freepik.com/free-photo/cute-spitz_144627-7076.jpg?t=st=1692779137~exp=1692779737~hmac=3cc3a2ec042e6477875c549361ec7360c2f89645580f9510231302152fa2e4e1',
-      username: 'Phùng Minh Khoa1',
-      tagname: '@KhoaKhoaKhoa',
-      time: '15 tháng 8',
-      content: 'hình ảnh của chó cỏ ',
-      imageUrls: [
-        'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        'https://images.pexels.com/photos/1198802/pexels-photo-1198802.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      ],
-      commentCount: 120,
-      repostCount: 3,
-      likeCount: 1,
-      monitoringCount: 20,
-    },
-  ];
   item1 = {
     sync: false,
     favorite: false,

@@ -1,0 +1,37 @@
+<div class="container-detail-post">
+  <div class="left-detail-post">
+    <div class="img-detail-post">
+      <img [src]="post.imageUrls" alt="" />
+    </div>
+  </div>
+  <div class="right-detail-post">
+    <div class="top-right-detail-post">
+      <div class="info-detail-post">
+        <div class="user-detail-post">
+          <div class="img-user-detail-post">
+            <img [src]="post.avatarUrl" alt="" />
+          </div>
+          <div class="user-detail-name">
+            <div class="username-detail-post">{{ post.username }}</div>
+            <div class="tagname-detail-post">{{ post.tagname }}</div>
+            <div class="time-detail-post">{{ post.time }}</div>
+          </div>
+          <div class="content-detail-post"></div>
+        </div>
+        <div class="reaction-detail-post"></div>
+      </div>
+      <div class="center-right-detail-post">
+        <div class="conments-detail-post">
+          <div class="comment-detail-post">
+            <div class="img-user-comment-detail-post"></div>
+            <div class="content-comment-detail-post"></div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-right-detail-post">
+        <div class="img-bottom-detail-post"></div>
+        <div class="input-detail-post"></div>
+      </div>
+    </div>
+  </div>
+</div>

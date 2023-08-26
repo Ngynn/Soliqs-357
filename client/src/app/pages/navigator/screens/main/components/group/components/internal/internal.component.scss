@@ -202,64 +202,64 @@
     padding-top: 20px;
   }
 
-  .post {
-    width: 100%;
-    border-bottom: 1px solid #d4c2c8;
+  // .post {
+  //   width: 100%;
+  //   border-bottom: 1px solid #d4c2c8;
 
-    .top {
-      align-items: center;
-      justify-content: flex-start;
-      display: flex;
-      margin-bottom: 30px;
+  //   .top {
+  //     align-items: center;
+  //     justify-content: flex-start;
+  //     display: flex;
+  //     margin-bottom: 30px;
 
-      .avatar {
-        margin: 0 20px;
+  //     .avatar {
+  //       margin: 0 20px;
 
-        img {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-        }
-      }
-    }
+  //       img {
+  //         width: 50px;
+  //         height: 50px;
+  //         border-radius: 50%;
+  //       }
+  //     }
+  //   }
 
-    .input {
-      input {
-        outline: none;
-        border: none;
-        font-size: 20px;
-      }
-    }
+  //   .input {
+  //     input {
+  //       outline: none;
+  //       border: none;
+  //       font-size: 20px;
+  //     }
+  //   }
 
-    .bottom {
-      width: calc(100% - 90px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
+  //   .bottom {
+  //     width: calc(100% - 90px);
+  //     display: flex;
+  //     justify-content: space-between;
+  //     align-items: center;
+  //     margin-bottom: 10px;
 
-      // .divice {
-      //   width: 48%;
-      // }
+  //     // .divice {
+  //     //   width: 48%;
+  //     // }
 
-      padding-left: 90px;
+  //     padding-left: 90px;
 
-      .icon {
-        align-items: center;
-        justify-content: center;
-        display: flex;
-        color: #944170;
-      }
+  //     .icon {
+  //       align-items: center;
+  //       justify-content: center;
+  //       display: flex;
+  //       color: #944170;
+  //     }
 
-      .button {
-        button {
-          border-radius: 30px;
-          width: 80px;
-          height: 40px;
-        }
-      }
-    }
-  }
+  //     .button {
+  //       button {
+  //         border-radius: 30px;
+  //         width: 80px;
+  //         height: 40px;
+  //       }
+  //     }
+  //   }
+  // }
 
   .posts {
     width: 100%;

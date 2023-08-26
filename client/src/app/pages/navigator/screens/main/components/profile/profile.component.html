@@ -62,15 +62,161 @@
   </div>
 </div>
 
-<mat-tab-group class="tabs">
-  <mat-tab label="Posts"> </mat-tab>
-  <mat-tab label="Replies"> </mat-tab>
-  <mat-tab label="High lights"> </mat-tab>
-  <mat-tab label="Media"> </mat-tab>
-  <mat-tab label="Likes"> </mat-tab>
-</mat-tab-group>
+<div class="navigate">
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="Posts">
+      <div class="move">
+        <div class="posts">
+          <app-post [post]="posts"></app-post>
+        </div>
+      </div>
+    </mat-tab>
 
-<div class="post_list">
+    <mat-tab label="Replies"> </mat-tab>
+
+    <mat-tab label="Highlights">
+      <app-post [post]="posts"></app-post>
+    </mat-tab>
+    <mat-tab label="Media"> </mat-tab>
+    <mat-tab label="Likes">
+      <app-post [post]="posts"></app-post>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<dialog class="comment-dialog" style="color: #1f1a1c" #appDialog2>
+  <div class="btnClose" (click)="closeCommentDialog()">
+    <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
+  </div>
+  <div class="top-dialog">
+    <div class="avatar-top-dialog">
+      <img src="../../../../../../../assets/imgs/Rectangle 14.png" alt="" />
+    </div>
+    <div class="content-top-dialog">
+      <div class="container-user-top-dialog">
+        <div class="username-top-dialog">Netflix</div>
+        <div class="tagname-top-dialog">@netflix</div>
+        <div class="time-top-dialog">Aug 15</div>
+      </div>
+      <div class="content-user-top-dialog">
+        Ronaldo chính thức gia nhập Manchester United, trở về mái nhà xưa sau 12
+        năm xa cách
+      </div>
+    </div>
+  </div>
+  <div class="input-comment">
+    <input type="text" placeholder="Post your comment!" />
+  </div>
+
+  <div class="bottom-dialog">
+    <div class="icon-dialog">
+      <mat-icon style="margin-right: 10px">image</mat-icon>
+      <mat-icon style="margin-right: 10px">gif</mat-icon>
+      <mat-icon style="margin-right: 10px">poll</mat-icon>
+      <mat-icon style="margin-right: 10px">emoji_emotions</mat-icon>
+      <mat-icon style="margin-right: 10px">schedule</mat-icon>
+    </div>
+    <div class="button-comment">
+      <button mat-raised-button color="primary">Post</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog #appDialogDetailPost class="detail-dialog">
+  <button (click)="closeDetailDialog()">close</button>
+  <app-detail> </app-detail>
+</dialog>
+<dialog class="editProfile_dialog" style="color: #1f1a1c" #appDialog3>
+  <div id="top">
+    <div id="left">
+      <div class="btnClose" (click)="closeEditProfileDialog()">
+        <div id="box">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+
+    <div id="mid">
+      <div id="dialog_name">
+        <span>Edit profile</span>
+      </div>
+    </div>
+
+    <div id="right">
+      <div id="save_btn">
+        <button id="save" mat-stroked-button>
+          <span>Save</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="main">
+    <div id="background">
+      <div id="addImg"></div>
+      <mat-icon style="color: white; position: absolute">add_a_photo</mat-icon>
+    </div>
+
+    <div id="avt">
+      <div id="avtImg">
+        <div id="addImg"></div>
+        <mat-icon style="color: white; position: absolute"
+          >add_a_photo</mat-icon
+        >
+      </div>
+    </div>
+
+    <div id="container_name">
+      <div class="box">
+        <div id="name">
+          <span>Name</span>
+        </div>
+        <div id="input_name"><input type="text" /></div>
+      </div>
+    </div>
+
+    <div id="container_bio">
+      <div class="box">
+        <div id="bio">
+          <span>Bio</span>
+        </div>
+        <div id="input_bio"><input type="text" /></div>
+      </div>
+    </div>
+
+    <div id="container_location">
+      <div class="box">
+        <div id="location">
+          <span>Location</span>
+        </div>
+        <div id="input_location"><input type="text" /></div>
+      </div>
+    </div>
+
+    <div id="container_website">
+      <div class="box">
+        <div id="website">
+          <span>Website</span>
+        </div>
+        <div id="input_website"><input type="text" /></div>
+      </div>
+    </div>
+
+    <div id="container_birthday">
+      <div id="birthday">
+        <span id="title">Birthday </span>
+        <span id="edit">- Edit</span>
+      </div>
+      <div id="date">January 11, 2000</div>
+    </div>
+
+    <div></div>
+  </div>
+</dialog>
+<!-- <div class="post_list">
   <div id="space"></div>
   <div id="post">
     <div id="left">
@@ -114,7 +260,10 @@
         <div id="comments">
           <div id="icon" (click)="openCommentDialog()">
             <div class="box">
-              <mat-icon [ngStyle]="{'color': item2.sync ? '#944170' : '#504349'}">chat_bubble_outline</mat-icon>
+              <mat-icon
+                [ngStyle]="{ color: item2.sync ? '#944170' : '#504349' }"
+                >chat_bubble_outline</mat-icon
+              >
             </div>
           </div>
           <div id="count">
@@ -123,25 +272,33 @@
         </div>
         <div id="repost">
           <div class="box" (click)="repost2()">
-            <mat-icon [ngStyle]="{'color': item2.sync ? '#944170' : '#504349'}">repeat</mat-icon>
+            <mat-icon [ngStyle]="{ color: item2.sync ? '#944170' : '#504349' }"
+              >repeat</mat-icon
+            >
           </div>
           <span>654</span>
         </div>
         <div id="like">
           <div class="box" (click)="like2()">
-            <mat-icon [ngStyle]="{'color': item2.favorite ? '#944170' : '#504349'}">favorite_border</mat-icon>
+            <mat-icon
+              [ngStyle]="{ color: item2.favorite ? '#944170' : '#504349' }"
+              >favorite_border</mat-icon
+            >
           </div>
           <span>8,820</span>
         </div>
         <div id="view">
           <div class="box" (click)="monitoring2()">
-            <mat-icon [ngStyle]="{'color': item2.monitoring ? '#944170' : '#504349'}">bar_chart_4_bars</mat-icon>
+            <mat-icon
+              [ngStyle]="{ color: item2.monitoring ? '#944170' : '#504349' }"
+              >bar_chart_4_bars</mat-icon
+            >
           </div>
           <span>2M</span>
         </div>
         <div id="share">
           <div class="box">
-            <mat-icon >upload</mat-icon>
+            <mat-icon>upload</mat-icon>
           </div>
           <span></span>
         </div>
@@ -305,7 +462,10 @@
 
   <dialog class="comment-dialog" style="color: #1f1a1c" #appDialog2>
     <div class="btnClose" (click)="closeCommentDialog()">
-      <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"
+        alt=""
+      />
     </div>
     <div class="top-dialog">
       <div class="avatar-top-dialog">
@@ -318,12 +478,14 @@
           <div class="time-top-dialog">- Aug 15</div>
         </div>
         <div class="content-user-top-dialog">
-            Gal Gadot's first movie (Fast & Furious) is on Netflix now — and her
-            latest movie (Heart of Stone) is on Netflix Friday!
+          Gal Gadot's first movie (Fast & Furious) is on Netflix now — and her
+          latest movie (Heart of Stone) is on Netflix Friday!
         </div>
       </div>
     </div>
-    <div class="input-comment"><input type="text" placeholder="Post your comment!"></div>
+    <div class="input-comment">
+      <input type="text" placeholder="Post your comment!" />
+    </div>
 
     <div class="bottom-dialog">
       <div class="icon-dialog">
@@ -339,89 +501,5 @@
     </div>
   </dialog>
 
-  <dialog class="editProfile_dialog" style="color: #1f1a1c;" #appDialog3>
-    <div id="top">
-      <div id="left">
-        <div class="btnClose" (click)="closeEditProfileDialog()">
-          <div id="box">
-            <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
-          </div>
-        </div>
-      </div>
-
-      <div id="mid">
-        <div id="dialog_name">
-          <span>Edit profile</span>
-        </div>
-      </div>
-      
-      <div id="right">
-        <div id="save_btn">
-          <button id="save" mat-stroked-button>
-            <span>Save</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div id="main">
-      <div id="background">
-        <div id="addImg"></div>
-        <mat-icon style="color: white; position: absolute;">add_a_photo</mat-icon>
-      </div>
-      
-      <div id="avt">
-        <div id="avtImg">
-          <div id="addImg"></div>
-          <mat-icon style="color: white; position: absolute">add_a_photo</mat-icon>
-        </div>
-      </div>
-
-      <div id="container_name">
-        <div class="box">
-          <div id="name">
-            <span>Name</span>
-          </div>
-          <div id="input_name"><input type="text"></div>
-        </div>
-      </div>
-
-      <div id="container_bio">
-        <div class="box">
-          <div id="bio">
-            <span>Bio</span>
-          </div>
-          <div id="input_bio"><input type="text"></div>
-        </div>
-      </div>
-      
-      <div id="container_location">
-        <div class="box">
-          <div id="location">
-            <span>Location</span>
-          </div>
-          <div id="input_location"><input type="text"></div>
-        </div>
-      </div>
-
-      <div id="container_website">
-        <div class="box">
-          <div id="website">
-            <span>Website</span>
-          </div>
-          <div id="input_website"><input type="text"></div>
-        </div>
-      </div>
-
-      <div id="container_birthday">
-        <div id="birthday">
-          <span id="title">Birthday </span>
-          <span id="edit">- Edit</span>
-        </div>
-        <div id="date">January 11, 2000</div>
-      </div>
-
-      <div></div>
-    </div>
-  </dialog>
-</div>
+  
+</div> -->

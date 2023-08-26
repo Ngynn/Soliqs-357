@@ -10,12 +10,17 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () =>
-    import('./pages/login/login.module').then((m) => m.LoginModule), 
+      import('./pages/login/login.module').then((m) => m.LoginModule),
   },
   {
     path: 'register',
     loadChildren: () =>
-    import('./pages/register/register.module').then((m) => m.RegisterModule),
+      import('./pages/register/register.module').then((m) => m.RegisterModule),
+  },
+  {
+    path: 'photo/:id',
+    loadChildren: () =>
+      import('./pages/detail/detail.module').then((m) => m.DetailModule),
   },
   {
     path: '',
