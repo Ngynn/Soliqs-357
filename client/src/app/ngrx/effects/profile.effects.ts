@@ -6,22 +6,39 @@ import { catchError, map, of, switchMap } from 'rxjs';
 
 import * as ProfileAction from '../actions/profile.actions';
 
-
 @Injectable()
 export class ProfileEffect {
-  constructor(private action$: Actions, private profileService: ProfileService) {}
+  constructor(
+    private action$: Actions,
+    private profileService: ProfileService
+  ) {}
 
   create$ = createEffect(() =>
     this.action$.pipe(
-      ofType(ProfileAction.createProfile),
+      ofType(ProfileAction.create),
       switchMap((action) => {
-        return this.profileService.createProfile(action.profile,action.user);
+        return this.profileService.create(action.profile);
       }),
       map(() => {
-        return ProfileAction.createProfileSuccess();
+        return ProfileAction.createSuccess();
       }),
       catchError((error) => {
-        return of(ProfileAction.createProfileFailure({ errorMessage: error }));
+        return of(ProfileAction.createFailure({ errorMessage: error }));
+      })
+    )
+  );
+
+  get$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(ProfileAction.get),
+      switchMap((action) => {
+        return this.profileService.get(action.id);
+      }),
+      map((profile) => {
+        return ProfileAction.getSuccess({ profile });
+      }),
+      catchError((error) => {
+        return of(ProfileAction.getFailure({ errorMessage: error }));
       })
     )
   );
