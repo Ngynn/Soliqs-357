@@ -14,6 +14,7 @@ import {
   Headers,
   HttpException,
   HttpStatus,
+  Put,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -39,7 +40,7 @@ export class UserController {
         email: data.email,
         name: data.name,
         picture: data.picture,
-        idProfile: null,
+        profile:null
       };
       const createdUser = await this.userService.create(user);
       return createdUser;
@@ -55,16 +56,27 @@ export class UserController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.userService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<User> {
+    try {
+      const user = await this.userService.update(id, updateUserDto);
+      if (!user) {
+        throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+      }
+      return user;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+    return this.userService.remove(id);
   }
 }

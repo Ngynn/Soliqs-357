@@ -1,0 +1,15 @@
+export interface Post {
+    id: string,
+    authorId: string,
+    authorName: string,
+    authorAvatar: string,
+    authorUserName: string,
+    content: string,
+    likes: string[],
+    comments: string[],
+    shares: string[],
+    media: string[],
+    tags: string[],
+    bookmarks: string[],
+    isPrivate: boolean,
+}

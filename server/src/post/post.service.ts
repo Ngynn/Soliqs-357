@@ -32,7 +32,7 @@ export class PostService {
 
   async findByAuthorId(authorId: string): Promise<Posts[]> {
     try {
-      const posts = await this.postModel.find({id: authorId}).exec();
+      const posts = await this.postModel.find({authorId: authorId}).exec();
       return posts;
     } catch (error) {
       throw error;

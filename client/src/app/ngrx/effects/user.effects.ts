@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { UserService } from 'src/app/services/user/user.service';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
 
 import * as UserAction from '../actions/user.actions';
 
 @Injectable()
-export class Userffects {
+export class UserEffects {
   constructor(private action$: Actions, private userService: UserService) {}
 
   create$ = createEffect(() =>
@@ -24,4 +24,18 @@ export class Userffects {
       })
     )
   );
+  getUser$ = createEffect(() => this.action$.pipe(
+    ofType(UserAction.getUser),
+    exhaustMap((action) =>
+        this.userService.getUser(action.uid).pipe(
+            map((user) => {
+                return UserAction.getUserSuccess({ user: user })
+            }),
+            catchError((error) => of(UserAction.getUserFailure({errorMessage: error})))
+        )
+    )
+)
+);
+
+  
 }

@@ -23,4 +23,19 @@ export class AuthEffects {
       })
     );
   });
+
+  logout$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.logout),
+      switchMap(() => {
+        return this.authService.logout();
+      }),
+      map(() => {
+        return AuthActions.logoutSuccess();
+      }),
+      catchError((error) => {
+        return of(AuthActions.logoutFailure({ errorLogOutMessage: error }));
+      })
+    );
+  });
 }
