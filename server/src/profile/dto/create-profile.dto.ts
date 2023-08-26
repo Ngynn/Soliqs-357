@@ -1,18 +1,21 @@
 export class CreateProfileDto {
-    constructor(
-        public id: string,
-        public email: string,
-        public displayName: string,
-        public userName: string,
-        public bio: string,
-        public avatar: string,
-        public coverImg: string,
-        public followers: string[],
-        public following: string[],
-        public blocked: string[],
-        public posts: string[],
-        public messages: string[],
-        public phone: string,
-        public dateOfBirth: string
-    ){}
+  constructor(
+    public id: string,
+    public userName: string,
+    public displayName: string,
+    public email: string,
+    public phone: string,
+    public country: string,
+    public avatar: string,
+    public cover: string,
+    public bio: string,
+    public gender: string,
+    public followers: string[],
+    public following: string[],
+    public saved: string[],
+    public tags: string[],
+    public blocked: string[],
+    public notifications: string[],
+    public messages: string[],
+  ) {}
 }

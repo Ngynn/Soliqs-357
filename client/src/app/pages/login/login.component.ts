@@ -1,18 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Auth, getAuth, idToken, onAuthStateChanged } from '@angular/fire/auth';
+import { Auth, getAuth, onAuthStateChanged } from '@angular/fire/auth';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, mergeMap } from 'rxjs';
+import { Router } from '@angular/router';
 
+import { User } from 'src/app/models/user.model';
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { UserState } from 'src/app/ngrx/states/user.state';
-import { AuthService } from 'src/app/services/auth/auth.service';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import * as AuthActions from '../../ngrx/actions/auth.actions';
 import * as UserActions from '../../ngrx/actions/user.actions';
-import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -22,14 +21,17 @@ import { User } from 'src/app/models/user.model';
 export class LoginComponent implements OnInit, OnDestroy {
   idToken$ = this.store.select('auth', 'idToken');
   isSuccessful$ = this.store.select('auth', 'isSuccessful');
+
+  user$ = this.store.select('user', 'user');
+  isGetSuccess$ = this.store.select('user', 'isGetSuccess');
+  isCreateSuccess$ = this.store.select('user', 'isSuccess');
   errorMessage$ = this.store.select('user', 'errorMessage');
+
   uid: string = '';
   isToken: string = '';
   subscriptions: Subscription[] = [];
-  user$ = this.store.select('user', 'user');
-  isGetUserSuccess$ = this.store.select('user', 'isGetSuccess');
-  isCreateUserSuccess$ = this.store.select('user','isLoading')
-  user: User = <User>{}
+
+  user: User = <User>{};
 
   constructor(
     private auth: Auth,
@@ -39,69 +41,52 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
-        let user = getAuth().currentUser;
-        this.uid = user!.uid;
         let idToken = await user!.getIdToken(true);
+        this.isToken = idToken;
         this.store.dispatch(AuthActions.storedIdToken(idToken));
-        this.store.dispatch(UserActions.getUser({ uid: user!.uid }));
-        console.log(this.uid)
-        
+        this.store.dispatch(UserActions.getUser({ uid: user.uid }));
       }
     });
 
     this.subscriptions.push(
-      this.idToken$.subscribe((token) => {
-        if (token) {
-          console.log(token);
-          this.isToken = token;
-        }
-      }),
-      this.user$.subscribe((user) => {
-          if(user){
-            this.user = user;
-          }
-      }),
-      this.isGetUserSuccess$.subscribe((isGetUserSuccess) => {
-        if (isGetUserSuccess) {
-          if (this.user.uid) {
-            console.log(this.user);
-            console.log(isGetUserSuccess)
-            if (this.user.profile) {
-              this.router.navigate(['/home']);
+      this.store
+        .select('user', 'isGetSuccess')
+        .pipe(
+          mergeMap((isGetSuccess) => {
+            if (isGetSuccess) {
+              return this.user$;
+            } else {
+              return [];
             }
-            else{
-              // this.router.navigate(['/register'])
+          })
+        )
+        .subscribe((user) => {
+          if (user) {
+            console.log('user data', user);
+            if (user.profile === null) {
+              this.router.navigate(['/loading']);
+            } else if (user.profile) {
+              this.router.navigate(['/loading']);
             }
-            
+          } else {
+            this.store.dispatch(
+              UserActions.createUser({ idToken: this.isToken })
+            );
           }
-          else {
-            this.store.dispatch(UserActions.createUser({idToken: this.isToken}))
-        }
+        }),
+
+      this.isCreateSuccess$.subscribe((isCreateSuccess) => {
+        if (isCreateSuccess) {
+          this.router.navigate(['/loading']);
         }
       }),
+
       this.errorMessage$.subscribe((errorMessage) => {
         if (errorMessage) {
-          this.openSnackBar(errorMessage);
-          // console.log(errorMessage);
+          this.router.navigate(['/loading']);
         }
       })
     );
-    this.isSuccessful$.subscribe((isSuccessful) => {
-      // if(isSuccessful){
-      //   if(!this.user.uid){
-      //     console.log(this.isToken);
-      //     this.store.dispatch(UserActions.createUser({idToken: this.isToken}))
-      //   }
-      //   else{
-      //     this.router.navigate(['/home'])
-      //   }
-      // }
-    })
-    this.isCreateUserSuccess$.subscribe((isCreateUserSuccess)=>{
-      if(isCreateUserSuccess){
-        this.router.navigate([`/register`])
-      }
-    })
   }
 
   ngOnDestroy(): void {
@@ -109,7 +94,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       subscription.unsubscribe();
     });
   }
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   loginWithGoogle() {
     this.store.dispatch(AuthActions.login());

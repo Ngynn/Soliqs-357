@@ -9,6 +9,10 @@ import {
 } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
+
+import * as AuthActions from '../../ngrx/actions/auth.actions';
+import { AuthState } from 'src/app/ngrx/states/auth.state';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -20,7 +24,8 @@ export class SidebarComponent implements OnInit {
   isDark = false; // ? notice this
   constructor(
     private overlayContainer: OverlayContainer,
-    private router: Router
+    private router: Router,
+    private store: Store<{ auth: AuthState }>
   ) {}
 
   navItems = [
@@ -104,5 +109,9 @@ export class SidebarComponent implements OnInit {
   closePostDialog() {
     this.dialog.nativeElement.close();
     this.cdr.detectChanges();
+  }
+
+  logout() {
+    this.store.dispatch(AuthActions.logout());
   }
 }
