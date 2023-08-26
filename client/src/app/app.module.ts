@@ -13,17 +13,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { authReducer } from './ngrx/reducers/auth.reducer';
 import { HttpClientModule } from '@angular/common/http';
 import { userReducer } from './ngrx/reducers/user.reducer';
-import { Userffects } from './ngrx/effects/user.effects';
+import { UserEffects } from './ngrx/effects/user.effects';
 import { AuthEffects } from './ngrx/effects/auth.effects';
 import { DetailComponent } from './pages/detail/detail.component';
+import { profileReducer } from './ngrx/reducers/profile.reducer';
+import { ProfileEffect } from './ngrx/effects/profile.effects';
 @NgModule({
   declarations: [AppComponent, DetailComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    StoreModule.forRoot({ auth: authReducer, user: userReducer }, {}),
-    EffectsModule.forRoot([AuthEffects, Userffects]),
+    StoreModule.forRoot(
+      { auth: authReducer, user: userReducer, profile: profileReducer },
+      {}
+    ),
+    EffectsModule.forRoot([AuthEffects, UserEffects, ProfileEffect]),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     BrowserAnimationsModule,

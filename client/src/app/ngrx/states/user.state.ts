@@ -5,4 +5,7 @@ export interface UserState {
   isLoading: boolean;
   isSuccess: boolean;
   errorMessage: any;
+  isGetLoading: boolean;
+  isGetSuccess: boolean;
+  getErrorMessage: any;
 }

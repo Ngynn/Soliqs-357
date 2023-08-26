@@ -7,29 +7,36 @@
             <div class="title">
                 Register account
             </div>
-            <mat-form-field class="fieldUser" appearance="fill">
+            <form class="form" [formGroup]="profileForm">
+              <mat-form-field class="fieldUser" appearance="fill" >
                 <mat-label>Username</mat-label>
-                <input matInput placeholder="">
+                <input matInput placeholder="" formControlName="name"  formControlName="userName">
               </mat-form-field>
               <mat-form-field class="fieldPhone" appearance="fill">
                 <mat-label>Phone</mat-label>
-                <input matInput placeholder="">
+                <input matInput placeholder="" formControlName="phone">
               </mat-form-field>
               <mat-form-field class="fieldEmail" appearance="fill">
                 <mat-label>Email</mat-label>
-                <input matInput placeholder="">
+                <input matInput placeholder="" formControlName="email">
               </mat-form-field>
-            <div class="tagDate">
-                Date of birth
+              <mat-form-field class="fieldEmail" appearance="fill">
+                <mat-label>Bio</mat-label>
+                <input matInput placeholder="" formControlName="bio">
+              </mat-form-field>
+            <!-- <div class="tagDate">
+                Bio
             </div>
             <mat-form-field class="datePicker" appearance="fill">
                 <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="picker">
+                <input matInput [matDatepicker]="picker" formControlName="bio">
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
+              </mat-form-field>     -->
+            </form>
+
             
-              <button class="btnConfirm">
+              <button class="btnConfirm" (click)="register(profileForm.value)">
                 Confirm
               </button>
         </div>

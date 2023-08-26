@@ -18,6 +18,6 @@ export class User {
     picture: string;
 
     @Prop({default: null})
-    idProfile: string;
+    profile: string;
 }
 export const UserSchema = SchemaFactory.createForClass(User)

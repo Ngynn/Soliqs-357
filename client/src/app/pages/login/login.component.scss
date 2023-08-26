@@ -13,6 +13,13 @@
   background-color: #944170;
   height: 100%;
   color: #ffffff;
+  display: grid;
+  grid-template-rows: 200px 1fr 200px;
+  
+
+}
+
+.title {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,6 +31,7 @@
   width: 90%;
   display: flex;
   flex-direction: column;
+  padding-top: 10px;
 
   #one {
     font-weight: 500;
@@ -40,6 +48,7 @@
   height: 50%;
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
 
   .btnLgGoogle {
@@ -48,9 +57,12 @@
     border: none;
     border-radius: 100px;
     width: 250px;
-    height: 60px;
-    font-size: 16px;
-    font-weight: 600;
+    height: 50px;
+    font-size: 15px;
+    font-family: "Open Sans", sans-serif;
+    margin: 10px;
+
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;

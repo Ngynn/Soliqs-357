@@ -35,7 +35,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
+
 const materialModules = [
   CdkTreeModule,
   MatAutocompleteModule,
@@ -72,7 +72,6 @@ const materialModules = [
   MatSlideToggleModule,
   MatProgressBarModule,
   MatNativeDateModule,
-  MatDialogModule,
 ];
 
 @NgModule({

@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { User } from 'src/app/models/user.model';
 
 export const createUser = createAction(
   '[User] Create User',
@@ -10,3 +11,6 @@ export const createUserFailure = createAction(
   '[User] Create User Failure',
   props<{ errorMessage: any }>()
 );
+export const getUser =  createAction('[User] Get User', props<{uid: string}>());
+export const getUserSuccess = createAction('User[ Get User Success', props<{user: User}>())
+export const getUserFailure = createAction('User[ Get User Failure', props<{errorMessage: any}>())
