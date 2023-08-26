@@ -67,10 +67,10 @@ export class LoginComponent implements OnInit, OnDestroy {
             console.log(this.user);
             console.log(isGetUserSuccess)
             if (this.user.profile) {
-              // this.router.navigate(['/home']);
+              this.router.navigate(['/home']);
             }
             else{
-              this.router.navigate(['/register'])
+              // this.router.navigate(['/register'])
             }
             
           }
