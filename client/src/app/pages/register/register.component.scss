@@ -42,20 +42,28 @@
     font-family: "Open Sans", sans-serif;
     border: none;
     place-items: center;
-    .fieldUser {
+    .form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        .fieldUser {
 
-        width: 400px;
-        outline: none;
+            width: 400px;
+            outline: none;
+        }
+        .fieldPhone {
+    
+            width: 400px;
+            outline: none;
+        }
+        .fieldEmail {
+            width: 400px;
+            outline: none;
+        }
     }
-    .fieldPhone {
 
-        width: 400px;
-        outline: none;
-    }
-    .fieldEmail {
-        width: 400px;
-        outline: none;
-    }
 }
 
 

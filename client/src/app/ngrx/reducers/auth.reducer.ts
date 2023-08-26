@@ -7,6 +7,9 @@ export const initialState: AuthState = {
   isLoading: false,
   isSuccessful: false,
   errorMessage: '',
+  islogoutLoading: false,
+  isLogoutSuccess:false,
+  errorLogOutMessage: ''
 };
 export const authReducer = createReducer(
   initialState,
@@ -44,9 +47,11 @@ export const authReducer = createReducer(
     console.log(action.type);
     return {
       ...state,
-      isLoading: true,
+      isLoading: false,
       isSuccessful: false,
-      errorMessage: '',
+      islogoutLoading: true,
+      isLogoutSuccess: false,
+      errorLogOutMessage: '',
     };
   }),
 
@@ -54,19 +59,19 @@ export const authReducer = createReducer(
     console.log(action.type);
     return {
       ...state,
-      isLoading: false,
-      isSuccessful: true,
-      errorMessage: '',
+      islogoutLoading: false,
+      isLogoutSuccess: true,
+      errorLogOutMessage: '',
     };
   }),
 
-  on(AuthActions.logoutFailure, (state, { errorMessage, type }) => {
+  on(AuthActions.logoutFailure, (state, { errorLogOutMessage, type }) => {
     console.log(type);
     return {
       ...state,
-      isLoading: false,
-      isSuccessful: false,
-      errorMessage,
+      islogoutLoading: false,
+      isLogoutSuccess: false,
+      errorLogOutMessage,
     };
   }),
 

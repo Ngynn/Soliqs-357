@@ -3,4 +3,8 @@ export interface AuthState {
   isLoading: boolean;
   isSuccessful: boolean;
   errorMessage: string;
+  islogoutLoading: boolean;
+  isLogoutSuccess:boolean;
+  errorLogOutMessage: string
+
 }
