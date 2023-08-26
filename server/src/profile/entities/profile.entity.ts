@@ -1,53 +1,49 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
-export type ProfileDocument = HydratedDocument<Profile>
+export type ProfileDocument = HydratedDocument<Profile>;
 
-@Schema({timestamps: true})
+@Schema({ timestamps: true })
 export class Profile {
-    @Prop({ required: true, unique: true })
-    id: string;
+  @Prop({ required: true, unique: true })
+  id: string;
 
-    @Prop({ required: true, unique: true })
-    email: string;
+  @Prop({ required: true, unique: true })
+  email: string;
 
-    @Prop({ required: true, unique: true })
-    displayName: string;
+  @Prop({ required: true, unique: true })
+  displayName: string;
 
-    @Prop()
-    userName: string;
+  @Prop()
+  userName: string;
 
-    @Prop()
-    bio: string;
+  @Prop()
+  bio: string;
 
-    @Prop()
-    phone: string;
+  @Prop()
+  phone: string;
 
-    @Prop()
-    avatar: string;
+  @Prop()
+  avatar: string;
 
-    @Prop()
-    coverImg: string;
-    @Prop()
-    dateOfbirth: string;
+  @Prop()
+  coverImg: string;
 
-    @Prop({default:null})
-    followers: string[];
+  @Prop({ default: null })
+  followers: string[];
 
-    @Prop({default:null})
-    following: string[];
+  @Prop({ default: null })
+  following: string[];
 
-    @Prop({default:null})
-    blocked: string[];
-    
-
-    @Prop({default:null})
-    posts: string[];
-
-    @Prop({default:null})
-    messages: string[];
+  @Prop({ default: null })
+  blocked: string[];
 
 
+  @Prop({ default: null })
+  posts: string[];
+
+  @Prop({ default: null })
+  messages: string[];
 }
 
-export const ProfileSchema = SchemaFactory.createForClass(Profile)
+export const ProfileSchema = SchemaFactory.createForClass(Profile);

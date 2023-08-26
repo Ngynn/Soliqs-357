@@ -12,7 +12,14 @@ import { DetailComponent } from './components/detail/detail.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
-  declarations: [MainComponent, HomeComponent, SearchComponent, GroupComponent, ProfileComponent,DetailComponent],
+  declarations: [
+    MainComponent,
+    HomeComponent,
+    SearchComponent,
+
+    ProfileComponent,
+    DetailComponent,
+  ],
   imports: [CommonModule, MainRoutingModule, SharedModule],
 })
 export class MainModule {}

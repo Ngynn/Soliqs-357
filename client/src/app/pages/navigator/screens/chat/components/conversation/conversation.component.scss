@@ -1,0 +1,150 @@
+.container {
+    display: flex;
+    word-wrap: break-word;
+    height: 100vh;
+    
+}
+
+.right {
+    height: 100%;
+    width: 100%; 
+    background-color: #FCF1F3;
+
+    .navInfo {
+        display: flex;
+        text-align: center;
+        margin: 10px;
+        .backBtn {
+            cursor: pointer;
+            img {
+                width: 20px;
+                height: 20px;
+                margin: 0 15px 0 5px;
+
+            }
+        }
+    }
+    .noti {
+        display: flex;
+        place-items: center;
+        width: 100%;
+
+        h2 {
+            display: flex;
+            justify-content: flex-start;
+            width: 80%;
+            margin-left: 15px;
+
+
+
+        }
+        .slideBtn {
+            width: 20%;
+            display: flex;
+            justify-content: flex-end;
+            margin-right: 30px;
+
+
+
+        }
+    }
+    .infoUser {
+        height: 10%;
+        display: flex;
+        align-items: center;
+        
+        .avatar {
+            margin-left: 15px;
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+        }
+        .name {
+            margin-left: 20px;
+            margin-bottom: 25px;
+            width: 80%;
+            display: flex;
+            justify-content: flex-start;
+
+        }
+        .btnFollow {
+            display: flex;
+            text-align: center;
+        }
+        .follow {
+            margin-right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 15px; 
+            margin-top: 15px;
+            button {
+                height: 30px;
+                width: 100px;
+                border: none;
+                background-color: #944170; 
+                color: #FCF1F3;
+                border-radius: 55px;
+                
+            }
+            button:hover {
+                cursor: pointer;
+                background-color: #944170e6;
+                
+            }
+            
+            
+        }
+        img {
+            width: 20px;
+            height: 20px;
+        }
+        
+
+    }
+    .btnGroup {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 60px;
+
+        .blockBtn {
+            cursor: pointer;
+            margin-bottom: 30px;
+            width: 150px;
+            height: 40px;
+            // border-color: #827379;
+            border-width: 2px ;
+            border-style: solid;
+            border-color: #827379;
+            background-color: transparent; 
+            color: #944170;
+            border-radius: 55px;
+            font-weight: 600;
+
+        }
+        .leaveBtn {
+            cursor: pointer;
+
+            margin-bottom: 30px;
+            width: 150px;
+            height: 40px;
+            border: none;
+            background-color: #FDD9E8; 
+            color: #291520;
+            border-radius: 55px;
+            // font-weight: bold;
+            font-weight: 600;
+        }
+        .leaveBtn:hover {
+            
+            background-color: #FDD9E8e6;
+            
+        }
+        
+    }
+}

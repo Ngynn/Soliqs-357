@@ -1,0 +1,73 @@
+<div class="container">
+    <div class="left">
+      <div class="list">
+        <div class="head">
+          <h2  class="name" style="font-weight: 500; cursor: pointer;" >Chat</h2>
+    
+          <div class="icon" style="cursor: pointer;">
+            <img (click)="openDialog()"
+              class="addMess"
+              src="https://cdn-icons-png.flaticon.com/512/3526/3526416.png"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+      <div class="listMessage">
+        New messages
+        
+      </div>
+      </div>
+      
+    
+    <div class="right">
+      <div class="newMess">
+        <div class="select">
+          Select a new message for chatting
+        </div>
+        <div class="newBtn" >
+          <button (click)="openDialog()">New message</button>
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+  
+  <dialog class="newMessage" #appDialog>
+    <div class="btnClose" (click)="closeDialog()">
+      <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
+    </div>
+    <form class="form">
+      <div class="title">New Message</div>
+      
+      <div class="searchBar">
+        <div class="searching">
+          <div class="iconSearch">
+            Direct to:
+          </div>
+          <input type="text" placeholder="Search new message" />
+        </div>
+      </div>
+      <div class="list">
+        <div class="user">
+          <div class="leftUser">
+            <img
+              class="avatar"
+              src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1093451218.jpg?crop=0.929xw:0.724xh;0,0.114xh&resize=1200:*"
+              alt=""
+            />
+          </div>
+          <div class="rightUser">
+            <div class="nameUser">Adam</div>
+            <mat-checkbox class="example-margin"></mat-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="startBtn">
+        <button >Start</button>
+  
+      </div>
+    </form>
+  </dialog>
+  

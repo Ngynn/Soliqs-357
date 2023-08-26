@@ -26,12 +26,13 @@ const routes: Routes = [
       },
       {
         path: 'group',
-        component: GroupComponent,
+        loadChildren: () =>
+          import('./components/group/group.module').then((m) => m.GroupModule),
       },
       {
         path: 'profile',
         component: ProfileComponent,
-      }
+      },
     ],
   },
 ];
