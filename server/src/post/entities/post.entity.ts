@@ -2,25 +2,28 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 
-export type PostDocument = HydratedDocument<Post>
+export type PostDocument = HydratedDocument<Posts>
 
 @Schema({ timestamps: true })
-export class Post {
-    @Prop({ required: true, unique: true })
-    authorId: string;
-
+export class Posts {
     @Prop({ required: true, unique: true })
     id: string;
 
-    @Prop({ required: true })
-    displayName: string;
+    @Prop({ required: true, unique: true })
+    authorId: string;
 
     @Prop({ required: true })
-    username: string;
+    authorName: string;
 
     @Prop({ required: true })
-    avatar: string;
+    authorUsername: string;
 
+    @Prop({ required: true })
+    authorAvatar: string;
+
+
+    @Prop({ required: true })
+    content: string;
 
     @Prop()
     likes: string[];
@@ -32,17 +35,20 @@ export class Post {
     shares: string[];
 
     @Prop()
-    picture: string;
+    media: string[];
 
     @Prop()
-    content: string;
+    tags: string[];
 
-    
+    @Prop()
+    bookmarks: string[];
 
+    @Prop()
+    isPrivate: boolean;
 
 }
 
-export const PostSchema = SchemaFactory.createForClass(Post);
+export const PostSchema = SchemaFactory.createForClass(Posts);
 
 
 

@@ -6,90 +6,93 @@
 }
 
 .left {
-  height: 100%;
+  height: 100vh;
   width: 30%;
   padding-right: 10px;
-  overflow-y: scroll;
-  
-
-  .head {
-    height: 10%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    .addMess {
-      width: 30px;
-      height: 30px;
-    }
-  }
-  .mid{
-    height: 10%;
-  }
-  .searchBar {
-    height: 10%;
-    
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-    .searching {
+  .friendList {
+    height: 100%;
+    .head {
+      height: 10%;
       display: flex;
-      background-color: #fcf1f3;
-      border-radius: 10px;
+      justify-content: space-between;
       align-items: center;
-      width: 100%;
-      margin-bottom: 30px;
-
-      .iconSearch {
-        margin-left: 10px;
-      }
-      input {
-        width: 100%;
+      // margin-bottom: 20px;
+      .addMess {
+        width: 30px;
         height: 30px;
-        border-radius: 10px;
-        border: none;
-        outline: none;
-        // padding-left: 10px;
-        background-color: #fcf1f3;
-        color: #504349;
-        margin: 7px;
       }
     }
-  }
-
-  .under {
-    
-    .listUser {
-      height: 90%;
-
-      cursor: pointer;
-      .user {
+    .mid{
+      height: 10%;
+      .searchBar {
+        height: 10%;
         
-        display: flex;
-        align-items: center;
-        background-color: #fcf1f3;
-        border-radius: 15px;
-        border-style: solid;
-        border-width: 1px;
-        border-color: #d4c2c8;
-        margin-bottom: 15px;
-        .leftUser {
+        // display: flex;
+        // align-items: center;
+        // justify-content: center;
+        .searching {
           display: flex;
+          background-color: #fcf1f3;
+          border-radius: 10px;
           align-items: center;
-          margin: 10px;
-          .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+          width: 100%;
+          margin-bottom: 30px;
+    
+          .iconSearch {
+            margin-left: 10px;
+          }
+          input {
+            width: 100%;
+            height: 30px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            // padding-left: 10px;
+            background-color: #fcf1f3;
+            color: #504349;
+            margin: 7px;
           }
         }
-        .rightUser {
-          font-size: 17px;
-          font-family: "Open Sans", sans-serif;
+      }
+    }
+    
+  
+    .under {
+      height: 80%;
+      width: 100%;
+      overflow-y: scroll;
+      .listUser {
+        height: 80%;
+        width: 100%;
+        cursor: pointer;
+        .user {
+          display: flex;
+          align-items: center;
+          background-color: #fcf1f3;
+          border-radius: 15px;
+          border-style: solid;
+          border-width: 1px;
+          border-color: #d4c2c8;
+          margin-bottom: 15px;
+          .leftUser {
+            display: flex;
+            align-items: center;
+            margin: 10px;
+            .avatar {
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+            }
+          }
+          .rightUser {
+            font-size: 17px;
+            font-family: "Open Sans", sans-serif;
+          }
         }
       }
     }
   }
+  
 }
 
 .right {

@@ -1,15 +1,18 @@
 /* eslint-disable prettier/prettier */
 export class CreatePostDto {
     constructor(
-        public readonly authorId: string,
-        public readonly id: string,
-        public readonly displayName: string,
-        public readonly username: string,
-        public readonly avatar: string,
-        public readonly likes: string[],
-        public readonly comments: string[],
-        public readonly shares: string[],
-        public readonly picture: string,
-        public readonly content: string,
+        public id: string,
+        public authorId: string,
+        public authorName: string,
+        public authorUsername: string,
+        public authorAvatar: string,
+        public content: string,
+        public likes: string[],
+        public comments: string[],
+        public shares: string[],
+        public media: string[],
+        public tags: string[],
+        public bookmarks: string[],
+        public isPrivate: boolean,
     ) { }
 }
