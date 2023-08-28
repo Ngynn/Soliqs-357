@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { IsEmail } from 'class-validator';
+import mongoose, { HydratedDocument } from 'mongoose';
 
 export type ProfileDocument = HydratedDocument<Profile>;
 
@@ -10,40 +11,55 @@ export class Profile {
   id: string;
 
   @Prop({ required: true, unique: true })
-  email: string;
-
-  @Prop({ required: true, unique: true })
-  displayName: string;
-
-  @Prop()
   userName: string;
 
-  @Prop()
-  bio: string;
+  @Prop({ default: null })
+  displayName: string;
 
-  @Prop()
+  @IsEmail()
+  @Prop({ required: true, unique: true })
+  email: string;
+
+  @Prop({ default: null })
   phone: string;
 
-  @Prop()
+  @Prop({ default: null })
+  country: string;
+
+  @Prop({ default: null })
   avatar: string;
 
-  @Prop()
-  coverImg: string;
+  @Prop({ default: null })
+  cover: string;
 
   @Prop({ default: null })
+  bio: string;
+
+  @Prop({ default: null })
+  gender: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' })
   followers: string[];
 
-  @Prop({ default: null })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' })
   following: string[];
 
-  @Prop({ default: null })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' })
+  tags: string[];
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' })
   blocked: string[];
 
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Notification',
+  })
+  notifications: string[];
 
-  @Prop({ default: null })
-  posts: string[];
-
-  @Prop({ default: null })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Message',
+  })
   messages: string[];
 }
 

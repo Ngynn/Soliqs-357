@@ -2,14 +2,26 @@ import { createAction, props } from '@ngrx/store';
 import { Profile } from 'src/app/models/profile.model';
 import { User } from 'src/app/models/user.model';
 
-export const createProfile = createAction(
-  '[Profile] Create Profile',
-  props<{ profile: Profile, user: User }>(),
-
+export const create = createAction(
+  '[Profile] Create ',
+  props<{ profile: Profile }>()
 );
-export const createProfileSuccess = createAction('[Profile] Create Profile Success');
 
-export const createProfileFailure = createAction(
-  '[Profile] Create Profile Failure',
+export const createSuccess = createAction('[Profile] Create Success');
+
+export const createFailure = createAction(
+  '[Profile] Create Failure',
+  props<{ errorMessage: any }>()
+);
+
+export const get = createAction('[Profile] Get', props<{ id: string }>());
+
+export const getSuccess = createAction(
+  '[Profile] Get Success',
+  props<{ profile: Profile }>()
+);
+
+export const getFailure = createAction(
+  '[Profile] Get Failure',
   props<{ errorMessage: any }>()
 );
