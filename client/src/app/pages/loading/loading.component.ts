@@ -36,6 +36,8 @@ export class LoadingComponent implements OnInit, OnDestroy {
           this.store.dispatch(UserActions.getUser({ uid: user.uid }));
         } else {
           this.router.navigate(['/login']);
+          console.log('no user', user);
+
         }
       });
 
@@ -45,7 +47,9 @@ export class LoadingComponent implements OnInit, OnDestroy {
           .pipe(
             mergeMap((isGetSuccess) => {
               if (isGetSuccess) {
+                console.log('isGetSuccess', isGetSuccess);
                 return this.userData$;
+                
               } else {
                 return [];
               }

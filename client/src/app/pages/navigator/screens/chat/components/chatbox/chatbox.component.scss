@@ -14,6 +14,8 @@
     display: flex;
     flex-direction: column;
     text-align: center;
+    background-color: #FCF1F3;
+
     .head {
         height: 10%;
         background-color: #FDD9E8 ;
@@ -49,8 +51,10 @@
         background-color: #FCF1F3;
         height: 100%;
         width: 100%;
+        overflow-y: scroll;
+        // overflow: visible;
         .chatScreen {
-            height: 85%;
+            height: 80%;
             .bubleChatUser {
                 display: flex;
                 width: 100%;
@@ -133,56 +137,59 @@
                 }
             }
         }
-        .chatPlace {
-            .row1{
+        
+    }
+    .chatPlace {
+        .row1{
+        display: flex;
+        }
+        .row2{
             display: flex;
+        }
+        input {
+            width: 85%;
+            height: 30%;
+            border: none;
+            outline: none;
+            margin: 15px 15px 0 15px ;
+            font-size: medium;
+            
+        }
+        height: 13%;
+        
+
+        background-color: #FFFFFF;
+        margin: 0 15px 25px 15px;
+        border-radius: 10px;
+        box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+        .sendBtn {
+            width: 15%;
+            cursor: pointer;
+            display: flex;
+            margin: 15px 15px 0 255px ;
+
+            .iconSend {
+                width: 20px;
+                height: 20px;
+            color: #944170;
+
             }
-            .row2{
-                display: flex;
-            }
-            input {
-                width: 85%;
-                height: 30%;
-                border: none;
-                outline: none;
-                margin: 15px 15px 0 15px ;
-                font-size: medium;
-                
-            }
-            height: 13%;
-            background-color: #FFFFFF;
-            margin: 0 25px 25px 25px;
-            border-radius: 10px;
-            box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
-            .sendBtn {
-                width: 15%;
+        }
+        .emojiBtn {
+            img {
+                width: 20px;
+                height: 20px;
+                margin: 10px 0 0 20px;
                 cursor: pointer;
-                display: flex;
-                margin: 15px 15px 0 255px ;
-
-                .iconSend {
-                    width: 20px;
-                    height: 20px;
-                color: #944170;
-
-                }
             }
-            .emojiBtn {
-                img {
-                    width: 20px;
-                    height: 20px;
-                    margin: 10px 0 0 20px;
-                    cursor: pointer;
-                }
-            }
-            .imgBtn {
-                img {
-                    width: 20px;
-                    height: 20px;
-                    margin: 10px 0 0 25px;
-                    cursor: pointer;
+        }
+        .imgBtn {
+            img {
+                width: 20px;
+                height: 20px;
+                margin: 10px 0 0 25px;
+                cursor: pointer;
 
-                }
             }
         }
     }

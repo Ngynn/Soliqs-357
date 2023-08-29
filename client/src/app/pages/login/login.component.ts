@@ -48,7 +48,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.isToken = idToken;
         this.store.dispatch(AuthActions.storedIdToken(idToken));
         this.store.dispatch(UserActions.getUser({ uid: user.uid }));
+      } else {
+        this.store.dispatch(AuthActions.storedIdToken(''));
+        this.router.navigate(['/login']);
       }
+
     });
 
     this.subscriptions.push(

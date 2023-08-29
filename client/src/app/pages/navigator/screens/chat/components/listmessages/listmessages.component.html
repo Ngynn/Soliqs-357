@@ -1,58 +1,119 @@
 <div class="container">
   <div class="left">
     <div class="friendList">
-      <div class="list">
-        <div class="head">
-          <h2  class="name" style="font-weight: 500; cursor: pointer;" >Chat</h2>
-    
+      
+      <div class="head">
+          <h2 class="name" style="font-weight: 500; cursor: pointer;">Chat</h2>
+
           <div class="icon" style="cursor: pointer;">
-            <img (click)="openDialog()"
-              class="addMess"
-              src="https://cdn-icons-png.flaticon.com/512/3526/3526416.png"
-              alt=""
-            />
+            <img (click)="openDialog()" class="addMess" src="https://cdn-icons-png.flaticon.com/512/3526/3526416.png"
+              alt="" />
+           </div>
+      </div>
+      
+        
+      <div class="mid">
+        <div class="searchBar">
+          <div class="searching">
+            <mat-icon class="iconSearch" style="color: rgb(55, 55, 55); font-size: 25px; width: 15%">search</mat-icon>
+            <input type="text" placeholder="Search new message" />
           </div>
         </div>
       </div>
       
+       
+
       <div class="under">
-        <div class="searchBar">
-          <div class="searching">
-            <mat-icon
-              class="iconSearch"
-              style="color: rgb(55, 55, 55); font-size: 25px; width: 15%"
-              >search</mat-icon>
-            <input type="text" placeholder="Search new message" />
-          </div>
-        </div>
+
         <div class="listUser">
-          <div class="user" (click)="goToChatbox()" >
+          <div class="user" (click)="goToChatbox()">
             <div class="leftUser">
-              <img 
-                class="avatar"
+              <img class="avatar"
                 src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1093451218.jpg?crop=0.929xw:0.724xh;0,0.114xh&resize=1200:*"
-                alt=""
-              />
+                alt="" />
             </div>
             <div class="rightUser">
               <div class="nameUser">Adam</div>
               <div class="lastMessage">Hello</div>
             </div>
           </div>
+          
+          <div class="user" (click)="goToChatbox()">
+            <div class="leftUser">
+              <img class="avatar"
+                src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1093451218.jpg?crop=0.929xw:0.724xh;0,0.114xh&resize=1200:*"
+                alt="" />
+            </div>
+            <div class="rightUser">
+              <div class="nameUser">Adam</div>
+              <div class="lastMessage">Hello</div>
+            </div>
+          </div>
+          <div class="user" (click)="goToChatbox()">
+            <div class="leftUser">
+              <img class="avatar"
+                src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1093451218.jpg?crop=0.929xw:0.724xh;0,0.114xh&resize=1200:*"
+                alt="" />
+            </div>
+            <div class="rightUser">
+              <div class="nameUser">Adam</div>
+              <div class="lastMessage">Hello</div>
+            </div>
+          </div>
+
+
           <div class="user" (click)="goToChatbox2()">
             <div class="leftUser">
-              <img
-                class="avatar"
+              <img class="avatar"
                 src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1093451218.jpg?crop=0.929xw:0.724xh;0,0.114xh&resize=1200:*"
-                alt=""
-              />
+                alt="" />
             </div>
             <div class="rightUser">
               <div class="nameUser">Justin</div>
               <div class="lastMessage">Hello u</div>
             </div>
           </div>
+
+          <div class="user" (click)="goToChatbox2()">
+            <div class="leftUser">
+              <img class="avatar"
+                src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1093451218.jpg?crop=0.929xw:0.724xh;0,0.114xh&resize=1200:*"
+                alt="" />
+            </div>
+            <div class="rightUser">
+              <div class="nameUser">Justin</div>
+              <div class="lastMessage">Hello u</div>
+            </div>
+          </div>
+
+          <div class="user" (click)="goToChatbox2()">
+            <div class="leftUser">
+              <img class="avatar"
+                src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1093451218.jpg?crop=0.929xw:0.724xh;0,0.114xh&resize=1200:*"
+                alt="" />
+            </div>
+            <div class="rightUser">
+              <div class="nameUser">Justin</div>
+              <div class="lastMessage">Hello u</div>
+            </div>
+          </div>
+
+          <div class="user" (click)="goToChatbox2()">
+            <div class="leftUser">
+              <img class="avatar"
+                src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1093451218.jpg?crop=0.929xw:0.724xh;0,0.114xh&resize=1200:*"
+                alt="" />
+            </div>
+            <div class="rightUser">
+              <div class="nameUser">Justin</div>
+              <div class="lastMessage">Hello u</div>
+            </div>
+          </div>
+          
         </div>
+
+
+
       </div>
     </div>
   </div>
@@ -63,10 +124,9 @@
 
 
 
-  
 
 
-</div>
+
 
 <dialog class="newMessage" #appDialog>
   <div class="btnClose" (click)="closeDialog()">
@@ -74,7 +134,7 @@
   </div>
   <form class="form">
     <div class="title">New Message</div>
-    
+
     <div class="searchBar">
       <div class="searching">
         <div class="iconSearch">
@@ -86,20 +146,18 @@
     <div class="list">
       <div class="user">
         <div class="leftUser">
-          <img
-            class="avatar"
+          <img class="avatar"
             src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1093451218.jpg?crop=0.929xw:0.724xh;0,0.114xh&resize=1200:*"
-            alt=""
-          />
+            alt="" />
         </div>
         <div class="rightUser">
           <div class="nameUser">Adam</div>
-          
+
         </div>
       </div>
     </div>
     <div class="startBtn">
-      <button >Start</button>
+      <button>Start</button>
 
     </div>
   </form>
