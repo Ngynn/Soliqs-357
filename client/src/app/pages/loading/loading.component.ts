@@ -55,11 +55,15 @@ export class LoadingComponent implements OnInit, OnDestroy {
             if (user) {
               console.log('user data', user);
               if (user.profile === null) {
+                console.log('register');
+                
                 this.router.navigate(['/register']);
               } else if (user.profile) {
+                console.log('home');
                 this.router.navigate(['/home']);
               }
             } else {
+              console.log('login');
               this.router.navigate(['/login']);
             }
           })

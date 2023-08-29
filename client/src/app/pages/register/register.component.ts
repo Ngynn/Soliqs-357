@@ -83,7 +83,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
       this.isCreateSuccess$.subscribe((isCreateSuccess) => {
         if (isCreateSuccess) {
-          this.router.navigate(['/loading']);
+          this.router.navigate(['/home']);
         }
       }),
       this.errorMessage$.subscribe((errorMessage) => {

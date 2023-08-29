@@ -13,8 +13,8 @@
   background-color: #944170;
   height: 100%;
   color: #ffffff;
-  display: grid;
-  grid-template-rows: 200px 1fr 200px;
+
+
   
 
 }
@@ -28,15 +28,16 @@
 
 .title {
   height: 50%;
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
+
 
   #one {
     font-weight: 500;
     font-size: 45px;
-    margin: 30px 0 10px 0;
+
+    text-align: center;
   }
   #two {
     font-size: 32px;
