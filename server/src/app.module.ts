@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ProfileModule } from './profile/profile.module';
 import { StorageModule } from './storage/storage.module';
+import { PostModule } from './post/post.module';
+
 
 @Module({
   imports: [
@@ -14,7 +16,8 @@ import { StorageModule } from './storage/storage.module';
     AuthModule,
     UserModule,
     ProfileModule,
-    StorageModule
+    StorageModule,
+    PostModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -14,8 +14,38 @@ export const initualState: PostState = {
 
 export const postReducer = createReducer(
     initualState,
+    on(PostAction.create, (state, action) => {
+        console.log(action.type)
+        return {
+            ...state,
+            isLoading: true,
+            isSuccess: false,
+            errorMessage: '',
+        }
+    }),
+
+    on(PostAction.createSuccess, (state, action) => {
+        console.log(action.type)
+        return {
+            ...state,
+            isLoading: false,
+            isSuccess: true,
+            errorMessage: '',
+        }
+    }),
+
+    on(PostAction.createFailure, (state, { type, errorMessage }) => {
+        console.log(type)
+        return {
+            ...state,
+            isLoading: false,
+            isSuccess: false,
+            errorMessage,
+        }
+    }),
     
-    on(PostAction.getPosts, (state, action) => {
+    
+    on(PostAction.get, (state, action) => {
         console.log(action.type)
         return {
             ...state,
@@ -25,7 +55,7 @@ export const postReducer = createReducer(
             posts: []
         }
     }),
-    on(PostAction.getPostsSuccess, (state, action) => {
+    on(PostAction.getSuccess, (state, action) => {
         console.log(action.type)
         return {
             ...state,
@@ -35,7 +65,7 @@ export const postReducer = createReducer(
             posts: action.posts
         }
     }),
-    on(PostAction.getPostsFailure, (state, { type, errorMessage }) => {
+    on(PostAction.getFailure, (state, { type, errorMessage }) => {
         console.log(type)
         return {
             ...state,

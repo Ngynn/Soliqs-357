@@ -7,8 +7,12 @@ import {
   inject,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AuthState } from 'src/app/ngrx/states/auth.state';
+import { PostState } from 'src/app/ngrx/states/post.state';
+import * as PostAction from 'src/app/ngrx/actions/post.actions';
+import { Post } from 'src/app/models/post.model';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -17,15 +21,114 @@ import { AuthState } from 'src/app/ngrx/states/auth.state';
 })
 export class HomeComponent implements OnInit {
   idToken$: Observable<string> = this.store.select('idToken', 'idToken');
-  constructor(private store: Store<{ idToken: AuthState }>) {
+
+  posts$ = this.store.select('post', 'posts');
+  isGetSuccess$ = this.store.select('post', 'isGetSuccess');
+  isCreateSuccess$ = this.store.select('post', 'isSuccess');
+  errorMessage$ = this.store.select('post', 'errorMessage');
+
+  subscriptions: Subscription[] = [];
+
+
+  content: string = '';
+  imageUrls: string[] = [];
+  // post: Post = <Post>{};
+
+  postForm = new FormGroup({
+    content: new FormControl(''),
+  });
+
+  postData = {
+    content: '',
+  };
+
+  
+  constructor(private store: Store<{ idToken: AuthState; post: PostState }>) {
     this.idToken$.subscribe((value) => {
       console.log('hello id token');
       console.log(value);
       if (value) {
         console.log(value);
       }
-    });
+    }
+    );
+
+  
+    this.store.dispatch(PostAction.get({ authorId: '1' }));
+
+    
+    
+    
+    
+
   }
+
+  createPost() {
+    this.postData = {
+      content: this.postForm.value.content ?? '',
+    };
+  }
+
+
+
+
+  posts = [
+    {
+      id: 1,
+      uid: 1,
+      avatarUrl:
+        'https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png',
+      username: 'Nguyễn Minh Mập',
+      tagname: '@MậpMủmMỉm',
+      time: '15 tháng 8',
+      content: 'Hình ảnh sếp Lu Lu khi thấy chúng tôi làm cho sếp bất ngờ',
+      imageUrls: [
+        'https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      ],
+
+      commentCount: '13k',
+      repostCount: '11k',
+      likeCount: '14k',
+      monitoringCount: '200k',
+    },
+    {
+      id: 2,
+      uid: 2,
+      avatarUrl:
+        'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
+      username: 'Trần Thành Huy',
+      tagname: '@HuyHuyHuy',
+      time: '15 tháng 8',
+      content: 'hình ảnh nhân vật ',
+      imageUrls: [
+        'https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      ],
+
+      commentCount: '12k',
+      repostCount: '13k',
+      likeCount: '15k',
+      monitoringCount: '200k',
+    },
+    {
+      id: 3,
+      uid: 3,
+      avatarUrl:
+        'https://img.freepik.com/free-photo/cute-spitz_144627-7076.jpg?t=st=1692779137~exp=1692779737~hmac=3cc3a2ec042e6477875c549361ec7360c2f89645580f9510231302152fa2e4e1',
+      username: 'Phùng Minh Khoa',
+      tagname: '@KhoaKhoaKhoa',
+      time: '15 tháng 8',
+      content: 'hình ảnh của chó cỏ ',
+      imageUrls: [
+        'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        'https://images.pexels.com/photos/1198802/pexels-photo-1198802.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      ],
+      commentCount: 120,
+      repostCount: 3,
+      likeCount: 1,
+      monitoringCount: 20,
+    },
+  ];
 
   listImg: string[] = [
     'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
@@ -185,6 +288,8 @@ export class HomeComponent implements OnInit {
     this.dialogDetailPost.nativeElement.close();
     this.cdrDetailPost.detectChanges();
   }
+  
 
   
+
 }

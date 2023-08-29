@@ -9,13 +9,13 @@ export class PostEffects {
   constructor(private actions$: Actions, private postService: PostService) {}
 
     getPosts$ = createEffect(() => this.actions$.pipe(
-        ofType(PostActions.getPosts),
+        ofType(PostActions.get),
         exhaustMap((action) =>
-            this.postService.getPosts(action.uid).pipe(
+            this.postService.getPosts(action.authorId).pipe(
                 map((postlist) => {
-                    return PostActions.getPostsSuccess( {posts: postlist})
+                    return PostActions.getSuccess( {posts: postlist})
                 }),
-                catchError((error) => of(PostActions.getPostsFailure({errorMessage: error})))
+                catchError((error) => of(PostActions.getFailure({errorMessage: error})))
             )
         )
     )

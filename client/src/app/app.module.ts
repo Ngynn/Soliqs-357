@@ -18,6 +18,8 @@ import { AuthEffects } from './ngrx/effects/auth.effects';
 import { DetailComponent } from './pages/detail/detail.component';
 import { profileReducer } from './ngrx/reducers/profile.reducer';
 import { ProfileEffect } from './ngrx/effects/profile.effects';
+import { postReducer } from './ngrx/reducers/post.reducer';
+import { PostEffects } from './ngrx/effects/post.effects';
 @NgModule({
   declarations: [AppComponent, DetailComponent],
   imports: [
@@ -25,10 +27,10 @@ import { ProfileEffect } from './ngrx/effects/profile.effects';
     AppRoutingModule,
     SharedModule,
     StoreModule.forRoot(
-      { auth: authReducer, user: userReducer, profile: profileReducer },
+      { auth: authReducer, user: userReducer, profile: profileReducer, post: postReducer },
       {}
     ),
-    EffectsModule.forRoot([AuthEffects, UserEffects, ProfileEffect]),
+    EffectsModule.forRoot([AuthEffects, UserEffects, ProfileEffect, PostEffects]),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     BrowserAnimationsModule,
