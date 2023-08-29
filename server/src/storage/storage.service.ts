@@ -8,46 +8,46 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class StorageService {
-  constructor(
-    @InjectModel(Storage.name) private storageModel: Model<Storage>
-  ){}
+  // constructor(
+  //   @InjectModel(Storage.name) private storageModel: Model<Storage>
+  // ){}
 
-    async uploadFiles( files:  Express.Multer.File[], folderName: string,): Promise<string[]>{
-      try{
-        const bucketName = 'gs://soliqs-web23s.appspot.com/';
-        const publicUrls: string[] = [];
+  //   async uploadFiles( files:  Express.Multer.File[], folderName: string,): Promise<string[]>{
+  //     try{
+  //       const bucketName = 'gs://soliqs-web23s.appspot.com/';
+  //       const publicUrls: string[] = [];
 
-        await Promise.all(
-          files.map(async (file)=>{
-            const fileName = `images/${folderName}/${uuidv4()}-${file.originalname}`;
-            const fileUpload = admin.storage().bucket(bucketName).file(fileName);
-            const blobStream = fileUpload.createWriteStream({
-              metadata:{
-                contentType: file.mimetype,
-              }, 
-            });
-            await new Promise((resolve,reject) => {
-              blobStream.on('error', (error)=>{
-                reject(error);
-              });
-              blobStream.on('finish', async () =>{
-                const [imageURL] = await fileUpload.getSignedUrl({
-                  action: 'read',
-                  expires:'13-01-2101',
-                });
-                publicUrls.push(imageURL);
-                resolve(imageURL);
-              });
-              blobStream.end(file.buffer);
-            });
-          }),
-        )
-        return publicUrls;                                                
-      }catch(error){
-        throw new HttpException(error.message, error.status);
-      }
-    }
-    async saveFileUrlToDatabase(){}
+  //       await Promise.all(
+  //         files.map(async (file)=>{
+  //           const fileName = `images/${folderName}/${uuidv4()}-${file.originalname}`;
+  //           const fileUpload = admin.storage().bucket(bucketName).file(fileName);
+  //           const blobStream = fileUpload.createWriteStream({
+  //             metadata:{
+  //               contentType: file.mimetype,
+  //             }, 
+  //           });
+  //           await new Promise((resolve,reject) => {
+  //             blobStream.on('error', (error)=>{
+  //               reject(error);
+  //             });
+  //             blobStream.on('finish', async () =>{
+  //               const [imageURL] = await fileUpload.getSignedUrl({
+  //                 action: 'read',
+  //                 expires:'13-01-2101',
+  //               });
+  //               publicUrls.push(imageURL);
+  //               resolve(imageURL);
+  //             });
+  //             blobStream.end(file.buffer);
+  //           });
+  //         }),
+  //       )
+  //       return publicUrls;                                                
+  //     }catch(error){
+  //       throw new HttpException(error.message, error.status);
+  //     }
+  //   }
+  //   async saveFileUrlToDatabase(){}
 
   create(createStorageDto: CreateStorageDto) {
     return 'This action adds a new storage';

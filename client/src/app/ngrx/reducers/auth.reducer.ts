@@ -51,6 +51,7 @@ export const authReducer = createReducer(
       isSuccessful: false,
       islogoutLoading: true,
       isLogoutSuccess: false,
+      idToken:'',
       errorLogOutMessage: '',
     };
   }),
