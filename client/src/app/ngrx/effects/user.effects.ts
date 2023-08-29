@@ -14,6 +14,7 @@ export class UserEffects {
     this.action$.pipe(
       ofType(UserAction.createUser),
       switchMap((action) => {
+        console.log('id token: '+ action.idToken)
         return this.userService.createUser(action.idToken);
       }),
       map(() => {

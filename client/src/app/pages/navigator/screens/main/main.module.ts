@@ -7,7 +7,6 @@ import { SharedModule } from 'src/shared/shared.module';
 import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/search/search.component';
 import { GroupComponent } from './components/group/group.component';
-import { DetailComponent } from './components/detail/detail.component';
 
 import { ProfileComponent } from './components/profile/profile.component';
 
@@ -16,9 +15,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     MainComponent,
     HomeComponent,
     SearchComponent,
-
     ProfileComponent,
-    DetailComponent,
   ],
   imports: [CommonModule, MainRoutingModule, SharedModule],
 })

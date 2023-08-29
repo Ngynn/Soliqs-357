@@ -12,7 +12,8 @@
                 <div class="avatar">
                   <img
                     src="https://static01.nyt.com/images/2022/12/30/multimedia/30soccer-ronaldo-1-76fd/30soccer-ronaldo-1-76fd-videoSixteenByNine3000.jpg"
-                    alt="" />
+                    alt=""
+                  />
                 </div>
                 <div class="input">
                   <input type="text" placeholder="What is happening?!" />
@@ -33,287 +34,11 @@
               </div>
             </div>
             <div class="posts">
-              <div class="item">
-                <div class="top-item">
-                  <div class="avatar-top-item">
-                    <img
-                      src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png"
-                      alt="" />
-                  </div>
-                  <div class="content-top-item">
-                    <div class="container-user-top-item">
-                      <div class="left-container-user-top-item">
-                        <div class="username-top-item">Mu</div>
-                        <div class="tagname-top-item">@mu</div>
-                        <div class="time-top-item">Aug 15</div>
-                        <div class="divice-content-top-item"></div>
-                      </div>
-                      <div class="icon-content-top-item">
-                        <mat-icon>more_horiz</mat-icon>
-                      </div>
-                    </div>
-                    <div class="content-user-top-item">
-                      Ronaldo chính thức gia nhập Manchester United, trở về mái nhà xưa
-                      sau 12 năm xa cách
-                    </div>
-                  </div>
-                </div>
-                <div class="container-item-img">
-                  <div class="img-item">
-                    <img (click)="openDetailDialog()"
-                      src="https://assets.manutd.com/AssetPicker/images/0/0/15/126/1015537/NPS_RV_ArticleHeader1630396112507_large.jpg"
-                      alt="" />
-                  </div>
-                </div>
-
-                <div class="reaction">
-                  <div class="item-reaction" (click)="openCommentDialog()">
-                    <mat-icon>sms</mat-icon>
-                    <div class="count">13k</div>
-                  </div>
-                  <div class="item-reaction" (click)="repost1()">
-                    <mat-icon [ngStyle]="{'color': item1.sync ? '#944170' : '#504349'}">sync</mat-icon>
-                    <div class="count">11k</div>
-                  </div>
-                  <div class="item-reaction" (click)="like1()">
-                    <mat-icon [ngStyle]="{'color': item1.favorite? '#944170' : '#504349'}">favorite</mat-icon>
-                    <div class="count">14k</div>
-                  </div>
-                  <div class="item-reaction" (click)="monitoring1()">
-                    <mat-icon [ngStyle]="{'color': item1.monitoring ? '#944170' : '#504349'}">legend_toggle</mat-icon>
-                    <div class="count">2M</div>
-                  </div>
-                  <div class="item-reaction">
-                    <mat-icon>file_upload</mat-icon>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="top-item">
-                  <div class="avatar-top-item">
-                    <img src="../../../../../../../assets/imgs/Rectangle 14.png" alt="" />
-                  </div>
-                  <div class="content-top-item">
-                    <div class="container-user-top-item">
-                      <div class="left-container-user-top-item">
-                        <div class="username-top-item">Netflix</div>
-                        <div class="tagname-top-item">@netflix</div>
-                        <div class="time-top-item">Aug 15</div>
-                        <div class="divice-content-top-item"></div>
-                      </div>
-                      <div class="icon-content-top-item">
-                        <mat-icon>more_horiz</mat-icon>
-                      </div>
-                    </div>
-                    <div class="content-user-top-item">
-                      Gal Gadot's first movie (Fast & Furious) is on Netflix now — and her latest movie (Heart of Stone)
-                      is on Netflix Friday!
-                    </div>
-                  </div>
-                </div>
-                <div class="container-item-img">
-                  <div class="img-item">
-                    <img src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                      alt="" />
-                    <img src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                      alt="" />
-                  </div>
-                </div>
-
-                <div class="reaction">
-                  <div class="item-reaction" (click)="openCommentDialog()">
-                    <mat-icon>sms</mat-icon>
-                    <div class="count">13k</div>
-                  </div>
-                  <div class="item-reaction" (click)="repost4()">
-                    <mat-icon [ngStyle]="{'color': item4.sync ? '#944170' : '#504349'}">sync</mat-icon>
-                    <div class="count">11k</div>
-                  </div>
-                  <div class="item-reaction" (click)="like4()">
-                    <mat-icon [ngStyle]="{'color': item4.favorite? '#944170' : '#504349'}">favorite</mat-icon>
-                    <div class="count">14k</div>
-                  </div>
-                  <div class="item-reaction" (click)="monitoring4()">
-                    <mat-icon [ngStyle]="{'color': item4.monitoring ? '#944170' : '#504349'}">legend_toggle</mat-icon>
-                    <div class="count">2M</div>
-                  </div>
-                  <div class="item-reaction">
-                    <mat-icon>file_upload</mat-icon>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="top-item">
-                  <div class="avatar-top-item">
-                    <img src="../../../../../../../assets/imgs/Rectangle 14.png" alt="" />
-                  </div>
-                  <div class="content-top-item">
-                    <div class="container-user-top-item">
-                      <div class="left-container-user-top-item">
-                        <div class="username-top-item">Netflix</div>
-                        <div class="tagname-top-item">@netflix</div>
-                        <div class="time-top-item">Aug 15</div>
-                        <div class="divice-content-top-item"></div>
-                      </div>
-                      <div class="icon-content-top-item">
-                        <mat-icon>more_horiz</mat-icon>
-                      </div>
-                    </div>
-                    <div class="content-user-top-item">
-                      Gal Gadot's first movie (Fast & Furious) is on Netflix now — and her latest movie (Heart of Stone)
-                      is on Netflix Friday!
-                    </div>
-                  </div>
-                </div>
-                <div class="container-item-img">
-                  <div class="img-item">
-                    <img src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                      alt="" />
-                    <img src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                      alt="" />
-                      <img src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                      alt="" />
-                  </div>
-
-                </div>
-                <div class="reaction">
-                  <div class="item-reaction" (click)="openCommentDialog()">
-                    <mat-icon>sms</mat-icon>
-                    <div class="count">13k</div>
-                  </div>
-                  <div class="item-reaction" (click)="repost2()">
-                    <mat-icon [ngStyle]="{'color': item2.sync ? '#944170' : '#504349'}">sync</mat-icon>
-                    <div class="count">11k</div>
-                  </div>
-                  <div class="item-reaction" (click)="like2()">
-                    <mat-icon [ngStyle]="{'color': item2.favorite? '#944170' : '#504349'}">favorite</mat-icon>
-                    <div class="count">14k</div>
-                  </div>
-                  <div class="item-reaction" (click)="monitoring2()">
-                    <mat-icon [ngStyle]="{'color': item2.monitoring ? '#944170' : '#504349'}">legend_toggle</mat-icon>
-                    <div class="count">2M</div>
-                  </div>
-                  <div class="item-reaction">
-                    <mat-icon>file_upload</mat-icon>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="top-item">
-                  <div class="avatar-top-item">
-                    <img src="../../../../../../../assets/imgs/Rectangle 14.png" alt="" />
-                  </div>
-                  <div class="content-top-item">
-                    <div class="container-user-top-item">
-                      <div class="left-container-user-top-item">
-                        <div class="username-top-item">Netflix</div>
-                        <div class="tagname-top-item">@netflix</div>
-                        <div class="time-top-item">Aug 15</div>
-                        <div class="divice-content-top-item"></div>
-                      </div>
-                      <div class="icon-content-top-item">
-                        <mat-icon>more_horiz</mat-icon>
-                      </div>
-                    </div>
-                    <div class="content-user-top-item">
-                      Gal Gadot's first movie (Fast & Furious) is on Netflix now — and her latest movie (Heart of Stone)
-                      is on Netflix Friday!
-                    </div>
-                  </div>
-                </div>
-                <div class="container-item-img">
-                  <div class="img-item">
-                    <img src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                      alt="" />
-                    <img src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                      alt="" />
-                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjoGr1Xb3hX9FcOZWi8b07rG9MpxsyEHwaGQ&usqp=CAU"
-                      alt="" />
-                      <img src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                      alt="" />
-                  </div>
-                </div>
-                <div class="reaction">
-                  <div class="item-reaction" (click)="openCommentDialog()">
-                    <mat-icon>sms</mat-icon>
-                    <div class="count">13k</div>
-                  </div>
-                  <div class="item-reaction" (click)="repost3()">
-                    <mat-icon [ngStyle]="{'color': item3.sync ? '#944170' : '#504349'}">sync</mat-icon>
-                    <div class="count">11k</div>
-                  </div>
-                  <div class="item-reaction" (click)="like3()">
-                    <mat-icon [ngStyle]="{'color': item3.favorite? '#944170' : '#504349'}">favorite</mat-icon>
-                    <div class="count">14k</div>
-                  </div>
-                  <div class="item-reaction" (click)="monitoring3()">
-                    <mat-icon [ngStyle]="{'color': item3.monitoring ? '#944170' : '#504349'}">legend_toggle</mat-icon>
-                    <div class="count">2M</div>
-                  </div>
-                  <div class="item-reaction">
-                    <mat-icon>file_upload</mat-icon>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="top-item">
-                  <div class="avatar-top-item">
-                    <img src="../../../../../../../assets/imgs/Rectangle 14.png" alt="" />
-                  </div>
-                  <div class="content-top-item">
-                    <div class="container-user-top-item">
-                      <div class="left-container-user-top-item">
-                        <div class="username-top-item">Netflix</div>
-                        <div class="tagname-top-item">@netflix</div>
-                        <div class="time-top-item">Aug 15</div>
-                        <div class="divice-content-top-item"></div>
-                      </div>
-                      <div class="icon-content-top-item">
-                        <mat-icon>more_horiz</mat-icon>
-                      </div>
-                    </div>
-                    <div class="content-user-top-item">
-                      Gal Gadot's first movie (Fast & Furious) is on Netflix now — and her latest movie (Heart of Stone)
-                      is on Netflix Friday!
-                    </div>
-                  </div>
-                </div>
-                <div class="container-item-img">
-                  <div class="img-item">
-                    <img *ngFor="let image of listImg; let i = index" [src]="image" alt="" [style.display]="showRemaining && i >= 4 ? 'none' : 'initial'" />
-                    
-                  </div>
-                </div>
-                <span class="remaining-count" *ngIf="showRemaining">+{{ listImg.length - 4 }} more</span>
-
-                <div class="reaction">
-                  <div class="item-reaction" (click)="openCommentDialog()">
-                    <mat-icon>sms</mat-icon>
-                    <div class="count">13k</div>
-                  </div>
-                  <div class="item-reaction" (click)="repost3()">
-                    <mat-icon [ngStyle]="{'color': item3.sync ? '#944170' : '#504349'}">sync</mat-icon>
-                    <div class="count">11k</div>
-                  </div>
-                  <div class="item-reaction" (click)="like3()">
-                    <mat-icon [ngStyle]="{'color': item3.favorite? '#944170' : '#504349'}">favorite</mat-icon>
-                    <div class="count">14k</div>
-                  </div>
-                  <div class="item-reaction" (click)="monitoring3()">
-                    <mat-icon [ngStyle]="{'color': item3.monitoring ? '#944170' : '#504349'}">legend_toggle</mat-icon>
-                    <div class="count">2M</div>
-                  </div>
-                  <div class="item-reaction">
-                    <mat-icon>file_upload</mat-icon>
-                  </div>
-                </div>
-              </div>
+              <app-post [post]="posts"></app-post>
             </div>
           </div>
         </mat-tab>
-  
-  
-  
+
         <mat-tab label="Following">
           <div class="move">
             <div class="post">
@@ -321,7 +46,8 @@
                 <div class="avatar">
                   <img
                     src="https://static01.nyt.com/images/2022/12/30/multimedia/30soccer-ronaldo-1-76fd/30soccer-ronaldo-1-76fd-videoSixteenByNine3000.jpg"
-                    alt="" />
+                    alt=""
+                  />
                 </div>
                 <div class="input">
                   <input type="text" placeholder="What is happening?!" />
@@ -347,7 +73,8 @@
                   <div class="avatar-top-item">
                     <img
                       src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png"
-                      alt="" />
+                      alt=""
+                    />
                   </div>
                   <div class="content-top-item">
                     <div class="container-user-top-item">
@@ -362,8 +89,8 @@
                       </div>
                     </div>
                     <div class="content-user-top-item">
-                      Ronaldo chính thức gia nhập Manchester United, trở về mái nhà xưa
-                      sau 12 năm xa cách
+                      Ronaldo chính thức gia nhập Manchester United, trở về mái
+                      nhà xưa sau 12 năm xa cách
                     </div>
                   </div>
                 </div>
@@ -371,7 +98,8 @@
                   <div class="img-item">
                     <img
                       src="https://cdn1.tuoitre.vn/zoom/600_315/2021/9/3/0untitled-4-1630623197289312843800-crop-16306232345251445467404.png"
-                      alt="" />
+                      alt=""
+                    />
                   </div>
                 </div>
                 <div class="reaction">
@@ -380,15 +108,28 @@
                     <div class="count">13k</div>
                   </div>
                   <div class="item-reaction" (click)="repost1()">
-                    <mat-icon [ngStyle]="{'color': item1.sync ? '#944170' : '#504349'}">sync</mat-icon>
+                    <mat-icon
+                      [ngStyle]="{ color: item1.sync ? '#944170' : '#504349' }"
+                      >sync</mat-icon
+                    >
                     <div class="count">11k</div>
                   </div>
                   <div class="item-reaction" (click)="like1()">
-                    <mat-icon [ngStyle]="{'color': item1.favorite? '#944170' : '#504349'}">favorite</mat-icon>
+                    <mat-icon
+                      [ngStyle]="{
+                        color: item1.favorite ? '#944170' : '#504349'
+                      }"
+                      >favorite</mat-icon
+                    >
                     <div class="count">14k</div>
                   </div>
                   <div class="item-reaction" (click)="monitoring1()">
-                    <mat-icon [ngStyle]="{'color': item1.monitoring ? '#944170' : '#504349'}">legend_toggle</mat-icon>
+                    <mat-icon
+                      [ngStyle]="{
+                        color: item1.monitoring ? '#944170' : '#504349'
+                      }"
+                      >legend_toggle</mat-icon
+                    >
                     <div class="count">2M</div>
                   </div>
                   <div class="item-reaction">
@@ -399,7 +140,10 @@
               <div class="item">
                 <div class="top-item">
                   <div class="avatar-top-item">
-                    <img src="../../../../../../../assets/imgs/Rectangle 14.png" alt="" />
+                    <img
+                      src="../../../../../../../assets/imgs/Rectangle 14.png"
+                      alt=""
+                    />
                   </div>
                   <div class="content-top-item">
                     <div class="container-user-top-item">
@@ -414,8 +158,9 @@
                       </div>
                     </div>
                     <div class="content-user-top-item">
-                      Gal Gadot's first movie (Fast & Furious) is on Netflix now — and her latest movie (Heart of Stone)
-                      is on Netflix Friday!
+                      Gal Gadot's first movie (Fast & Furious) is on Netflix now
+                      — and her latest movie (Heart of Stone) is on Netflix
+                      Friday!
                     </div>
                   </div>
                 </div>
@@ -423,11 +168,12 @@
                   <div class="img-item">
                     <img
                       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjoGr1Xb3hX9FcOZWi8b07rG9MpxsyEHwaGQ&usqp=CAU"
-                      alt="" />
+                      alt=""
+                    />
                     <img
                       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjoGr1Xb3hX9FcOZWi8b07rG9MpxsyEHwaGQ&usqp=CAU"
-                      alt="" />
-    
+                      alt=""
+                    />
                   </div>
                 </div>
                 <div class="reaction">
@@ -436,15 +182,28 @@
                     <div class="count">13k</div>
                   </div>
                   <div class="item-reaction" (click)="repost2()">
-                    <mat-icon [ngStyle]="{'color': item2.sync ? '#944170' : '#504349'}">sync</mat-icon>
+                    <mat-icon
+                      [ngStyle]="{ color: item2.sync ? '#944170' : '#504349' }"
+                      >sync</mat-icon
+                    >
                     <div class="count">11k</div>
                   </div>
                   <div class="item-reaction" (click)="like2()">
-                    <mat-icon [ngStyle]="{'color': item2.favorite? '#944170' : '#504349'}">favorite</mat-icon>
+                    <mat-icon
+                      [ngStyle]="{
+                        color: item2.favorite ? '#944170' : '#504349'
+                      }"
+                      >favorite</mat-icon
+                    >
                     <div class="count">14k</div>
                   </div>
                   <div class="item-reaction" (click)="monitoring2()">
-                    <mat-icon [ngStyle]="{'color': item2.monitoring ? '#944170' : '#504349'}">legend_toggle</mat-icon>
+                    <mat-icon
+                      [ngStyle]="{
+                        color: item2.monitoring ? '#944170' : '#504349'
+                      }"
+                      >legend_toggle</mat-icon
+                    >
                     <div class="count">2M</div>
                   </div>
                   <div class="item-reaction">
@@ -452,7 +211,6 @@
                   </div>
                 </div>
               </div>
-              
             </div>
           </div>
         </mat-tab>
@@ -460,10 +218,12 @@
     </div>
   </div>
 
-
   <dialog class="comment-dialog" style="color: #1f1a1c" #appDialog2>
     <div class="btnClose" (click)="closeCommentDialog()">
-      <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png"
+        alt=""
+      />
     </div>
     <div class="top-dialog">
       <div class="avatar-top-dialog">
@@ -476,12 +236,14 @@
           <div class="time-top-dialog">Aug 15</div>
         </div>
         <div class="content-user-top-dialog">
-          Ronaldo chính thức gia nhập Manchester United, trở về mái nhà xưa
-          sau 12 năm xa cách
+          Ronaldo chính thức gia nhập Manchester United, trở về mái nhà xưa sau
+          12 năm xa cách
         </div>
       </div>
     </div>
-    <div class="input-comment"><input type="text" placeholder="Post your comment!"></div>
+    <div class="input-comment">
+      <input type="text" placeholder="Post your comment!" />
+    </div>
 
     <div class="bottom-dialog">
       <div class="icon-dialog">
@@ -495,15 +257,10 @@
         <button mat-raised-button color="primary">Post</button>
       </div>
     </div>
-
   </dialog>
-  <dialog #appDialogDetailPost class="detail-dialog">
+  <!-- <dialog #appDialogDetailPost class="detail-dialog">
     <button (click)="closeDetailDialog()">close</button>
     <app-detail>
     </app-detail>
-  </dialog>
-
-
+  </dialog> -->
 </div>
-
-

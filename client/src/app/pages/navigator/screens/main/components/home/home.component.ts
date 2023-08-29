@@ -185,4 +185,6 @@ export class HomeComponent implements OnInit {
     this.dialogDetailPost.nativeElement.close();
     this.cdrDetailPost.detectChanges();
   }
+
+  
 }

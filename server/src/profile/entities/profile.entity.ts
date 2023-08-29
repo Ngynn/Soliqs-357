@@ -10,10 +10,10 @@ export class Profile {
   @Prop({ required: true, unique: true })
   id: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   userName: string;
 
-  @Prop({ default: null })
+  @Prop({ default: null, unique: true })
   displayName: string;
 
   @IsEmail()

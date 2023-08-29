@@ -23,6 +23,11 @@ const routes: Routes = [
       import('./pages/register/register.module').then((m) => m.RegisterModule),
   },
   {
+    path: 'photo/:id/:uid/:username',
+    loadChildren: () =>
+      import('./pages/detail/detail.module').then((m) => m.DetailModule),
+  },
+  {
     path: '',
     loadChildren: () =>
       import('./pages/navigator/navigator.module').then(
