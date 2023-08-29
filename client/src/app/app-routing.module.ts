@@ -4,8 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'loading',
     pathMatch: 'full',
+  },
+  {
+    path: 'loading',
+    loadChildren: () =>
+      import('./pages/loading/loading.module').then((m) => m.LoadingModule),
   },
   {
     path: 'login',
@@ -18,7 +23,7 @@ const routes: Routes = [
       import('./pages/register/register.module').then((m) => m.RegisterModule),
   },
   {
-    path: 'photo/:id',
+    path: 'photo/:id/:uid/:username',
     loadChildren: () =>
       import('./pages/detail/detail.module').then((m) => m.DetailModule),
   },

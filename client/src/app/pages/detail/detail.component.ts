@@ -10,7 +10,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { PostComponent } from 'src/app/components/post/post.component';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
@@ -67,6 +67,7 @@ export class DetailComponent implements OnInit {
       imageUrls: [
         'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         'https://images.pexels.com/photos/1198802/pexels-photo-1198802.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       ],
       commentCount: 120,
       repostCount: 3,
@@ -74,7 +75,11 @@ export class DetailComponent implements OnInit {
       monitoringCount: 20,
     },
   ];
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private location: Location
+  ) {}
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const idParam = params.get('id');
@@ -211,5 +216,11 @@ export class DetailComponent implements OnInit {
   closeCommentDialog() {
     this.dialog2.nativeElement.close();
     this.cdr2.detectChanges();
+  }
+  return(icon: string) {
+    // Chuyển hướng đến trang home
+    this.location.back();
+
+    // Đặt màu nền của biểu tượng tương ứng thành true và của các biểu tượng khác thành false
   }
 }

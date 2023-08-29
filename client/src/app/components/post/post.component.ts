@@ -6,8 +6,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { DetailComponent } from '../detail/detail.component';
-import { MatDialog } from '@angular/material/dialog';
+
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,7 +21,7 @@ export class PostComponent {
   Selectitem(item: any) {
     this.itemSelected = item;
     console.log(this.itemSelected);
-    this.router.navigate([`photo/${item.id}`]);
+    this.router.navigate([`photo/${item.id}/${item.uid}/${item.username}}}`]);
   }
 
   item1 = {

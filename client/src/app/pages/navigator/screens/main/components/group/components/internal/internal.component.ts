@@ -4,7 +4,9 @@ import {
   ElementRef,
   ViewChild,
   inject,
+  OnInit,
 } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-internal',
@@ -12,6 +14,8 @@ import {
   styleUrls: ['./internal.component.scss'],
 })
 export class InternalComponent {
+  constructor(private location: Location) {}
+  joined: boolean = false;
   posts = [
     {
       avatarUrl:
@@ -96,6 +100,9 @@ export class InternalComponent {
     this.showImageInput = false;
   }
 
+  join(): void {
+    this.joined = true;
+  }
   repost1() {
     if (!this.item1.sync) {
       this.item1.sync = true;
@@ -187,5 +194,8 @@ export class InternalComponent {
   closeCommentDialog() {
     this.dialog2.nativeElement.close();
     this.cdr2.detectChanges();
+  }
+  back() {
+    this.location.back();
   }
 }

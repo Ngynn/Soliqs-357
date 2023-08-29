@@ -1,4 +1,11 @@
-import { HttpCode, HttpException, HttpStatus, Inject, Injectable, forwardRef } from '@nestjs/common';
+import {
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthService } from 'src/auth/auth.service';
@@ -10,34 +17,25 @@ import { ProfileService } from 'src/profile/profile.service';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>, ){}
-  async create(createUserDto: CreateUserDto){
-    try{
-      let isExits = await this.userModel.findOne({uid: createUserDto.uid})
-      if(isExits){
-        return new HttpException(HttpCode,HttpStatus.BAD_REQUEST);
-      }else{
-        return await new this.userModel(createUserDto).save();
-      }
-    }
-    catch(error){
-      return error
+  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    try {
+      const newUser = new this.userModel(createUserDto);
+      return await newUser.save();
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
     }
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findOne(id: string): Promise<User> {
+    try {
+      const userData = await this.userModel.findOne({ uid: id });
+      return userData;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
   }
-
-  async findOne(id: string) {
-    try{
-     return await this.userModel.findOne({uid: id})
-    }
-    catch(error){
-     return error
-
-    }
- }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     try {
@@ -52,16 +50,17 @@ export class UserService {
     }
   }
 
- async remove(id: string) {
-    try{
-      let isExits = await this.userModel.findOne({id: id})
-      if(isExits){
-        return new HttpException(HttpCode,HttpStatus.BAD_REQUEST);
-      }else{
-        return await this.userModel.findByIdAndDelete(id);
-      }
-    }catch(error){
-      return error
+  async remove(id: string) {
+    try {
+      const deletedUser = await this.userModel.findOneAndRemove({ uid: id });
+      return deletedUser;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
     }
+  }
+
+  // chưa sử dụng
+  findAll() {
+    return `This action returns all user`;
   }
 }

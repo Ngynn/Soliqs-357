@@ -44,11 +44,15 @@
       </div>
     </div>
 
+    <button class="logout" mat-flat-button color="accent" (click)="logout()">
+      Logout
+    </button>
     <div class="more">
       <mat-icon class="icon">more_horiz</mat-icon>
     </div>
   </div>
 </div>
+
 <dialog class="postDL" style="color: #1f1a1c" #appDialog>
   <div class="btnClose" (click)="closePostDialog()">
     <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
