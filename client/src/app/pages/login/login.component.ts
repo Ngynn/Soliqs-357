@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   user: User = <User>{};
+  userFirebase: any = null;
 
   constructor(
     private auth: Auth,
@@ -40,7 +41,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     onAuthStateChanged(this.auth, async (user) => {
+      console.log(user + 'User firebase');
       if (user) {
+        this.userFirebase = user;
         let idToken = await user!.getIdToken(true);
         this.isToken = idToken;
         this.store.dispatch(AuthActions.storedIdToken(idToken));
@@ -61,19 +64,31 @@ export class LoginComponent implements OnInit, OnDestroy {
           })
         )
         .subscribe((user) => {
-          if (user) {
+          if (user && this.userFirebase) {
             console.log('user data', user);
+            // console.log(this.userFirebase+ 'user firebase')
             if (user.profile === null) {
+              console.log('vô ở đây');
               this.router.navigate(['/loading']);
             } else if (user.profile) {
+              console.log('vô ở đây');
               this.router.navigate(['/loading']);
             }
           } else {
+            // console.log('idtoken in login: '+ this.isToken);
             // this.store.dispatch(
             //   UserActions.createUser({ idToken: this.isToken })
             // );
           }
         }),
+
+      this.idToken$.subscribe((idToken) => {
+        if (idToken && this.userFirebase) {
+          this.isToken = idToken;
+          console.log(idToken);
+          this.store.dispatch(UserActions.createUser({ idToken: idToken }));
+        }
+      }),
       this.idToken$.subscribe((idToken) => {
         if (idToken) {
           this.isToken = idToken;
@@ -84,13 +99,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       }),
 
       this.isCreateSuccess$.subscribe((isCreateSuccess) => {
-        if (isCreateSuccess) {
+        if (isCreateSuccess && this.userFirebase) {
+          console.log('vô ở đây');
+
           this.router.navigate(['/loading']);
         }
       }),
 
       this.errorMessage$.subscribe((errorMessage) => {
-        if (errorMessage) {
+        if (errorMessage && this.userFirebase) {
+          console.log(errorMessage);
           this.router.navigate(['/loading']);
         }
       })
