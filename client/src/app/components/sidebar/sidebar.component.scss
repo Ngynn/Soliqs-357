@@ -202,13 +202,11 @@ dialog {
   position: fixed;
   inset-block-start: 0px;
   inset-block-end: 54%;
-
   user-select: text;
   visibility: visible;
   overflow: auto;
 }
 .logo {
-  
   
   margin-bottom: 15px;
   .soliqs {
@@ -223,6 +221,7 @@ dialog {
   background-color: #fdd9e8; 
   font-weight: 500;/* Màu nền mới khi được chọn */
 }
+
 
 // .selected {
 //   border-radius: 20px;

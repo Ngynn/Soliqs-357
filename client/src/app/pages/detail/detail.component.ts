@@ -2,32 +2,23 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  OnInit,
+  Input,
   ViewChild,
   inject,
+  OnInit,
 } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { AuthState } from 'src/app/ngrx/states/auth.state';
+import { ActivatedRoute, Router } from '@angular/router';
 
+import { PostComponent } from 'src/app/components/post/post.component';
+import { Location } from '@angular/common';
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: 'app-detail',
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.scss'],
 })
-export class HomeComponent implements OnInit {
-  idToken$: Observable<string> = this.store.select('idToken', 'idToken');
-  constructor(private store: Store<{ idToken: AuthState }>) {
-    this.idToken$.subscribe((value) => {
-      console.log('hello id token');
-      console.log(value);
-      if (value) {
-        console.log(value);
-      }
-    });
-  }
-
-  posts = [
+export class DetailComponent implements OnInit {
+  item: {} | any;
+  allPost = [
     {
       id: 1,
       uid: 1,
@@ -76,6 +67,7 @@ export class HomeComponent implements OnInit {
       imageUrls: [
         'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         'https://images.pexels.com/photos/1198802/pexels-photo-1198802.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       ],
       commentCount: 120,
       repostCount: 3,
@@ -83,28 +75,22 @@ export class HomeComponent implements OnInit {
       monitoringCount: 20,
     },
   ];
-
-  listImg: string[] = [
-    'https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjoGr1Xb3hX9FcOZWi8b07rG9MpxsyEHwaGQ&usqp=CAU',
-    'https://images.pexels.com/photos/1645668/pexels-photo-1645668.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
-    'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
-    'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
-    'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
-    'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
-  ];
-
-  showRemaining: boolean = false;
-  showMoreImages() {
-    this.showRemaining = true;
-  }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private location: Location
+  ) {}
   ngOnInit(): void {
-    if (this.listImg.length > 4) {
-      this.showRemaining = true;
-    }
+    this.route.paramMap.subscribe((params) => {
+      const idParam = params.get('id');
+      if (idParam != null) {
+        const itemId = +idParam;
+        this.item = this.allPost.find((post) => post.id === itemId);
+        console.log(this.item);
+      }
+    });
   }
+
   item1 = {
     sync: false,
     favorite: false,
@@ -231,15 +217,10 @@ export class HomeComponent implements OnInit {
     this.dialog2.nativeElement.close();
     this.cdr2.detectChanges();
   }
-  @ViewChild('appDialogDetailPost', { static: true })
-  dialogDetailPost!: ElementRef<HTMLDialogElement>;
-  cdrDetailPost = inject(ChangeDetectorRef);
-  openDetailDialog() {
-    this.dialogDetailPost.nativeElement.showModal();
-    this.cdrDetailPost.detectChanges();
-  }
-  closeDetailDialog() {
-    this.dialogDetailPost.nativeElement.close();
-    this.cdrDetailPost.detectChanges();
+  return(icon: string) {
+    // Chuyển hướng đến trang home
+    this.location.back();
+
+    // Đặt màu nền của biểu tượng tương ứng thành true và của các biểu tượng khác thành false
   }
 }

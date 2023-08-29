@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     onAuthStateChanged(this.auth, async (user) => {
-      console.log(user+'User firebase')
+      console.log(user + 'User firebase');
       if (user) {
         this.userFirebase = user;
         let idToken = await user!.getIdToken(true);
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           })
         )
         .subscribe((user) => {
-          if (user&&this.userFirebase) {
+          if (user && this.userFirebase) {
             console.log('user data', user);
             // console.log(this.userFirebase+ 'user firebase')
             if (user.profile === null) {
@@ -82,27 +82,33 @@ export class LoginComponent implements OnInit, OnDestroy {
           }
         }),
 
-        this.idToken$.subscribe((idToken)=>{
-          if(idToken&&this.userFirebase){
-            this.isToken = idToken;
-            console.log(idToken);
-            this.store.dispatch(
-              UserActions.createUser({ idToken: idToken })
-            );
-          }
-        }),
+      this.idToken$.subscribe((idToken) => {
+        if (idToken && this.userFirebase) {
+          this.isToken = idToken;
+          console.log(idToken);
+          this.store.dispatch(UserActions.createUser({ idToken: idToken }));
+        }
+      }),
+      this.idToken$.subscribe((idToken) => {
+        if (idToken) {
+          this.isToken = idToken;
+          this.store.dispatch(
+            UserActions.createUser({ idToken: this.isToken })
+          );
+        }
+      }),
 
       this.isCreateSuccess$.subscribe((isCreateSuccess) => {
-        if (isCreateSuccess&&this.userFirebase) {
+        if (isCreateSuccess && this.userFirebase) {
           console.log('vô ở đây');
-          
+
           this.router.navigate(['/loading']);
         }
       }),
 
       this.errorMessage$.subscribe((errorMessage) => {
-        if (errorMessage&&this.userFirebase) {
-          console.log(errorMessage)
+        if (errorMessage && this.userFirebase) {
+          console.log(errorMessage);
           this.router.navigate(['/loading']);
         }
       })

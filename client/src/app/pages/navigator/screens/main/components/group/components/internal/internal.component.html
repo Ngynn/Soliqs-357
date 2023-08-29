@@ -1,7 +1,7 @@
 <div class="container">
   <div class="header">
     <div class="left">
-      <mat-icon>arrow_back</mat-icon>
+      <mat-icon (click)="back()">arrow_back</mat-icon>
       <h2>Communities</h2>
     </div>
     <div class="right">
@@ -35,303 +35,29 @@
       </div>
       <div class="btn">
         <mat-icon>ios_share</mat-icon>
-        <button mat-raised-button color="primary">Join</button>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="!joined"
+          (click)="join()"
+        >
+          Join
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="joined"
+          *ngIf="joined"
+        >
+          Joined
+        </button>
       </div>
     </div>
   </div>
   <div class="navigate">
     <mat-tab-group animationDuration="0ms">
       <mat-tab label="Home">
-        <div class="move">
-          <div class="posts">
-            <div class="item">
-              <div class="top-item">
-                <div class="avatar-top-item">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png"
-                    alt=""
-                  />
-                </div>
-                <div class="content-top-item">
-                  <div class="container-user-top-item">
-                    <div class="left-container-user-top-item">
-                      <div class="username-top-item">Nguyễn Minh Mập</div>
-                      <div class="tagname-top-item">@MậpMủmMỉm</div>
-                      <div class="time-top-item">Aug 15</div>
-                      <div class="divice-content-top-item"></div>
-                    </div>
-                    <div class="icon-content-top-item">
-                      <mat-icon>more_horiz</mat-icon>
-                    </div>
-                  </div>
-                  <div class="content-user-top-item">
-                    Hình ảnh sếp Lu Lu khi thấy chúng tôi làm cho sếp bất ngờ
-                  </div>
-                </div>
-              </div>
-              <div class="img-item">
-                <img
-                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                  alt=""
-                />
-              </div>
-              <div class="reaction">
-                <div class="item-reaction" (click)="openCommentDialog()">
-                  <mat-icon>sms</mat-icon>
-                  <div class="count">13k</div>
-                </div>
-                <div class="item-reaction" (click)="repost1()">
-                  <mat-icon
-                    [ngStyle]="{ color: item1.sync ? '#944170' : '#504349' }"
-                    >sync</mat-icon
-                  >
-                  <div class="count">11k</div>
-                </div>
-                <div class="item-reaction" (click)="like1()">
-                  <mat-icon
-                    [ngStyle]="{
-                      color: item1.favorite ? '#944170' : '#504349'
-                    }"
-                    >favorite</mat-icon
-                  >
-                  <div class="count">14k</div>
-                </div>
-                <div class="item-reaction" (click)="monitoring1()">
-                  <mat-icon
-                    [ngStyle]="{
-                      color: item1.monitoring ? '#944170' : '#504349'
-                    }"
-                    >legend_toggle</mat-icon
-                  >
-                  <div class="count">2M</div>
-                </div>
-                <div class="item-reaction">
-                  <mat-icon>file_upload</mat-icon>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="top-item">
-                <div class="avatar-top-item">
-                  <img
-                    src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                    alt=""
-                  />
-                </div>
-                <div class="content-top-item">
-                  <div class="container-user-top-item">
-                    <div class="left-container-user-top-item">
-                      <div class="username-top-item">Trần Thành Huy</div>
-                      <div class="tagname-top-item">@HuyHóngHớt</div>
-                      <div class="time-top-item">Aug 15</div>
-                      <div class="divice-content-top-item"></div>
-                    </div>
-                    <div class="icon-content-top-item">
-                      <mat-icon>more_horiz</mat-icon>
-                    </div>
-                  </div>
-                  <div class="content-user-top-item">
-                    Hình ảnh sếp Lu Lu cảm thấy hạnh phúc khi thấy chúng tôi làm
-                    việc chăm chỉ
-                  </div>
-                </div>
-              </div>
-              <div class="img-item">
-                <img
-                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                  alt=""
-                />
-                <img
-                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                  alt=""
-                />
-              </div>
-              <div class="reaction">
-                <div class="item-reaction" (click)="openCommentDialog()">
-                  <mat-icon>sms</mat-icon>
-                  <div class="count">13k</div>
-                </div>
-                <div class="item-reaction" (click)="repost4()">
-                  <mat-icon
-                    [ngStyle]="{ color: item4.sync ? '#944170' : '#504349' }"
-                    >sync</mat-icon
-                  >
-                  <div class="count">11k</div>
-                </div>
-                <div class="item-reaction" (click)="like4()">
-                  <mat-icon
-                    [ngStyle]="{
-                      color: item4.favorite ? '#944170' : '#504349'
-                    }"
-                    >favorite</mat-icon
-                  >
-                  <div class="count">14k</div>
-                </div>
-                <div class="item-reaction" (click)="monitoring4()">
-                  <mat-icon
-                    [ngStyle]="{
-                      color: item4.monitoring ? '#944170' : '#504349'
-                    }"
-                    >legend_toggle</mat-icon
-                  >
-                  <div class="count">2M</div>
-                </div>
-                <div class="item-reaction">
-                  <mat-icon>file_upload</mat-icon>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="top-item">
-                <div class="avatar-top-item">
-                  <img
-                    src="../../../../../../../assets/imgs/Rectangle 14.png"
-                    alt=""
-                  />
-                </div>
-                <div class="content-top-item">
-                  <div class="container-user-top-item">
-                    <div class="left-container-user-top-item">
-                      <div class="username-top-item">Nguyễn Long</div>
-                      <div class="tagname-top-item">@LongLanhLợi</div>
-                      <div class="time-top-item">Aug 15</div>
-                      <div class="divice-content-top-item"></div>
-                    </div>
-                    <div class="icon-content-top-item">
-                      <mat-icon>more_horiz</mat-icon>
-                    </div>
-                  </div>
-                  <div class="content-user-top-item">
-                    Đây là hình ảnh khi Sếp Lu Lu suy nghĩ về con Bug
-                  </div>
-                </div>
-              </div>
-              <div class="img-item">
-                <img
-                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                  alt=""
-                />
-                <img
-                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                  alt=""
-                />
-              </div>
-              <div class="reaction">
-                <div class="item-reaction" (click)="openCommentDialog()">
-                  <mat-icon>sms</mat-icon>
-                  <div class="count">13k</div>
-                </div>
-                <div class="item-reaction" (click)="repost2()">
-                  <mat-icon
-                    [ngStyle]="{ color: item2.sync ? '#944170' : '#504349' }"
-                    >sync</mat-icon
-                  >
-                  <div class="count">11k</div>
-                </div>
-                <div class="item-reaction" (click)="like2()">
-                  <mat-icon
-                    [ngStyle]="{
-                      color: item2.favorite ? '#944170' : '#504349'
-                    }"
-                    >favorite</mat-icon
-                  >
-                  <div class="count">14k</div>
-                </div>
-                <div class="item-reaction" (click)="monitoring2()">
-                  <mat-icon
-                    [ngStyle]="{
-                      color: item2.monitoring ? '#944170' : '#504349'
-                    }"
-                    >legend_toggle</mat-icon
-                  >
-                  <div class="count">2M</div>
-                </div>
-                <div class="item-reaction">
-                  <mat-icon>file_upload</mat-icon>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="top-item">
-                <div class="avatar-top-item">
-                  <img
-                    src="../../../../../../../assets/imgs/Rectangle 14.png"
-                    alt=""
-                  />
-                </div>
-                <div class="content-top-item">
-                  <div class="container-user-top-item">
-                    <div class="left-container-user-top-item">
-                      <div class="username-top-item">Netflix</div>
-                      <div class="tagname-top-item">@netflix</div>
-                      <div class="time-top-item">Aug 15</div>
-                      <div class="divice-content-top-item"></div>
-                    </div>
-                    <div class="icon-content-top-item">
-                      <mat-icon>more_horiz</mat-icon>
-                    </div>
-                  </div>
-                  <div class="content-user-top-item">
-                    Gal Gadot's first movie (Fast & Furious) is on Netflix now —
-                    and her latest movie (Heart of Stone) is on Netflix Friday!
-                  </div>
-                </div>
-              </div>
-              <div class="img-item">
-                <img
-                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                  alt=""
-                />
-                <img
-                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                  alt=""
-                />
-                <img
-                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                  alt=""
-                />
-                <img
-                  src="https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg"
-                  alt=""
-                />
-              </div>
-              <div class="reaction">
-                <div class="item-reaction" (click)="openCommentDialog()">
-                  <mat-icon>sms</mat-icon>
-                  <div class="count">13k</div>
-                </div>
-                <div class="item-reaction" (click)="repost3()">
-                  <mat-icon
-                    [ngStyle]="{ color: item3.sync ? '#944170' : '#504349' }"
-                    >sync</mat-icon
-                  >
-                  <div class="count">11k</div>
-                </div>
-                <div class="item-reaction" (click)="like3()">
-                  <mat-icon
-                    [ngStyle]="{
-                      color: item3.favorite ? '#944170' : '#504349'
-                    }"
-                    >favorite</mat-icon
-                  >
-                  <div class="count">14k</div>
-                </div>
-                <div class="item-reaction" (click)="monitoring3()">
-                  <mat-icon
-                    [ngStyle]="{
-                      color: item3.monitoring ? '#944170' : '#504349'
-                    }"
-                    >legend_toggle</mat-icon
-                  >
-                  <div class="count">2M</div>
-                </div>
-                <div class="item-reaction">
-                  <mat-icon>file_upload</mat-icon>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <app-post [post]="posts"></app-post>
       </mat-tab>
 
       <mat-tab label="About">

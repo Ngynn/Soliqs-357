@@ -1,0 +1,386 @@
+<div class="container-detail-post" *ngIf="item">
+  <div class="left-detail-post">
+    <mat-icon class="close-icon" (click)="return('home')">close</mat-icon>
+    <div class="carousel">
+      <div class="carousel-inner">
+        <ng-container *ngFor="let imageUrl of item.imageUrls; let i = index">
+          <input
+            class="carousel-open"
+            type="radio"
+            id="carousel-{{ i + 1 }}"
+            name="carousel"
+            [attr.aria-hidden]="i === 0 ? 'false' : 'true'"
+            hidden=""
+            [checked]="i === 0"
+          />
+          <div class="carousel-item">
+            <img src="{{ imageUrl }}" />
+          </div>
+
+          <label
+            [for]="'carousel-' + (i === 0 ? item.imageUrls.length : i)"
+            class="carousel-control prev control-{{ i + 1 }}"
+          >
+            ‹
+          </label>
+          <label
+            [for]="'carousel-' + (i === item.imageUrls.length - 1 ? 1 : i + 2)"
+            class="carousel-control next control-{{ i + 1 }}"
+          >
+            ›
+          </label>
+          <ol class="carousel-indicators">
+            <li *ngFor="let _ of item.imageUrls; let j = index">
+              <label
+                [for]="'carousel-' + (j + 1)"
+                class="carousel-bullet"
+                [ngClass]="{ active: j === i }"
+              >
+                •
+              </label>
+            </li>
+          </ol>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="right-detail-post">
+    <div class="all-top-comments-detail">
+      <div class="top-right-detail-post">
+        <div class="info-detail-post">
+          <div class="user-detail-post">
+            <div class="img-user-detail-post">
+              <img src="{{ item.avatarUrl }}" alt="" />
+            </div>
+            <div class="user-detail-name">
+              <div class="username-detail-post">
+                <span class="userName">{{ item.username }}</span>
+                <span class="tagUsername">{{ item.tagname }}</span>
+              </div>
+
+              <div class="time-detail-post">
+                <span>{{ item.time }} </span>
+                <span>123 </span>
+                <span>View</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-detail-post">
+        <span class="content">{{ item.content }}</span>
+      </div>
+      <div class="reaction-detail-post">
+        <div class="reaction">
+          <div class="item-reaction" (click)="openCommentDialog()">
+            <mat-icon>sms</mat-icon>
+            <span>123</span>
+          </div>
+          <div class="item-reaction" (click)="repost1()">
+            <mat-icon [ngStyle]="{ color: item1.sync ? '#944170' : '#504349' }"
+              >sync</mat-icon
+            >
+            <span>123</span>
+          </div>
+          <div class="item-reaction" (click)="like1()">
+            <mat-icon
+              [ngStyle]="{
+                color: item1.favorite ? '#944170' : '#504349'
+              }"
+              >favorite</mat-icon
+            >
+            <span>123</span>
+          </div>
+          <div class="item-reaction" (click)="monitoring1()">
+            <mat-icon
+              [ngStyle]="{
+                color: item1.monitoring ? '#944170' : '#504349'
+              }"
+              >legend_toggle</mat-icon
+            >
+          </div>
+          <div class="item-reaction">
+            <mat-icon>file_upload</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="center-right-detail-post">
+        <div class="comments-detail-post">
+          <div class="comment-detail-post">
+            <div class="img-user-comment-detail-post">
+              <img src="{{ item.avatarUrl }}" alt="" />
+            </div>
+            <div class="content-comment-detail-post">
+              <div class="content-comment">
+                <div class="userName-comment">
+                  <span class="userName">{{ item.username }} </span>
+                  <span class="tagUsername"> {{ item.tagname }}</span>
+                  <span class="time-comment"> 11h </span>
+                </div>
+                <div class="comment-user">
+                  <span class="content"
+                    >ádákldjáldkádkládlkádjklạdalskdjálkdjádlkádlaksdjáldkjádlkádjlaksdjalskdjádádáiodjáoiduoáiudoáiudoiáudoaúpđàonakjdnfopadjfjdfoiandiồniadnfoiádnfioandsòinaoidfnoáidnfioándiònaiodfnoiadnfionadoipfnaod</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="comment-detail-post">
+            <div class="img-user-comment-detail-post">
+              <img
+                src="https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt=""
+              />
+            </div>
+            <div class="content-comment-detail-post">
+              <div class="content-comment">
+                <div class="userName-comment">
+                  <span class="userName">Nguyễn Văn A </span>
+                  <span class="tagUsername"> @ahahaha</span>
+                  <span class="time-comment"> 11h </span>
+                </div>
+                <div class="content-comment-user"></div>
+                <span class="content">Hôm nay trời thật đẹp</span>
+              </div>
+            </div>
+          </div>
+          <div class="comment-detail-post">
+            <div class="img-user-comment-detail-post">
+              <img
+                src="https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt=""
+              />
+            </div>
+            <div class="content-comment-detail-post">
+              <div class="content-comment">
+                <div class="userName-comment">
+                  <span class="userName">Nguyễn Văn A </span>
+                  <span class="tagUsername"> @ahahaha</span>
+                  <span class="time-comment"> 11h </span>
+                </div>
+                <div class="content-comment-user"></div>
+                <span class="content">Hôm nay trời thật đẹp</span>
+              </div>
+            </div>
+          </div>
+          <div class="comment-detail-post">
+            <div class="img-user-comment-detail-post">
+              <img
+                src="https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt=""
+              />
+            </div>
+            <div class="content-comment-detail-post">
+              <div class="content-comment">
+                <div class="userName-comment">
+                  <span class="userName">Nguyễn Văn A </span>
+                  <span class="tagUsername"> @ahahaha</span>
+                  <span class="time-comment"> 11h </span>
+                </div>
+                <div class="content-comment-user"></div>
+                <span class="content">Hôm nay trời thật đẹp</span>
+              </div>
+            </div>
+          </div>
+          <div class="comment-detail-post">
+            <div class="img-user-comment-detail-post">
+              <img
+                src="https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt=""
+              />
+            </div>
+            <div class="content-comment-detail-post">
+              <div class="content-comment">
+                <div class="userName-comment">
+                  <span class="userName">Nguyễn Văn A </span>
+                  <span class="tagUsername"> @ahahaha</span>
+                  <span class="time-comment"> 11h </span>
+                </div>
+                <div class="content-comment-user"></div>
+                <span class="content">Hôm nay trời thật đẹp</span>
+              </div>
+            </div>
+          </div>
+          <div class="comment-detail-post">
+            <div class="img-user-comment-detail-post">
+              <img
+                src="https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt=""
+              />
+            </div>
+            <div class="content-comment-detail-post">
+              <div class="content-comment">
+                <div class="userName-comment">
+                  <span class="userName">Nguyễn Văn A </span>
+                  <span class="tagUsername"> @ahahaha</span>
+                  <span class="time-comment"> 11h </span>
+                </div>
+                <div class="content-comment-user"></div>
+                <span class="content">Hôm nay trời thật đẹp</span>
+              </div>
+            </div>
+          </div>
+          <div class="comment-detail-post">
+            <div class="img-user-comment-detail-post">
+              <img
+                src="https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt=""
+              />
+            </div>
+            <div class="content-comment-detail-post">
+              <div class="content-comment">
+                <div class="userName-comment">
+                  <span class="userName">Nguyễn Văn A </span>
+                  <span class="tagUsername"> @ahahaha</span>
+                  <span class="time-comment"> 11h </span>
+                </div>
+                <div class="content-comment-user"></div>
+                <span class="content">Hôm nay trời thật đẹp</span>
+              </div>
+            </div>
+          </div>
+          <div class="comment-detail-post">
+            <div class="img-user-comment-detail-post">
+              <img
+                src="https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt=""
+              />
+            </div>
+            <div class="content-comment-detail-post">
+              <div class="content-comment">
+                <div class="userName-comment">
+                  <span class="userName">Nguyễn Văn A </span>
+                  <span class="tagUsername"> @ahahaha</span>
+                  <span class="time-comment"> 11h </span>
+                </div>
+                <div class="content-comment-user"></div>
+                <span class="content">Hôm nay trời thật đẹp</span>
+              </div>
+            </div>
+          </div>
+          <div class="comment-detail-post">
+            <div class="img-user-comment-detail-post">
+              <img
+                src="https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt=""
+              />
+            </div>
+            <div class="content-comment-detail-post">
+              <div class="content-comment">
+                <div class="userName-comment">
+                  <span class="userName">Nguyễn Văn A </span>
+                  <span class="tagUsername"> @ahahaha</span>
+                  <span class="time-comment"> 11h </span>
+                </div>
+                <div class="content-comment-user"></div>
+                <span class="content">Hôm nay trời thật đẹp</span>
+              </div>
+            </div>
+          </div>
+          <div class="comment-detail-post">
+            <div class="img-user-comment-detail-post">
+              <img
+                src="https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt=""
+              />
+            </div>
+            <div class="content-comment-detail-post">
+              <div class="content-comment">
+                <div class="userName-comment">
+                  <span class="userName">Nguyễn Văn A </span>
+                  <span class="tagUsername"> @ahahaha</span>
+                  <span class="time-comment"> 11h </span>
+                </div>
+                <div class="content-comment-user"></div>
+                <span class="content">Hôm nay trời thật đẹp</span>
+              </div>
+            </div>
+          </div>
+          <div class="comment-detail-post">
+            <div class="img-user-comment-detail-post">
+              <img
+                src="https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt=""
+              />
+            </div>
+            <div class="content-comment-detail-post">
+              <div class="content-comment">
+                <div class="userName-comment">
+                  <span class="userName">Nguyễn Văn A </span>
+                  <span class="tagUsername"> @ahahaha</span>
+                  <span class="time-comment"> 11h </span>
+                </div>
+                <div class="content-comment-user"></div>
+                <span class="content">Hôm nay trời thật đẹp</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="all-content-bottom-comment">
+      <div class="bottom-right-detail-post">
+        <div class="all-bottom-right-detail-post">
+          <div class="img-bottom-detail-post">
+            <img
+              src="https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt=""
+            />
+          </div>
+          <div class="input-detail-post">
+            <div class="text-comment">
+              <textarea placeholder="Post your reply!"></textarea>
+            </div>
+            <div class="post-btn-comment">
+              <div class="icon-comment">
+                <mat-icon>image</mat-icon>
+                <mat-icon>add_reaction</mat-icon>
+                <mat-icon>gif</mat-icon>
+              </div>
+              <div class="post-btn">
+                <button mat-raised-button color="primary">Reply</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<dialog class="comment-dialog" style="color: #1f1a1c" #appDialog2>
+  <div class="btnClose" (click)="closeCommentDialog()">
+    <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
+  </div>
+  <div class="top-dialog">
+    <div class="avatar-top-dialog">
+      <img src="../../../../../../../assets/imgs/Rectangle 14.png" alt="" />
+    </div>
+    <div class="content-top-dialog">
+      <div class="container-user-top-dialog">
+        <div class="username-top-dialog">Netflix</div>
+        <div class="tagname-top-dialog">@netflix</div>
+        <div class="time-top-dialog">Aug 15</div>
+      </div>
+      <div class="content-user-top-dialog">
+        Ronaldo chính thức gia nhập Manchester United, trở về mái nhà xưa sau 12
+        năm xa cách
+      </div>
+    </div>
+  </div>
+  <div class="input-comment">
+    <input type="text" placeholder="Post your comment!" />
+  </div>
+
+  <div class="bottom-dialog">
+    <div class="icon-dialog">
+      <mat-icon style="margin-right: 10px">image</mat-icon>
+      <mat-icon style="margin-right: 10px">gif</mat-icon>
+      <mat-icon style="margin-right: 10px">poll</mat-icon>
+      <mat-icon style="margin-right: 10px">emoji_emotions</mat-icon>
+      <mat-icon style="margin-right: 10px">schedule</mat-icon>
+    </div>
+    <div class="button-comment">
+      <button mat-raised-button color="primary">Post</button>
+    </div>
+  </div>
+</dialog>

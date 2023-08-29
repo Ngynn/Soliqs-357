@@ -1,0 +1,105 @@
+<div class="move">
+  <div class="posts">
+    <div class="item" *ngFor="let item of post">
+      <div class="top-item">
+        <div class="avatar-top-item">
+          <img [src]="item.avatarUrl" alt="" />
+        </div>
+        <div class="content-top-item">
+          <div class="container-user-top-item">
+            <div class="left-container-user-top-item">
+              <div class="username-top-item">{{ item.username }}</div>
+              <div class="tagname-top-item">{{ item.tagname }}</div>
+              <div class="time-top-item">{{ item.time }}</div>
+              <div class="divice-content-top-item"></div>
+            </div>
+            <div class="icon-content-top-item">
+              <mat-icon>more_horiz</mat-icon>
+            </div>
+          </div>
+          <div class="content-user-top-item">
+            {{ item.content }}
+          </div>
+        </div>
+      </div>
+      <div class="img-item" (click)="Selectitem(item)">
+        <img *ngFor="let imageUrl of item.imageUrls" [src]="imageUrl" alt="" />
+      </div>
+      <div class="reaction">
+        <div class="item-reaction" (click)="openCommentDialog()">
+          <mat-icon>sms</mat-icon>
+          <div class="count">{{ item.commentCount }}</div>
+        </div>
+        <div class="item-reaction" (click)="repost1()">
+          <mat-icon [ngStyle]="{ color: item1.sync ? '#944170' : '#504349' }"
+            >sync</mat-icon
+          >
+          <div class="count">{{ item.repostCount }}</div>
+        </div>
+        <div class="item-reaction" (click)="like1()">
+          <mat-icon
+            [ngStyle]="{
+              color: item1.favorite ? '#944170' : '#504349'
+            }"
+            >favorite</mat-icon
+          >
+          <div class="count">{{ item.likeCount }}</div>
+        </div>
+        <div class="item-reaction" (click)="monitoring1()">
+          <mat-icon
+            [ngStyle]="{
+              color: item1.monitoring ? '#944170' : '#504349'
+            }"
+            >legend_toggle</mat-icon
+          >
+          <div class="count">{{ item.monitoringCount }}</div>
+        </div>
+        <div class="item-reaction">
+          <mat-icon>file_upload</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<dialog class="comment-dialog" style="color: #1f1a1c" #appDialog2>
+  <div class="btnClose" (click)="closeCommentDialog()">
+    <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
+  </div>
+  <div class="top-dialog">
+    <div class="avatar-top-dialog">
+      <img src="../../../../../../../assets/imgs/Rectangle 14.png" alt="" />
+    </div>
+    <div class="content-top-dialog">
+      <div class="container-user-top-dialog">
+        <div class="username-top-dialog">Netflix</div>
+        <div class="tagname-top-dialog">@netflix</div>
+        <div class="time-top-dialog">Aug 15</div>
+      </div>
+      <div class="content-user-top-dialog">
+        Ronaldo chính thức gia nhập Manchester United, trở về mái nhà xưa sau 12
+        năm xa cách
+      </div>
+    </div>
+  </div>
+  <div class="input-comment">
+    <input type="text" placeholder="Post your comment!" />
+  </div>
+
+  <div class="bottom-dialog">
+    <div class="icon-dialog">
+      <mat-icon style="margin-right: 10px">image</mat-icon>
+      <mat-icon style="margin-right: 10px">gif</mat-icon>
+      <mat-icon style="margin-right: 10px">poll</mat-icon>
+      <mat-icon style="margin-right: 10px">emoji_emotions</mat-icon>
+      <mat-icon style="margin-right: 10px">schedule</mat-icon>
+    </div>
+    <div class="button-comment">
+      <button mat-raised-button color="primary">Post</button>
+    </div>
+  </div>
+</dialog>
+<!-- <dialog #appDialogDetailPost class="detail-dialog">
+  <app-detail [post]="itemSelected"></app-detail>
+  <button (click)="closeDetailDialog()">close</button>
+</dialog> -->
