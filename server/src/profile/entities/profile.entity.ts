@@ -44,23 +44,8 @@ export class Profile {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' })
   following: string[];
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' })
-  tags: string[];
-
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' })
   blocked: string[];
-
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Notification',
-  })
-  notifications: string[];
-
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Message',
-  })
-  messages: string[];
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile);

@@ -23,6 +23,7 @@ import { ChatModule } from './chat/chat.module';
 import { GroupModule } from './group/group.module';
 import { PostModule } from './post/post.module';
 import { PostController } from './post/post.controller';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { PostController } from './post/post.controller';
     ChatModule,
     GroupModule,
     PostModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -54,7 +56,7 @@ export class AppModule implements NestModule {
       .forRoutes(
         UserController,
         ProfileController,
-        PostController,
+        // PostController,
         StorageController,
       );
   }
