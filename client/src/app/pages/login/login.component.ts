@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         let idToken = await user!.getIdToken(true);
         this.isToken = idToken;
         this.store.dispatch(AuthActions.storedIdToken(idToken));
-        this.store.dispatch(UserActions.getUser({ uid: user.uid }));
+        this.store.dispatch(UserActions.getUser({ uid: user.uid, idToken:idToken }));
       } else {
         this.store.dispatch(AuthActions.storedIdToken(''));
         this.router.navigate(['/login']);

@@ -28,7 +28,8 @@ export class NavigatorComponent implements OnInit, OnDestroy {
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
         let user = getAuth().currentUser;
-        this.store.dispatch(UserActions.getUser({ uid: user!.uid }));
+        let idToken = await user!.getIdToken(true);
+        this.store.dispatch(UserActions.getUser({ uid: user!.uid, idToken:idToken }));
       } else {
         this.router.navigate(['/loading']);
       }

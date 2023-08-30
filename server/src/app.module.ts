@@ -15,6 +15,11 @@ import { UserController } from './user/user.controller';
 import { ProfileController } from './profile/profile.controller';
 import { StorageModule } from './storage/storage.module';
 import { StorageController } from './storage/storage.controller';
+import { NotificationModule } from './notification/notification.module';
+import { TagModule } from './tag/tag.module';
+import { MessageModule } from './message/message.module';
+import { ChatModule } from './chat/chat.module';
+import { GroupModule } from './group/group.module';
 
 @Module({
   imports: [
@@ -25,6 +30,11 @@ import { StorageController } from './storage/storage.controller';
     UserModule,
     ProfileModule,
     StorageModule,
+    NotificationModule,
+    TagModule,
+    MessageModule,
+    ChatModule,
+    GroupModule,
   ],
   controllers: [AppController],
   providers: [AppService],
