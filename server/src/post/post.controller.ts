@@ -1,25 +1,26 @@
-/* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Param, Delete, Put, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Delete,
+  HttpException,
+  HttpStatus,
+  Query,
+} from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-
-
+import { Posts } from './entities/post.entity';
 
 @Controller('v1/post')
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(private postService: PostService) {}
 
   @Post()
   async create(@Body() createPostDto: CreatePostDto) {
-    const requiredFields = [
-      'id',
-      'authorId',
-      'authorName',
-      'authorUsername',
-      'authorAvatar',
-      'content',
-    ];
+    const requiredFields = ['_id', 'authorId', 'content'];
     const missingFields = requiredFields.filter(
       (field) => !createPostDto[field],
     );
@@ -37,8 +38,8 @@ export class PostController {
     }
   }
 
-  @Get('id/:id')
-  async findOne(@Param('id') id: string) {
+  @Get()
+  async findOne(@Query('id') id: string) {
     try {
       const post = await this.postService.findOne(id);
       return post;
@@ -47,8 +48,8 @@ export class PostController {
     }
   }
 
-  @Put(':id')
-  async update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
+  @Put()
+  async update(@Query('id') id: string, @Body() updatePostDto: UpdatePostDto) {
     try {
       const updatedPost = await this.postService.update(id, updatePostDto);
       return updatedPost;
@@ -57,8 +58,8 @@ export class PostController {
     }
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string) {
+  @Delete()
+  async remove(@Query('id') id: string) {
     try {
       const deletedPost = await this.postService.remove(id);
       return deletedPost;
@@ -67,8 +68,8 @@ export class PostController {
     }
   }
 
-  @Get('author/:authorId')
-  async findByAuthorId(@Param('authorId') authorId: string) {
+  @Get('author')
+  async findByAuthorId(@Query('id') authorId: string) {
     try {
       const posts = await this.postService.findByAuthorId(authorId);
       return posts;
@@ -77,8 +78,8 @@ export class PostController {
     }
   }
 
-  @Get('tags/:tags')
-  async findByTags(@Param('tags') tags: string[]) {
+  @Get('tags')
+  async findByTags(@Query('id') tags: string[]) {
     try {
       const posts = await this.postService.findByTags(tags);
       return posts;
@@ -87,5 +88,80 @@ export class PostController {
     }
   }
 
-  
+  @Get('all')
+  async findAllAndSort(
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+    @Query('sortBy') sortBy = 'createdAt',
+    @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'desc',
+  ): Promise<Posts[]> {
+    try {
+      const posts = await this.postService.findAllAndSort(
+        page,
+        limit,
+        sortBy,
+        sortOrder,
+      );
+      if (posts.length === 0) {
+        return [];
+      }
+      return posts;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Put('like')
+  async likePost(
+    @Query('id') id: string,
+    @Body('profileId') profileId: string,
+  ) {
+    try {
+      const post = await this.postService.findOne(id);
+      if (!post) {
+        throw new HttpException('Post not found', HttpStatus.BAD_REQUEST);
+      }
+
+      const updatedPost = await this.postService.like(id, profileId);
+      return updatedPost;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Put('unlike')
+  async unlikePost(
+    @Query('id') id: string,
+    @Body('profileId') profileId: string,
+  ) {
+    try {
+      const post = await this.postService.findOne(id);
+      if (!post) {
+        throw new HttpException('Post not found', HttpStatus.BAD_REQUEST);
+      }
+
+      const updatedPost = await this.postService.unlike(id, profileId);
+      return updatedPost;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Put('share')
+  async sharePost(
+    @Query('id') id: string,
+    @Body('profileId') profileId: string,
+  ) {
+    try {
+      const post = await this.postService.findOne(id);
+      if (!post) {
+        throw new HttpException('Post not found', HttpStatus.BAD_REQUEST);
+      }
+
+      const updatedPost = await this.postService.share(id, profileId);
+      return updatedPost;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
