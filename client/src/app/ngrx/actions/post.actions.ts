@@ -2,27 +2,27 @@ import { createAction, props } from "@ngrx/store";
 import { Post } from "src/app/models/post.model";
 import { User } from "src/app/models/user.model";
 
-export const createPost = createAction(
-    '[Post] Create Post',
-    props<{ post: Post, uid:User }>()
+export const create = createAction(
+    '[Post] Create',
+    props<{ post: Post}>()
 );
 
-export const createPostSuccess = createAction(
-    '[Post] Create Post Success');
+export const createSuccess = createAction(
+    '[Post] Create Success');
 
-export const createPostFailure = createAction(
-    '[Post] Create Post Failure',
+export const createFailure = createAction(
+    '[Post] Create Failure',
     props<{ errorMessage: any }>()
 );
 
-export const getPosts = createAction(
-    '[Post] Get Posts', props<{uid: string}>()
+export const get = createAction(
+    '[Post] Get ', props<{authorId: string}>()
 );
-export const getPostsSuccess = createAction(
-    '[Post] Get Posts Success',
+export const getSuccess = createAction(
+    '[Post] Get Success',
     props<{ posts: Post[] }>()
 );
-export const getPostsFailure = createAction(
-    '[Post] Get Posts Failure',
+export const getFailure = createAction(
+    '[Post] Get Failure',
     props<{ errorMessage: any }>()
 );
