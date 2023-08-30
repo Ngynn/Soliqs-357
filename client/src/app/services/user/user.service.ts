@@ -19,7 +19,11 @@ export class UserService {
     });
   }
 
-  getUser(uid: string) {
-    return this.httpClient.get<User>(`http://localhost:3000/v1/user/${uid}`);
+  getUser(uid: string,idToken: string) {
+    return this.httpClient.get<User>(`http://localhost:3000/v1/user/${uid}`,{
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${idToken}`
+      })
+      });
   }
 }
