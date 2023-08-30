@@ -20,4 +20,17 @@ export class PostEffects {
         )
     )
     );
+
+    createPost$ = createEffect(() => this.actions$.pipe(
+        ofType(PostActions.create),
+        exhaustMap((action) =>
+            this.postService.createPost(action.post).pipe(
+                map(() => {
+                    return PostActions.createSuccess()
+                }),
+                catchError((error) => of(PostActions.createFailure({errorMessage: error})))
+            )
+        )
+    )
+    );
 }

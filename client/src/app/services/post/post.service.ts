@@ -12,4 +12,8 @@ export class PostService {
   getPosts(uid: string) {
     return this.httpClient.get<Post[]>(`http://localhost:3000/v1/post/author/${uid}`);
   }
+
+  createPost(post: Post) {
+    return this.httpClient.post<Post>(`http://localhost:3000/v1/post`, post);
+  }
 }

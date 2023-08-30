@@ -1,54 +1,47 @@
 /* eslint-disable prettier/prettier */
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
-export type PostDocument = HydratedDocument<Posts>
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsNotEmpty } from 'class-validator';
+import mongoose, { HydratedDocument } from 'mongoose';
+
+export type PostsDocument = HydratedDocument<Posts>;
 
 @Schema({ timestamps: true })
 export class Posts {
-    @Prop({ required: true, unique: true })
-    id: string;
+  @Prop({ required: true, unique: true })
+  id: string;
 
-    @Prop({ required: true, unique: true })
-    authorId: string;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Profile',
+    required: true,
+  })
+  authorId: string;
 
-    @Prop({ required: true })
-    authorName: string;
+  @Prop({ required: true })
+  content: string;
 
-    @Prop({ required: true })
-    authorUsername: string;
+  @Prop({ default: [] })
+  media: string[];
 
-    @Prop({ required: true })
-    authorAvatar: string;
+  @Prop({ default: [] })
+  tags: string[];
 
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' })
+  likes: string[];
 
-    @Prop({ required: true })
-    content: string;
+  @Prop({ default: [] })
+  comments: string[];
 
-    @Prop()
-    likes: string[];
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' })
+  shares: string[];
 
-    @Prop()
-    comments: string[];
+  @Prop({ default: [] })
+  bookmarks: string[];
 
-    @Prop()
-    shares: string[];
-
-    @Prop()
-    media: string[];
-
-    @Prop()
-    tags: string[];
-
-    @Prop()
-    bookmarks: string[];
-
-    @Prop()
-    isPrivate: boolean;
-
+  @Prop({ default: false })
+  isPrivate: boolean;
 }
 
-export const PostSchema = SchemaFactory.createForClass(Posts);
-
-
-
+export const PostsSchema = SchemaFactory.createForClass(Posts);
