@@ -150,4 +150,6 @@ export class PostComponent {
     this.dialog2.nativeElement.close();
     this.cdr2.detectChanges();
   }
+
+  
 }
