@@ -20,7 +20,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent  {
+export class HomeComponent {
   idToken$: Observable<string> = this.store.select('idToken', 'idToken');
 
   // posts$ = this.store.select('post', 'posts');
@@ -30,11 +30,9 @@ export class HomeComponent  {
 
   // posts: Post[] = [];
 
-
   // posts$: Observable<Post[]> = this.store.select('post', 'posts');
 
   // content: string = '';
-  
 
   // postForm = new FormGroup({
   //   content: new FormControl(''),
@@ -44,7 +42,6 @@ export class HomeComponent  {
   //   content: '',
   // };
 
-  
   constructor(private store: Store<{ idToken: AuthState; post: PostState }>) {
     this.idToken$.subscribe((value) => {
       console.log('hello id token');
@@ -52,8 +49,7 @@ export class HomeComponent  {
       if (value) {
         console.log(value);
       }
-    }
-    );
+    });
 
     // this.posts$.subscribe((posts) => {
     //   if (posts.length > 0) {
@@ -62,9 +58,7 @@ export class HomeComponent  {
     //   }
     // });
 
-  
     this.store.dispatch(PostAction.get({ authorId: '1' }));
-
   }
   posts = [
     {
@@ -124,10 +118,6 @@ export class HomeComponent  {
     },
   ];
 
-  
-
-  
-
   // createPost() {
   //   this.postData = {
   //     content: this.postForm.value.content ?? '',
@@ -135,10 +125,6 @@ export class HomeComponent  {
 
   //   this.store.dispatch(PostAction.create({post: <Post>this.postData}))
   // }
-
-
-
-
 
   //   {
   //     id: 1,
@@ -355,8 +341,4 @@ export class HomeComponent  {
     this.dialogDetailPost.nativeElement.close();
     this.cdrDetailPost.detectChanges();
   }
-  
-
-  
-
 }

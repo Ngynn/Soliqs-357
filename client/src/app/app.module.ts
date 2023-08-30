@@ -27,10 +27,20 @@ import { PostEffects } from './ngrx/effects/post.effects';
     AppRoutingModule,
     SharedModule,
     StoreModule.forRoot(
-      { auth: authReducer, user: userReducer, profile: profileReducer, post: postReducer },
+      {
+        auth: authReducer,
+        user: userReducer,
+        profile: profileReducer,
+        post: postReducer,
+      },
       {}
     ),
-    EffectsModule.forRoot([AuthEffects, UserEffects, ProfileEffect, PostEffects]),
+    EffectsModule.forRoot([
+      AuthEffects,
+      UserEffects,
+      ProfileEffect,
+      PostEffects,
+    ]),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     BrowserAnimationsModule,

@@ -22,6 +22,7 @@ import { MessageModule } from './message/message.module';
 import { ChatModule } from './chat/chat.module';
 import { GroupModule } from './group/group.module';
 import { PostModule } from './post/post.module';
+import { PostController } from './post/post.controller';
 
 @Module({
   imports: [
@@ -50,6 +51,11 @@ export class AppModule implements NestModule {
         { path: 'v1/user', method: RequestMethod.POST },
         { path: 'v1/profile', method: RequestMethod.POST },
       )
-      .forRoutes(UserController, ProfileController, StorageController);
+      .forRoutes(
+        UserController,
+        ProfileController,
+        PostController,
+        StorageController,
+      );
   }
 }
