@@ -33,14 +33,15 @@ export class HomeComponent implements OnInit {
         this.user = value;
       }
     });
-    onAuthStateChanged(this.auth, async (user) => {
-      if (user) {
-        console.log('user', user);
-        this.store.dispatch(UserActions.getUser({ uid: user.uid }));
-      } else {
-        console.log('no user', user);
-      }
-    });
+
+    // onAuthStateChanged(this.auth, async (user) => {
+    //   if (user) {
+    //     console.log('user', user);
+    //     this.store.dispatch(UserActions.getUser({ uid: user.id }));
+    //   } else {
+    //     console.log('no user', user);
+    //   }
+    // });
     this.idToken$.subscribe((value) => {
       console.log('hello id token');
       console.log(value);
@@ -123,9 +124,6 @@ export class HomeComponent implements OnInit {
     this.showRemaining = true;
   }
   ngOnInit(): void {
-    this.userService.getUser('uid').subscribe((user: User) => {
-      console.log(user);
-    });
     if (this.listImg.length > 4) {
       this.showRemaining = true;
     }

@@ -45,16 +45,7 @@ export class ProfileComponent implements OnInit {
   }
   profile: Profile = <Profile>{};
   profile$ = this.store.select('profile', 'profile');
-  ngOnInit(): void {
-    const uid = this.route.snapshot.paramMap.get('User');
-    if (uid) {
-      this.userService.getUser(uid).subscribe((user) => {
-        console.log(user);
-      });
-    } else {
-      console.log('uid null');
-    }
-  }
+  ngOnInit(): void {}
   posts = [
     {
       avatarUrl:

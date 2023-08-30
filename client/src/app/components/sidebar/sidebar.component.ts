@@ -39,7 +39,7 @@ export class SidebarComponent implements OnInit {
     this.profile$.subscribe((value) => {
       if (value) {
         this.profile = value;
-        console.log('profile', value);
+        console.log('profilesidebar', value);
       }
     });
     onAuthStateChanged(this.auth, async (profile) => {
