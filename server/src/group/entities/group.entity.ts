@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 
@@ -14,7 +15,7 @@ export class Group {
     @Prop()
     members: string[]
     @Prop()
-    Posts: string[]
+    posts: string[]
     @Prop({default: false})
     is_Private: boolean
 }

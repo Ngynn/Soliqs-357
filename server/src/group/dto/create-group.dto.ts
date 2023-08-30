@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 export class CreateGroupDto {
     constructor(
         public name: string,
