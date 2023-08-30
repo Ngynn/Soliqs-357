@@ -33,7 +33,9 @@ export class LoadingComponent implements OnInit, OnDestroy {
       onAuthStateChanged(this.auth, async (user) => {
         if (user) {
           console.log('user', user);
-          this.store.dispatch(UserActions.getUser({ uid: user.uid }));
+          let idToken = await user!.getIdToken(true);
+          console.log(idToken)
+          this.store.dispatch(UserActions.getUser({ uid: user.uid, idToken:idToken }));
         } else {
           this.router.navigate(['/login']);
           console.log('no user', user);
