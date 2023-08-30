@@ -4,14 +4,57 @@ import {
   ElementRef,
   ViewChild,
   inject,
+  OnInit,
 } from '@angular/core';
-
+import { UserService } from 'src/app/services/user/user.service';
+import { User } from 'src/app/models/user.model';
+import { ActivatedRoute } from '@angular/router';
+import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { Profile } from 'src/app/models/profile.model';
+import { ProfileState } from 'src/app/ngrx/states/profile.state';
+import * as AuthActions from '../../../../../../ngrx/actions/auth.actions';
+import { AuthState } from 'src/app/ngrx/states/auth.state';
+import * as ProfileActions from '../../../../../../ngrx/actions/profile.actions';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private store: Store<{ auth: AuthState; profile: ProfileState }>,
+    private auth: Auth
+  ) {
+    this.profile$.subscribe((value) => {
+      if (value) {
+        this.profile = value;
+        console.log('profile', value);
+      }
+    });
+    onAuthStateChanged(this.auth, async (profile) => {
+      if (profile) {
+        this.store.dispatch(ProfileActions.get({ id: profile.uid }));
+        console.log('profile', profile);
+      } else {
+        console.log('no user', profile);
+      }
+    });
+  }
+  profile: Profile = <Profile>{};
+  profile$ = this.store.select('profile', 'profile');
+  ngOnInit(): void {
+    const uid = this.route.snapshot.paramMap.get('User');
+    if (uid) {
+      this.userService.getUser(uid).subscribe((user) => {
+        console.log(user);
+      });
+    } else {
+      console.log('uid null');
+    }
+  }
   posts = [
     {
       avatarUrl:

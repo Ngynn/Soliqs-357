@@ -23,7 +23,7 @@ export class InternalComponent {
       username: 'Nguyễn Minh Mập1',
       tagname: '@MậpMủmMỉm',
       time: '15 tháng 8',
-      content: 'Hình ảnh sếp Lu Lu khi thấy chúng tôi làm cho sếp bất ngờ',
+      content: 'Hình ảnh phong cảnh',
       imageUrls: [
         'https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       ],

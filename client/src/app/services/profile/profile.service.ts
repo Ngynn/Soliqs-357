@@ -18,7 +18,7 @@ export class ProfileService {
 
   get(id: string) {
     return this.httpClient.get<Profile>(
-      `http://localhost:3000/v1/profile?id=${id}`
+      `http://localhost:3000/v1/profile/detail?id=${id}`
     );
   }
 }

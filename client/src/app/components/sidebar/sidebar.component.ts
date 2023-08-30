@@ -13,20 +13,44 @@ import { Router } from '@angular/router';
 import * as AuthActions from '../../ngrx/actions/auth.actions';
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { Store } from '@ngrx/store';
+import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { Profile } from 'src/app/models/profile.model';
+import { ProfileState } from 'src/app/ngrx/states/profile.state';
+import { ProfileService } from 'src/app/services/profile/profile.service';
+import * as ProfileActions from '../../ngrx/actions/profile.actions';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
+  profile: Profile = <Profile>{};
+  profile$ = this.store.select('profile', 'profile');
   currentPage?: string = '';
   themeColor: 'primary' | 'accent' | 'warn' = 'primary'; // ? notice this
   isDark = false; // ? notice this
+
   constructor(
     private overlayContainer: OverlayContainer,
     private router: Router,
-    private store: Store<{ auth: AuthState }>
-  ) {}
+    private store: Store<{ auth: AuthState; profile: ProfileState }>,
+    private auth: Auth
+  ) {
+    this.profile$.subscribe((value) => {
+      if (value) {
+        this.profile = value;
+        console.log('profile', value);
+      }
+    });
+    onAuthStateChanged(this.auth, async (profile) => {
+      if (profile) {
+        this.store.dispatch(ProfileActions.get({ id: profile.uid }));
+        console.log('profile', profile);
+      } else {
+        console.log('no user', profile);
+      }
+    });
+  }
 
   navItems = [
     { icon: 'home', text: 'Home', backgroundColor: false, route: '/home' },
@@ -44,11 +68,19 @@ export class SidebarComponent implements OnInit {
       backgroundColor: false,
       route: '/group/suggest',
     },
+    // {
+    //   icon: 'account_circle',
+    //   text: 'Profile',
+    //   backgroundColor: false,
+    //   route: `/profile/${this.profile.id}`,
+    // },
+  ];
+  navProfile = [
     {
       icon: 'account_circle',
       text: 'Profile',
       backgroundColor: false,
-      route: '/profile',
+      route: `/profile/${this.profile.id}`,
     },
   ];
 
@@ -56,7 +88,8 @@ export class SidebarComponent implements OnInit {
     const currentRoute = this.router.url;
 
     this.navItems.forEach((nav) => {
-      //how to backround color group's true when route is /group/internal
+      if (nav.route == '/group/internal') {
+      }
 
       if (nav.route === currentRoute) {
         nav.backgroundColor = true;
@@ -86,7 +119,25 @@ export class SidebarComponent implements OnInit {
     if (selectedNav.backgroundColor) {
       return;
     }
+
     this.navItems.forEach((nav) => {
+      if (nav == selectedNav) {
+        nav.backgroundColor = true;
+        this.currentPage = nav.route;
+      } else {
+        nav.backgroundColor = false;
+        // Đặt lại màu nền cho biểu tượng cũ
+      }
+    });
+
+    this.router.navigate([selectedNav.route]);
+  }
+  toProfile(selectedNav: any) {
+    if (selectedNav.backgroundColor) {
+      return;
+    }
+
+    this.navProfile.forEach((nav) => {
       if (nav == selectedNav) {
         nav.backgroundColor = true;
         this.currentPage = nav.route;
