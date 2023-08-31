@@ -6,27 +6,186 @@ import {
   ElementRef,
   inject,
   ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
 
 import * as AuthActions from '../../ngrx/actions/auth.actions';
+import * as StorageActions from '../../ngrx/actions/storage.actions'
+import * as UserActions from '../../ngrx/actions/user.actions'
+import * as ProfileActions from '../../ngrx/actions/profile.actions'
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { Store } from '@ngrx/store';
+import { StorageState } from 'src/app/ngrx/states/storage.state';
+import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserState } from 'src/app/ngrx/states/user.state';
+import { Subscription, mergeMap } from 'rxjs';
+import { ProfileState } from 'src/app/ngrx/states/profile.state';
+
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   currentPage?: string = '';
   themeColor: 'primary' | 'accent' | 'warn' = 'primary'; // ? notice this
   isDark = false; // ? notice this
+  isCreateImgSuccess$ = this.store.select('storage','isCreateSuccess');
+  idToken$ = this.store.select('auth', 'idToken');
+  idToken: string = ''
+  subscriptions: Subscription[] = [];
+  isHaveFile:boolean = false
+  idPost: string = ''
+  user$ = this.store.select('user', 'user');
+  profile$ = this.store.select('profile','profile')
+  storage$ = this.store.select('storage','storage')
+  selectedFile: any;
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  postForm = new FormGroup({
+    id: new FormControl(''),
+    authorId: new FormControl('',Validators.required),
+    authorName: new FormControl('',Validators.required),
+    authorAvatar: new FormControl('',Validators.required),
+    authorUserName: new FormControl('',Validators.required),
+    content: new FormControl('',Validators.required),
+    media: new FormControl([]),
+  })
+
+
+  storageForm = new FormData
+
+  
   constructor(
     private overlayContainer: OverlayContainer,
     private router: Router,
-    private store: Store<{ auth: AuthState }>
-  ) {}
+    private store: Store<{ auth: AuthState, storage: StorageState, user: UserState, profile: ProfileState }>,
+    private auth: Auth,
+
+  ) {
+
+
+    onAuthStateChanged(this.auth, async (user) => {
+      console.log(user + 'User firebase');
+      if (user) {
+        this.postForm.patchValue({
+          authorId: user!.uid,
+          authorName: user!.displayName,
+          authorAvatar: user!.photoURL,
+        })
+        
+        let idToken = await user!.getIdToken(true);
+        this.idToken = idToken;
+        this.store.dispatch(UserActions.getUser({ uid: user.uid, idToken: idToken }));
+
+        // this.store.dispatch(AuthActions.storedIdToken(idToken));
+
+      }
+    });
+    this.subscriptions.push(
+      this.store
+      .select('user', 'isGetSuccess')
+      .pipe(
+        mergeMap((isGetSuccess)=>{
+          if(isGetSuccess){
+            return this.user$
+          }
+          else{
+            return []
+          }
+        })
+      )
+      .subscribe((user)=>{
+        if(user)
+        {
+            this.store.dispatch(ProfileActions.get({id:user.uid}))
+        }
+      }),
+      this.store
+      .select('profile','isSuccess')
+      .pipe(
+        mergeMap((isSuccess)=>{
+          if(isSuccess){
+            return this.profile$
+          }
+          else{
+            return []
+          }
+        })
+      )
+      .subscribe((profile)=>{
+        if(profile)
+        {
+          this.postForm.patchValue({
+            authorUserName: profile.userName
+          })
+        }
+      }),
+      this.store.select('storage','isGetSuccess')
+      .pipe(
+        mergeMap((isGetSuccess)=>{
+          if(isGetSuccess){
+            return this.storage$
+          }
+          else{
+            return []
+          }
+        })
+      )
+      .subscribe((storage)=>{
+        if(storage)
+        {
+          // this.postForm.patchValue({
+          //   media: storage
+          // })
+        }
+      })
+    )
+    this.isCreateImgSuccess$.subscribe((value)=>{
+      if(value){
+        this.store.dispatch(StorageActions.get({id:this.idPost, idToken: this.idToken}))
+      }
+    })
+
+    this.idToken$.subscribe((value)=>{
+      this.idToken = value
+    })
+
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
+
+
+  posttest(){
+    console.log(this.selectedFile);
+    
+  }
+
+  post(){
+    const id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now())).toString()
+    this.idPost = id
+    if(this.selectedFile)
+    {
+      console.log(this.selectedFile)
+      console.log(this.idToken)
+      this.store.dispatch(StorageActions.create({file: this.selectedFile,id: id,idToken:this.idToken}))
+    }
+
+    
+  }
+
+
+
 
   navItems = [
     { icon: 'home', text: 'Home', backgroundColor: false, route: '/home' },
@@ -53,6 +212,7 @@ export class SidebarComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+
     const currentRoute = this.router.url;
 
     this.navItems.forEach((nav) => {
