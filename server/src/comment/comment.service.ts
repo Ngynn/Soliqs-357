@@ -20,6 +20,18 @@ export class CommentService {
     }
   }
 
+  async findByPostId(postId: string): Promise<Comment[]> {
+    try {
+      const comments = await this.commentModel
+        .find({ postId: postId })
+        .populate('authorId', 'userName displayName avatar')
+        .exec();
+      return comments;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
   async update(
     id: string,
     updateCommentDto: UpdateCommentDto,

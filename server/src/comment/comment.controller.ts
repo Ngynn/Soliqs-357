@@ -37,12 +37,46 @@ export class CommentController {
         postId: post.id,
       });
 
-      if (newComment) {
-        await this.postService.update(post.id, {
-          comments: [...post.comments, newComment.id],
-        });
-      }
       return newComment;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Get()
+  async findByPostId(@Query('postId') postId: string) {
+    try {
+      const comments = await this.commentService.findByPostId(postId);
+      if (!comments) {
+        return [];
+      }
+      return comments;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Put()
+  async update(
+    @Query('id') id: string,
+    @Body() updateCommentDto: UpdateCommentDto,
+  ) {
+    try {
+      const updatedComment = await this.commentService.update(
+        id,
+        updateCommentDto,
+      );
+      return updatedComment;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Delete()
+  async delete(@Query('id') id: string) {
+    try {
+      const deletedComment = await this.commentService.delete(id);
+      return deletedComment;
     } catch (error) {
       throw error;
     }
