@@ -52,14 +52,16 @@ export class ProfileComponent implements OnInit {
   profile: Profile = <Profile>{};
   profile$ = this.store.select('profile', 'profile');
   isToken: string = '';
-  myEditForm = new FormGroup({
-    name: new FormControl(''),
-    bio: new FormControl('', [Validators.required]),
-    location: new FormControl('', [Validators.required]),
-    website: new FormControl('', [Validators.required]),
-  });
+  public myEditForm!: FormGroup;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.myEditForm = new FormGroup({
+      name: new FormControl('', [Validators.required]),
+      bio: new FormControl('', [Validators.required]),
+      location: new FormControl('', [Validators.required]),
+      website: new FormControl('', [Validators.required]),
+    });
+  }
   posts = [
     {
       avatarUrl:
@@ -251,5 +253,7 @@ export class ProfileComponent implements OnInit {
     this.dialog3.nativeElement.close();
     this.cdr3.detectChanges();
   }
-  save() {}
+  save(profile: Profile) {
+    console.log(profile);
+  }
 }
