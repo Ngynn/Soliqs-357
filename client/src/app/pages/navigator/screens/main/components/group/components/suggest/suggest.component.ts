@@ -4,12 +4,14 @@ import { Location } from '@angular/common';
 import { GroupState } from 'src/app/ngrx/states/group.state';
 import { Store } from '@ngrx/store';
 import { Group } from 'src/app/models/group.model';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import * as GroupAction from 'src/app/ngrx/actions/group.actions';
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { Auth, User, onAuthStateChanged } from '@angular/fire/auth';
 import { UserState } from 'src/app/ngrx/states/user.state';
+import * as AuthAction from 'src/app/ngrx/actions/auth.actions';
+import * as UserAction from 'src/app/ngrx/actions/user.actions';
 
 @Component({
   selector: 'app-suggest',
@@ -27,6 +29,16 @@ export class SuggestComponent {
 
 
   user$ = this.store.select('user', 'user');
+  isGetSuccess$ = this.store.select('user', 'isGetSuccess');
+  isCreateSuccess$ = this.store.select('user', 'isSuccess');
+  errorMessageUser$ = this.store.select('user', 'errorMessage');
+
+  idToken$ = this.store.select('auth', 'idToken');
+  isSuccessful$ = this.store.select('auth', 'isSuccessful');
+
+  uid: string = '';
+  isToken: string = '';
+  subscriptions: Subscription[] = [];
 
 
   name: string = '';
@@ -42,10 +54,22 @@ export class SuggestComponent {
 
   };
 
+  user: User = <User>{};
+  userFirebase: any = null;
 
-  constructor(private router: Router, private location: Location,private auth:Auth, private store: Store<{group: GroupState; user:UserState}>) {
-    
-    
+
+  constructor(private router: Router, private location: Location,private auth:Auth, private store: Store<{group: GroupState; user:UserState; auth: AuthState}>) {
+    onAuthStateChanged(this.auth, async (user) => {
+      console.log(user + 'User firebase');
+      if (user) {
+        this.userFirebase = user;
+        let idToken = await user!.getIdToken(true);
+        this.uid = user.uid;
+        this.isToken = idToken;
+        this.store.dispatch(AuthAction.storedIdToken(idToken));
+        this.store.dispatch(UserAction.getUser({ uid: user.uid, idToken:idToken }));
+      }
+    });
     
     this.store.dispatch(GroupAction.get({name:''}));
     
