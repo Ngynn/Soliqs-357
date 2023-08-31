@@ -1,16 +1,15 @@
 export interface Profile {
-     id: string,
-     email: string,
-     displayName: string,
-     userName: string,
-     bio: string,
-     avatar: string,
-     coverImg: string,
-     followers: string[],
-     following: string[],
-     blocked: string[],
-     posts: string[],
-     messages: string[],
-     phone: string,
-  }
-  
+  id: string;
+  userName: string;
+  displayName: string;
+  email: string;
+  phone: string;
+  country: string;
+  avatar: string;
+  cover: string;
+  bio: string;
+  gender: string;
+  followers: string[];
+  following: string[];
+  blocked: string[];
+}
