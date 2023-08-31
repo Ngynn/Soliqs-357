@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Delete } from '@nestjs/common';
 import { MessageService } from './message.service';
 import { CreateMessageDto } from './dto/create-message.dto';
-import { UpdateMessageDto } from './dto/update-message.dto';
 
 @Controller('message')
 export class MessageController {
@@ -9,26 +8,42 @@ export class MessageController {
 
   @Post()
   create(@Body() createMessageDto: CreateMessageDto) {
-    return this.messageService.create(createMessageDto);
+    try {
+      const createdMessage = this.messageService.create(createMessageDto);
+      return createdMessage;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Get()
-  findAll() {
-    return this.messageService.findAll();
+  findByChatId(
+    @Query('chatId') chatId: string,
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+    @Query('sortOrder') sortOrder = 'createdAt',
+  ) {
+    try {
+      const messages = this.messageService.findByChatId(
+        chatId,
+        page,
+        limit,
+        sortOrder,
+      );
+
+      return messages;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.messageService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMessageDto: UpdateMessageDto) {
-    return this.messageService.update(+id, updateMessageDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.messageService.remove(+id);
+  @Delete()
+  remove(@Query('_id') _id: string) {
+    try {
+      const deletedMessage = this.messageService.remove(_id);
+      return deletedMessage;
+    } catch (error) {
+      throw error;
+    }
   }
 }
