@@ -29,6 +29,7 @@ export class SidebarComponent implements OnInit {
   currentPage?: string = '';
   themeColor: 'primary' | 'accent' | 'warn' = 'primary'; // ? notice this
   isDark = false; // ? notice this
+  isToken: string = '';
 
   constructor(
     private overlayContainer: OverlayContainer,
@@ -44,7 +45,12 @@ export class SidebarComponent implements OnInit {
     });
     onAuthStateChanged(this.auth, async (profile) => {
       if (profile) {
-        this.store.dispatch(ProfileActions.get({ id: profile.uid }));
+        let idToken = await profile!.getIdToken(true);
+        this.isToken = idToken;
+        console.log('idToken', idToken);
+        this.store.dispatch(
+          ProfileActions.get({ id: profile.uid, idToken: idToken })
+        );
         console.log('profile', profile);
       } else {
         console.log('no user', profile);
@@ -68,14 +74,6 @@ export class SidebarComponent implements OnInit {
       backgroundColor: false,
       route: '/group/suggest',
     },
-    // {
-    //   icon: 'account_circle',
-    //   text: 'Profile',
-    //   backgroundColor: false,
-    //   route: `/profile/${this.profile.id}`,
-    // },
-  ];
-  navProfile = [
     {
       icon: 'account_circle',
       text: 'Profile',
@@ -83,6 +81,14 @@ export class SidebarComponent implements OnInit {
       route: `/profile/${this.profile.id}`,
     },
   ];
+  // navProfile = [
+  //   {
+  //     icon: 'account_circle',
+  //     text: 'Profile',
+  //     backgroundColor: false,
+  //     route: `/profile/${this.profile.id}`,
+  //   },
+  // ];
 
   ngOnInit(): void {
     const currentRoute = this.router.url;
@@ -122,6 +128,9 @@ export class SidebarComponent implements OnInit {
 
     this.navItems.forEach((nav) => {
       if (nav == selectedNav) {
+        // const profileId = this.profile.id; // Thay bằng id của user
+        // nav.route = `/profile/${profileId}`;
+
         nav.backgroundColor = true;
         this.currentPage = nav.route;
       } else {
@@ -132,23 +141,23 @@ export class SidebarComponent implements OnInit {
 
     this.router.navigate([selectedNav.route]);
   }
-  toProfile(selectedNav: any) {
-    if (selectedNav.backgroundColor) {
-      return;
-    }
+  // toProfile(selectedNav: any) {
+  //   if (selectedNav.backgroundColor) {
+  //     return;
+  //   }
 
-    this.navProfile.forEach((nav) => {
-      if (nav == selectedNav) {
-        nav.backgroundColor = true;
-        this.currentPage = nav.route;
-      } else {
-        nav.backgroundColor = false;
-        // Đặt lại màu nền cho biểu tượng cũ
-      }
-    });
+  //   this.navProfile.forEach((item) => {
+  //     if (item == selectedNav) {
+  //       item.backgroundColor = true;
 
-    this.router.navigate([selectedNav.route]);
-  }
+  //     } else {
+  //       item.backgroundColor = false;
+  //       // Đặt lại màu nền cho biểu tượng cũ
+  //     }
+  //   });
+
+  //   this.router.navigate([selectedNav.route]);
+  // }
   return(icon: string) {
     // Chuyển hướng đến trang home
     this.router.navigate(['/home']);

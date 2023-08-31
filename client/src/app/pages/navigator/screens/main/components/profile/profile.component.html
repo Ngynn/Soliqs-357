@@ -6,7 +6,7 @@
   </div>
   <div id="right">
     <div id="box">
-      <h2>Apple Hub</h2>
+      <h2>{{ profile.displayName }}</h2>
       <div>4,000 posts</div>
     </div>
   </div>
@@ -25,8 +25,14 @@
         <div id="avt">
           <div id="avtImg">
             <img
-              src="https://pbs.twimg.com/profile_images/1521011653222932481/S1BEvjDb_400x400.jpg"
+              *ngIf="profile.avatar !== null"
+              src="{{ profile.avatar }}"
               alt=""
+            />
+            <img
+              class="userimg"
+              *ngIf="profile.avatar === null"
+              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
             />
           </div>
         </div>
@@ -39,10 +45,10 @@
     </div>
     <div id="user">
       <div id="name">
-        <span>Apple Hub</span>
+        <span>{{ profile.displayName }}</span>
       </div>
       <div id="id">
-        <span>@theapplehub</span>
+        <span>@{{ profile.userName }}</span>
       </div>
     </div>
     <div id="date">
@@ -143,7 +149,7 @@
 
     <div id="right">
       <div id="save_btn">
-        <button id="save" mat-stroked-button>
+        <button id="save" (click)="save()" mat-stroked-button>
           <span>Save</span>
         </button>
       </div>
@@ -153,62 +159,71 @@
   <div id="main">
     <div id="background">
       <div id="addImg"></div>
-      <mat-icon style="color: white; position: absolute">add_a_photo</mat-icon>
+      <mat-icon style="color: white; position: absolute; cursor: pointer"
+        >add_a_photo</mat-icon
+      >
     </div>
 
     <div id="avt">
       <div id="avtImg">
         <div id="addImg"></div>
-        <mat-icon style="color: white; position: absolute"
+        <mat-icon style="color: white; position: absolute; cursor: pointer"
           >add_a_photo</mat-icon
         >
       </div>
     </div>
-
-    <div id="container_name">
-      <div class="box">
-        <div id="name">
-          <span>Name</span>
+    <form class="form" [formGroup]="myEditForm">
+      <div id="container_name">
+        <div class="box">
+          <div id="name">
+            <span>Name</span>
+          </div>
+          <div id="input_name" formControlName="name">
+            <input type="text" />
+          </div>
         </div>
-        <div id="input_name"><input type="text" /></div>
       </div>
-    </div>
 
-    <div id="container_bio">
-      <div class="box">
-        <div id="bio">
-          <span>Bio</span>
+      <div id="container_bio">
+        <div class="box">
+          <div id="bio">
+            <span>Bio</span>
+          </div>
+          <div id="input_bio" formControlName="bio"><input type="text" /></div>
         </div>
-        <div id="input_bio"><input type="text" /></div>
       </div>
-    </div>
 
-    <div id="container_location">
-      <div class="box">
-        <div id="location">
-          <span>Location</span>
+      <div id="container_location">
+        <div class="box">
+          <div id="location">
+            <span>Location</span>
+          </div>
+          <div id="input_location" formControlName="location">
+            <input type="text" />
+          </div>
         </div>
-        <div id="input_location"><input type="text" /></div>
       </div>
-    </div>
 
-    <div id="container_website">
-      <div class="box">
-        <div id="website">
-          <span>Website</span>
+      <div id="container_website">
+        <div class="box">
+          <div id="website">
+            <span>Website</span>
+          </div>
+          <div id="input_website" formControlName="website">
+            <input type="text" />
+          </div>
         </div>
-        <div id="input_website"><input type="text" /></div>
       </div>
-    </div>
 
-    <div id="container_birthday">
-      <div id="birthday">
-        <span id="title">Birthday </span>
-        <span id="edit">- Edit</span>
+      <div id="container_birthday">
+        <div id="birthday">
+          <span id="title">Birthday </span>
+          <span id="edit">- Edit</span>
+        </div>
+        <div id="date">January 11, 2000</div>
       </div>
-      <div id="date">January 11, 2000</div>
-    </div>
 
-    <div></div>
+      <div></div>
+    </form>
   </div>
 </dialog>

@@ -9,13 +9,14 @@ import {
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user.model';
 import { ActivatedRoute } from '@angular/router';
-import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { Auth, idToken, onAuthStateChanged } from '@angular/fire/auth';
 import { Profile } from 'src/app/models/profile.model';
 import { ProfileState } from 'src/app/ngrx/states/profile.state';
 import * as AuthActions from '../../../../../../ngrx/actions/auth.actions';
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import * as ProfileActions from '../../../../../../ngrx/actions/profile.actions';
 import { Store } from '@ngrx/store';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -34,9 +35,14 @@ export class ProfileComponent implements OnInit {
         console.log('profile', value);
       }
     });
+
     onAuthStateChanged(this.auth, async (profile) => {
       if (profile) {
-        this.store.dispatch(ProfileActions.get({ id: profile.uid }));
+        let idToken = await profile!.getIdToken(true);
+        this.isToken = idToken;
+        this.store.dispatch(
+          ProfileActions.get({ id: profile.uid, idToken: idToken })
+        );
         console.log('profile', profile);
       } else {
         console.log('no user', profile);
@@ -45,6 +51,14 @@ export class ProfileComponent implements OnInit {
   }
   profile: Profile = <Profile>{};
   profile$ = this.store.select('profile', 'profile');
+  isToken: string = '';
+  myEditForm = new FormGroup({
+    name: new FormControl(''),
+    bio: new FormControl('', [Validators.required]),
+    location: new FormControl('', [Validators.required]),
+    website: new FormControl('', [Validators.required]),
+  });
+
   ngOnInit(): void {}
   posts = [
     {
@@ -237,4 +251,5 @@ export class ProfileComponent implements OnInit {
     this.dialog3.nativeElement.close();
     this.cdr3.detectChanges();
   }
+  save() {}
 }
