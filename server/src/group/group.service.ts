@@ -21,6 +21,15 @@ export class GroupService {
     }
   }
 
+  async findAll() {
+    try {
+      const groups = await this.groupModel.find().exec();
+      return groups;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
 
   async findOne(id: string) {
     try {
@@ -61,5 +70,21 @@ export class GroupService {
     }
   }
 
+  // async findAllAndSort(
+  //   page: number,
+  //   limit: number,
+  //   sortBy = 'createdAt',
+  //   sortOrder: 'asc' | 'desc' = 'desc',
+  // ): Promise<Group[]> {
+  //   const sortOptions = { [sortBy]: sortOrder };
+  //   const skip = page * limit;
+  //   const groups = await this.groupModel
+  //     .find()
+  //     .sort(sortOptions)
+  //     .skip(skip)
+  //     .limit(limit)
+  //     .exec();
+  //   return groups;
+  // }
   
 }

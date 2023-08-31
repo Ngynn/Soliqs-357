@@ -3,6 +3,7 @@ import { Controller, Get, Post, Body,  Delete, HttpException, HttpStatus, Query,
 import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
+// import { Group } from './entities/group.entity';
 
 @Controller('v1/group')
 export class GroupController {
@@ -27,8 +28,16 @@ export class GroupController {
       throw error;
     }
   }
-
-
+  
+  @Get()
+  async findAll() {
+    try {
+      const groups = await this.groupService.findAll();
+      return groups;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   @Get()
   async findOne(@Query('id') id: string) {
@@ -70,4 +79,27 @@ export class GroupController {
       throw error;
     }
   }
+
+  // @Get('all')
+  // async findAllAndSort(
+  //   @Query('page') page: number,
+  //   @Query('limit') limit: number,
+  //   @Query('sortBy') sortBy = 'createdAt',
+  //   @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'desc',
+  // ): Promise<Group[]> {
+  //   try {
+  //     const groups = await this.groupService.findAllAndSort(
+  //       page,
+  //       limit,
+  //       sortBy,
+  //       sortOrder,
+  //     );
+  //     if (groups.length === 0) {
+  //       return [];
+  //     }
+  //     return groups;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 }
