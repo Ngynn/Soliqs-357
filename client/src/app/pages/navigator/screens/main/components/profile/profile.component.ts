@@ -4,14 +4,64 @@ import {
   ElementRef,
   ViewChild,
   inject,
+  OnInit,
 } from '@angular/core';
-
+import { UserService } from 'src/app/services/user/user.service';
+import { User } from 'src/app/models/user.model';
+import { ActivatedRoute } from '@angular/router';
+import { Auth, idToken, onAuthStateChanged } from '@angular/fire/auth';
+import { Profile } from 'src/app/models/profile.model';
+import { ProfileState } from 'src/app/ngrx/states/profile.state';
+import * as AuthActions from '../../../../../../ngrx/actions/auth.actions';
+import { AuthState } from 'src/app/ngrx/states/auth.state';
+import * as ProfileActions from '../../../../../../ngrx/actions/profile.actions';
+import { Store } from '@ngrx/store';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private store: Store<{ auth: AuthState; profile: ProfileState }>,
+    private auth: Auth
+  ) {
+    this.profile$.subscribe((value) => {
+      if (value) {
+        this.profile = value;
+        console.log('profile', value);
+      }
+    });
+
+    onAuthStateChanged(this.auth, async (profile) => {
+      if (profile) {
+        let idToken = await profile!.getIdToken(true);
+        this.isToken = idToken;
+        this.store.dispatch(
+          ProfileActions.get({ id: profile.uid, idToken: idToken })
+        );
+        console.log('profile', profile);
+      } else {
+        console.log('no user', profile);
+      }
+    });
+  }
+  profile: Profile = <Profile>{};
+  profile$ = this.store.select('profile', 'profile');
+  isToken: string = '';
+  public myEditForm!: FormGroup;
+
+  ngOnInit(): void {
+    this.myEditForm = new FormGroup({
+      name: new FormControl('', [Validators.required]),
+      bio: new FormControl('', [Validators.required]),
+      location: new FormControl('', [Validators.required]),
+      website: new FormControl('', [Validators.required]),
+    });
+  }
   posts = [
     {
       avatarUrl:
@@ -202,5 +252,8 @@ export class ProfileComponent {
   closeEditProfileDialog() {
     this.dialog3.nativeElement.close();
     this.cdr3.detectChanges();
+  }
+  save(profile: Profile) {
+    console.log(profile);
   }
 }

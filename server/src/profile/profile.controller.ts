@@ -62,8 +62,8 @@ export class ProfileController {
     }
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
+  @Get('detail')
+  async findOne(@Query('id') id: string) {
     try {
       const profile = await this.profileService.findOne(id);
       if (!profile) {

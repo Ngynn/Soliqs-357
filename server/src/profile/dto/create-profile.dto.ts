@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 export class CreateProfileDto {
   constructor(
-    private id: string,
+    public id: string,
     private userName: string,
     private displayName: string,
     private email: string,

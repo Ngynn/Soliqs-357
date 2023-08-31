@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Profile } from 'src/app/models/profile.model';
 import { User } from 'src/app/models/user.model';
@@ -16,9 +16,14 @@ export class ProfileService {
     );
   }
 
-  get(id: string) {
+  get(id: string, idToken: string) {
     return this.httpClient.get<Profile>(
-      `http://localhost:3000/v1/profile?id=${id}`
+      `http://localhost:3000/v1/profile/detail?id=${id}`,
+      {
+        headers: new HttpHeaders({
+          Authorization: `Bearer ${idToken}`,
+        }),
+      }
     );
   }
 }
