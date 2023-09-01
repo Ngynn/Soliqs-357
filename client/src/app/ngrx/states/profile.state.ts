@@ -5,4 +5,7 @@ export interface ProfileState {
   isLoading: boolean;
   isSuccess: boolean;
   errorMessage: any;
+  updateIsLoading: boolean;
+  updateIsSuccess: boolean;
+  updateErrorMessage: any;
 }

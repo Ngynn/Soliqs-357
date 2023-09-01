@@ -8,6 +8,9 @@ export const initualState: ProfileState = {
   isLoading: false,
   isSuccess: false,
   errorMessage: '',
+  updateIsLoading: false,
+  updateIsSuccess: false,
+  updateErrorMessage: '',
 };
 
 export const profileReducer = createReducer(
@@ -70,6 +73,36 @@ export const profileReducer = createReducer(
       isLoading: false,
       isSuccess: false,
       errorMessage,
+    };
+  }),
+
+  on(ProfileAction.update, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      updateIsLoading: true,
+      updateIsSuccess: false,
+      updateErrorMessage: '',
+    };
+  }),
+
+  on(ProfileAction.updateSuccess, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      updateIsLoading: false,
+      updateIsSuccess: true,
+      updateErrorMessage: '',
+    };
+  }),
+
+  on(ProfileAction.updateFailure, (state, { type, errorMessage }) => {
+    console.log(type);
+    return {
+      ...state,
+      updateIsLoading: false,
+      updateIsSuccess: false,
+      updateErrorMessage: errorMessage,
     };
   })
 );

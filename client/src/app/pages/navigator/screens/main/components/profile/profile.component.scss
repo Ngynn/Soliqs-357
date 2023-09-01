@@ -46,6 +46,8 @@
 .bio {
   height: 40%;
   margin-bottom: 16px;
+ 
+
   #background {
     height: 50%;
     padding: 0;
@@ -129,6 +131,14 @@
           font-size: 15px;
           color: #536471;
         }
+      }
+      #bioprofile{
+        word-wrap: break-word;
+        max-width: 80%;
+         span{
+          font-size: 15px;
+          color: #291520;
+         }
       }
     }
     #date {
@@ -501,6 +511,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+
       #addImg {
         width: 50px;
         height: 50px;
@@ -512,11 +523,7 @@
         opacity: 0.5;
         cursor: pointer;
        
-        img {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-        }
+       
       }
       #addImg:hover {
         cursor: pointer;
@@ -535,6 +542,11 @@
       top: 180px;
       left: 16px;
       background-color: white;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
       #avtImg {
         width: 95%;
         height: 95%;
@@ -543,8 +555,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image: url("https://pbs.twimg.com/profile_images/1521011653222932481/S1BEvjDb_400x400.jpg");
-        background-size: cover;
+        // background-image: url('{{ selectedImage }}');
+        // background-size: cover;
+       
         #addImg {
           width: 50px;
           height: 50px;
@@ -553,7 +566,13 @@
           justify-content: center;
           align-items: center;
           background-color: #444444;
-          opacity: 0.5;
+         
+          img{
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+          }
         }
 
         #addImg:hover {
@@ -626,12 +645,19 @@
         justify-content: flex-start;
         align-items: center;
         margin-left: 12px;
-        input {
+        textarea{
           width: 100%;
           height: 100%;
           border: none;
           outline: none;
           font-size: 20px;
+          white-space: normal;
+          font-family: sans-serif;
+          resize: none;
+          overflow: auto;
+        }
+        textarea::-webkit-scrollbar {
+          display: none;
         }
       }
     }

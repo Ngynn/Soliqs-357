@@ -75,9 +75,9 @@ export class ProfileController {
     }
   }
 
-  @Put(':id')
+  @Put()
   async update(
-    @Param('id') id: string,
+    @Query('id') id: string,
     @Body() updateProfileDto: UpdateProfileDto,
   ) {
     try {

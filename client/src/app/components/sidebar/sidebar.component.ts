@@ -43,17 +43,17 @@ export class SidebarComponent implements OnInit {
         console.log('profilesidebar', value);
       }
     });
-    onAuthStateChanged(this.auth, async (profile) => {
-      if (profile) {
-        let idToken = await profile!.getIdToken(true);
+    onAuthStateChanged(this.auth, async (user) => {
+      if (user) {
+        let idToken = await user!.getIdToken(true);
         this.isToken = idToken;
         console.log('idToken', idToken);
         this.store.dispatch(
-          ProfileActions.get({ id: profile.uid, idToken: idToken })
+          ProfileActions.get({ id: user.uid, idToken: idToken })
         );
-        console.log('profile', profile);
+        console.log('profile', user);
       } else {
-        console.log('no user', profile);
+        console.log('no user', user);
       }
     });
   }

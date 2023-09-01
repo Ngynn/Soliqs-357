@@ -56,9 +56,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.myEditForm = new FormGroup({
-      name: new FormControl('', [Validators.required]),
+      displayName: new FormControl('', [Validators.required]),
       bio: new FormControl('', [Validators.required]),
-      location: new FormControl('', [Validators.required]),
+      country: new FormControl('', [Validators.required]),
       website: new FormControl('', [Validators.required]),
     });
   }
@@ -253,7 +253,47 @@ export class ProfileComponent implements OnInit {
     this.dialog3.nativeElement.close();
     this.cdr3.detectChanges();
   }
+
   save(profile: Profile) {
-    console.log(profile);
+    if (!profile.displayName) {
+      profile.displayName = this.profile.displayName;
+    }
+    if (!profile.bio) {
+      profile.bio = this.profile.bio;
+    }
+
+    if (!profile.country) {
+      profile.country = this.profile.country;
+    }
+    this.profile$.subscribe((value) => {
+      console.log(value);
+      if (value) {
+        this.store.dispatch(
+          ProfileActions.update({
+            id: value.id,
+            profile: profile,
+            idToken: this.isToken,
+          })
+        );
+        console.log('profile', value);
+      }
+    });
+    this.closeEditProfileDialog();
+  }
+  selectedImage: string | ArrayBuffer | null = null;
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  handleFileInput(event: Event) {
+    const selectedFiles = (event.target as HTMLInputElement).files;
+
+    if (selectedFiles && selectedFiles.length > 0) {
+      // Thực hiện xử lý với tệp đã chọn tại đây
+      const selectedFile = selectedFiles[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.selectedImage = e.target?.result || null;
+      };
+      reader.readAsDataURL(selectedFile);
+      console.log('Selected File:', selectedFile);
+    }
   }
 }
