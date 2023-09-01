@@ -30,6 +30,7 @@ import { ProfileState } from 'src/app/ngrx/states/profile.state';
 import { Profile } from 'src/app/models/profile.model';
 
 import { ProfileService } from 'src/app/services/profile/profile.service';
+import { PostState } from 'src/app/ngrx/states/post.state';
 
 @Component({
   selector: 'app-sidebar',
@@ -50,6 +51,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   user$ = this.store.select('user', 'user');
   profile$ = this.store.select('profile','profile')
   storage$ = this.store.select('storage','storage')
+  isCreatePostSuccess$ = this.store.select('post','isSuccess')
   selectedFile: any;
 
   onFileSelected(event: any) {
@@ -59,9 +61,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   postForm = new FormGroup({
     id: new FormControl(''),
     authorId: new FormControl('',Validators.required),
-    authorName: new FormControl('',Validators.required),
-    authorAvatar: new FormControl('',Validators.required),
-    authorUserName: new FormControl('',Validators.required),
     content: new FormControl('',Validators.required),
     media: new FormControl<string[]>([]),
   })
@@ -73,7 +72,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
     private overlayContainer: OverlayContainer,
     private router: Router,
-    private store: Store<{ auth: AuthState, storage: StorageState, user: UserState, profile: ProfileState }>,
+    private store: Store<{ auth: AuthState, storage: StorageState, user: UserState, profile: ProfileState, post: PostState }>,
     private auth: Auth,
 
   ) {
@@ -85,72 +84,28 @@ export class SidebarComponent implements OnInit, OnDestroy {
         let idToken = await user!.getIdToken(true);
         this.idToken = idToken;
         this.store.dispatch(UserActions.getUser({ uid: user.uid, idToken: idToken }));
+        console.log(user.uid,idToken);
+        
         this.store.dispatch(
           ProfileActions.get({ id: user.uid, idToken: idToken })
         );
         
-        this.postForm.patchValue({
-          authorName: user!.displayName,
-        })
 
 
         // this.store.dispatch(AuthActions.storedIdToken(idToken));
 
       }
     });
-    this.profile$.subscribe((value) => {
-      if (value) {
-        this.profile = value;
-
-
+    this.profile$.subscribe((profile) => {
+      if (profile) {
+        this.profile = profile;
         this.postForm.patchValue({
-          authorAvatar: this.profile.avatar,
-          authorUserName: value!.userName,
+          authorId: profile._id,
         })
       }
     });
 
     this.subscriptions.push(
-      this.store
-      .select('user', 'isGetSuccess')
-      .pipe(
-        mergeMap((isGetSuccess)=>{
-          if(isGetSuccess){
-            return this.user$
-          }
-          else{
-            return []
-          }
-        })
-      )
-      .subscribe((user)=>{
-        if(user)
-        {
-            this.store.dispatch(ProfileActions.get({id:user.uid, idToken: this.idToken}))
-        }
-      }),
-      this.store
-      .select('profile','isSuccess')
-      .pipe(
-        mergeMap((isSuccess)=>{
-          if(isSuccess){
-            return this.profile$
-          }
-          else{
-            return []
-          }
-        })
-      )
-      .subscribe((profile)=>{
-        if(profile)
-        {
-          
-          this.postForm.patchValue({
-            authorId: profile._id,
-            authorUserName: profile.userName
-          })
-        }
-      }),
       this.store.select('storage','isGetSuccess')
       .pipe(
         mergeMap((isGetSuccess)=>{
@@ -168,11 +123,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
           this.postForm.patchValue({
             media: storage.urls
           })
-          // this.store.dispatch(PostActions.create())
-
-          
+          this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
         }
       }),
+      this.isCreatePostSuccess$.subscribe((isCreatePostSuccess)=>{
+        if(isCreatePostSuccess){
+          this.closePostDialog()
+        }
+      }),
+
       // this.storage$.subscribe((storage)=>{
       //   if(storage){
       //     this.postForm.patchValue({
@@ -220,6 +179,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     {
       this.store.dispatch(StorageActions.create({file: this.selectedFile,id: id,idToken:this.idToken}))
     }
+    // else{
+    //   console.log(this.postForm.value);
+      
+    //   this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
+    // }
 
     
   }

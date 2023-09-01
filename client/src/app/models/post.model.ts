@@ -1,10 +1,9 @@
+import { Profile } from "./profile.model";
+
 export interface Post {
     _id: string,
     id: string,
-    authorId: string,
-    authorName: string,
-    authorAvatar: string,
-    authorUserName: string,
+    authorId: Profile,
     content: string,
     likes: string[],
     comments: string[],
