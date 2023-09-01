@@ -1,4 +1,5 @@
 import { createAction, props } from "@ngrx/store";
+import {Storage} from '../../models/storage.model'
 
 export const create = createAction(
     '[storage] Create ',

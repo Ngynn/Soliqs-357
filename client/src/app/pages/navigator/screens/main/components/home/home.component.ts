@@ -10,6 +10,11 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, mergeMap } from 'rxjs';
 import { AuthState } from 'src/app/ngrx/states/auth.state';
+import { User } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user/user.service';
+import { UserState } from 'src/app/ngrx/states/user.state';
+import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import * as UserActions from '../../../../../../ngrx/actions/user.actions';
 import { PostState } from 'src/app/ngrx/states/post.state';
 import * as PostAction from 'src/app/ngrx/actions/post.actions';
 import { Post } from 'src/app/models/post.model';
@@ -22,6 +27,28 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class HomeComponent {
   idToken$: Observable<string> = this.store.select('idToken', 'idToken');
+  userData$ = this.store.select('user', 'user');
+  user: User = <User>{};
+  constructor(
+    private store: Store<{ idToken: AuthState; user: UserState }>,
+    private userService: UserService,
+    private auth: Auth
+  ) {
+    this.userData$.subscribe((value) => {
+      if (value) {
+        this.user = value;
+      }
+    });
+  }
+
+  // onAuthStateChanged(this.auth, async (user) => {
+  //   if (user) {
+  //     console.log('user', user);
+  //     this.store.dispatch(UserActions.getUser({ uid: user.id }));
+  //   } else {
+  //     console.log('no user', user);
+  //   }
+  // });
 
   // posts$ = this.store.select('post', 'posts');
   // isGetSuccess$ = this.store.select('post', 'isGetSuccess');
@@ -42,24 +69,24 @@ export class HomeComponent {
   //   content: '',
   // };
 
-  constructor(private store: Store<{ idToken: AuthState; post: PostState }>) {
-    this.idToken$.subscribe((value) => {
-      console.log('hello id token');
-      console.log(value);
-      if (value) {
-        console.log(value);
-      }
-    });
+  // constructor(private store: Store<{ idToken: AuthState; post: PostState }>) {
+  //   this.idToken$.subscribe((value) => {
+  //     console.log('hello id token');
+  //     console.log(value);
+  //     if (value) {
+  //       console.log(value);
+  //     }
+  //   });
 
-    // this.posts$.subscribe((posts) => {
-    //   if (posts.length > 0) {
-    //     console.log(posts);
-    //     this.posts = posts;
-    //   }
-    // });
+  //   // this.posts$.subscribe((posts) => {
+  //   //   if (posts.length > 0) {
+  //   //     console.log(posts);
+  //   //     this.posts = posts;
+  //   //   }
+  //   // });
 
-    this.store.dispatch(PostAction.get({ authorId: '1' }));
-  }
+  //   this.store.dispatch(PostAction.get({ authorId: '1' }));
+  // }
   posts = [
     {
       id: 1,
@@ -69,7 +96,7 @@ export class HomeComponent {
       username: 'Nguyễn Minh Mập',
       tagname: '@MậpMủmMỉm',
       time: '15 tháng 8',
-      content: 'Hình ảnh sếp Lu Lu khi thấy chúng tôi làm cho sếp bất ngờ',
+      content: 'hình ảnh phong cảnh ',
       imageUrls: [
         'https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       ],

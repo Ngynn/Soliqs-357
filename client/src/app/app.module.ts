@@ -34,7 +34,7 @@ import { StorageEffects } from './ngrx/effects/storage.effects';
         user: userReducer,
         profile: profileReducer,
         post: postReducer,
-        store: storageReducer
+        storage: storageReducer
       },
       {}
     ),

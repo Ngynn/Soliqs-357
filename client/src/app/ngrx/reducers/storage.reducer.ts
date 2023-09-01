@@ -1,6 +1,7 @@
 import { createReducer, on } from "@ngrx/store";
 import { StorageState } from "../states/storage.state";
 import * as StorageAction from '../actions/storage.actions';
+import {Storage} from '../../models/storage.model'
 
 
 export const initualState: StorageState = {
@@ -54,6 +55,8 @@ export const storageReducer = createReducer(
     }),
     on(StorageAction.getSuccess,(state,action)=>{
         console.log(action.type)
+        console.log(action.storage);
+        
         return {
             ...state,
             isGetLoading: false,
@@ -64,6 +67,7 @@ export const storageReducer = createReducer(
     }),
     on(StorageAction.getFailure, (state, {type, errorMessage})=>{
         console.log(type)
+        console.log(errorMessage)
         return {
             ...state,
             isGetLoading: false,

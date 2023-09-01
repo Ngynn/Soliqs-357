@@ -15,6 +15,7 @@ import * as AuthActions from '../../ngrx/actions/auth.actions';
 import * as StorageActions from '../../ngrx/actions/storage.actions'
 import * as UserActions from '../../ngrx/actions/user.actions'
 import * as ProfileActions from '../../ngrx/actions/profile.actions'
+import * as PostActions from '../../ngrx/actions/post.actions'
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { Store } from '@ngrx/store';
 import { StorageState } from 'src/app/ngrx/states/storage.state';
@@ -24,6 +25,11 @@ import { UserState } from 'src/app/ngrx/states/user.state';
 import { Subscription, mergeMap } from 'rxjs';
 import { ProfileState } from 'src/app/ngrx/states/profile.state';
 
+
+
+import { Profile } from 'src/app/models/profile.model';
+
+import { ProfileService } from 'src/app/services/profile/profile.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -40,6 +46,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   isHaveFile:boolean = false
   idPost: string = ''
+  profile: Profile = <Profile>{};
   user$ = this.store.select('user', 'user');
   profile$ = this.store.select('profile','profile')
   storage$ = this.store.select('storage','storage')
@@ -56,7 +63,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     authorAvatar: new FormControl('',Validators.required),
     authorUserName: new FormControl('',Validators.required),
     content: new FormControl('',Validators.required),
-    media: new FormControl([]),
+    media: new FormControl<string[]>([]),
   })
 
 
@@ -75,20 +82,34 @@ export class SidebarComponent implements OnInit, OnDestroy {
     onAuthStateChanged(this.auth, async (user) => {
       console.log(user + 'User firebase');
       if (user) {
-        this.postForm.patchValue({
-          authorId: user!.uid,
-          authorName: user!.displayName,
-          authorAvatar: user!.photoURL,
-        })
-        
         let idToken = await user!.getIdToken(true);
         this.idToken = idToken;
         this.store.dispatch(UserActions.getUser({ uid: user.uid, idToken: idToken }));
+        this.store.dispatch(
+          ProfileActions.get({ id: user.uid, idToken: idToken })
+        );
+        
+        this.postForm.patchValue({
+          authorName: user!.displayName,
+        })
+
 
         // this.store.dispatch(AuthActions.storedIdToken(idToken));
 
       }
     });
+    this.profile$.subscribe((value) => {
+      if (value) {
+        this.profile = value;
+
+
+        this.postForm.patchValue({
+          authorAvatar: this.profile.avatar,
+          authorUserName: value!.userName,
+        })
+      }
+    });
+
     this.subscriptions.push(
       this.store
       .select('user', 'isGetSuccess')
@@ -105,7 +126,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .subscribe((user)=>{
         if(user)
         {
-            this.store.dispatch(ProfileActions.get({id:user.uid}))
+            this.store.dispatch(ProfileActions.get({id:user.uid, idToken: this.idToken}))
         }
       }),
       this.store
@@ -123,7 +144,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .subscribe((profile)=>{
         if(profile)
         {
+          
           this.postForm.patchValue({
+            authorId: profile._id,
             authorUserName: profile.userName
           })
         }
@@ -142,17 +165,32 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .subscribe((storage)=>{
         if(storage)
         {
-          // this.postForm.patchValue({
-          //   media: storage
-          // })
+          this.postForm.patchValue({
+            media: storage.urls
+          })
+          // this.store.dispatch(PostActions.create())
+
+          
+        }
+      }),
+      // this.storage$.subscribe((storage)=>{
+      //   if(storage){
+      //     this.postForm.patchValue({
+      //       media: storage.urls
+      //     })
+      //   }
+      // }),
+      this.isCreateImgSuccess$.subscribe((isCreateSuccess)=>{
+        console.log('value of isCreateSuccess: ' + isCreateSuccess);
+        if(isCreateSuccess){
+          console.log(this.idToken);
+          
+          this.store.dispatch(StorageActions.get({id:this.idPost, idToken: this.idToken}))
         }
       })
     )
-    this.isCreateImgSuccess$.subscribe((value)=>{
-      if(value){
-        this.store.dispatch(StorageActions.get({id:this.idPost, idToken: this.idToken}))
-      }
-    })
+    
+
 
     this.idToken$.subscribe((value)=>{
       this.idToken = value
@@ -168,21 +206,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   posttest(){
     console.log(this.selectedFile);
+    console.log(this.postForm.value)
     
   }
 
   post(){
     const id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now())).toString()
     this.idPost = id
+    this.postForm.patchValue({
+      id: id
+    })
     if(this.selectedFile)
     {
-      console.log(this.selectedFile)
-      console.log(this.idToken)
       this.store.dispatch(StorageActions.create({file: this.selectedFile,id: id,idToken:this.idToken}))
     }
 
     
   }
+
 
 
 
@@ -207,16 +248,25 @@ export class SidebarComponent implements OnInit, OnDestroy {
       icon: 'account_circle',
       text: 'Profile',
       backgroundColor: false,
-      route: '/profile',
+      route: `/profile/${this.profile.id}`,
     },
   ];
+  // navProfile = [
+  //   {
+  //     icon: 'account_circle',
+  //     text: 'Profile',
+  //     backgroundColor: false,
+  //     route: `/profile/${this.profile.id}`,
+  //   },
+  // ];
 
   ngOnInit(): void {
 
     const currentRoute = this.router.url;
 
     this.navItems.forEach((nav) => {
-      //how to backround color group's true when route is /group/internal
+      if (nav.route == '/group/internal') {
+      }
 
       if (nav.route === currentRoute) {
         nav.backgroundColor = true;
@@ -246,8 +296,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
     if (selectedNav.backgroundColor) {
       return;
     }
+
     this.navItems.forEach((nav) => {
       if (nav == selectedNav) {
+        // const profileId = this.profile.id; // Thay bằng id của user
+        // nav.route = `/profile/${profileId}`;
+
         nav.backgroundColor = true;
         this.currentPage = nav.route;
       } else {
@@ -258,6 +312,23 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.router.navigate([selectedNav.route]);
   }
+  // toProfile(selectedNav: any) {
+  //   if (selectedNav.backgroundColor) {
+  //     return;
+  //   }
+
+  //   this.navProfile.forEach((item) => {
+  //     if (item == selectedNav) {
+  //       item.backgroundColor = true;
+
+  //     } else {
+  //       item.backgroundColor = false;
+  //       // Đặt lại màu nền cho biểu tượng cũ
+  //     }
+  //   });
+
+  //   this.router.navigate([selectedNav.route]);
+  // }
   return(icon: string) {
     // Chuyển hướng đến trang home
     this.router.navigate(['/home']);

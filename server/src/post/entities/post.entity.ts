@@ -31,9 +31,6 @@ export class Posts {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' })
   likes: string[];
 
-  @Prop({ default: [] })
-  comments: string[];
-
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' })
   shares: string[];
 

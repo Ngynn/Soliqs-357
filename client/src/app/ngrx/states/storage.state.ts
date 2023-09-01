@@ -1,3 +1,4 @@
+import {Storage} from '../../models/storage.model'
 
 export interface StorageState {
     storage: Storage;

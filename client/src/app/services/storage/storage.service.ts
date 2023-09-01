@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {Storage} from '../../models/storage.model'
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,6 @@ export class StorageService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${idToken}`
     });
-    return this.httpClient.get<Storage>(`localhost:3000/storage/${id}`,{headers})
+    return this.httpClient.get<Storage>(`http://localhost:3000/storage/${id}`,{headers})
   }
 }

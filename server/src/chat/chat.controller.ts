@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Query,
+  Delete,
+} from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
@@ -9,26 +17,51 @@ export class ChatController {
 
   @Post()
   create(@Body() createChatDto: CreateChatDto) {
-    return this.chatService.create(createChatDto);
+    try {
+      const createdChat = this.chatService.create(createChatDto);
+      return createdChat;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Get()
   findAll() {
-    return this.chatService.findAll();
+    try {
+      const chats = this.chatService.findAll();
+      return chats;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.chatService.findOne(+id);
+  @Get('detail')
+  findOne(@Query('id') id: string) {
+    try {
+      const chat = this.chatService.findOne(id);
+      return chat;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChatDto: UpdateChatDto) {
-    return this.chatService.update(+id, updateChatDto);
+  @Put()
+  update(@Query('id') id: string, @Body() updateChatDto: UpdateChatDto) {
+    try {
+      const updatedChat = this.chatService.update(id, updateChatDto);
+      return updatedChat;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.chatService.remove(+id);
+  @Delete()
+  remove(@Query('id') id: string) {
+    try {
+      const deletedChat = this.chatService.remove(id);
+      return deletedChat;
+    } catch (error) {
+      throw error;
+    }
   }
 }

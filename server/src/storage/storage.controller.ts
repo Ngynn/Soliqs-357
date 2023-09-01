@@ -47,11 +47,11 @@ export class StorageController {
   }
 
   @Get(':folderName')
-  async getFiles(@Param('folderName') folderName: string): Promise<Storage[]> {
+  async getFiles(@Param('folderName') folderName: string): Promise<Storage> {
     try {
       const files = await this.storageService.getFilesByFolderName(folderName);
       if (!files) {
-        return [];
+        return;
       }
       return files;
     } catch (error) {

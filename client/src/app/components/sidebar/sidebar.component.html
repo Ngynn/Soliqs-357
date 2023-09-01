@@ -22,6 +22,18 @@
         <mat-icon class="icon">{{ nav.icon }}</mat-icon>
         <span class="text">{{ nav.text }}</span>
       </div>
+      <!-- <div
+        class="nav"
+        *ngFor="let navItem of navProfile; let a = index"
+        (click)="toProfile(navItem)"
+        [ngClass]="{
+          selected: currentPage === navItem.route,
+          colored: navItem.backgroundColor
+        }"
+      >
+        <mat-icon class="icon">{{ navItem.icon }}</mat-icon>
+        <span class="text">{{ navItem.text }}</span>
+      </div> -->
     </div>
 
     <div class="btn" (click)="openPostDialog()">
@@ -34,13 +46,19 @@
       <div class="avata">
         <img
           class="userimg"
-          src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t1.15752-9/366771992_2233146796876152_8078942035329504350_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=ae9488&_nc_ohc=IhL8hfoyqJUAX8zzvsD&_nc_ht=scontent.fsgn2-6.fna&oh=03_AdSKGWWisJkoiKs4Eo-hlui9ItWDsOXZkM2W_v2VFhY6uQ&oe=6506ABA0"
+          *ngIf="profile.avatar !== null"
+          src="{{ profile.avatar }}"
+        />
+        <img
+          class="userimg"
+          *ngIf="profile.avatar === null"
+          src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
         />
       </div>
 
       <div class="name">
-        <span class="text">Nguyễn Minh Mập</span>
-        <span class="text">@MậpMủmMỉm</span>
+        <span class="text">{{ profile.displayName }}</span>
+        <span class="text">@ {{ profile.userName }}</span>
       </div>
     </div>
 
@@ -66,7 +84,12 @@
         />
       </div>
       <div class="input">
-        <textarea placeholder="What is happening?!"></textarea>
+        <form class="form" [formGroup]="postForm">
+          <textarea
+          formControlName="content"
+          placeholder="What is happening?!"></textarea>
+        </form>
+
         <input type="file" (change)="onFileSelected($event)">
 
 
