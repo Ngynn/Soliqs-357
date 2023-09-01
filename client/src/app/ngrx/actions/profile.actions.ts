@@ -14,7 +14,7 @@ export const createFailure = createAction(
   props<{ errorMessage: any }>()
 );
 
-export const get = createAction('[Profile] Get', props<{ id: string }>());
+export const get = createAction('[Profile] Get', props<{ id: string; idToken: string }>());
 
 export const getSuccess = createAction(
   '[Profile] Get Success',
