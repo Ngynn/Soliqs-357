@@ -35,7 +35,7 @@ export const postReducer = createReducer(
     }),
 
     on(PostAction.createFailure, (state, { type, errorMessage }) => {
-        console.log(type)
+        console.log(type, errorMessage)
         return {
             ...state,
             isLoading: false,

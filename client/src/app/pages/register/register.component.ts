@@ -29,12 +29,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
   id: string = '';
   email: string = '';
   displayName: string = '';
+  avatar: string = '';
 
   regisForm = new FormGroup({
     id: new FormControl(''),
     email: new FormControl(''),
     userName: new FormControl('', Validators.required),
     displayName: new FormControl('', Validators.required),
+    avatar: new FormControl('',Validators.required)
   });
 
   regisData = {
@@ -42,6 +44,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     email: '',
     displayName: '',
     userName: '',
+    avatar: ''
   };
 
   constructor(
@@ -51,12 +54,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ) {
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
-        console.log('user', user.uid);
+        console.log('user', user);
         let idToken = await user!.getIdToken(true);
         this.regisForm.patchValue({
           id: user!.uid,
           email: user!.email,
           displayName: user!.displayName!,
+          avatar: user!.photoURL,
         });
         this.store.dispatch(UserActions.getUser({ uid: user.uid, idToken: idToken }));
       } else {
@@ -111,6 +115,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       email: this.regisForm.value.email ?? '',
       userName: this.regisForm.value.userName ?? '',
       displayName: this.regisForm.value.displayName ?? '',
+      avatar: this.regisForm.value.avatar ?? '',
     };
 
     this.store.dispatch(

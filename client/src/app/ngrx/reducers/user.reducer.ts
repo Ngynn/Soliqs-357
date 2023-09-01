@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { UserState } from '../states/user.state';
 import * as UserAction from '../actions/user.actions';
-import { state } from '@angular/animations';
 import { User } from 'src/app/models/user.model';
 
 export const initualState: UserState = {

@@ -84,9 +84,18 @@
         />
       </div>
       <div class="input">
-        <textarea placeholder="What is happening?!"></textarea>
+        <form class="form" [formGroup]="postForm">
+          <textarea
+          formControlName="content"
+          placeholder="What is happening?!"></textarea>
+        </form>
+
+        <input type="file" (change)="onFileSelected($event)">
+
+
       </div>
     </div>
+    <!-- <input type="file"  [(ngModel)]="selectedFile"> -->
     <div class="bottom">
       <div class="icon">
         <mat-icon style="margin-right: 30px">image</mat-icon>
@@ -97,7 +106,7 @@
       </div>
       <div class="divice"></div>
       <div class="button">
-        <button mat-raised-button color="primary">Post</button>
+        <button mat-raised-button color="primary" (click)="post()">Post</button>
       </div>
     </div>
   </div>
