@@ -28,7 +28,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
   idToken$ = this.store.select('auth', 'idToken');
   user$ = this.store.select('user', 'user');
   firebaseUser$ = this.store.select('auth', 'firebaseUser');
-  isSuccess$ = this.store.select('auth', 'isSuccessful');
+  isSuccess$ = this.store.select('user', 'isSuccess');
   isGetSuccess$ = this.store.select('user', 'isGetSuccess');
 
   constructor(
@@ -43,8 +43,10 @@ export class LoadingComponent implements OnInit, OnDestroy {
         this.isSuccess$,
         this.isGetSuccess$,
       ]).subscribe(([idToken, user, firebaseUser, isSuccess, isGetSuccess]) => {
-        if (!isSuccess && !isGetSuccess) {
-          this.store.dispatch(UserActions.createUser({ idToken }));
+        if (!isSuccess && !isGetSuccess && idToken) {
+          this.store.dispatch(UserActions.createUser({ idToken: idToken }));
+        } else {
+          // this.router.navigate(['/login']);
         }
         if (isGetSuccess && user.uid) {
           if (user.profile != null) {
