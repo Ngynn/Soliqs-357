@@ -1,15 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AuthActions from '../actions/auth.actions';
 import { AuthState } from '../states/auth.state';
+import { User } from 'src/app/models/user.model';
 
 export const initialState: AuthState = {
   idToken: '',
+  firebaseUser: <User>{},
   isLoading: false,
   isSuccessful: false,
-  errorMessage: '',
   islogoutLoading: false,
   isLogoutSuccess: false,
-  errorLogOutMessage: '',
+  errorMessage: '',
 };
 export const authReducer = createReducer(
   initialState,
@@ -47,12 +48,9 @@ export const authReducer = createReducer(
     console.log(action.type);
     return {
       ...state,
-      isLoading: false,
-      isSuccessful: false,
       islogoutLoading: true,
       isLogoutSuccess: false,
-      idToken:'',
-      errorLogOutMessage: '',
+      errorMessage: '',
     };
   }),
 
@@ -61,22 +59,20 @@ export const authReducer = createReducer(
     return {
       ...state,
       idToken: '',
+      firebaseUser: <User>{},
       islogoutLoading: false,
       isLogoutSuccess: true,
-      errorLogOutMessage: '',
-      isSuccessful: false,
-      
+      errorMessage: '',
     };
   }),
 
-  on(AuthActions.logoutFailure, (state, { errorLogOutMessage, type }) => {
+  on(AuthActions.logoutFailure, (state, { errorMessage, type }) => {
     console.log(type);
     return {
       ...state,
       islogoutLoading: false,
       isLogoutSuccess: false,
-      isSuccessful: false,
-      errorLogOutMessage,
+      errorMessage,
     };
   }),
 
@@ -85,6 +81,14 @@ export const authReducer = createReducer(
     return {
       ...state,
       idToken,
+    };
+  }),
+
+  on(AuthActions.storedFirebaseUser, (state, { firebaseUser, type }) => {
+    console.log(type);
+    return {
+      ...state,
+      firebaseUser,
     };
   })
 );

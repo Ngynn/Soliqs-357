@@ -10,11 +10,11 @@ export const initualState: UserState = {
   errorMessage: '',
   isGetLoading: false,
   isGetSuccess: false,
-  getErrorMessage: '',
+  isGetFailure: false,
 };
 export const userReducer = createReducer(
   initualState,
-  on(UserAction.createUser, (state, action) => {
+  on(UserAction.create, (state, action) => {
     console.log(action.type);
     return {
       ...state,
@@ -23,7 +23,7 @@ export const userReducer = createReducer(
       errorMessage: '',
     };
   }),
-  on(UserAction.createUserSuccess, (state, action) => {
+  on(UserAction.createSuccess, (state, action) => {
     console.log(action.type);
     return {
       ...state,
@@ -32,7 +32,7 @@ export const userReducer = createReducer(
       errorMessage: '',
     };
   }),
-  on(UserAction.createUserFailure, (state, { type, errorMessage }) => {
+  on(UserAction.createFailure, (state, { type, errorMessage }) => {
     console.log(type);
     return {
       ...state,
@@ -41,34 +41,37 @@ export const userReducer = createReducer(
       errorMessage,
     };
   }),
-  on(UserAction.getUser, (state, action)=>{
-    console.log(action.type)
+  on(UserAction.get, (state, action) => {
+    console.log(action.type);
     return {
       ...state,
       isGetLoading: true,
       isGetSuccess: false,
-      getErrorMessage: '',
-      user: <User>{}
-    }
+      isGetFailure: false,
+      errorMessage: '',
+      user: <User>{},
+    };
   }),
-  on(UserAction.getUserSuccess,(state,action)=>{
-    console.log(action.type)
+  on(UserAction.getSuccess, (state, action) => {
+    console.log(action.type);
     return {
       ...state,
       isGetLoading: false,
       isGetSuccess: true,
-      getErrorMessage: '',
-      user: action.user
-    }
+      isGetFailure: false,
+      errorMessage: '',
+      user: action.user,
+    };
   }),
-  on(UserAction.getUserFailure, (state, {type, errorMessage})=>{
-    console.log(type)
+  on(UserAction.getFailure, (state, { type, errorMessage }) => {
+    console.log(type);
     return {
       ...state,
       isGetLoading: false,
       isGetSuccess: false,
-      getErrorMessage: errorMessage,
-      user: <User>{}
-    }
+      isGetFailure: true,
+      errorMessage,
+      user: <User>{},
+    };
   })
 );

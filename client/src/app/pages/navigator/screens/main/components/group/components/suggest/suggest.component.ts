@@ -86,7 +86,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
         let idToken = await user.getIdToken(true);
         this.idToken = idToken;
         this.store.dispatch(
-          UserAction.getUser({ uid: user.uid, idToken: idToken })
+          UserAction.get({ uid: user.uid, idToken: idToken })
         );
         this.store.dispatch(
           ProfileAction.get({ id: user.uid, idToken: idToken })
