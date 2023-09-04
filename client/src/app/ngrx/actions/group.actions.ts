@@ -17,15 +17,30 @@ export const createFailure = createAction(
 );
 
 export const get = createAction(
-    '[Group] Get ', props<{name: string}>()
+    '[Group] Get ', 
 );
 
 export const getSuccess = createAction(
     '[Group] Get Success',
-    props<{ groups: Group[] }>()
+    props<{ groupList: Group[] }>()
 );
 
 export const getFailure = createAction(
     '[Group] Get Failure',
     props<{ errorMessage: any }>()
 );
+
+export const update = createAction(
+    '[Group] Update',
+    props<{ id: string, group: Group }>()
+);
+
+export const updateSuccess = createAction(
+    '[Group] Update Success');
+
+export const updateFailure = createAction(
+    '[Group] Update Failure',
+    props<{ errorMessage: any }>()
+);
+
+

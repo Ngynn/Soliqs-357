@@ -31,9 +31,10 @@ export class GroupService {
   }
 
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Group> { 
     try {
-      const group = await this.groupModel.findOne({ id: id });
+      const group = await this.groupModel
+        .findOne({ _id: id });
       return group;
     } catch (error) {
       throw new HttpException(error.message, error.status);
@@ -70,21 +71,6 @@ export class GroupService {
     }
   }
 
-  // async findAllAndSort(
-  //   page: number,
-  //   limit: number,
-  //   sortBy = 'createdAt',
-  //   sortOrder: 'asc' | 'desc' = 'desc',
-  // ): Promise<Group[]> {
-  //   const sortOptions = { [sortBy]: sortOrder };
-  //   const skip = page * limit;
-  //   const groups = await this.groupModel
-  //     .find()
-  //     .sort(sortOptions)
-  //     .skip(skip)
-  //     .limit(limit)
-  //     .exec();
-  //   return groups;
-  // }
+ 
   
 }

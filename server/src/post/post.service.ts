@@ -10,13 +10,19 @@ import {
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Posts } from './entities/post.entity';
 import { Model } from 'mongoose';
+import { Posts } from './entities/post.entity';
+import { Profile } from 'src/profile/entities/profile.entity';
+
 import { v4 as uuidv4 } from 'uuid';
+import { Mode } from 'fs';
 
 @Injectable()
 export class PostService {
-  constructor(@InjectModel(Posts.name) private postModel: Model<Posts>) {}
+  constructor(
+    @InjectModel(Posts.name) private postModel: Model<Posts>,
+    @InjectModel(Profile.name) private profileModel: Model<Profile>,
+  ) {}
 
   async create(createPostDto: CreatePostDto): Promise<Posts> {
     try {
@@ -27,9 +33,12 @@ export class PostService {
     }
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Posts> {
     try {
-      const post = await this.postModel.findOne({ id: id });
+      const post = await this.postModel
+        .findOne({ _id: id })
+        .populate('authorId', 'userName displayName avatar', this.profileModel)
+        .exec();
       return post;
     } catch (error) {
       throw new HttpException(error.message, error.status);

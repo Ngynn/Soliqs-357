@@ -39,7 +39,7 @@ export class GroupController {
     }
   }
 
-  @Get()
+  @Get('detail')
   async findOne(@Query('id') id: string) {
     try {
       const group = await this.groupService.findOne(id);
@@ -50,7 +50,7 @@ export class GroupController {
 
   }
 
-  @Put()
+  @Put('detail')
   async update(@Query('id') id: string, @Body() updateGroupDto: UpdateGroupDto) {
     try {
       const updatedGroup = await this.groupService.update(id, updateGroupDto);
@@ -80,26 +80,5 @@ export class GroupController {
     }
   }
 
-  // @Get('all')
-  // async findAllAndSort(
-  //   @Query('page') page: number,
-  //   @Query('limit') limit: number,
-  //   @Query('sortBy') sortBy = 'createdAt',
-  //   @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'desc',
-  // ): Promise<Group[]> {
-  //   try {
-  //     const groups = await this.groupService.findAllAndSort(
-  //       page,
-  //       limit,
-  //       sortBy,
-  //       sortOrder,
-  //     );
-  //     if (groups.length === 0) {
-  //       return [];
-  //     }
-  //     return groups;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+  
 }

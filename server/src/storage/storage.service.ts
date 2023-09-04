@@ -70,9 +70,9 @@ export class StorageService {
     }
   }
 
-  async getFilesByFolderName(folderName: string): Promise<Storage[]> {
+  async getFilesByFolderName(folderName: string): Promise<Storage> {
     try {
-      return await this.storageModel.find({ folderName }).exec();
+      return await this.storageModel.findOne({ folderName }).exec();
     } catch (error) {
       throw error;
     }

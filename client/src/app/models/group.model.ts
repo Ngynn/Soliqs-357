@@ -1,7 +1,8 @@
 export interface Group {
+    _id: string;
     name: string,
     owner: string,
     members: string[],
-    Posts: string[],
-    is_Private: boolean,
+    posts: string[],
+    isPrivate: boolean,
 }

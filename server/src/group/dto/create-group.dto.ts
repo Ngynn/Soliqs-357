@@ -5,6 +5,6 @@ export class CreateGroupDto {
         public owner: string,
         public members: string[],
         public posts: string[],
-        public is_Private: boolean,
+        public isPrivate: boolean,
     ) { }
 }

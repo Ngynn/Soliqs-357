@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import {
   Controller,
   Get,
@@ -14,6 +16,7 @@ import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Posts } from './entities/post.entity';
+import { TagService } from 'src/tag/tag.service';
 
 @Controller('v1/post')
 export class PostController {
@@ -21,7 +24,7 @@ export class PostController {
 
   @Post()
   async create(@Body() createPostDto: CreatePostDto) {
-    const requiredFields = ['_id', 'authorId', 'content'];
+    const requiredFields = ['id', 'authorId', 'content'];
     const missingFields = requiredFields.filter(
       (field) => !createPostDto[field],
     );

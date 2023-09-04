@@ -1,7 +1,3 @@
 export class CreateTagDto {
-    constructor(
-        public id: string,
-        public uid: string,
-        public idPost: string,
-    ) { }
+  constructor(public id: string, public UID: string, public postId: string) {}
 }

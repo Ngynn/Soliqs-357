@@ -22,6 +22,8 @@ import { postReducer } from './ngrx/reducers/post.reducer';
 import { PostEffects } from './ngrx/effects/post.effects';
 import { groupReducer } from './ngrx/reducers/group.reducer';
 import { GroupEffects } from './ngrx/effects/group.effects';
+import { storageReducer } from './ngrx/reducers/storage.reducer';
+import { StorageEffects } from './ngrx/effects/storage.effects';
 @NgModule({
   declarations: [AppComponent, DetailComponent],
   imports: [
@@ -35,6 +37,7 @@ import { GroupEffects } from './ngrx/effects/group.effects';
         profile: profileReducer,
         post: postReducer,
         group: groupReducer,
+        storage: storageReducer
       },
       {}
     ),
@@ -44,6 +47,7 @@ import { GroupEffects } from './ngrx/effects/group.effects';
       ProfileEffect,
       PostEffects,
       GroupEffects,
+      StorageEffects
     ]),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

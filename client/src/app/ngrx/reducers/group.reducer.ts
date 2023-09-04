@@ -1,15 +1,16 @@
 import { createReducer, on } from "@ngrx/store";
 import { GroupState } from "../states/group.state";
 import * as GroupAction from "../actions/group.actions";
+import { Group } from "src/app/models/group.model";
 
 export const initualState: GroupState = {
-    groups: [],
+    group: <Group>{},
+    groupList: [],
     isLoading: false,
     isSuccess: false,
     errorMessage: '',
     isGetLoading: false,
     isGetSuccess: false,
-    getErrorMessage: '',
 };
 
 export const groupReducer = createReducer(
@@ -51,7 +52,7 @@ export const groupReducer = createReducer(
             isGetLoading: true,
             isGetSuccess: false,
             getErrorMessage: '',
-            groups: []
+            groupList: []
         }
     }),
 
@@ -62,7 +63,7 @@ export const groupReducer = createReducer(
             isGetLoading: false,
             isGetSuccess: true,
             getErrorMessage: '',
-            groups: action.groups
+            groupList: action.groupList
         }
     }),
 
@@ -73,9 +74,40 @@ export const groupReducer = createReducer(
             isGetLoading: false,
             isGetSuccess: false,
             getErrorMessage: errorMessage,
-            groups: []
+            groupList: []
         }
     }),
+
+    on(GroupAction.update, (state, action) => {
+        console.log(action.type)
+        return {
+            ...state,
+            isLoading: true,
+            isSuccess: false,
+            errorMessage: '',
+        }
+    }),
+
+    on(GroupAction.updateSuccess, (state, action) => {
+        console.log(action.type)
+        return {
+            ...state,
+            isLoading: false,
+            isSuccess: true,
+            errorMessage: '',
+        }
+    }),
+
+    on(GroupAction.updateFailure, (state, { type, errorMessage }) => {
+        console.log(type)
+        return {
+            ...state,
+            isLoading: false,
+            isSuccess: false,
+            errorMessage,
+        }
+    }),
+    
 
     
 );
