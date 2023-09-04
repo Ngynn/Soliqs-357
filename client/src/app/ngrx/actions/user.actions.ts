@@ -13,7 +13,10 @@ export const createUserFailure = createAction(
   props<{ errorMessage: any }>()
 );
 
-export const getUser = createAction('[User] Get', props<{ uid: string, idToken: string }>());
+export const getUser = createAction(
+  '[User] Get',
+  props<{ uid: string; idToken: string }>()
+);
 
 export const getUserSuccess = createAction(
   '[User] Get Success',

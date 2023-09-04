@@ -8,7 +8,8 @@ import { Store } from '@ngrx/store';
 import { UserState } from 'src/app/ngrx/states/user.state';
 
 import * as UserActions from '../../ngrx/actions/user.actions';
-import { Subscription, mergeMap } from 'rxjs';
+import { Subscription, combineLatest, mergeMap } from 'rxjs';
+import { AuthState } from 'src/app/ngrx/states/auth.state';
 
 @Component({
   selector: 'app-loading',
@@ -20,62 +21,51 @@ export class LoadingComponent implements OnInit, OnDestroy {
   mode: ProgressSpinnerMode = 'indeterminate';
   value = 200;
 
+  idToken: string = '';
+  uid: string = '';
   subscriptions: Subscription[] = [];
 
-  userData$ = this.store.select('user', 'user');
+  idToken$ = this.store.select('auth', 'idToken');
+  user$ = this.store.select('user', 'user');
+  firebaseUser$ = this.store.select('auth', 'firebaseUser');
+  isSuccess$ = this.store.select('auth', 'isSuccessful');
+  isGetSuccess$ = this.store.select('user', 'isGetSuccess');
 
   constructor(
-    private auth: Auth,
     private router: Router,
-    private store: Store<{ user: UserState }>
+    private store: Store<{ auth: AuthState; user: UserState }>
   ) {
-    setTimeout(() => {
-      onAuthStateChanged(this.auth, async (user) => {
-        if (user) {
-          console.log('user', user);
-          let idToken = await user!.getIdToken(true);
-          console.log(idToken)
-          this.store.dispatch(UserActions.getUser({ uid: user.uid, idToken:idToken }));
-        } else {
-          this.router.navigate(['/login']);
-          console.log('no user', user);
-
+    this.subscriptions.push(
+      combineLatest([
+        this.idToken$,
+        this.user$,
+        this.firebaseUser$,
+        this.isSuccess$,
+        this.isGetSuccess$,
+      ]).subscribe(([idToken, user, firebaseUser, isSuccess, isGetSuccess]) => {
+        if (!isSuccess && !isGetSuccess) {
+          this.store.dispatch(UserActions.createUser({ idToken }));
         }
-      });
-
-      this.subscriptions.push(
-        this.store
-          .select('user', 'isGetSuccess')
-          .pipe(
-            mergeMap((isGetSuccess) => {
-              if (isGetSuccess) {
-                console.log('isGetSuccess', isGetSuccess);
-                return this.userData$;
-                
-              } else {
-                return [];
-              }
-            })
-          )
-          .subscribe((user) => {
-            if (user) {
-              console.log('user data', user);
-              if (user.profile === null) {
-                console.log('register');
-                
-                this.router.navigate(['/register']);
-              } else if (user.profile) {
-                console.log('home');
-                this.router.navigate(['/home']);
-              }
-            } else {
-              console.log('login');
-              this.router.navigate(['/login']);
-            }
-          })
-      );
-    }, 2000);
+        if (isGetSuccess && user.uid) {
+          if (user.profile != null) {
+            this.router.navigate(['/home']);
+          } else {
+            this.router.navigate(['/register']);
+          }
+        }
+        if (firebaseUser.uid && idToken && isSuccess) {
+          if (firebaseUser.uid != this.uid && idToken != this.idToken) {
+            this.uid = firebaseUser.uid;
+            this.idToken = idToken;
+            this.store.dispatch(
+              UserActions.getUser({ uid: firebaseUser.uid, idToken })
+            );
+          }
+        }
+      })
+    );
   }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => {
       subscription.unsubscribe();

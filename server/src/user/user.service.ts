@@ -1,21 +1,11 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  HttpCode,
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  forwardRef,
-} from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthService } from 'src/auth/auth.service';
 import { User } from './entities/user.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UserModule } from './user.module';
-import { ProfileService } from 'src/profile/profile.service';
 
 @Injectable()
 export class UserService {
@@ -59,10 +49,5 @@ export class UserService {
     } catch (error) {
       throw new HttpException(error.message, error.status);
     }
-  }
-
-  // chưa sử dụng
-  findAll() {
-    return `This action returns all user`;
   }
 }
