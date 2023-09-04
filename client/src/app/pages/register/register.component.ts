@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     email: new FormControl(''),
     userName: new FormControl('', Validators.required),
     displayName: new FormControl('', Validators.required),
-    avatar: new FormControl('',Validators.required)
+    avatar: new FormControl('', Validators.required),
   });
 
   regisData = {
@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     email: '',
     displayName: '',
     userName: '',
-    avatar: ''
+    avatar: '',
   };
 
   constructor(
@@ -52,49 +52,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private auth: Auth,
     private store: Store<{ user: UserState; profile: ProfileState }>
   ) {
-    onAuthStateChanged(this.auth, async (user) => {
-      if (user) {
-        console.log('user', user);
-        let idToken = await user!.getIdToken(true);
-        this.regisForm.patchValue({
-          id: user!.uid,
-          email: user!.email,
-          displayName: user!.displayName!,
-          avatar: user!.photoURL,
-        });
-        this.store.dispatch(UserActions.getUser({ uid: user.uid, idToken: idToken }));
-      } else {
-        this.router.navigate(['/loading']);
-      }
-    });
-
     this.subscriptions.push(
-      this.store
-        .select('user', 'isGetSuccess')
-        .pipe(
-          mergeMap((isGetSuccess) => {
-            if (isGetSuccess) {
-              return this.user$;
-            } else {
-              return [];
-            }
-          })
-        )
-        .subscribe((user) => {
-          if (user.profile) {
-            this.router.navigate(['/loading']);
-          }
-        }),
-
-      this.isCreateSuccess$.subscribe((isCreateSuccess) => {
-        if (isCreateSuccess) {
-          this.router.navigate(['/home']);
-        }
-      }),
-      this.errorMessage$.subscribe((errorMessage) => {
-        if (errorMessage) {
+      this.user$.subscribe((user) => {
+        if (user.uid) {
           this.regisForm.patchValue({
-            userName: '',
+            id: user.uid,
+            email: user.email,
+            displayName: user.name,
+            avatar: user.picture,
           });
         }
       })

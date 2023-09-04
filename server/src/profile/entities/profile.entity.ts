@@ -13,7 +13,7 @@ export class Profile {
   @Prop({ required: true })
   userName: string;
 
-  @Prop({ default: null, unique: true })
+  @Prop({ required: true })
   displayName: string;
 
   @IsEmail()
