@@ -8,9 +8,9 @@ export const initialState: AuthState = {
   firebaseUser: <User>{},
   isLoading: false,
   isSuccessful: false,
-  errorMessage: '',
   islogoutLoading: false,
   isLogoutSuccess: false,
+  errorMessage: '',
 };
 export const authReducer = createReducer(
   initialState,
@@ -48,10 +48,9 @@ export const authReducer = createReducer(
     console.log(action.type);
     return {
       ...state,
-      isLoading: false,
-      isSuccessful: false,
       islogoutLoading: true,
       isLogoutSuccess: false,
+      errorMessage: '',
     };
   }),
 
@@ -64,7 +63,6 @@ export const authReducer = createReducer(
       islogoutLoading: false,
       isLogoutSuccess: true,
       errorMessage: '',
-      isSuccessful: false,
     };
   }),
 
@@ -74,7 +72,6 @@ export const authReducer = createReducer(
       ...state,
       islogoutLoading: false,
       isLogoutSuccess: false,
-      isSuccessful: false,
       errorMessage,
     };
   }),

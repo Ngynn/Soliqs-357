@@ -24,44 +24,10 @@ export class NavigatorComponent implements OnInit, OnDestroy {
     private router: Router,
     private auth: Auth,
     private store: Store<{ user: UserState; profile: ProfileState }>
-  ) {
-    onAuthStateChanged(this.auth, async (user) => {
-      if (user) {
-        let user = getAuth().currentUser;
-        let idToken = await user!.getIdToken(true);
-        this.store.dispatch(UserActions.getUser({ uid: user!.uid, idToken:idToken }));
-      } else {
-        this.router.navigate(['/loading']);
-      }
-    });
-    this.subscriptions
-      .push
-      // this.user$.subscribe((user)=>{
-      //   if(user){
-      //     this.userLogin = user;
-      //   }
-      // }),
-      // this.isGetUserSuccess$.subscribe((isGetUserSuccess)=>{
-      //   console.log(isGetUserSuccess)
-      //   if(isGetUserSuccess){
-      //     if(this.userLogin.uid)
-      //     {
-      //       if(!this.userLogin.profile){
-      //         console.log(this.userLogin.profile);
+  ) {}
 
-      //         // this.router.navigate([`/register`])
-      //       }
-      //     }
-      //     else{
-      //       this.router.navigate([`/login`])
-      //     }
-
-      //     // this.router.navigate([`/login`])
-      //   }
-      // })
-      ();
-  }
   ngOnInit(): void {}
+
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => {
       subscription.unsubscribe();

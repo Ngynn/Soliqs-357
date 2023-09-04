@@ -34,19 +34,20 @@ export class AppComponent {
           picture: user.photoURL || '',
           profile: '',
         };
+
         this.store.dispatch(AuthActions.storedIdToken(idToken));
         this.store.dispatch(AuthActions.storedFirebaseUser(newUser));
         this.router.navigate(['/loading']);
+      } else {
+        this.router.navigate(['/login']);
       }
     });
 
     combineLatest([this.idToken$, this.firebaseUser$]).subscribe(
       ([idToken, firebaseUser]) => {
         if (idToken && firebaseUser.uid) {
-          console.log(idToken);
-          console.log(firebaseUser);
           this.store.dispatch(
-            UserActions.getUser({ uid: firebaseUser.uid, idToken })
+            UserActions.get({ uid: firebaseUser.uid, idToken })
           );
         }
       }
@@ -54,7 +55,7 @@ export class AppComponent {
 
     this.isSuccess$.subscribe((isSuccess) => {
       if (isSuccess) {
-        // this.router.navigate(['/login']);
+        this.router.navigate(['/login']);
       }
     });
   }

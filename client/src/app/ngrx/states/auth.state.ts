@@ -5,7 +5,7 @@ export interface AuthState {
   firebaseUser: User;
   isLoading: boolean;
   isSuccessful: boolean;
-  errorMessage: string;
   islogoutLoading: boolean;
   isLogoutSuccess: boolean;
+  errorMessage: string;
 }

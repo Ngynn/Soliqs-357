@@ -1,15 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { ThemePalette } from '@angular/material/core';
+import { Subscription, combineLatest } from 'rxjs';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
+import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { UserState } from 'src/app/ngrx/states/user.state';
 
 import * as UserActions from '../../ngrx/actions/user.actions';
-import { Subscription, combineLatest, mergeMap } from 'rxjs';
-import { AuthState } from 'src/app/ngrx/states/auth.state';
 
 @Component({
   selector: 'app-loading',
@@ -30,42 +29,62 @@ export class LoadingComponent implements OnInit, OnDestroy {
   firebaseUser$ = this.store.select('auth', 'firebaseUser');
   isSuccess$ = this.store.select('user', 'isSuccess');
   isGetSuccess$ = this.store.select('user', 'isGetSuccess');
+  isGetFailure$ = this.store.select('user', 'isGetFailure');
 
   constructor(
     private router: Router,
     private store: Store<{ auth: AuthState; user: UserState }>
   ) {
-    this.subscriptions.push(
-      combineLatest([
-        this.idToken$,
-        this.user$,
-        this.firebaseUser$,
-        this.isSuccess$,
-        this.isGetSuccess$,
-      ]).subscribe(([idToken, user, firebaseUser, isSuccess, isGetSuccess]) => {
-        if (!isSuccess && !isGetSuccess && idToken) {
-          this.store.dispatch(UserActions.createUser({ idToken: idToken }));
-        } else {
-          // this.router.navigate(['/login']);
-        }
-        if (isGetSuccess && user.uid) {
-          if (user.profile != null) {
-            this.router.navigate(['/home']);
-          } else {
-            this.router.navigate(['/register']);
+    setTimeout(() => {
+      this.subscriptions.push(
+        combineLatest([
+          this.idToken$,
+          this.user$,
+          this.firebaseUser$,
+          this.isSuccess$,
+          this.isGetSuccess$,
+          this.isGetFailure$,
+        ]).subscribe(
+          ([
+            idToken,
+            user,
+            firebaseUser,
+            isSuccess,
+            isGetSuccess,
+            isGetFailure,
+          ]) => {
+            if (firebaseUser.uid && idToken && isSuccess) {
+              if (
+                firebaseUser.uid !== this.uid ||
+                idToken !== this.idToken ||
+                !this.uid ||
+                !this.idToken
+              ) {
+                console.log('have firebase user, try to get my user');
+                this.uid = firebaseUser.uid;
+                this.idToken = idToken;
+                this.store.dispatch(
+                  UserActions.get({ uid: firebaseUser.uid, idToken })
+                );
+              }
+            }
+            if (isGetFailure && !isSuccess) {
+              this.store.dispatch(UserActions.create({ idToken }));
+            }
+            if (isGetSuccess && user.uid) {
+              console.log('have user');
+              if (user.profile != null) {
+                console.log('have profile');
+                this.router.navigate(['/home']);
+              } else {
+                console.log('dont have profile');
+                this.router.navigate(['/register']);
+              }
+            }
           }
-        }
-        if (firebaseUser.uid && idToken && isSuccess) {
-          if (firebaseUser.uid != this.uid && idToken != this.idToken) {
-            this.uid = firebaseUser.uid;
-            this.idToken = idToken;
-            this.store.dispatch(
-              UserActions.getUser({ uid: firebaseUser.uid, idToken })
-            );
-          }
-        }
-      })
-    );
+        )
+      );
+    }, 2000);
   }
 
   ngOnDestroy(): void {
