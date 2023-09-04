@@ -16,12 +16,19 @@
                   />
                 </div>
                 <div class="input">
-                  <input type="text" placeholder="What is happening?!" />
+                  <form class="form" [formGroup]="postForm">
+                    <input formControlName="content" placeholder="What is happening?!"/>
+                  </form>
+                  <div class="img-file" *ngIf="selectedFile">
+                    <img [src]="selectedImage" alt="Selected Image" />
+                  </div>
                 </div>
               </div>
               <div class="bottom">
                 <div class="icon">
-                  <mat-icon style="margin-right: 30px">image</mat-icon>
+                  <input type="file" accept="image/*" style="display: none" (change)="handleFileInput($event)" #fileInput />
+                  <mat-icon 
+                    (click)="fileInput.click()">image</mat-icon>
                   <mat-icon style="margin-right: 30px">gif</mat-icon>
                   <mat-icon style="margin-right: 30px">poll</mat-icon>
                   <mat-icon style="margin-right: 30px">emoji_emotions</mat-icon>
@@ -29,7 +36,7 @@
                 </div>
                 <!-- <div class="divice"></div> -->
                 <div class="button">
-                  <button mat-raised-button color="primary">Post</button>
+                  <button mat-raised-button color="primary" (click)="post()">Post</button>
                 </div>
               </div>
             </div>

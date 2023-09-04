@@ -53,9 +53,30 @@ export class SidebarComponent implements OnInit, OnDestroy {
   storage$ = this.store.select('storage','storage')
   isCreatePostSuccess$ = this.store.select('post','isSuccess')
   selectedFile: any;
+  selectedImage: string | ArrayBuffer | null = null;
+  isSlidebarPost: boolean = false;
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
+  }
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  handleFileInput(event: Event) {
+    const selectedFiles = (event.target as HTMLInputElement).files;
+
+    if (selectedFiles && selectedFiles.length > 0) {
+      // Thực hiện xử lý với tệp đã chọn tại đây
+      const selectedFile = selectedFiles[0];
+      this.selectedFile = selectedFile;
+
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.selectedImage = e.target.result; // Cập nhật biến selectedFile với đường dẫn hình ảnh
+        };
+        reader.readAsDataURL(selectedFile); // Đọc tệp hình ảnh
+
+      console.log('Selected File:', this.selectedImage);
+    }
   }
 
   postForm = new FormGroup({
@@ -89,9 +110,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.store.dispatch(
           ProfileActions.get({ id: user.uid, idToken: idToken })
         );
-        
-
-
         // this.store.dispatch(AuthActions.storedIdToken(idToken));
 
       }
@@ -106,24 +124,31 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions.push(
-      this.store.select('storage','isGetSuccess')
-      .pipe(
-        mergeMap((isGetSuccess)=>{
-          if(isGetSuccess){
-            return this.storage$
-          }
-          else{
-            return []
-          }
-        })
-      )
-      .subscribe((storage)=>{
-        if(storage)
+      // this.store.select('storage','isGetSuccess')
+      // .pipe(
+      //   mergeMap((isGetSuccess)=>{
+      //     if(isGetSuccess){
+      //       console.log('get sucess');
+      //       return this.storage$
+      //     }
+      //     else{
+      //       return []
+      //     }
+      //   })
+      // )
+      this.storage$.subscribe((storage)=>{
+        if(storage.folderName)
         {
+          console.log(storage);
           this.postForm.patchValue({
             media: storage.urls
           })
-          this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
+          console.log(this.postForm.value);
+          if(this.isSlidebarPost)
+          {
+            this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
+            this.isSlidebarPost = false
+          }
         }
       }),
       this.isCreatePostSuccess$.subscribe((isCreatePostSuccess)=>{
@@ -140,10 +165,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
       //   }
       // }),
       this.isCreateImgSuccess$.subscribe((isCreateSuccess)=>{
-        console.log('value of isCreateSuccess: ' + isCreateSuccess);
         if(isCreateSuccess){
           console.log(this.idToken);
-          
           this.store.dispatch(StorageActions.get({id:this.idPost, idToken: this.idToken}))
         }
       })
@@ -169,8 +192,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     
   }
 
-  post(){
+  postInSldebar(){
+    this.isSlidebarPost = true;
     const id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now())).toString()
+
     this.idPost = id
     this.postForm.patchValue({
       id: id
@@ -179,13 +204,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     {
       this.store.dispatch(StorageActions.create({file: this.selectedFile,id: id,idToken:this.idToken}))
     }
-    // else{
-    //   console.log(this.postForm.value);
+    else{
+      console.log(this.postForm.value);
       
-    //   this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
-    // }
-
-    
+      this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
+    }
   }
 
 

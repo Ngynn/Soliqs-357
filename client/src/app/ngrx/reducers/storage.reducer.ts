@@ -55,7 +55,7 @@ export const storageReducer = createReducer(
     }),
     on(StorageAction.getSuccess,(state,action)=>{
         console.log(action.type)
-        console.log(action.storage);
+
         
         return {
             ...state,

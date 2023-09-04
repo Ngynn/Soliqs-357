@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.userFirebase = user;
         let idToken = await user!.getIdToken(true);
         this.isToken = idToken;
+        
         this.store.dispatch(AuthActions.storedIdToken(idToken));
         this.store.dispatch(UserActions.getUser({ uid: user.uid, idToken:idToken }));
       } else {

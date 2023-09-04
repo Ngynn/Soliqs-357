@@ -16,77 +16,180 @@ import { UserState } from 'src/app/ngrx/states/user.state';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import * as UserActions from '../../../../../../ngrx/actions/user.actions';
 import { PostState } from 'src/app/ngrx/states/post.state';
-import * as PostAction from 'src/app/ngrx/actions/post.actions';
+import * as PostActions from 'src/app/ngrx/actions/post.actions';
+import * as ProfileActions from 'src/app/ngrx/actions/profile.actions'
+import * as StorageActions from 'src/app/ngrx/actions/storage.actions'
 import { Post } from 'src/app/models/post.model';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ProfileState } from 'src/app/ngrx/states/profile.state';
+import { Profile } from 'src/app/models/profile.model';
+import { StorageState } from 'src/app/ngrx/states/storage.state';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
-  idToken$: Observable<string> = this.store.select('idToken', 'idToken');
+export class HomeComponent implements OnInit, OnDestroy {
+  idToken$ = this.store.select('auth', 'idToken');
+  profile$ = this.store.select('profile', 'profile');
   userData$ = this.store.select('user', 'user');
+  isCreatePostSuccess$ = this.store.select('post','isSuccess');
+  isCreateImgSuccess$ = this.store.select('storage','isCreateSuccess');
   user: User = <User>{};
+  idToken: string = '';
+  subscriptions: Subscription[] = [];
+  profile: Profile = <Profile>{};
+  storage$ = this.store.select('storage','storage');
+  idPost: string = '';
+  selectedFile: any;
+  selectedImage: string | ArrayBuffer | null = null;
+  post$ = this.store.select('post','posts')
+  postReal: Post[] = []
+  isHomePost = false;
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  handleFileInput(event: Event) {
+    const selectedFiles = (event.target as HTMLInputElement).files;
+
+    if (selectedFiles && selectedFiles.length > 0) {
+      // Thực hiện xử lý với tệp đã chọn tại đây
+      const selectedFile = selectedFiles[0];
+      this.selectedFile = selectedFile;
+
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.selectedImage = e.target.result; // Cập nhật biến selectedFile với đường dẫn hình ảnh
+        };
+        reader.readAsDataURL(selectedFile); // Đọc tệp hình ảnh
+
+      console.log('Selected File:', this.selectedImage);
+    }
+  }
+
+  postForm = new FormGroup({
+    id: new FormControl(''),
+    authorId: new FormControl('',Validators.required),
+    content: new FormControl('',Validators.required),
+    media: new FormControl<string[]>([]),
+  })
+  
   constructor(
-    private store: Store<{ idToken: AuthState; user: UserState }>,
+    private store: Store<{ auth: AuthState; user: UserState, post: PostState, profile: ProfileState, storage: StorageState }>,
     private userService: UserService,
-    private auth: Auth
+    private auth: Auth,
   ) {
     this.userData$.subscribe((value) => {
       if (value) {
         this.user = value;
       }
     });
+    onAuthStateChanged(this.auth, async (user) => {
+      console.log(user + 'User firebase');
+      if (user) {
+        let idToken = await user!.getIdToken(true);
+        this.idToken = idToken;
+        this.store.dispatch(UserActions.getUser({ uid: user.uid, idToken: idToken }));
+        console.log(user.uid,idToken);
+        this.store.dispatch(
+          ProfileActions.get({ id: user.uid, idToken: idToken })
+        );
+        this.store.dispatch(PostActions.get({idToken: idToken}))
+        // this.store.dispatch(AuthActions.storedIdToken(idToken));
+      }
+    });
+    this.profile$.subscribe((profile)=>{
+      if(profile){
+        this.profile = profile;
+        this.postForm.patchValue({
+          authorId: profile._id,
+        })
+      }
+    });
+    this.subscriptions.push(
+      // this.store.select('storage','isGetSuccess')
+      // .pipe(
+      //   mergeMap((isGetSuccess)=>{
+      //     if(isGetSuccess){
+      //       console.log('get sucess');
+      //       return this.storage$
+      //     }
+      //     else{
+      //       return []
+      //     }
+      //   })
+      // )
+      this.post$.subscribe((posts)=>{
+        if(posts){
+          console.log(posts);
+          
+        }
+      }),
+      this.storage$.subscribe((storage)=>{
+        if(storage.folderName)
+        {
+          console.log(storage);
+          this.postForm.patchValue({
+            media: storage.urls
+          })
+          console.log(this.postForm.value);
+          if(this.isHomePost){
+            this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
+            this.isHomePost = false
+          }
+
+        }
+      }),
+      this.isCreatePostSuccess$.subscribe((isCreatePostSuccess)=>{
+        if(isCreatePostSuccess){
+
+        }
+      }),
+
+      // this.storage$.subscribe((storage)=>{
+      //   if(storage){
+      //     this.postForm.patchValue({
+      //       media: storage.urls
+      //     })
+      //   }
+      // }),
+      this.isCreateImgSuccess$.subscribe((isCreateSuccess)=>{
+        if(isCreateSuccess){
+          console.log(this.idToken);
+          console.log(this.idPost);
+          this.store.dispatch(StorageActions.get({id:this.idPost, idToken: this.idToken}))
+        }
+      })
+    )
+
   }
 
-  // onAuthStateChanged(this.auth, async (user) => {
-  //   if (user) {
-  //     console.log('user', user);
-  //     this.store.dispatch(UserActions.getUser({ uid: user.id }));
-  //   } else {
-  //     console.log('no user', user);
-  //   }
-  // });
 
-  // posts$ = this.store.select('post', 'posts');
-  // isGetSuccess$ = this.store.select('post', 'isGetSuccess');
-  // isCreateSuccess$ = this.store.select('post', 'isSuccess');
-  // errorMessage$ = this.store.select('post', 'errorMessage');
+  post(){
+    this.isHomePost = true;
+    const id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now())).toString()
+    this.idPost = id
+    this.postForm.patchValue({
+      id: id
+    })
+    if(this.selectedFile)
+    {
+      this.store.dispatch(StorageActions.create({file: this.selectedFile,id: id,idToken:this.idToken}))
+    }
+    else{
+      console.log(this.postForm.value);
+      
+      this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
+    }
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
 
-  // posts: Post[] = [];
 
-  // posts$: Observable<Post[]> = this.store.select('post', 'posts');
 
-  // content: string = '';
-
-  // postForm = new FormGroup({
-  //   content: new FormControl(''),
-  // });
-
-  // postData = {
-  //   content: '',
-  // };
-
-  // constructor(private store: Store<{ idToken: AuthState; post: PostState }>) {
-  //   this.idToken$.subscribe((value) => {
-  //     console.log('hello id token');
-  //     console.log(value);
-  //     if (value) {
-  //       console.log(value);
-  //     }
-  //   });
-
-  //   // this.posts$.subscribe((posts) => {
-  //   //   if (posts.length > 0) {
-  //   //     console.log(posts);
-  //   //     this.posts = posts;
-  //   //   }
-  //   // });
-
-  //   this.store.dispatch(PostAction.get({ authorId: '1' }));
-  // }
   posts = [
     {
       id: 1,

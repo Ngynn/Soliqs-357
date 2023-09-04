@@ -30,6 +30,9 @@ export class StorageService {
 
 
   getStorage(id: string, idToken: string){
+    console.log(`http://localhost:3000/storage/${id}`);
+    console.log('id:'+ id);
+    
     const headers = new HttpHeaders({
       Authorization: `Bearer ${idToken}`
     });
