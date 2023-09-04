@@ -7,6 +7,7 @@ import { User } from '../../models/user.model';
 })
 export class UserService {
   constructor(private httpClient: HttpClient) {}
+
   createUser(idToken: string) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${idToken}`, // Đảm bảo có khoảng cách giữa 'Bearer' và token

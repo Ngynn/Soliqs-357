@@ -35,10 +35,12 @@ export class UserController {
       const token = authHeader.replace('Bearer ', '');
       const decodedToken = await this.authService.verifyToken(token);
       const uid = decodedToken.uid;
+
       const existedUser = await this.userService.findOne(uid);
       if (existedUser) {
         throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
       }
+
       const user: User = {
         uid,
         email: decodedToken.email,

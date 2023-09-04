@@ -36,6 +36,7 @@ export class AppComponent {
         };
         this.store.dispatch(AuthActions.storedIdToken(idToken));
         this.store.dispatch(AuthActions.storedFirebaseUser(newUser));
+        this.router.navigate(['/loading']);
       }
     });
 
@@ -53,7 +54,7 @@ export class AppComponent {
 
     this.isSuccess$.subscribe((isSuccess) => {
       if (isSuccess) {
-        this.router.navigate(['/login']);
+        // this.router.navigate(['/login']);
       }
     });
   }
