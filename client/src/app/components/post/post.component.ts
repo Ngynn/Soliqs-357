@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   Input,
+  OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -14,11 +15,15 @@ import { Router } from '@angular/router';
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
 })
-export class PostComponent {
+export class PostComponent implements OnInit {
   constructor(private router: Router) {
 
     
     
+  }
+  ngOnInit(): void {
+console.log(this.post);
+
   }
   @Input() post!: [] | any;
   itemSelected: any;

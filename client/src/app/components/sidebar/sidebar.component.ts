@@ -78,6 +78,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
+  clearFile() {
+    // Xoá tệp đã chọn bằng cách đặt giá trị của input file về null
+    this.selectedFile = null;
+    // Đặt giá trị của input file về null để làm cho nó trống
+    this.fileInput.nativeElement.value = '';
+  }
+
   postForm = new FormGroup({
     id: new FormControl(''),
     authorId: new FormControl('', Validators.required),
@@ -140,7 +147,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
         .subscribe((profile) => {
         if (profile) {
           console.log(profile);
-          
           this.profile = profile;
           this.postForm.patchValue({
             authorId: profile._id,
@@ -151,6 +157,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.isCreatePostSuccess$.subscribe((isCreatePostSuccess) => {
         if (isCreatePostSuccess) {
           this.closePostDialog();
+          this.clearFile();
         }
       }),
       this.isCreateImgSuccess$.subscribe((isCreateSuccess) => {
