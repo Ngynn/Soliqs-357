@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   userData$ = this.store.select('user', 'user');
   isCreatePostSuccess$ = this.store.select('post','isSuccess');
   isCreateImgSuccess$ = this.store.select('storage','isCreateSuccess');
+  
   user: User = <User>{};
   idToken: string = '';
   subscriptions: Subscription[] = [];
@@ -89,7 +90,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       if (user) {
         let idToken = await user!.getIdToken(true);
         this.idToken = idToken;
-        this.store.dispatch(UserActions.getUser({ uid: user.uid, idToken: idToken }));
+        this.store.dispatch(UserActions.get({ uid: user.uid, idToken: idToken }));
         console.log(user.uid,idToken);
         this.store.dispatch(
           ProfileActions.get({ id: user.uid, idToken: idToken })
@@ -107,18 +108,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(
-      // this.store.select('storage','isGetSuccess')
-      // .pipe(
-      //   mergeMap((isGetSuccess)=>{
-      //     if(isGetSuccess){
-      //       console.log('get sucess');
-      //       return this.storage$
-      //     }
-      //     else{
-      //       return []
-      //     }
-      //   })
-      // )
       this.post$.subscribe((posts)=>{
         if(posts){
           console.log(posts);
@@ -134,6 +123,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           })
           console.log(this.postForm.value);
           if(this.isHomePost){
+            console.log('create post at here');
+            
             this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
             this.isHomePost = false
           }
@@ -145,14 +136,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         }
       }),
-
-      // this.storage$.subscribe((storage)=>{
-      //   if(storage){
-      //     this.postForm.patchValue({
-      //       media: storage.urls
-      //     })
-      //   }
-      // }),
       this.isCreateImgSuccess$.subscribe((isCreateSuccess)=>{
         if(isCreateSuccess){
           console.log(this.idToken);
@@ -178,7 +161,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
     else{
       console.log(this.postForm.value);
-      
+      console.log('create post at here');
       this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
     }
   }
@@ -248,71 +231,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     },
   ];
 
-  // createPost() {
-  //   this.postData = {
-  //     content: this.postForm.value.content ?? '',
-  //   };
-
-  //   this.store.dispatch(PostAction.create({post: <Post>this.postData}))
-  // }
-
-  //   {
-  //     id: 1,
-  //     uid: 1,
-  //     avatarUrl:
-  //       'https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png',
-  //     username: 'Nguyễn Minh Mập',
-  //     tagname: '@MậpMủmMỉm',
-  //     time: '15 tháng 8',
-  //     content: 'Hình ảnh sếp Lu Lu khi thấy chúng tôi làm cho sếp bất ngờ',
-  //     imageUrls: [
-  //       'https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  //     ],
-
-  //     commentCount: '13k',
-  //     repostCount: '11k',
-  //     likeCount: '14k',
-  //     monitoringCount: '200k',
-  //   },
-  //   {
-  //     id: 2,
-  //     uid: 2,
-  //     avatarUrl:
-  //       'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
-  //     username: 'Trần Thành Huy',
-  //     tagname: '@HuyHuyHuy',
-  //     time: '15 tháng 8',
-  //     content: 'hình ảnh nhân vật ',
-  //     imageUrls: [
-  //       'https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  //     ],
-
-  //     commentCount: '12k',
-  //     repostCount: '13k',
-  //     likeCount: '15k',
-  //     monitoringCount: '200k',
-  //   },
-  //   {
-  //     id: 3,
-  //     uid: 3,
-  //     avatarUrl:
-  //       'https://img.freepik.com/free-photo/cute-spitz_144627-7076.jpg?t=st=1692779137~exp=1692779737~hmac=3cc3a2ec042e6477875c549361ec7360c2f89645580f9510231302152fa2e4e1',
-  //     username: 'Phùng Minh Khoa',
-  //     tagname: '@KhoaKhoaKhoa',
-  //     time: '15 tháng 8',
-  //     content: 'hình ảnh của chó cỏ ',
-  //     imageUrls: [
-  //       'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  //       'https://images.pexels.com/photos/1198802/pexels-photo-1198802.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  //       'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  //     ],
-  //     commentCount: 120,
-  //     repostCount: 3,
-  //     likeCount: 1,
-  //     monitoringCount: 20,
-  //   },
-  // ];
-
   listImg: string[] = [
     'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
     'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
@@ -361,9 +279,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   handleImageUpload(event: any) {
     const file = event.target.files[0]; // Lấy file hình ảnh từ sự kiện
-
     // Thực hiện các xử lý liên quan đến tệp hình ảnh tại đây
-
     // Sau khi hoàn thành xử lý, bạn có thể ẩn input file bằng cách đặt lại biến showImageInput về false
     this.showImageInput = false;
   }

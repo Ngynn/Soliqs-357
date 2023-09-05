@@ -49,6 +49,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   user$ = this.store.select('user', 'user');
   profile$ = this.store.select('profile', 'profile');
   storage$ = this.store.select('storage', 'storage');
+  userFirebase$ = this.store.select('auth','firebaseUser');
   isCreatePostSuccess$ = this.store.select('post', 'isSuccess');
   selectedFile: any;
   selectedImage: string | ArrayBuffer | null = null;
@@ -98,36 +99,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }>,
     private auth: Auth
   ) {
-    onAuthStateChanged(this.auth, async (user) => {
-      console.log(user + 'User firebase');
-      if (user) {
-        let idToken = await user!.getIdToken(true);
-        this.idToken = idToken;
-        this.store.dispatch(
-          UserActions.get({ uid: user.uid, idToken: idToken })
-        );
-        console.log(user.uid, idToken);
-
-        this.store.dispatch(
-          ProfileActions.get({ id: user.uid, idToken: idToken })
-        );
-        // this.store.dispatch(AuthActions.storedIdToken(idToken));
-      }
-    });
-
     this.subscriptions.push(
-      // this.store.select('storage','isGetSuccess')
-      // .pipe(
-      //   mergeMap((isGetSuccess)=>{
-      //     if(isGetSuccess){
-      //       console.log('get sucess');
-      //       return this.storage$
-      //     }
-      //     else{
-      //       return []
-      //     }
-      //   })
-      // )
+      this.idToken$.subscribe((idToken)=>{
+          if(idToken){
+            this.idToken = idToken
+          }
+      }),
+      this.userFirebase$.subscribe((userFirebase)=>{
+        if(userFirebase.uid){
+          console.log(userFirebase);
+          this.store.dispatch(ProfileActions.get({id: userFirebase.uid, idToken: this.idToken}))
+        }
+      }),
       this.storage$.subscribe((storage)=>{
         if(storage.folderName)
         {
@@ -142,51 +125,34 @@ export class SidebarComponent implements OnInit, OnDestroy {
             this.isSlidebarPost = false
           }
         }}),
-      this.profile$.subscribe((profile) => {
+        this.store
+        .select('profile','isSuccess')
+        .pipe(
+          mergeMap((isGetSuccess)=>{
+            if(isGetSuccess){
+              return this.profile$
+            }
+            else{
+              return []
+            }
+          })
+        )
+        .subscribe((profile) => {
         if (profile) {
+          console.log(profile);
+          
           this.profile = profile;
           this.postForm.patchValue({
             authorId: profile._id,
           });
         }
       }),
-      this.store
-        .select('storage', 'isGetSuccess')
-        .pipe(
-          mergeMap((isGetSuccess) => {
-            if (isGetSuccess) {
-              return this.storage$;
-            } else {
-              return [];
-            }
-          })
-        )
-        .subscribe((storage) => {
-          if (storage) {
-            this.postForm.patchValue({
-              media: storage.urls,
-            });
-            this.store.dispatch(
-              PostActions.create({
-                post: this.postForm.value,
-                idToken: this.idToken,
-              })
-            );
-          }
-        }),
+
       this.isCreatePostSuccess$.subscribe((isCreatePostSuccess) => {
         if (isCreatePostSuccess) {
           this.closePostDialog();
         }
       }),
-
-      // this.storage$.subscribe((storage)=>{
-      //   if(storage){
-      //     this.postForm.patchValue({
-      //       media: storage.urls
-      //     })
-      //   }
-      // }),
       this.isCreateImgSuccess$.subscribe((isCreateSuccess)=>{
         if(isCreateSuccess){
           console.log(this.idToken);
