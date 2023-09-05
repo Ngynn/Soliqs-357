@@ -14,6 +14,8 @@ import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user/user.service';
 import { UserState } from 'src/app/ngrx/states/user.state';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { ProfileState } from 'src/app/ngrx/states/profile.state';
+import { Profile } from 'src/app/models/profile.model';
 import * as UserActions from '../../../../../../ngrx/actions/user.actions';
 import { PostState } from 'src/app/ngrx/states/post.state';
 import * as PostActions from 'src/app/ngrx/actions/post.actions';
@@ -21,8 +23,6 @@ import * as ProfileActions from 'src/app/ngrx/actions/profile.actions'
 import * as StorageActions from 'src/app/ngrx/actions/storage.actions'
 import { Post } from 'src/app/models/post.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProfileState } from 'src/app/ngrx/states/profile.state';
-import { Profile } from 'src/app/models/profile.model';
 import { StorageState } from 'src/app/ngrx/states/storage.state';
 
 @Component({

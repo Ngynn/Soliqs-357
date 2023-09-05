@@ -28,3 +28,15 @@ export const getFailure = createAction(
   '[Profile] Get Failure',
   props<{ errorMessage: any }>()
 );
+
+export const update = createAction(
+  '[Profile] Update',
+  props<{ id: string; profile: Profile; idToken: string }>()
+);
+
+export const updateSuccess = createAction('[Profile] Update Success');
+
+export const updateFailure = createAction(
+  '[Profile] Update Failure',
+  props<{ errorMessage: any }>()
+);

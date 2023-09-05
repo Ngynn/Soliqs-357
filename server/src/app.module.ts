@@ -57,7 +57,7 @@ export class AppModule implements NestModule {
         UserController,
         ProfileController,
         PostController,
-        StorageController,
+        // StorageController,
       );
   }
 }

@@ -1,17 +1,16 @@
-import { createReducer, on } from "@ngrx/store";
-import { StorageState } from "../states/storage.state";
+import { createReducer, on } from '@ngrx/store';
+import { StorageState } from '../states/storage.state';
 import * as StorageAction from '../actions/storage.actions';
-import {Storage} from '../../models/storage.model'
-
+import { Storage } from '../../models/storage.model';
 
 export const initualState: StorageState = {
-    storage: <Storage>{},
-    isCreateLoading: false,
-    isCreateSuccess: false,
-    createErrorMessage: '',
-    isGetLoading: false,
-    isGetSuccess: false,
-    getErrorMessage: '',
+  storage: <Storage>{},
+  isCreateLoading: false,
+  isCreateSuccess: false,
+  createErrorMessage: '',
+  isGetLoading: false,
+  isGetSuccess: false,
+  getErrorMessage: '',
 };
 export const storageReducer = createReducer(
     initualState,
@@ -55,8 +54,6 @@ export const storageReducer = createReducer(
     }),
     on(StorageAction.getSuccess,(state,action)=>{
         console.log(action.type)
-
-        
         return {
             ...state,
             isGetLoading: false,

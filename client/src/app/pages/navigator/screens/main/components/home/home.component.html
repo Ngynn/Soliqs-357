@@ -10,10 +10,7 @@
             <div class="post">
               <div class="top">
                 <div class="avatar">
-                  <img
-                    src="https://static01.nyt.com/images/2022/12/30/multimedia/30soccer-ronaldo-1-76fd/30soccer-ronaldo-1-76fd-videoSixteenByNine3000.jpg"
-                    alt=""
-                  />
+                  <img src="{{ profile.avatar }}" alt="" />
                 </div>
                 <div class="input">
                   <form class="form" [formGroup]="postForm">
@@ -51,7 +48,7 @@
             <div class="post">
               <div class="top">
                 <div class="avatar" *ngIf="user">
-                  <img src="{{ user.picture }}" alt="" />
+                  <img src="{{ profile.avatar }}" alt="" />
                 </div>
                 <div class="input">
                   <input type="text" placeholder="What is happening?!" />
