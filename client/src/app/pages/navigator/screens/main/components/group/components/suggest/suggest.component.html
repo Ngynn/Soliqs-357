@@ -41,9 +41,13 @@
         </div>
       </div>
       <div class="rightsuggest">
-        <button mat-raised-button color="primary" (click)="joinGroup(groups)">
+        <button mat-raised-button color="primary" *ngIf="checkJoin(false)"  (click)="joinGroup( groups._id, profile._id , idToken)">
           Join
         </button>
+        <button mat-raised-button color="primary" *ngIf="checkJoin(true)"  (click)="joinGroup( groups._id, profile._id , idToken)">
+          Joined
+        </button>
+       
       </div>
     </div>
   </div>

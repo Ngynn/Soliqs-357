@@ -31,6 +31,7 @@ import * as ProfileAction from 'src/app/ngrx/actions/profile.actions';
 export class SuggestComponent implements OnDestroy, OnInit {
   isGetSuccess$ = this.store.select('group', 'isGetSuccess');
   isCreateGroupSuccess$ = this.store.select('group', 'isSuccess');
+  isJoinSuccess$ = this.store.select('group', 'isSuccess');
   errorMessage$ = this.store.select('group', 'errorMessage');
 
   groups: Group = <Group>{};
@@ -79,23 +80,6 @@ export class SuggestComponent implements OnDestroy, OnInit {
       profile: ProfileState;
     }>
   ) {
-    // onAuthStateChanged(this.auth, async (user) => {
-    //   console.log(user + 'User firebase');
-    //   if (user) {
-    //     let idToken = await user.getIdToken(true);
-    //     this.idToken = idToken;
-    //     this.store.dispatch(
-    //       UserAction.get({ uid: user.uid, idToken: idToken })
-    //     );
-    //     this.store.dispatch(
-    //       ProfileAction.get({ id: user.uid, idToken: idToken })
-    //     );
-    //     this.groupForm.patchValue({
-    //       owner: user!.uid,
-    //       members: [user!.uid],
-    //     });
-    //   }
-    // });
     
     this.idToken$.subscribe((idToken) => {
       if(idToken) {
@@ -123,14 +107,6 @@ export class SuggestComponent implements OnDestroy, OnInit {
         });
       }
     }),
-    
-
-    this.profile$.subscribe((value) => {
-      if (value) {
-        this.profile = value;
-        this.groupForm.patchValue({ owner: value._id });
-      }
-    });
     this.subscriptions.push(
       this.store
         .select('user', 'isGetSuccess')
@@ -171,9 +147,15 @@ export class SuggestComponent implements OnDestroy, OnInit {
       this.isCreateGroupSuccess$.subscribe((isSuccess) => {
         console.log('value of createSuccess' + isSuccess);
         if (isSuccess) {
-          // console.log(this.idToken);
           this.store.dispatch(GroupAction.get());
-          console.log(this.groupsList);
+        }
+      }),
+      this.isJoinSuccess$.subscribe((isSuccess) => {
+        console.log('value of joinSuccess' + isSuccess);
+        if (isSuccess) {
+          this.store.dispatch(GroupAction.getDetail({ id: this.groups._id }));
+          // console.log(this.groups._id);
+          
         }
       })
     );
@@ -182,8 +164,9 @@ export class SuggestComponent implements OnDestroy, OnInit {
 
     this.groupsList$.subscribe((groupList) => {
       this.groupsList = groupList;
-      console.log(groupList);
+      // console.log(groupList);
     });
+    
   }
 
   ngOnInit(): void {
@@ -203,22 +186,28 @@ export class SuggestComponent implements OnDestroy, OnInit {
     this.closeDialog();
   }
 
-  joinGroup(group: Group) {
-    //   this.members = group.members;
-    //   // console.log(this.members);
-    //   this.uid = this.profile.id;
-    //   // console.log(this.uid);
-    //   this.members = [...this.members, this.uid];
-    //   console.log(this.members);
-    //   console.log(group);
-    //   this.store.dispatch(
-    //     GroupAction.update({
-    //       id: group._id,
-    //       group: { ...group, members: this.members },
-    //     })
-    //   );
-    //   console.log(group);
+ 
+  checkJoin(join: boolean) {
+    if (this.profile._id && join) {
+      return true;
+    } else   {
+      return false;
+    }
+    
   }
+ 
+
+  joinGroup(id: string, uid: string, idToken: string) {
+    this.groups._id = id;
+    // console.log(this.groups._id+"_id");
+    this.store.dispatch(GroupAction.getDetail({ id: this.groups._id }));
+    uid = this.profile._id;
+    // console.log(uid+" profile");
+    idToken = this.idToken;
+    this.store.dispatch(GroupAction.join({ id: this.groups._id , uid: uid, idToken: idToken }));
+  }
+
+
 
   goToInternal() {
     this.router.navigate(['/group/internal']);

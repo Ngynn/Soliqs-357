@@ -45,3 +45,19 @@ export const joinFailure = createAction(
   '[Group] Join Failure',
   props<{ errorMessage: any }>()
 );
+
+export const getDetail = createAction(
+  '[Group] Get Detail',
+  props<{ id: string }>()
+);
+
+export const getDetailSuccess = createAction(
+  '[Group] Get Detail Success',
+  props<{ group: Group }>()
+);
+
+export const getDetailFailure = createAction(
+  '[Group] Get Detail Failure',
+  props<{ errorMessage: any }>()
+);
+

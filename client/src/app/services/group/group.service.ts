@@ -33,4 +33,8 @@ export class GroupService {
       }
     );
   }
+
+  getGroup(id: string) {
+    return this.httpClient.get<Group>(`http://localhost:3000/v1/group/detail?id=${id}`);
+  }
 }
