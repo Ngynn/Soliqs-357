@@ -40,6 +40,7 @@ export class ProfileComponent implements OnInit {
   errorMessageGet$ = this.store.select('storage', 'getErrorMessage');
   userFirebase$ = this.store.select('auth', 'firebaseUser');
   userFirebase: User = <User>{};
+  avatarUser = false;
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -50,23 +51,11 @@ export class ProfileComponent implements OnInit {
     }>,
     private auth: Auth
   ) {
-    // this.profile$.subscribe((value) => {
-    //   if (value.id) {
-    //     this.profile = value;
-    //     console.log('profile', value);
-    //   }
-    // });
-
-    this.userFirebase$.subscribe((value) => {
+    this.profile$.subscribe((value) => {
       if (value) {
-        this.userFirebase = value;
-        console.log('userFirebase', value);
-        this.store.dispatch(
-          ProfileActions.get({
-            id: this.userFirebase.uid,
-            idToken: this.isToken,
-          })
-        );
+        this.profile = value;
+
+        console.log('profile', value);
       }
     });
 
@@ -76,38 +65,24 @@ export class ProfileComponent implements OnInit {
         console.log('token', value);
       }
     });
+
+    this.isCreateImgSuccess$.subscribe((isCreateSuccess) => {
+      console.log('value of isCreateSuccess: ' + isCreateSuccess);
+      if (isCreateSuccess) {
+        console.log('getoprofile');
+        if (this.avatarUser) {
+          this.store.dispatch(
+            StorageActions.get({ id: this.idAvatar, idToken: this.isToken })
+          );
+        }
+      }
+    });
+
     this.storage$.subscribe((value) => {
-      if (value) {
+      if (value.folderName) {
         console.log('storage', value);
       }
     });
-    this.subscriptions.push(
-      this.store
-        .select('storage', 'isCreateSuccess')
-        .pipe(
-          mergeMap((isCreateSuccess) => {
-            if (isCreateSuccess) {
-              return this.storage$;
-            } else {
-              return [];
-            }
-          })
-        )
-        .subscribe((storage) => {
-          if (storage) {
-            this.myEditForm.patchValue({
-              avatar: storage.urls,
-            });
-            this.store.dispatch(
-              ProfileActions.update({
-                id: this.profile.id,
-                profile: this.profile,
-                idToken: this.isToken,
-              })
-            );
-          }
-        })
-    );
   }
 
   public myEditForm!: FormGroup;
@@ -315,6 +290,7 @@ export class ProfileComponent implements OnInit {
   }
 
   save(profile: Profile) {
+    this.avatarUser = true;
     console.log('valuene', this.myEditForm.value);
     if (!profile.displayName) {
       profile.displayName = this.profile.displayName;
@@ -329,7 +305,7 @@ export class ProfileComponent implements OnInit {
       profile.avatar = this.profile.avatar;
     }
     const id =
-      `avatar_${this.userFirebase.uid}_` +
+      `avatar/${this.profile.id}/` +
       Math.floor(
         Math.random() * Math.floor(Math.random() * Date.now())
       ).toString();
@@ -343,6 +319,7 @@ export class ProfileComponent implements OnInit {
         })
       );
     }
+    console.log('id', this.idAvatar);
     console.log('file', this.selectedFile);
     this.profile$.subscribe((value) => {
       if (value) {

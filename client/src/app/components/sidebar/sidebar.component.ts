@@ -136,6 +136,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         console.log('value of isCreateSuccess: ' + isCreateSuccess);
         if (isCreateSuccess) {
           console.log(this.idToken);
+          console.log('getosidebar');
 
           this.store.dispatch(
             StorageActions.get({ id: this.idPost, idToken: this.idToken })
