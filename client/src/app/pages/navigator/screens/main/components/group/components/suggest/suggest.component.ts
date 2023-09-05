@@ -49,6 +49,9 @@ export class SuggestComponent implements OnDestroy, OnInit {
   idToken$ = this.store.select('auth', 'idToken');
   idToken: string = '';
 
+  userFirebase$ = this.store.select('auth', 'isSuccessful');
+
+
   uid: string = '';
   subscriptions: Subscription[] = [];
 
@@ -97,6 +100,13 @@ export class SuggestComponent implements OnDestroy, OnInit {
         });
       }
     });
+    // this.subscriptions.push(
+    //   this.idToken$.subscribe((value) => {
+    //     this.idToken = value;
+    //   })
+    // );
+
+
     this.profile$.subscribe((value) => {
       if (value) {
         this.profile = value;
@@ -187,7 +197,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
     // console.log(this.uid);
     this.members = [... this.members, this.uid];
     console.log(this.members);
-    console.log(group);
+    
     this.store.dispatch(
       GroupAction.update({ id: group._id, group: {...group, members: this.members} })
     );
@@ -202,13 +212,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
   back() {
     this.location.back();
   }
-  buttonText: string = 'Join';
-
-  joined: boolean = false;
-
-  join(): void {
-    this.joined = true;
-  }
+  
 
   @ViewChild('createGroupDialog', { static: true })
   dialog!: ElementRef<HTMLDialogElement>;

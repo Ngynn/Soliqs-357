@@ -14,52 +14,7 @@
     <span>Discover new Communities</span>
   </div>
   <div class="main">
-    <div class="all">
-      <div class="leftsuggest" (click)="goToInternal()">
-        <div class="avatar">
-          <img
-            src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t1.15752-9/368985091_658717739518529_532326993777845950_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=ae9488&_nc_ohc=Zr5-kfc5XioAX8AylKJ&_nc_ht=scontent.fsgn2-9.fna&oh=03_AdQVPxZFt-05fFkvfDvrRq-E8h1on6PgQlGQ9Fag6aWYSA&oe=650A5B43"
-            alt=""
-          />
-        </div>
-        <div class="name">
-          <div class="groupname">
-            <span class="textname">Niềm vui</span>
-            <span class="textmember">100k member</span>
-          </div>
-          <div class="imguser">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/vi/thumb/5/5c/Chelsea_crest.svg/1200px-Chelsea_crest.svg.png"
-            />
-            <img
-              src="https://cdn.punchng.com/wp-content/uploads/2022/12/19070956/5f5e3cbe-1224-4a46-b8e7-612f5de03c8c.jpg"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="rightsuggest">
-        <!-- <button mat-raised-button color="primary" (click)="join()">Join</button> -->
-        <button
-          mat-raised-button
-          color="primary"
-          *ngIf="!joined"
-          (click)="join()"
-        >
-          Join
-        </button>
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="joined"
-          *ngIf="joined"
-        >
-          Joined
-        </button>
-      </div>
-    </div>
+    
     <div class="all" *ngFor="let groups of groupsList" >
       <div class="leftsuggest" (click)="goToInternal()">
         <div class="avatar">
