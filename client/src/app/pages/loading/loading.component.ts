@@ -46,7 +46,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
         if (!isSuccess && !isGetSuccess && idToken) {
           this.store.dispatch(UserActions.createUser({ idToken: idToken }));
         } else {
-          // this.router.navigate(['/login']);
+          this.router.navigate(['/login']);
         }
         if (isGetSuccess && user.uid) {
           if (user.profile != null) {
