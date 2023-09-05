@@ -6,6 +6,7 @@ import {
   Param,
   ParseFilePipe,
   Post,
+  Query,
   UploadedFile,
   UploadedFiles,
   UseInterceptors,
@@ -46,12 +47,12 @@ export class StorageController {
     }
   }
 
-  @Get(':folderName')
-  async getFiles(@Param('folderName') folderName: string): Promise<Storage[]> {
+  @Get()
+  async getFiles(@Query('folderName') folderName: string): Promise<Storage> {
     try {
       const files = await this.storageService.getFilesByFolderName(folderName);
       if (!files) {
-        return [];
+        return;
       }
       return files;
     } catch (error) {

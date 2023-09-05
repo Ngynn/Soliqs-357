@@ -169,7 +169,13 @@
       </div>
 
       <div id="avt">
-        <img src="{{ selectedImage }}" alt="" />
+        <img *ngIf="selectedImage === null" src="{{ profile.avatar }}" alt="" />
+        <img
+          *ngIf="selectedImage !== null"
+          [src]="selectedImage"
+          alt=""
+          style="width: 100%; height: 100%"
+        />
         <div id="avtImg">
           <div id="addImg"></div>
           <input

@@ -14,6 +14,8 @@ import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user/user.service';
 import { UserState } from 'src/app/ngrx/states/user.state';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { ProfileState } from 'src/app/ngrx/states/profile.state';
+import { Profile } from 'src/app/models/profile.model';
 import * as UserActions from '../../../../../../ngrx/actions/user.actions';
 import { PostState } from 'src/app/ngrx/states/post.state';
 import * as PostAction from 'src/app/ngrx/actions/post.actions';
@@ -27,16 +29,27 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class HomeComponent {
   idToken$: Observable<string> = this.store.select('idToken', 'idToken');
+  profile$ = this.store.select('profile', 'profile');
+  profile: Profile = <Profile>{};
   userData$ = this.store.select('user', 'user');
   user: User = <User>{};
   constructor(
-    private store: Store<{ idToken: AuthState; user: UserState }>,
+    private store: Store<{
+      idToken: AuthState;
+      user: UserState;
+      profile: ProfileState;
+    }>,
     private userService: UserService,
     private auth: Auth
   ) {
     this.userData$.subscribe((value) => {
       if (value) {
         this.user = value;
+      }
+    });
+    this.profile$.subscribe((value) => {
+      if (value) {
+        this.profile = value;
       }
     });
   }

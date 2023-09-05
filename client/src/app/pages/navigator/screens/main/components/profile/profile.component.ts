@@ -5,6 +5,7 @@ import {
   ViewChild,
   inject,
   OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user.model';
@@ -17,16 +18,34 @@ import { AuthState } from 'src/app/ngrx/states/auth.state';
 import * as ProfileActions from '../../../../../../ngrx/actions/profile.actions';
 import { Store } from '@ngrx/store';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { StorageState } from 'src/app/ngrx/states/storage.state';
+import { Subscription, mergeMap } from 'rxjs';
+import * as StorageActions from '../../../../../../ngrx/actions/storage.actions';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
+  profile: Profile = <Profile>{};
+  profile$ = this.store.select('profile', 'profile');
+  isToken: string = '';
+  idAvatar: string = '';
+  idToken$ = this.store.select('auth', 'idToken');
+  storage$ = this.store.select('storage', 'storage');
+  isCreateImgSuccess$ = this.store.select('storage', 'isCreateSuccess');
+  subscriptions: Subscription[] = [];
+  selectedFile: File | null = null;
+  errorMessageGet$ = this.store.select('storage', 'getErrorMessage');
+
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
-    private store: Store<{ auth: AuthState; profile: ProfileState }>,
+    private store: Store<{
+      auth: AuthState;
+      profile: ProfileState;
+      storage: StorageState;
+    }>,
     private auth: Auth
   ) {
     this.profile$.subscribe((value) => {
@@ -49,9 +68,7 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-  profile: Profile = <Profile>{};
-  profile$ = this.store.select('profile', 'profile');
-  isToken: string = '';
+
   public myEditForm!: FormGroup;
 
   ngOnInit(): void {
@@ -60,8 +77,10 @@ export class ProfileComponent implements OnInit {
       bio: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]),
       website: new FormControl('', [Validators.required]),
+      avatar: new FormControl(`${this.profile.avatar}`, [Validators.required]),
     });
   }
+
   posts = [
     {
       avatarUrl:
@@ -255,45 +274,63 @@ export class ProfileComponent implements OnInit {
   }
 
   save(profile: Profile) {
+    console.log('valuene', this.myEditForm.value);
     if (!profile.displayName) {
       profile.displayName = this.profile.displayName;
     }
     if (!profile.bio) {
       profile.bio = this.profile.bio;
     }
-
     if (!profile.country) {
       profile.country = this.profile.country;
     }
+    if (!profile.avatar) {
+      profile.avatar = this.profile.avatar;
+    }
+    const id = Math.floor(
+      Math.random() * Math.floor(Math.random() * Date.now())
+    ).toString();
+    this.idAvatar = id;
+    if (this.selectedFile) {
+      this.store.dispatch(
+        StorageActions.create({
+          id: this.idAvatar,
+          file: this.selectedFile,
+          idToken: this.isToken,
+        })
+      );
+    }
+    console.log('file', this.selectedFile);
     this.profile$.subscribe((value) => {
-      console.log(value);
       if (value) {
         this.store.dispatch(
           ProfileActions.update({
-            id: value.id,
-            profile: profile,
+            id: this.profile.id,
+            profile: this.myEditForm.value,
             idToken: this.isToken,
           })
         );
-        console.log('profile', value);
       }
     });
+
     this.closeEditProfileDialog();
   }
   selectedImage: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   handleFileInput(event: Event) {
-    const selectedFiles = (event.target as HTMLInputElement).files;
+    const inputElement = this.fileInput.nativeElement as HTMLInputElement;
+    const selectedFiles = inputElement.files;
 
     if (selectedFiles && selectedFiles.length > 0) {
       // Thực hiện xử lý với tệp đã chọn tại đây
-      const selectedFile = selectedFiles[0];
+
+      this.selectedFile = selectedFiles[0];
       const reader = new FileReader();
       reader.onload = (e) => {
         this.selectedImage = e.target?.result || null;
       };
-      reader.readAsDataURL(selectedFile);
-      console.log('Selected File:', selectedFile);
+
+      reader.readAsDataURL(this.selectedFile);
     }
   }
 }

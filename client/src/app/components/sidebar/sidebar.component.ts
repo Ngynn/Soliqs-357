@@ -6,47 +6,99 @@ import {
   ElementRef,
   inject,
   ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
 
 import * as AuthActions from '../../ngrx/actions/auth.actions';
+import * as StorageActions from '../../ngrx/actions/storage.actions';
+import * as UserActions from '../../ngrx/actions/user.actions';
+import * as ProfileActions from '../../ngrx/actions/profile.actions';
+import * as PostActions from '../../ngrx/actions/post.actions';
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { Store } from '@ngrx/store';
+import { StorageState } from 'src/app/ngrx/states/storage.state';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
-import { Profile } from 'src/app/models/profile.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserState } from 'src/app/ngrx/states/user.state';
+import { Subscription, mergeMap } from 'rxjs';
 import { ProfileState } from 'src/app/ngrx/states/profile.state';
+
+import { Profile } from 'src/app/models/profile.model';
+
 import { ProfileService } from 'src/app/services/profile/profile.service';
-import * as ProfileActions from '../../ngrx/actions/profile.actions';
+import { PostState } from 'src/app/ngrx/states/post.state';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnInit {
-  profile: Profile = <Profile>{};
-  profile$ = this.store.select('profile', 'profile');
+export class SidebarComponent implements OnInit, OnDestroy {
   currentPage?: string = '';
   themeColor: 'primary' | 'accent' | 'warn' = 'primary'; // ? notice this
   isDark = false; // ? notice this
-  isToken: string = '';
+  isCreateImgSuccess$ = this.store.select('storage', 'isCreateSuccess');
+  idToken$ = this.store.select('auth', 'idToken');
+  idToken: string = '';
+  subscriptions: Subscription[] = [];
+  isHaveFile: boolean = false;
+  idPost: string = '';
+  profile: Profile = <Profile>{};
+  user$ = this.store.select('user', 'user');
+  profile$ = this.store.select('profile', 'profile');
+  storage$ = this.store.select('storage', 'storage');
+  isCreatePostSuccess$ = this.store.select('post', 'isSuccess');
+  selectedFile: any;
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  postForm = new FormGroup({
+    id: new FormControl(''),
+    authorId: new FormControl('', Validators.required),
+    content: new FormControl('', Validators.required),
+    media: new FormControl<string[]>([]),
+  });
+
+  storageForm = new FormData();
 
   constructor(
     private overlayContainer: OverlayContainer,
     private router: Router,
-    private store: Store<{ auth: AuthState; profile: ProfileState }>,
+    private store: Store<{
+      auth: AuthState;
+      storage: StorageState;
+      user: UserState;
+      profile: ProfileState;
+      post: PostState;
+    }>,
     private auth: Auth
   ) {
-    this.profile$.subscribe((value) => {
-      if (value) {
-        this.profile = value;
-        console.log('profilesidebar', value);
-      }
-    });
+    // onAuthStateChanged(this.auth, async (user) => {
+    //   console.log(user + 'User firebase');
+    //   if (user) {
+    //     let idToken = await user!.getIdToken(true);
+    //     this.idToken = idToken;
+    //     this.store.dispatch(
+    //       UserActions.getUser({ uid: user.uid, idToken: idToken })
+    //     );
+    //     console.log(user.uid, idToken);
+
+    //     this.store.dispatch(
+    //       ProfileActions.get({ id: user.uid, idToken: idToken })
+    //     );
+
+    //     // this.store.dispatch(AuthActions.storedIdToken(idToken));
+    //   }
+    // });
+
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
         let idToken = await user!.getIdToken(true);
-        this.isToken = idToken;
+        this.idToken = idToken;
         console.log('idToken', idToken);
         this.store.dispatch(
           ProfileActions.get({ id: user.uid, idToken: idToken })
@@ -56,6 +108,105 @@ export class SidebarComponent implements OnInit {
         console.log('no user', user);
       }
     });
+    this.profile$.subscribe((profile) => {
+      if (profile) {
+        this.profile = profile;
+        this.postForm.patchValue({
+          authorId: profile._id,
+        });
+      }
+    });
+
+    this.subscriptions.push(
+      this.store
+        .select('storage', 'isGetSuccess')
+        .pipe(
+          mergeMap((isGetSuccess) => {
+            if (isGetSuccess) {
+              return this.storage$;
+            } else {
+              return [];
+            }
+          })
+        )
+        .subscribe((storage) => {
+          if (storage) {
+            this.postForm.patchValue({
+              media: storage.urls,
+            });
+            this.store.dispatch(
+              PostActions.create({
+                post: this.postForm.value,
+                idToken: this.idToken,
+              })
+            );
+          }
+        }),
+      this.isCreatePostSuccess$.subscribe((isCreatePostSuccess) => {
+        if (isCreatePostSuccess) {
+          this.closePostDialog();
+        }
+      }),
+
+      this.storage$.subscribe((storage) => {
+        if (storage) {
+          this.postForm.patchValue({
+            media: storage.urls,
+          });
+        }
+      }),
+      this.isCreateImgSuccess$.subscribe((isCreateSuccess) => {
+        console.log('value of isCreateSuccess: ' + isCreateSuccess);
+        if (isCreateSuccess) {
+          console.log(this.idToken);
+
+          this.store.dispatch(
+            StorageActions.get({
+              id: this.idPost,
+              idToken: this.idToken,
+            })
+          );
+        }
+      })
+    );
+
+    this.idToken$.subscribe((value) => {
+      this.idToken = value;
+    });
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
+
+  posttest() {
+    console.log(this.selectedFile);
+    console.log(this.postForm.value);
+  }
+
+  post() {
+    const id = Math.floor(
+      Math.random() * Math.floor(Math.random() * Date.now())
+    ).toString();
+    this.idPost = id;
+    this.postForm.patchValue({
+      id: id,
+    });
+    if (this.selectedFile) {
+      this.store.dispatch(
+        StorageActions.create({
+          file: this.selectedFile,
+          id: id,
+          idToken: this.idToken,
+        })
+      );
+    }
+    // else{
+    //   console.log(this.postForm.value);
+
+    //   this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
+    // }
   }
 
   navItems = [

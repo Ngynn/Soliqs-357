@@ -4,7 +4,7 @@ import { User } from "src/app/models/user.model";
 
 export const create = createAction(
     '[Post] Create',
-    props<{ post: Post}>()
+    props<{ post: any, idToken: string}>()
 );
 
 export const createSuccess = createAction(
@@ -16,7 +16,7 @@ export const createFailure = createAction(
 );
 
 export const get = createAction(
-    '[Post] Get ', props<{authorId: string}>()
+    '[Post] Get ', props<{authorId: string, idToken: string}>()
 );
 export const getSuccess = createAction(
     '[Post] Get Success',
