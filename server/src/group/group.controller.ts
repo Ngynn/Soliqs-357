@@ -1,5 +1,15 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body,  Delete, HttpException, HttpStatus, Query, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Delete,
+  HttpException,
+  HttpStatus,
+  Query,
+  Put,
+} from '@nestjs/common';
 import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
@@ -10,7 +20,7 @@ export class GroupController {
   constructor(private groupService: GroupService) {}
 
   @Post()
-   async create(@Body() createGroupDto: CreateGroupDto) {
+  async create(@Body() createGroupDto: CreateGroupDto) {
     const requiredFields = ['name', 'owner'];
     const missingFields = requiredFields.filter(
       (field) => !createGroupDto[field],
@@ -28,7 +38,7 @@ export class GroupController {
       throw error;
     }
   }
-  
+
   @Get()
   async findAll() {
     try {
@@ -47,13 +57,25 @@ export class GroupController {
     } catch (error) {
       throw error;
     }
-
   }
 
-  @Put('detail')
-  async update(@Query('id') id: string, @Body() updateGroupDto: UpdateGroupDto) {
+  @Put()
+  async update(
+    @Query('id') id: string,
+    @Body() updateGroupDto: UpdateGroupDto,
+  ) {
     try {
       const updatedGroup = await this.groupService.update(id, updateGroupDto);
+      return updatedGroup;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Put('join')
+  async join(@Query('id') id: string, @Query('userId') userId: string) {
+    try {
+      const updatedGroup = await this.groupService.join(id, userId);
       return updatedGroup;
     } catch (error) {
       throw error;
@@ -79,6 +101,4 @@ export class GroupController {
       throw error;
     }
   }
-
-  
 }

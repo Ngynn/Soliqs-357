@@ -107,11 +107,11 @@
           flex-direction: column;
           justify-content: space-between;
           margin-left: 10px;
-          .imguser{
+          .imguser {
             display: flex;
             flex-direction: row;
             position: relative;
-            
+
             img {
               width: 30px;
               height: 30px;
@@ -130,25 +130,24 @@
               left: 40px;
               z-index: 3;
             }
-    
+
             img:nth-child(n + 2) {
               margin-left: -15px;
             }
           }
-         .groupname{
-          display: flex;
-          flex-direction: column;
-          .textname {
-            font-weight: 500;
-            font-size: 17px;
-          }
+          .groupname {
+            display: flex;
+            flex-direction: column;
+            .textname {
+              font-weight: 500;
+              font-size: 17px;
+            }
 
-          .textmember {
-            font-size: 15px;
-            font-weight: 400;
+            .textmember {
+              font-size: 15px;
+              font-weight: 400;
+            }
           }
-         }
-          
         }
       }
       .rightsuggest {
@@ -192,7 +191,6 @@
   margin: 10px;
   padding: 10px;
   border-radius: 10px;
-  
 }
 
 .confirmBtn {

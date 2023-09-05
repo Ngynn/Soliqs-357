@@ -30,11 +30,9 @@ export class GroupService {
     }
   }
 
-
-  async findOne(id: string): Promise<Group> { 
+  async findOne(id: string): Promise<Group> {
     try {
-      const group = await this.groupModel
-        .findOne({ _id: id });
+      const group = await this.groupModel.findOne({ _id: id });
       return group;
     } catch (error) {
       throw new HttpException(error.message, error.status);
@@ -54,23 +52,34 @@ export class GroupService {
     }
   }
 
-  async remove(id: string) {
+  async join(id: string, userId: string) {
     try {
-      const deleteGroup = await this.groupModel.findOneAndDelete({ id: id });
+      const updatedGroup = await this.groupModel.findOneAndUpdate(
+        { id: id },
+        { $push: { members: userId } },
+        { new: true },
+      );
+      return updatedGroup;
     } catch (error) {
       throw new HttpException(error.message, error.status);
     }
   }
 
-  async findByName(name: string) {
+  async remove(id: string) {
     try {
-      const group = await this.groupModel.findOne({ name: name }).exec;
+      const deleteGroup = await this.groupModel.findOneAndDelete({ id: id });
+      return deleteGroup;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async findByName(name: string): Promise<Group> {
+    try {
+      const group = await this.groupModel.findOne({ name: name });
       return group;
     } catch (error) {
       throw new HttpException(error.message, error.status);
     }
   }
-
- 
-  
 }

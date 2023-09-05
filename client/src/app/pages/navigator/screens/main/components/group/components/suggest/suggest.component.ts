@@ -47,7 +47,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
   idToken$ = this.store.select('auth', 'idToken');
   idToken: string = '';
 
-  userFirebase$ = this.store.select('auth', 'isSuccessful');
+  userFirebase$ = this.store.select('auth', 'firebaseUser');
 
 
   uid: string = '';
@@ -79,29 +79,51 @@ export class SuggestComponent implements OnDestroy, OnInit {
       profile: ProfileState;
     }>
   ) {
-    onAuthStateChanged(this.auth, async (user) => {
-      console.log(user + 'User firebase');
-      if (user) {
-        let idToken = await user.getIdToken(true);
+    // onAuthStateChanged(this.auth, async (user) => {
+    //   console.log(user + 'User firebase');
+    //   if (user) {
+    //     let idToken = await user.getIdToken(true);
+    //     this.idToken = idToken;
+    //     this.store.dispatch(
+    //       UserAction.get({ uid: user.uid, idToken: idToken })
+    //     );
+    //     this.store.dispatch(
+    //       ProfileAction.get({ id: user.uid, idToken: idToken })
+    //     );
+    //     this.groupForm.patchValue({
+    //       owner: user!.uid,
+    //       members: [user!.uid],
+    //     });
+    //   }
+    // });
+    
+    this.idToken$.subscribe((idToken) => {
+      if(idToken) {
         this.idToken = idToken;
-        this.store.dispatch(
-          UserAction.get({ uid: user.uid, idToken: idToken })
+      }
+    }),
+    this.userFirebase$.subscribe((userFirebase) => {
+      if(userFirebase.uid) {
+        this.store.dispatch(UserAction.get({ uid: userFirebase.uid, idToken: this.idToken })
         );
-        this.store.dispatch(
-          ProfileAction.get({ id: user.uid, idToken: idToken })
+      }
+    }),
+    this.userFirebase$.subscribe((userFirebase) => {
+      if(userFirebase.uid) {
+        this.store.dispatch(ProfileAction.get({ id: userFirebase.uid, idToken: this.idToken })
         );
+      }
+    }),
+    this.userFirebase$.subscribe((user) => {
+      if(user) {
+        this.userFirebase = user;
         this.groupForm.patchValue({
           owner: user!.uid,
           members: [user!.uid],
         });
       }
-    });
-    // this.subscriptions.push(
-    //   this.idToken$.subscribe((value) => {
-    //     this.idToken = value;
-    //   })
-    // );
-
+    }),
+    
 
     this.profile$.subscribe((value) => {
       if (value) {
@@ -166,6 +188,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
       console.log(groupList);
     });
   }
+
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
@@ -174,7 +197,6 @@ export class SuggestComponent implements OnDestroy, OnInit {
   }
 
   createGroup() {
-    console.log(this.groupForm.value);
     this.store.dispatch(
       GroupAction.create({ group: <Group>this.groupForm.value })
     );
@@ -182,25 +204,26 @@ export class SuggestComponent implements OnDestroy, OnInit {
   }
 
   joinGroup(group: Group) {
-    this.members = group.members;
-    // console.log(this.members);
-    this.uid = this.profile.id;
-    // console.log(this.uid);
-    this.members = [...this.members, this.uid];
-    console.log(this.members);
-    
-    this.store.dispatch(
-      GroupAction.update({
-        id: group._id,
-        group: { ...group, members: this.members },
-      })
-    );
-    console.log(group);
+    //   this.members = group.members;
+    //   // console.log(this.members);
+    //   this.uid = this.profile.id;
+    //   // console.log(this.uid);
+    //   this.members = [...this.members, this.uid];
+    //   console.log(this.members);
+    //   console.log(group);
+    //   this.store.dispatch(
+    //     GroupAction.update({
+    //       id: group._id,
+    //       group: { ...group, members: this.members },
+    //     })
+    //   );
+    //   console.log(group);
   }
 
   goToInternal() {
     this.router.navigate(['/group/internal']);
   }
+
   back() {
     this.location.back();
   }
