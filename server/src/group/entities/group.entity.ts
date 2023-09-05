@@ -1,5 +1,8 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+/* eslint-disable prettier/prettier */
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { HydratedDocument } from "mongoose";
+
+
 
 export type GroupDocument = HydratedDocument<Group>;
 
@@ -12,9 +15,9 @@ export class Group {
   @Prop()
   members: string[];
   @Prop()
-  Posts: string[];
+  posts: string[];
   @Prop({ default: false })
-  is_Private: boolean;
+  isPrivate: boolean;
 }
 
 export const GroupSchema = SchemaFactory.createForClass(Group);
