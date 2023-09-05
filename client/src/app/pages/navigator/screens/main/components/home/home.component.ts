@@ -80,12 +80,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private auth: Auth,
   ) {
+    this.store.dispatch(PostActions.get({idToken: this.idToken}))
     this.userData$.subscribe((value) => {
       if (value) {
         this.user = value;
       }
     });
-
+    ProfileActions.get
     this.profile$.subscribe((profile)=>{
       if(profile){
         this.profile = profile;
@@ -109,6 +110,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.post$.subscribe((posts)=>{
         if(posts){
           console.log(posts);
+          this.postReal = posts;
           
         }
       }),
@@ -122,7 +124,6 @@ export class HomeComponent implements OnInit, OnDestroy {
           console.log(this.postForm.value);
           if(this.isHomePost){
             console.log('create post at here');
-            
             this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
             this.isHomePost = false
           }

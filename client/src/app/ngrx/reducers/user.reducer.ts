@@ -11,7 +11,7 @@ export const initualState: UserState = {
   isGetLoading: false,
   isGetSuccess: false,
   isGetFailure: false,
-  errorGetMessage: '',
+
 };
 export const userReducer = createReducer(
   initualState,
