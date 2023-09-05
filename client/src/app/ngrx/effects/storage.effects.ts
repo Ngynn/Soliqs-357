@@ -3,7 +3,6 @@ import * as StorageAction from '../actions/storage.actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
-import { Storage } from '../../models/storage.model';
 
 @Injectable()
 export class StorageEffects {
@@ -17,7 +16,7 @@ export class StorageEffects {
       switchMap((action) => {
         return this.storageService.create(
           action.file,
-          action.id,
+          action.fileName,
           action.idToken
         );
       }),
@@ -29,11 +28,12 @@ export class StorageEffects {
       })
     )
   );
+
   get$ = createEffect(() =>
     this.action$.pipe(
       ofType(StorageAction.get),
       exhaustMap((action) =>
-        this.storageService.getStorage(action.id, action.idToken).pipe(
+        this.storageService.getStorage(action.fileName, action.idToken).pipe(
           map((storage) => {
             return StorageAction.getSuccess({ storage: storage });
           }),
