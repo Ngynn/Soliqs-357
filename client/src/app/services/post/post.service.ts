@@ -8,13 +8,13 @@ import { Post } from 'src/app/models/post.model';
 export class PostService {
   constructor(private httpClient: HttpClient) {}
 
-  getPosts(uid: string, idToken: string) {
+  getPosts(idToken: string) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${idToken}`
     });
 
     return this.httpClient.get<Post[]>(
-      `http://localhost:3000/v1/post/author/${uid}`,
+      `http://localhost:3000/v1/post/all`,
        {headers}
     );
   }

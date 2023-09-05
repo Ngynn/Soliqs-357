@@ -3,14 +3,14 @@
     <div class="item" *ngFor="let item of post">
       <div class="top-item">
         <div class="avatar-top-item">
-          <img [src]="item.avatarUrl" alt="" />
+          <img [src]="item.authorId.avatar" alt="" />
         </div>
         <div class="content-top-item">
           <div class="container-user-top-item">
             <div class="left-container-user-top-item">
-              <div class="username-top-item">{{ item.username }}</div>
-              <div class="tagname-top-item">{{ item.tagname }}</div>
-              <div class="time-top-item">{{ item.time }}</div>
+              <div class="username-top-item">{{ item.authorId.userName }}</div>
+              <div class="tagname-top-item">{{ item.authorId.displayName }}</div>
+              <div class="time-top-item">{{ item.createdAt }}</div>
               <div class="divice-content-top-item"></div>
             </div>
             <div class="icon-content-top-item">
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="img-item" (click)="Selectitem(item)">
-        <img *ngFor="let imageUrl of item.imageUrls" [src]="imageUrl" alt="" />
+        <img *ngFor="let imageUrl of item.media" [src]="imageUrl" alt="" />
       </div>
       <div class="reaction">
         <div class="item-reaction" (click)="openCommentDialog()">
