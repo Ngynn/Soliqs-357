@@ -114,12 +114,12 @@ export class SuggestComponent implements OnDestroy, OnInit {
         );
       }
     }),
-    this.userFirebase$.subscribe((user) => {
+    this.profile$.subscribe((user) => {
       if(user) {
-        this.userFirebase = user;
+        this.profile = user;
         this.groupForm.patchValue({
-          owner: user!.uid,
-          members: [user!.uid],
+          owner: user!._id,
+          members: [user!._id],
         });
       }
     }),
@@ -128,7 +128,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
     this.profile$.subscribe((value) => {
       if (value) {
         this.profile = value;
-        this.groupForm.patchValue({ owner: value.id });
+        this.groupForm.patchValue({ owner: value._id });
       }
     });
     this.subscriptions.push(
@@ -164,7 +164,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
         .subscribe((profile) => {
           if (profile) {
             this.groupForm.patchValue({
-              owner: profile.id,
+              owner: profile._id,
             });
           }
         }),
@@ -173,13 +173,10 @@ export class SuggestComponent implements OnDestroy, OnInit {
         if (isSuccess) {
           // console.log(this.idToken);
           this.store.dispatch(GroupAction.get());
+          console.log(this.groupsList);
         }
       })
     );
-
-    this.idToken$.subscribe((value) => {
-      this.idToken = value;
-    });
 
     this.store.dispatch(GroupAction.get());
 
@@ -198,7 +195,10 @@ export class SuggestComponent implements OnDestroy, OnInit {
 
   createGroup() {
     this.store.dispatch(
-      GroupAction.create({ group: <Group>this.groupForm.value })
+      GroupAction.create({
+        group:<Group> this.groupForm.value,
+        idToken: this.idToken,
+      })
     );
     this.closeDialog();
   }

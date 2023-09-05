@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Group } from 'src/app/models/group.model';
 
-export const create = createAction('[Group] Create', props<{ group: Group }>());
+export const create = createAction('[Group] Create', props<{ group: Group; idToken: string }>());
 
 export const createSuccess = createAction('[Group] Create Success');
 
