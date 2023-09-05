@@ -11,6 +11,8 @@ import * as ProfileActions from 'src/app/ngrx/actions/profile.actions';
 
 import { UserState } from 'src/app/ngrx/states/user.state';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -48,6 +50,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
+    private _snackBar: MatSnackBar,
     private store: Store<{ user: UserState; profile: ProfileState }>
   ) {}
 
@@ -63,9 +66,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
           });
         }
       }),
-      this.isCreateSuccess$.subscribe((isSuccess) => {
-        if (isSuccess) {
+      this.store.select('profile', 'isLoading').subscribe((res) => {
+        if (res) {
+          this.openSnackBar('Creating user...');
+        }
+      }),
+      this.store.select('profile', 'isSuccess').subscribe((res) => {
+        if (res) {
+          this.openSnackBar('Register successfully!');
           this.router.navigate(['/loading']);
+        }
+      }),
+      this.store.select('profile', 'errorMessage').subscribe((res) => {
+        if (res) {
+          this.openSnackBar(`Error: ${res}`);
         }
       })
     );
@@ -91,5 +105,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
         profile: <Profile>this.regisData,
       })
     );
+  }
+
+  openSnackBar(message: any) {
+    this._snackBar.open(message.error.message, '', {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 2000,
+      panelClass: ['snackbar'],
+    });
   }
 }

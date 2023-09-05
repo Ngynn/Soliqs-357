@@ -37,7 +37,25 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.subscriptions.push(
+      this.store.select('auth', 'isLoading').subscribe((res) => {
+        if (res) {
+          this.openSnackBar('Logging in...');
+        }
+      }),
+      this.store.select('auth', 'isSuccessful').subscribe((res) => {
+        if (res) {
+          this.openSnackBar('Login successfully!');
+        }
+      }),
+      this.store.select('auth', 'errorMessage').subscribe((res) => {
+        if (res) {
+          this.openSnackBar(`Error: ${res}`);
+        }
+      })
+    );
+  }
 
   loginWithGoogle() {
     this.store.dispatch(AuthActions.login());
