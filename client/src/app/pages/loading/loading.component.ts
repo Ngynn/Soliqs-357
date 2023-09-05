@@ -10,6 +10,8 @@ import { UserState } from 'src/app/ngrx/states/user.state';
 
 import * as UserActions from '../../ngrx/actions/user.actions';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-loading',
   templateUrl: './loading.component.html',
@@ -33,8 +35,34 @@ export class LoadingComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
+    private _snackBar: MatSnackBar,
     private store: Store<{ auth: AuthState; user: UserState }>
-  ) {
+  ) {}
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
+
+  ngOnInit(): void {
+    this.subscriptions.push(
+      this.store.select('user', 'isLoading').subscribe((res) => {
+        if (res) {
+          this.openSnackBar('Creating user...');
+        }
+      }),
+      this.store.select('user', 'isSuccess').subscribe((res) => {
+        if (res) {
+          this.openSnackBar('Create user successfully!');
+        }
+      }),
+      this.store.select('user', 'errorMessage').subscribe((res) => {
+        if (res) {
+          this.openErrorSnackBar(`Error: ${res}`);
+        }
+      })
+    );
     setTimeout(() => {
       this.subscriptions.push(
         combineLatest([
@@ -87,11 +115,21 @@ export class LoadingComponent implements OnInit, OnDestroy {
     }, 2000);
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => {
-      subscription.unsubscribe();
+  openSnackBar(message: any) {
+    this._snackBar.open(message, '', {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 2000,
+      panelClass: ['snackbar'],
     });
   }
 
-  ngOnInit(): void {}
+  openErrorSnackBar(message: any) {
+    this._snackBar.open(message.error.message, '', {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 2000,
+      panelClass: ['snackbar'],
+    });
+  }
 }
