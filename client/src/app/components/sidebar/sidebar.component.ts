@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  Input,
   ViewChild,
   ElementRef,
   inject,
@@ -10,25 +9,26 @@ import {
 } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
+import { Subscription, combineLatest, mergeMap } from 'rxjs';
+
+import { AuthState } from 'src/app/ngrx/states/auth.state';
+
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { UserState } from 'src/app/ngrx/states/user.state';
+
+import { PostState } from 'src/app/ngrx/states/post.state';
+
+import { Profile } from 'src/app/models/profile.model';
+import { ProfileState } from 'src/app/ngrx/states/profile.state';
+
+import { Store } from '@ngrx/store';
+import { StorageState } from 'src/app/ngrx/states/storage.state';
 
 import * as AuthActions from '../../ngrx/actions/auth.actions';
 import * as StorageActions from '../../ngrx/actions/storage.actions';
-import * as UserActions from '../../ngrx/actions/user.actions';
 import * as ProfileActions from '../../ngrx/actions/profile.actions';
 import * as PostActions from '../../ngrx/actions/post.actions';
-import { AuthState } from 'src/app/ngrx/states/auth.state';
-import { Store } from '@ngrx/store';
-import { StorageState } from 'src/app/ngrx/states/storage.state';
-import { Auth, onAuthStateChanged } from '@angular/fire/auth';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserState } from 'src/app/ngrx/states/user.state';
-import { Subscription, mergeMap } from 'rxjs';
-import { ProfileState } from 'src/app/ngrx/states/profile.state';
-
-import { Profile } from 'src/app/models/profile.model';
-
-import { ProfileService } from 'src/app/services/profile/profile.service';
-import { PostState } from 'src/app/ngrx/states/post.state';
 
 @Component({
   selector: 'app-sidebar',
@@ -39,51 +39,172 @@ export class SidebarComponent implements OnInit, OnDestroy {
   currentPage?: string = '';
   themeColor: 'primary' | 'accent' | 'warn' = 'primary'; // ? notice this
   isDark = false; // ? notice this
-  isCreateImgSuccess$ = this.store.select('storage', 'isCreateSuccess');
-  idToken$ = this.store.select('auth', 'idToken');
-  idToken: string = '';
-  subscriptions: Subscription[] = [];
-  isHaveFile: boolean = false;
-  idPost: string = '';
-  profile: Profile = <Profile>{};
-  user$ = this.store.select('user', 'user');
-  profile$ = this.store.select('profile', 'profile');
-  storage$ = this.store.select('storage', 'storage');
-  userFirebase$ = this.store.select('auth','firebaseUser');
-  isCreatePostSuccess$ = this.store.select('post', 'isSuccess');
-  selectedFile: any;
-  selectedImage: string | ArrayBuffer | null = null;
-  isSidebarPost: boolean = false;
 
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
-  }
+  subscriptions: Subscription[] = [];
+
+  idToken: string = '';
+  idToken$ = this.store.select('auth', 'idToken');
+
+  selectedImage: string | ArrayBuffer | null = null;
+
+  profile: Profile = <Profile>{};
+  profile$ = this.store.select('profile', 'profile');
+
+  isCreateSuccess$ = this.store.select('storage', 'isCreateSuccess');
+  isGetSuccess$ = this.store.select('storage', 'isGetSuccess');
+  isCreatePostSuccess$ = this.store.select('post', 'isSuccess');
+
+  storage$ = this.store.select('storage', 'storage');
+
+  userFirebase$ = this.store.select('auth', 'firebaseUser');
+
+  formData: FormData = new FormData();
+  fileName: string = '';
+  file: any;
+
+  id: string = '';
+
+  isHaveImage = true;
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
-  handleFileInput(event: Event) {
-    const selectedFiles = (event.target as HTMLInputElement).files;
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    this.formData.append('image', file, file.name);
+    this.file = file;
 
-    if (selectedFiles && selectedFiles.length > 0) {
-      // Thực hiện xử lý với tệp đã chọn tại đây
-      const selectedFile = selectedFiles[0];
-      this.selectedFile = selectedFile;
-
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.selectedImage = e.target.result; // Cập nhật biến selectedFile với đường dẫn hình ảnh
-        };
-        reader.readAsDataURL(selectedFile); // Đọc tệp hình ảnh
-
-      console.log('Selected File:', this.selectedImage);
-    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.selectedImage = reader.result;
+    };
   }
 
   postForm = new FormGroup({
     id: new FormControl(''),
     authorId: new FormControl('', Validators.required),
     content: new FormControl('', Validators.required),
-    media: new FormControl<string[]>([]),
+    media: new FormControl(''),
   });
+
+  postData = {
+    id: '',
+    authorId: '',
+    content: '',
+    media: '',
+  };
+
+  ngOnInit(): void {
+    const currentRoute = this.router.url;
+
+    this.navItems.forEach((nav) => {
+      if (nav.route == '/group/internal') {
+      }
+
+      if (nav.route === currentRoute) {
+        nav.backgroundColor = true;
+        // console.log(nav.text, 'BackgroundColor set to true');
+      } else {
+        nav.backgroundColor = false;
+      }
+    });
+
+    this.subscriptions.push(
+      combineLatest([this.idToken$, this.profile$]).subscribe(
+        ([idToken, profile]) => {
+          this.profile = profile;
+          this.idToken = idToken;
+          console.log(idToken);
+        }
+      ),
+
+      this.isCreateSuccess$.subscribe((res) => {
+        if (res) {
+          this.store.dispatch(
+            StorageActions.get({
+              fileName: `posts/${this.profile.id}/${this.id}`,
+              idToken: this.idToken,
+            })
+          );
+        }
+      }),
+
+      this.isGetSuccess$
+        .pipe(
+          mergeMap((res) => {
+            if (res) {
+              return this.storage$;
+            } else {
+              return [];
+            }
+          })
+        )
+        .subscribe((storage) => {
+          if (storage) {
+            this.postData = {
+              id: `posts/${this.profile.id}/${this.id}`,
+              authorId: this.profile._id,
+              content: this.postForm.value.content || '',
+              media: storage.urls[0],
+            };
+
+            this.store.dispatch(
+              PostActions.create({
+                post: this.postData,
+                idToken: this.idToken,
+              })
+            );
+          }
+        }),
+
+      this.isCreatePostSuccess$.subscribe((res) => {
+        if (res) {
+          this.postData = {
+            id: '',
+            authorId: '',
+            content: '',
+            media: '',
+          };
+          this.postForm.reset();
+          this.selectedImage = null;
+          this.fileInput.nativeElement.value = '';
+          this.closePostDialog();
+          this.store.dispatch(PostActions.get({ idToken: this.idToken }));
+        }
+      })
+    );
+  }
+
+  uploadPost() {
+    const id = Math.floor(
+      Math.random() * Math.floor(Math.random() * Date.now())
+    ).toString();
+
+    this.id = id;
+
+    if (this.file) {
+      this.store.dispatch(
+        StorageActions.create({
+          file: this.file,
+          fileName: `posts/${this.profile.id}/${id}`,
+          idToken: this.idToken,
+        })
+      );
+    } else {
+      this.postData = {
+        id: `posts/${this.profile.id}/${id}`,
+        authorId: this.profile._id,
+        content: this.postForm.value.content || '',
+        media: '',
+      };
+
+      this.store.dispatch(
+        PostActions.create({
+          post: this.postData,
+          idToken: this.idToken,
+        })
+      );
+    }
+  }
 
   storageForm = new FormData();
 
@@ -93,111 +214,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private store: Store<{
       auth: AuthState;
       storage: StorageState;
-      user: UserState;
       profile: ProfileState;
       post: PostState;
-    }>,
-    private auth: Auth
-  ) {
-    this.subscriptions.push(
-      this.idToken$.subscribe((idToken)=>{
-          if(idToken){
-            this.idToken = idToken
-          }
-      }),
-      this.userFirebase$.subscribe((userFirebase)=>{
-        if(userFirebase.uid){
-          console.log(userFirebase);
-          this.store.dispatch(ProfileActions.get({id: userFirebase.uid, idToken: this.idToken}))
-        }
-      }),
-      this.storage$.subscribe((storage)=>{
-        if(storage.folderName)
-        {
-          console.log(storage);
-          this.postForm.patchValue({
-            media: storage.urls
-          })
-          console.log(this.postForm.value);
-          if(this.isSidebarPost)
-          {
-            this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
-            this.isSidebarPost = false
-          }
-        }}),
-        this.store
-        .select('profile','isSuccess')
-        .pipe(
-          mergeMap((isGetSuccess)=>{
-            if(isGetSuccess){
-              return this.profile$
-            }
-            else{
-              return []
-            }
-          })
-        )
-        .subscribe((profile) => {
-        if (profile) {
-          console.log(profile);
-          
-          this.profile = profile;
-          this.postForm.patchValue({
-            authorId: profile._id,
-          });
-        }
-      }),
+    }>
+  ) {}
 
-      this.isCreatePostSuccess$.subscribe((isCreatePostSuccess) => {
-        if (isCreatePostSuccess) {
-          this.closePostDialog();
-        }
-      }),
-      this.isCreateImgSuccess$.subscribe((isCreateSuccess) => {
-        console.log('value of isCreateSuccess: ' + isCreateSuccess);
-        if (isCreateSuccess) {
-          console.log(this.idToken);
-          if(this.isSidebarPost)
-          this.store.dispatch(StorageActions.get({id:this.idPost, idToken: this.idToken}))
-        }
-      }),
-      this.idToken$.subscribe((value) => {
-        this.idToken = value;
-      })
-    );
-  }
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => {
       subscription.unsubscribe();
     });
-  }
-
-  posttest() {
-    console.log(this.selectedFile);
-    console.log(this.postForm.value);
-  }
-
-  postInSldebar(){
-    this.isSidebarPost = true;
-    const id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now())).toString()
-    this.idPost = `post/${this.profile.id}/${id}`;
-    this.postForm.patchValue({
-      id: this.idPost,
-    });
-    if (this.selectedFile) {
-      this.store.dispatch(
-        StorageActions.create({
-          file: this.selectedFile,
-          id: this.idPost,
-          idToken: this.idToken,
-        })
-      );
-    }
-    else{
-      console.log(this.postForm.value);
-      
-      this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
-    }
   }
 
   navItems = [
@@ -223,22 +248,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       route: `/profile/${this.profile.id}`,
     },
   ];
-
-  ngOnInit(): void {
-    const currentRoute = this.router.url;
-
-    this.navItems.forEach((nav) => {
-      if (nav.route == '/group/internal') {
-      }
-
-      if (nav.route === currentRoute) {
-        nav.backgroundColor = true;
-        console.log(nav.text, 'BackgroundColor set to true');
-      } else {
-        nav.backgroundColor = false;
-      }
-    });
-  }
 
   @ViewChild('appDialog', { static: true })
   dialog!: ElementRef<HTMLDialogElement>;

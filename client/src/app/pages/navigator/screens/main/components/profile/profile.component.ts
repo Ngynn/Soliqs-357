@@ -337,7 +337,7 @@ export class ProfileComponent implements OnInit {
     if (this.selectedFile) {
       this.store.dispatch(
         StorageActions.create({
-          id: this.idAvatar,
+          fileName: this.idAvatar,
           file: this.selectedFile,
           idToken: this.isToken,
         })
