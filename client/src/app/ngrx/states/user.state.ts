@@ -8,4 +8,5 @@ export interface UserState {
   isGetSuccess: boolean;
   isGetFailure: boolean;
   errorMessage: any;
+  errorGetMessage: any;
 }

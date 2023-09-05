@@ -156,6 +156,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
       console.log(groupList);
     });
   }
+
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
@@ -164,7 +165,6 @@ export class SuggestComponent implements OnDestroy, OnInit {
   }
 
   createGroup() {
-    console.log(this.groupForm.value);
     this.store.dispatch(
       GroupAction.create({ group: <Group>this.groupForm.value })
     );
@@ -172,28 +172,30 @@ export class SuggestComponent implements OnDestroy, OnInit {
   }
 
   joinGroup(group: Group) {
-    this.members = group.members;
-    // console.log(this.members);
-    this.uid = this.profile.id;
-    // console.log(this.uid);
-    this.members = [...this.members, this.uid];
-    console.log(this.members);
-    console.log(group);
-    this.store.dispatch(
-      GroupAction.update({
-        id: group._id,
-        group: { ...group, members: this.members },
-      })
-    );
-    console.log(group);
+    //   this.members = group.members;
+    //   // console.log(this.members);
+    //   this.uid = this.profile.id;
+    //   // console.log(this.uid);
+    //   this.members = [...this.members, this.uid];
+    //   console.log(this.members);
+    //   console.log(group);
+    //   this.store.dispatch(
+    //     GroupAction.update({
+    //       id: group._id,
+    //       group: { ...group, members: this.members },
+    //     })
+    //   );
+    //   console.log(group);
   }
 
   goToInternal() {
     this.router.navigate(['/group/internal']);
   }
+
   back() {
     this.location.back();
   }
+
   buttonText: string = 'Join';
 
   joined: boolean = false;

@@ -59,7 +59,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
       }),
       this.store.select('user', 'errorMessage').subscribe((res) => {
         if (res) {
-          this.openErrorSnackBar(`Error: ${res}`);
+          this.openSnackBar(`Error: ${res.error.message}`);
         }
       })
     );
@@ -99,12 +99,12 @@ export class LoadingComponent implements OnInit, OnDestroy {
             if (isGetFailure && !isSuccess) {
               this.store.dispatch(UserActions.create({ idToken }));
             }
-            if (isGetSuccess && user.uid) {
+            if (isGetSuccess && user.email) {
               console.log('have user');
               if (user.profile != null) {
-                console.log('have profile');
+                console.log('have profile ' + user.profile);
                 this.router.navigate(['/home']);
-              } else {
+              } else if (user.profile === null) {
                 console.log('dont have profile');
                 this.router.navigate(['/register']);
               }
@@ -117,15 +117,6 @@ export class LoadingComponent implements OnInit, OnDestroy {
 
   openSnackBar(message: any) {
     this._snackBar.open(message, '', {
-      horizontalPosition: 'end',
-      verticalPosition: 'top',
-      duration: 2000,
-      panelClass: ['snackbar'],
-    });
-  }
-
-  openErrorSnackBar(message: any) {
-    this._snackBar.open(message.error.message, '', {
       horizontalPosition: 'end',
       verticalPosition: 'top',
       duration: 2000,

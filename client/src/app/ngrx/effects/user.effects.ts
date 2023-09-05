@@ -34,7 +34,7 @@ export class UserEffects {
             return UserAction.getSuccess({ user: user });
           }),
           catchError((error) =>
-            of(UserAction.getFailure({ errorMessage: error }))
+            of(UserAction.getFailure({ errorGetMessage: error }))
           )
         )
       )

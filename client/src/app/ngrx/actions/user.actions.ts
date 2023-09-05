@@ -25,5 +25,5 @@ export const getSuccess = createAction(
 
 export const getFailure = createAction(
   '[User] Get Failure',
-  props<{ errorMessage: any }>()
+  props<{ errorGetMessage: any }>()
 );
