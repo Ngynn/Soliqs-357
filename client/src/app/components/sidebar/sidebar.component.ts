@@ -53,7 +53,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   isCreatePostSuccess$ = this.store.select('post', 'isSuccess');
   selectedFile: any;
   selectedImage: string | ArrayBuffer | null = null;
-  isSlidebarPost: boolean = false;
+  isSidebarPost: boolean = false;
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -119,10 +119,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
             media: storage.urls
           })
           console.log(this.postForm.value);
-          if(this.isSlidebarPost)
+          if(this.isSidebarPost)
           {
             this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
-            this.isSlidebarPost = false
+            this.isSidebarPost = false
           }
         }}),
         this.store
@@ -157,6 +157,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         console.log('value of isCreateSuccess: ' + isCreateSuccess);
         if (isCreateSuccess) {
           console.log(this.idToken);
+          if(this.isSidebarPost)
           this.store.dispatch(StorageActions.get({id:this.idPost, idToken: this.idToken}))
         }
       }),
@@ -177,9 +178,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   postInSldebar(){
-    this.isSlidebarPost = true;
+    this.isSidebarPost = true;
     const id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now())).toString()
-
     this.idPost = `post/${this.profile.id}/${id}`;
     this.postForm.patchValue({
       id: this.idPost,

@@ -111,7 +111,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         if(posts){
           console.log(posts);
           this.postReal = posts;
-          
         }
       }),
       this.storage$.subscribe((storage)=>{
@@ -139,7 +138,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         if(isCreateSuccess){
           console.log(this.idToken);
           console.log(this.idPost);
-          this.store.dispatch(StorageActions.get({id:this.idPost, idToken: this.idToken}))
+          if(this.isHomePost){
+            this.store.dispatch(StorageActions.get({id:this.idPost, idToken: this.idToken}))
+          }
         }
       })
     )
@@ -150,13 +151,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   post(){
     this.isHomePost = true;
     const id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now())).toString()
-    this.idPost = id
+    this.idPost = `post/${this.profile.id}/${id}`;
     this.postForm.patchValue({
-      id: id
+      id: this.idPost
     })
     if(this.selectedFile)
     {
-      this.store.dispatch(StorageActions.create({file: this.selectedFile,id: id,idToken:this.idToken}))
+      this.store.dispatch(StorageActions.create({file: this.selectedFile,id: this.idPost,idToken:this.idToken}))
     }
     else{
       console.log(this.postForm.value);
