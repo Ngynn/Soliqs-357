@@ -7,5 +7,5 @@ export interface AuthState {
   isSuccessful: boolean;
   islogoutLoading: boolean;
   isLogoutSuccess: boolean;
-  errorMessage: string;
+  errorMessage: any;
 }
