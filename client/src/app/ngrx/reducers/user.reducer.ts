@@ -11,6 +11,7 @@ export const initualState: UserState = {
   isGetLoading: false,
   isGetSuccess: false,
   isGetFailure: false,
+  errorGetMessage: '',
 };
 export const userReducer = createReducer(
   initualState,
@@ -48,7 +49,7 @@ export const userReducer = createReducer(
       isGetLoading: true,
       isGetSuccess: false,
       isGetFailure: false,
-      errorMessage: '',
+      errorGetMessage: '',
       user: <User>{},
     };
   }),
@@ -59,18 +60,18 @@ export const userReducer = createReducer(
       isGetLoading: false,
       isGetSuccess: true,
       isGetFailure: false,
-      errorMessage: '',
+      errorGetMessage: '',
       user: action.user,
     };
   }),
-  on(UserAction.getFailure, (state, { type, errorMessage }) => {
+  on(UserAction.getFailure, (state, { type, errorGetMessage }) => {
     console.log(type);
     return {
       ...state,
       isGetLoading: false,
       isGetSuccess: false,
       isGetFailure: true,
-      errorMessage,
+      errorGetMessage,
       user: <User>{},
     };
   })

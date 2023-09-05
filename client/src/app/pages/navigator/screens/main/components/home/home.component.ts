@@ -74,9 +74,9 @@ export class HomeComponent {
 
   // content: string = '';
 
-  // postForm = new FormGroup({
-  //   content: new FormControl(''),
-  // });
+  postForm = new FormGroup({
+    content: new FormControl(''),
+  });
 
   // postData = {
   //   content: '',

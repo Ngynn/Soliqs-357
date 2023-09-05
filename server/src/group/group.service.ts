@@ -1,26 +1,85 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Group } from './entities/group.entity';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class GroupService {
-  create(createGroupDto: CreateGroupDto) {
-    return 'This action adds a new group';
+  constructor(@InjectModel(Group.name) private groupModel: Model<Group>) {}
+
+  async create(createGroupDto: CreateGroupDto): Promise<Group> {
+    try {
+      const group = new this.groupModel(createGroupDto);
+      return await group.save();
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
   }
 
-  findAll() {
-    return `This action returns all group`;
+  async findAll() {
+    try {
+      const groups = await this.groupModel.find().exec();
+      return groups;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} group`;
+  async findOne(id: string): Promise<Group> {
+    try {
+      const group = await this.groupModel.findOne({ _id: id });
+      return group;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
   }
 
-  update(id: number, updateGroupDto: UpdateGroupDto) {
-    return `This action updates a #${id} group`;
+  async update(id: string, updateGroupDto: UpdateGroupDto) {
+    try {
+      const updatedGroup = await this.groupModel.findOneAndUpdate(
+        { id: id },
+        { ...updateGroupDto },
+        { new: true },
+      );
+      return updatedGroup;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} group`;
+  async join(id: string, userId: string) {
+    try {
+      const updatedGroup = await this.groupModel.findOneAndUpdate(
+        { id: id },
+        { $push: { members: userId } },
+        { new: true },
+      );
+      return updatedGroup;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async remove(id: string) {
+    try {
+      const deleteGroup = await this.groupModel.findOneAndDelete({ id: id });
+      return deleteGroup;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async findByName(name: string): Promise<Group> {
+    try {
+      const group = await this.groupModel.findOne({ name: name });
+      return group;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
   }
 }

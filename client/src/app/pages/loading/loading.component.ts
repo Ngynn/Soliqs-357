@@ -10,6 +10,8 @@ import { UserState } from 'src/app/ngrx/states/user.state';
 
 import * as UserActions from '../../ngrx/actions/user.actions';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-loading',
   templateUrl: './loading.component.html',
@@ -33,8 +35,34 @@ export class LoadingComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
+    private _snackBar: MatSnackBar,
     private store: Store<{ auth: AuthState; user: UserState }>
-  ) {
+  ) {}
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
+
+  ngOnInit(): void {
+    this.subscriptions.push(
+      this.store.select('user', 'isLoading').subscribe((res) => {
+        if (res) {
+          this.openSnackBar('Creating user...');
+        }
+      }),
+      this.store.select('user', 'isSuccess').subscribe((res) => {
+        if (res) {
+          this.openSnackBar('Create user successfully!');
+        }
+      }),
+      this.store.select('user', 'errorMessage').subscribe((res) => {
+        if (res) {
+          this.openSnackBar(`Error: ${res.error.message}`);
+        }
+      })
+    );
     setTimeout(() => {
       this.subscriptions.push(
         combineLatest([
@@ -71,12 +99,12 @@ export class LoadingComponent implements OnInit, OnDestroy {
             if (isGetFailure && !isSuccess) {
               this.store.dispatch(UserActions.create({ idToken }));
             }
-            if (isGetSuccess && user.uid) {
+            if (isGetSuccess && user.email) {
               console.log('have user');
               if (user.profile != null) {
-                console.log('have profile');
+                console.log('have profile ' + user.profile);
                 this.router.navigate(['/home']);
-              } else {
+              } else if (user.profile === null) {
                 console.log('dont have profile');
                 this.router.navigate(['/register']);
               }
@@ -87,11 +115,12 @@ export class LoadingComponent implements OnInit, OnDestroy {
     }, 2000);
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => {
-      subscription.unsubscribe();
+  openSnackBar(message: any) {
+    this._snackBar.open(message, '', {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 2000,
+      panelClass: ['snackbar'],
     });
   }
-
-  ngOnInit(): void {}
 }

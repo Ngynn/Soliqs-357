@@ -107,11 +107,11 @@
           flex-direction: column;
           justify-content: space-between;
           margin-left: 10px;
-          .imguser{
+          .imguser {
             display: flex;
             flex-direction: row;
             position: relative;
-            
+
             img {
               width: 30px;
               height: 30px;
@@ -130,25 +130,24 @@
               left: 40px;
               z-index: 3;
             }
-    
+
             img:nth-child(n + 2) {
               margin-left: -15px;
             }
           }
-         .groupname{
-          display: flex;
-          flex-direction: column;
-          .textname {
-            font-weight: 500;
-            font-size: 17px;
-          }
+          .groupname {
+            display: flex;
+            flex-direction: column;
+            .textname {
+              font-weight: 500;
+              font-size: 17px;
+            }
 
-          .textmember {
-            font-size: 15px;
-            font-weight: 400;
+            .textmember {
+              font-size: 15px;
+              font-weight: 400;
+            }
           }
-         }
-          
         }
       }
       .rightsuggest {
@@ -165,4 +164,40 @@
       }
     }
   }
+}
+
+.group_add {
+  width: 400px;
+  border: none;
+  border-radius: 14px;
+}
+
+.btnClose {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+  margin-top: 10px;
+  width: 13px;
+  height: 13px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.inputGroup {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.confirmBtn {
+  width: 140px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  font-weight: 500;
+  font-size: medium;
 }

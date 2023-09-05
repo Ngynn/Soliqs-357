@@ -12,8 +12,12 @@
                 <div class="avatar">
                   <img src="{{ profile.avatar }}" alt="" />
                 </div>
-                <div class="input">
-                  <input type="text" placeholder="What is happening?!" />
+                <div class="input" [formGroup]="postForm">
+                  <input
+                    type="text"
+                    placeholder="What is happening?!"
+                    formControlName="content"
+                  />
                 </div>
               </div>
               <div class="bottom">
@@ -131,7 +135,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="item">
                 <div class="top-item">
                   <div class="avatar-top-item">
