@@ -33,8 +33,6 @@ export class SuggestComponent implements OnDestroy, OnInit {
   isCreateGroupSuccess$ = this.store.select('group', 'isSuccess');
   errorMessage$ = this.store.select('group', 'errorMessage');
 
-
-  
   groups: Group = <Group>{};
   groupsList: Group[] = [];
 
@@ -51,8 +49,6 @@ export class SuggestComponent implements OnDestroy, OnInit {
 
   uid: string = '';
   subscriptions: Subscription[] = [];
-
-
 
   name: string = '';
   owner: string = '';
@@ -147,8 +143,6 @@ export class SuggestComponent implements OnDestroy, OnInit {
           this.store.dispatch(GroupAction.get());
         }
       })
-      
-      
     );
 
     this.idToken$.subscribe((value) => {
@@ -161,9 +155,6 @@ export class SuggestComponent implements OnDestroy, OnInit {
       this.groupsList = groupList;
       console.log(groupList);
     });
-
-    
-
   }
   ngOnInit(): void {
     throw new Error('Method not implemented.');
@@ -180,21 +171,22 @@ export class SuggestComponent implements OnDestroy, OnInit {
     this.closeDialog();
   }
 
-  joinGroup( group: Group) {
+  joinGroup(group: Group) {
     this.members = group.members;
     // console.log(this.members);
     this.uid = this.profile.id;
     // console.log(this.uid);
-    this.members = [... this.members, this.uid];
+    this.members = [...this.members, this.uid];
     console.log(this.members);
     console.log(group);
     this.store.dispatch(
-      GroupAction.update({ id: group._id, group: {...group, members: this.members} })
+      GroupAction.update({
+        id: group._id,
+        group: { ...group, members: this.members },
+      })
     );
     console.log(group);
   }
-
- 
 
   goToInternal() {
     this.router.navigate(['/group/internal']);

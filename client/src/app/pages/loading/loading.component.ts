@@ -59,18 +59,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
       }),
       this.store.select('user', 'errorMessage').subscribe((res) => {
         if (res) {
-          this.openSnackBar(`Error: ${res}`);
-        }
-      }),
-
-      this.store.select('user', 'isGetLoading').subscribe((res) => {
-        if (res) {
-          this.openSnackBar('Getting user...');
-        }
-      }),
-      this.store.select('user', 'isGetSuccess').subscribe((res) => {
-        if (res) {
-          this.openSnackBar('Get user successfully!');
+          this.openErrorSnackBar(`Error: ${res}`);
         }
       })
     );
@@ -127,6 +116,15 @@ export class LoadingComponent implements OnInit, OnDestroy {
   }
 
   openSnackBar(message: any) {
+    this._snackBar.open(message, '', {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 2000,
+      panelClass: ['snackbar'],
+    });
+  }
+
+  openErrorSnackBar(message: any) {
     this._snackBar.open(message.error.message, '', {
       horizontalPosition: 'end',
       verticalPosition: 'top',
