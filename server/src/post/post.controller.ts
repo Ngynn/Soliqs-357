@@ -115,6 +115,31 @@ export class PostController {
     }
   }
 
+  @Get('all/profile')
+  async findAllAndSortByAuthorId(
+    @Query('id') authorId: string,
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+    @Query('sortBy') sortBy = 'createdAt',
+    @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'desc',
+  ): Promise<Posts[]> {
+    try {
+      const posts = await this.postService.findAllAndSortByAuthorId(
+        authorId,
+        page,
+        limit,
+        sortBy,
+        sortOrder,
+      );
+      if (posts.length === 0) {
+        return [];
+      }
+      return posts;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   @Put('like')
   async likePost(
     @Query('id') id: string,

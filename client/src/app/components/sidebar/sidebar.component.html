@@ -106,7 +106,7 @@
             placeholder="What is happening?!"
           ></textarea>
         </form>
-        <div class="img-file" *ngIf="selectedFile">
+        <div class="img-file" *ngIf="file">
           <img [src]="selectedImage" alt="Selected Image" />
         </div>
       </div>
@@ -118,7 +118,7 @@
           type="file"
           accept="image/*"
           style="display: none"
-          (change)="handleFileInput($event)"
+          (change)="onFileSelected($event)"
           #fileInput
         />
         <mat-icon (click)="fileInput.click()">image</mat-icon>
@@ -129,7 +129,7 @@
       </div>
       <div class="divice"></div>
       <div class="button">
-        <button mat-raised-button color="primary" (click)="postInSldebar()">
+        <button mat-raised-button color="primary" (click)="uploadPost()">
           Post
         </button>
       </div>
