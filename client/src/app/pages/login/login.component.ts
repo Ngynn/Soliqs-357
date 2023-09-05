@@ -1,17 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Auth, getAuth, onAuthStateChanged } from '@angular/fire/auth';
 import { Store } from '@ngrx/store';
-import { Subscription, mergeMap } from 'rxjs';
-import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { User } from 'src/app/models/user.model';
+
 import { AuthState } from 'src/app/ngrx/states/auth.state';
-import { UserState } from 'src/app/ngrx/states/user.state';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import * as AuthActions from '../../ngrx/actions/auth.actions';
-import * as UserActions from '../../ngrx/actions/user.actions';
 
 @Component({
   selector: 'app-login',

@@ -1,16 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { UserState } from 'src/app/ngrx/states/user.state';
-import * as UserActions from '../../ngrx/actions/user.actions';
-import { User } from 'src/app/models/user.model';
+import { Subscription } from 'rxjs';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { Profile } from 'src/app/models/profile.model';
 import { ProfileState } from 'src/app/ngrx/states/profile.state';
 import * as ProfileActions from 'src/app/ngrx/actions/profile.actions';
-import { AuthState } from 'src/app/ngrx/states/auth.state';
-import { Auth, getAuth, onAuthStateChanged } from '@angular/fire/auth';
-import { Subscription, mergeMap } from 'rxjs';
+
+import { UserState } from 'src/app/ngrx/states/user.state';
 
 @Component({
   selector: 'app-register',
@@ -49,9 +48,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private auth: Auth,
     private store: Store<{ user: UserState; profile: ProfileState }>
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.subscriptions.push(
       this.user$.subscribe((user) => {
         if (user.uid) {
@@ -62,11 +62,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
             avatar: user.picture,
           });
         }
+      }),
+      this.isCreateSuccess$.subscribe((isSuccess) => {
+        if (isSuccess) {
+          this.router.navigate(['/loading']);
+        }
       })
     );
   }
-
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => {

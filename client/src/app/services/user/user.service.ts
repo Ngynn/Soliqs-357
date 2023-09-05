@@ -8,7 +8,7 @@ import { User } from '../../models/user.model';
 export class UserService {
   constructor(private httpClient: HttpClient) {}
 
-  createUser(idToken: string) {
+  create(idToken: string) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${idToken}`, // Đảm bảo có khoảng cách giữa 'Bearer' và token
     });
@@ -18,7 +18,7 @@ export class UserService {
     });
   }
 
-  getUser(uid: string, idToken: string) {
+  get(uid: string, idToken: string) {
     return this.httpClient.get<User>(
       `http://localhost:3000/v1/user?id=${uid}`,
       {
