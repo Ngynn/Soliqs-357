@@ -88,7 +88,6 @@ export class LoadingComponent implements OnInit, OnDestroy {
                 !this.uid ||
                 !this.idToken
               ) {
-                console.log('have firebase user, try to get my user');
                 this.uid = firebaseUser.uid;
                 this.idToken = idToken;
                 this.store.dispatch(
@@ -100,19 +99,16 @@ export class LoadingComponent implements OnInit, OnDestroy {
               this.store.dispatch(UserActions.create({ idToken }));
             }
             if (isGetSuccess && user.email) {
-              console.log('have user');
               if (user.profile != null) {
-                console.log('have profile ' + user.profile);
                 this.router.navigate(['/home']);
               } else if (user.profile === null) {
-                console.log('dont have profile');
                 this.router.navigate(['/register']);
               }
             }
           }
         )
       );
-    }, 2000);
+    }, 3000);
   }
 
   openSnackBar(message: any) {

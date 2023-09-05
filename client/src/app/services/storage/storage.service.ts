@@ -8,7 +8,7 @@ import { Storage } from '../../models/storage.model';
 export class StorageService {
   constructor(private httpClient: HttpClient) {}
 
-  create(file: File, id: string, idToken: string) {
+  create(file: File, fileName: string, idToken: string) {
     const formData = new FormData();
     formData.append('files', file);
 
@@ -17,19 +17,19 @@ export class StorageService {
     });
 
     return this.httpClient.post(
-      `http://localhost:3000/storage/upload?folderName=${id}`,
+      `http://localhost:3000/storage/upload?folderName=${fileName}`,
       formData,
       { headers }
     );
   }
 
-  getStorage(id: string, idToken: string) {
+  getStorage(fileName: string, idToken: string) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${idToken}`,
     });
 
     return this.httpClient.get<Storage>(
-      `http://localhost:3000/storage?folderName=${id}`,
+      `http://localhost:3000/storage?folderName=${fileName}`,
       {
         headers,
       }
