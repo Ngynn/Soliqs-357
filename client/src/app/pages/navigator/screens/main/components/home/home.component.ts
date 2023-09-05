@@ -18,88 +18,161 @@ import { ProfileState } from 'src/app/ngrx/states/profile.state';
 import { Profile } from 'src/app/models/profile.model';
 import * as UserActions from '../../../../../../ngrx/actions/user.actions';
 import { PostState } from 'src/app/ngrx/states/post.state';
-import * as PostAction from 'src/app/ngrx/actions/post.actions';
+import * as PostActions from 'src/app/ngrx/actions/post.actions';
+import * as ProfileActions from 'src/app/ngrx/actions/profile.actions'
+import * as StorageActions from 'src/app/ngrx/actions/storage.actions'
 import { Post } from 'src/app/models/post.model';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { StorageState } from 'src/app/ngrx/states/storage.state';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
-  idToken$: Observable<string> = this.store.select('idToken', 'idToken');
+export class HomeComponent implements OnInit, OnDestroy {
+  idToken$ = this.store.select('auth', 'idToken');
   profile$ = this.store.select('profile', 'profile');
-  profile: Profile = <Profile>{};
   userData$ = this.store.select('user', 'user');
+  isCreatePostSuccess$ = this.store.select('post','isSuccess');
+  isCreateImgSuccess$ = this.store.select('storage','isCreateSuccess');
+  userFirebase$ = this.store.select('auth','firebaseUser')
   user: User = <User>{};
+  idToken: string = '';
+  subscriptions: Subscription[] = [];
+  profile: Profile = <Profile>{};
+  storage$ = this.store.select('storage','storage');
+  idPost: string = '';
+  selectedFile: any;
+  selectedImage: string | ArrayBuffer | null = null;
+  post$ = this.store.select('post','posts')
+  postReal: Post[] = []
+  isHomePost = false;
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  handleFileInput(event: Event) {
+    const selectedFiles = (event.target as HTMLInputElement).files;
+
+    if (selectedFiles && selectedFiles.length > 0) {
+      // Thực hiện xử lý với tệp đã chọn tại đây
+      const selectedFile = selectedFiles[0];
+      this.selectedFile = selectedFile;
+
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.selectedImage = e.target.result; // Cập nhật biến selectedFile với đường dẫn hình ảnh
+        };
+        reader.readAsDataURL(selectedFile); // Đọc tệp hình ảnh
+
+      console.log('Selected File:', this.selectedImage);
+    }
+  }
+
+  postForm = new FormGroup({
+    id: new FormControl(''),
+    authorId: new FormControl('',Validators.required),
+    content: new FormControl('',Validators.required),
+    media: new FormControl<string[]>([]),
+  })
+  
   constructor(
-    private store: Store<{
-      idToken: AuthState;
-      user: UserState;
-      profile: ProfileState;
-    }>,
+    private store: Store<{ auth: AuthState; user: UserState, post: PostState, profile: ProfileState, storage: StorageState }>,
     private userService: UserService,
-    private auth: Auth
+    private auth: Auth,
   ) {
+    this.store.dispatch(PostActions.get({idToken: this.idToken}))
     this.userData$.subscribe((value) => {
       if (value) {
         this.user = value;
       }
     });
-    this.profile$.subscribe((value) => {
-      if (value) {
-        this.profile = value;
+    ProfileActions.get
+    this.profile$.subscribe((profile)=>{
+      if(profile){
+        this.profile = profile;
+        this.postForm.patchValue({
+          authorId: profile._id,
+        })
       }
+    });
+    this.subscriptions.push(
+      this.idToken$.subscribe((idToken)=>{
+          if(idToken){
+            this.idToken = idToken
+          }
+      }),
+      this.userFirebase$.subscribe((userFirebase)=>{
+        if(userFirebase.uid){
+          console.log(userFirebase);
+          this.store.dispatch(ProfileActions.get({id: userFirebase.uid, idToken: this.idToken}))
+        }
+      }),
+      this.post$.subscribe((posts)=>{
+        if(posts){
+          console.log(posts);
+          this.postReal = posts;
+        }
+      }),
+      this.storage$.subscribe((storage)=>{
+        if(storage.folderName)
+        {
+          console.log(storage);
+          this.postForm.patchValue({
+            media: storage.urls
+          })
+          console.log(this.postForm.value);
+          if(this.isHomePost){
+            console.log('create post at here');
+            this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
+            this.isHomePost = false
+          }
+
+        }
+      }),
+      this.isCreatePostSuccess$.subscribe((isCreatePostSuccess)=>{
+        if(isCreatePostSuccess){
+
+        }
+      }),
+      this.isCreateImgSuccess$.subscribe((isCreateSuccess)=>{
+        if(isCreateSuccess){
+          console.log(this.idToken);
+          console.log(this.idPost);
+          if(this.isHomePost){
+            this.store.dispatch(StorageActions.get({id:this.idPost, idToken: this.idToken}))
+          }
+        }
+      })
+    )
+
+  }
+
+
+  post(){
+    this.isHomePost = true;
+    const id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now())).toString()
+    this.idPost = `post/${this.profile.id}/${id}`;
+    this.postForm.patchValue({
+      id: this.idPost
+    })
+    if(this.selectedFile)
+    {
+      this.store.dispatch(StorageActions.create({file: this.selectedFile,id: this.idPost,idToken:this.idToken}))
+    }
+    else{
+      console.log(this.postForm.value);
+      console.log('create post at here');
+      this.store.dispatch(PostActions.create({post: this.postForm.value, idToken: this.idToken}))
+    }
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
     });
   }
 
-  // onAuthStateChanged(this.auth, async (user) => {
-  //   if (user) {
-  //     console.log('user', user);
-  //     this.store.dispatch(UserActions.getUser({ uid: user.id }));
-  //   } else {
-  //     console.log('no user', user);
-  //   }
-  // });
 
-  // posts$ = this.store.select('post', 'posts');
-  // isGetSuccess$ = this.store.select('post', 'isGetSuccess');
-  // isCreateSuccess$ = this.store.select('post', 'isSuccess');
-  // errorMessage$ = this.store.select('post', 'errorMessage');
 
-  // posts: Post[] = [];
-
-  // posts$: Observable<Post[]> = this.store.select('post', 'posts');
-
-  // content: string = '';
-
-  postForm = new FormGroup({
-    content: new FormControl(''),
-  });
-
-  // postData = {
-  //   content: '',
-  // };
-
-  // constructor(private store: Store<{ idToken: AuthState; post: PostState }>) {
-  //   this.idToken$.subscribe((value) => {
-  //     console.log('hello id token');
-  //     console.log(value);
-  //     if (value) {
-  //       console.log(value);
-  //     }
-  //   });
-
-  //   // this.posts$.subscribe((posts) => {
-  //   //   if (posts.length > 0) {
-  //   //     console.log(posts);
-  //   //     this.posts = posts;
-  //   //   }
-  //   // });
-
-  //   this.store.dispatch(PostAction.get({ authorId: '1' }));
-  // }
   posts = [
     {
       id: 1,
@@ -158,71 +231,6 @@ export class HomeComponent {
     },
   ];
 
-  // createPost() {
-  //   this.postData = {
-  //     content: this.postForm.value.content ?? '',
-  //   };
-
-  //   this.store.dispatch(PostAction.create({post: <Post>this.postData}))
-  // }
-
-  //   {
-  //     id: 1,
-  //     uid: 1,
-  //     avatarUrl:
-  //       'https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png',
-  //     username: 'Nguyễn Minh Mập',
-  //     tagname: '@MậpMủmMỉm',
-  //     time: '15 tháng 8',
-  //     content: 'Hình ảnh sếp Lu Lu khi thấy chúng tôi làm cho sếp bất ngờ',
-  //     imageUrls: [
-  //       'https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  //     ],
-
-  //     commentCount: '13k',
-  //     repostCount: '11k',
-  //     likeCount: '14k',
-  //     monitoringCount: '200k',
-  //   },
-  //   {
-  //     id: 2,
-  //     uid: 2,
-  //     avatarUrl:
-  //       'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
-  //     username: 'Trần Thành Huy',
-  //     tagname: '@HuyHuyHuy',
-  //     time: '15 tháng 8',
-  //     content: 'hình ảnh nhân vật ',
-  //     imageUrls: [
-  //       'https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  //     ],
-
-  //     commentCount: '12k',
-  //     repostCount: '13k',
-  //     likeCount: '15k',
-  //     monitoringCount: '200k',
-  //   },
-  //   {
-  //     id: 3,
-  //     uid: 3,
-  //     avatarUrl:
-  //       'https://img.freepik.com/free-photo/cute-spitz_144627-7076.jpg?t=st=1692779137~exp=1692779737~hmac=3cc3a2ec042e6477875c549361ec7360c2f89645580f9510231302152fa2e4e1',
-  //     username: 'Phùng Minh Khoa',
-  //     tagname: '@KhoaKhoaKhoa',
-  //     time: '15 tháng 8',
-  //     content: 'hình ảnh của chó cỏ ',
-  //     imageUrls: [
-  //       'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  //       'https://images.pexels.com/photos/1198802/pexels-photo-1198802.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  //       'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  //     ],
-  //     commentCount: 120,
-  //     repostCount: 3,
-  //     likeCount: 1,
-  //     monitoringCount: 20,
-  //   },
-  // ];
-
   listImg: string[] = [
     'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
     'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
@@ -271,9 +279,7 @@ export class HomeComponent {
 
   handleImageUpload(event: any) {
     const file = event.target.files[0]; // Lấy file hình ảnh từ sự kiện
-
     // Thực hiện các xử lý liên quan đến tệp hình ảnh tại đây
-
     // Sau khi hoàn thành xử lý, bạn có thể ẩn input file bằng cách đặt lại biến showImageInput về false
     this.showImageInput = false;
   }

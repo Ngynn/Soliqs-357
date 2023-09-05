@@ -3,14 +3,16 @@
     <div class="item" *ngFor="let item of post">
       <div class="top-item">
         <div class="avatar-top-item">
-          <img [src]="item.avatarUrl" alt="" />
+          <img [src]="item.authorId?.avatar" alt="" />
         </div>
         <div class="content-top-item">
           <div class="container-user-top-item">
             <div class="left-container-user-top-item">
-              <div class="username-top-item">{{ item.username }}</div>
-              <div class="tagname-top-item">{{ item.tagname }}</div>
-              <div class="time-top-item">{{ item.time }}</div>
+              <div class="username-top-item">{{ item.authorId?.userName }}</div>
+              <div class="tagname-top-item">
+                {{ item.authorId?.displayName }}
+              </div>
+              <div class="time-top-item">{{ item?.createdAt }}</div>
               <div class="divice-content-top-item"></div>
             </div>
             <div class="icon-content-top-item">
@@ -18,23 +20,23 @@
             </div>
           </div>
           <div class="content-user-top-item">
-            {{ item.content }}
+            {{ item?.content }}
           </div>
         </div>
       </div>
       <div class="img-item" (click)="Selectitem(item)">
-        <img *ngFor="let imageUrl of item.imageUrls" [src]="imageUrl" alt="" />
+        <img *ngFor="let imageUrl of item?.media" [src]="imageUrl" alt="" />
       </div>
       <div class="reaction">
         <div class="item-reaction" (click)="openCommentDialog()">
           <mat-icon>sms</mat-icon>
-          <div class="count">{{ item.commentCount }}</div>
+          <div class="count">{{ item?.commentCount }}</div>
         </div>
         <div class="item-reaction" (click)="repost1()">
           <mat-icon [ngStyle]="{ color: item1.sync ? '#944170' : '#504349' }"
             >sync</mat-icon
           >
-          <div class="count">{{ item.repostCount }}</div>
+          <div class="count">{{ item?.repostCount }}</div>
         </div>
         <div class="item-reaction" (click)="like1()">
           <mat-icon
@@ -43,7 +45,7 @@
             }"
             >favorite</mat-icon
           >
-          <div class="count">{{ item.likeCount }}</div>
+          <div class="count">{{ item?.likeCount }}</div>
         </div>
         <div class="item-reaction" (click)="monitoring1()">
           <mat-icon
@@ -52,7 +54,7 @@
             }"
             >legend_toggle</mat-icon
           >
-          <div class="count">{{ item.monitoringCount }}</div>
+          <div class="count">{{ item?.monitoringCount }}</div>
         </div>
         <div class="item-reaction">
           <mat-icon>file_upload</mat-icon>

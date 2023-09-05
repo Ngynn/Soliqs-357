@@ -21,7 +21,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageState } from 'src/app/ngrx/states/storage.state';
 import { Subscription, mergeMap } from 'rxjs';
 import * as StorageActions from '../../../../../../ngrx/actions/storage.actions';
-
+import { PostState } from 'src/app/ngrx/states/post.state';
+import * as PostActions from '../../../../../../ngrx/actions/post.actions';
+import { Post } from 'src/app/models/post.model';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -41,6 +43,8 @@ export class ProfileComponent implements OnInit {
   userFirebase$ = this.store.select('auth', 'firebaseUser');
   userFirebase: User = <User>{};
   avatarUser = false;
+  post$ = this.store.select('post', 'posts');
+  postProfile: Post[] = [];
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -48,6 +52,7 @@ export class ProfileComponent implements OnInit {
       auth: AuthState;
       profile: ProfileState;
       storage: StorageState;
+      post: PostState;
     }>,
     private auth: Auth
   ) {
@@ -56,6 +61,12 @@ export class ProfileComponent implements OnInit {
         this.profile = value;
 
         console.log('profile', value);
+      }
+    });
+    this.post$.subscribe((value) => {
+      if (value) {
+        this.postProfile = value;
+        console.log('post', value);
       }
     });
 
@@ -81,6 +92,7 @@ export class ProfileComponent implements OnInit {
     this.storage$.subscribe((value) => {
       if (value.folderName) {
         console.log('storage', value);
+        this.profile.avatar = value.urls[0];
       }
     });
   }

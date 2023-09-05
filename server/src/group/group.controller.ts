@@ -13,6 +13,7 @@ import {
 import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
+import { log } from 'console';
 // import { Group } from './entities/group.entity';
 
 @Controller('v1/group')
@@ -73,8 +74,12 @@ export class GroupController {
   }
 
   @Put('join')
-  async join(@Query('id') id: string, @Query('userId') userId: string) {
+  async join(@Query('id') id: string, @Query('uid') userId: string) {
     try {
+      const isExist = await this.groupService.findOne(id);
+      if (!isExist) {
+        throw new HttpException('Group not found', HttpStatus.NOT_FOUND);
+      }
       const updatedGroup = await this.groupService.join(id, userId);
       return updatedGroup;
     } catch (error) {

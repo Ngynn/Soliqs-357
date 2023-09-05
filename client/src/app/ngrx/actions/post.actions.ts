@@ -16,7 +16,7 @@ export const createFailure = createAction(
 );
 
 export const get = createAction(
-    '[Post] Get ', props<{authorId: string, idToken: string}>()
+    '[Post] Get ', props<{ idToken: string}>()
 );
 export const getSuccess = createAction(
     '[Post] Get Success',
