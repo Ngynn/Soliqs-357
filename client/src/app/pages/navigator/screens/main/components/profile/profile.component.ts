@@ -83,7 +83,10 @@ export class ProfileComponent implements OnInit {
         console.log('getoprofile');
         if (this.avatarUser) {
           this.store.dispatch(
-            StorageActions.get({ id: this.idAvatar, idToken: this.isToken })
+            StorageActions.get({
+              fileName: this.idAvatar,
+              idToken: this.isToken,
+            })
           );
         }
       }
