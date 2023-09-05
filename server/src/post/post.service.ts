@@ -95,6 +95,7 @@ export class PostService {
     const skip = page * limit;
     const posts = await this.postModel
       .find()
+      .populate('authorId', 'userName displayName avatar', this.profileModel)
       .sort(sortOptions)
       .skip(skip)
       .limit(limit)

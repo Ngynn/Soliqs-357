@@ -15,7 +15,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./post.component.scss'],
 })
 export class PostComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+
+    
+    
+  }
   @Input() post!: [] | any;
   itemSelected: any;
   Selectitem(item: any) {
