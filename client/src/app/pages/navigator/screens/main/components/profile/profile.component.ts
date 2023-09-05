@@ -5,6 +5,7 @@ import {
   ViewChild,
   inject,
   OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user.model';
@@ -17,51 +18,110 @@ import { AuthState } from 'src/app/ngrx/states/auth.state';
 import * as ProfileActions from '../../../../../../ngrx/actions/profile.actions';
 import { Store } from '@ngrx/store';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { StorageState } from 'src/app/ngrx/states/storage.state';
+import { Subscription, mergeMap } from 'rxjs';
+import * as StorageActions from '../../../../../../ngrx/actions/storage.actions';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  constructor(
-    private userService: UserService,
-    private route: ActivatedRoute,
-    private store: Store<{ auth: AuthState; profile: ProfileState }>,
-    private auth: Auth
-  ) {
-    this.profile$.subscribe((value) => {
-      if (value) {
-        this.profile = value;
-        console.log('profile', value);
-      }
-    });
-
-    onAuthStateChanged(this.auth, async (profile) => {
-      if (profile) {
-        let idToken = await profile!.getIdToken(true);
-        this.isToken = idToken;
-        this.store.dispatch(
-          ProfileActions.get({ id: profile.uid, idToken: idToken })
-        );
-        console.log('profile', profile);
-      } else {
-        console.log('no user', profile);
-      }
-    });
-  }
   profile: Profile = <Profile>{};
   profile$ = this.store.select('profile', 'profile');
   isToken: string = '';
+  idAvatar: string = '';
+  idToken$ = this.store.select('auth', 'idToken');
+  storage$ = this.store.select('storage', 'storage');
+  isCreateImgSuccess$ = this.store.select('storage', 'isCreateSuccess');
+  subscriptions: Subscription[] = [];
+  selectedFile: File | null = null;
+  errorMessageGet$ = this.store.select('storage', 'getErrorMessage');
+  userFirebase$ = this.store.select('auth', 'firebaseUser');
+  userFirebase: User = <User>{};
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private store: Store<{
+      auth: AuthState;
+      profile: ProfileState;
+      storage: StorageState;
+    }>,
+    private auth: Auth
+  ) {
+    // this.profile$.subscribe((value) => {
+    //   if (value.id) {
+    //     this.profile = value;
+    //     console.log('profile', value);
+    //   }
+    // });
+
+    this.userFirebase$.subscribe((value) => {
+      if (value) {
+        this.userFirebase = value;
+        console.log('userFirebase', value);
+        this.store.dispatch(
+          ProfileActions.get({
+            id: this.userFirebase.uid,
+            idToken: this.isToken,
+          })
+        );
+      }
+    });
+
+    this.idToken$.subscribe((value) => {
+      if (value) {
+        this.isToken = value;
+        console.log('token', value);
+      }
+    });
+    this.storage$.subscribe((value) => {
+      if (value) {
+        console.log('storage', value);
+      }
+    });
+    this.subscriptions.push(
+      this.store
+        .select('storage', 'isCreateSuccess')
+        .pipe(
+          mergeMap((isCreateSuccess) => {
+            if (isCreateSuccess) {
+              return this.storage$;
+            } else {
+              return [];
+            }
+          })
+        )
+        .subscribe((storage) => {
+          if (storage) {
+            this.myEditForm.patchValue({
+              avatar: storage.urls,
+            });
+            this.store.dispatch(
+              ProfileActions.update({
+                id: this.profile.id,
+                profile: this.profile,
+                idToken: this.isToken,
+              })
+            );
+          }
+        })
+    );
+  }
+
   public myEditForm!: FormGroup;
 
   ngOnInit(): void {
     this.myEditForm = new FormGroup({
-      name: new FormControl('', [Validators.required]),
+      displayName: new FormControl('', [Validators.required]),
       bio: new FormControl('', [Validators.required]),
-      location: new FormControl('', [Validators.required]),
+      country: new FormControl('', [Validators.required]),
       website: new FormControl('', [Validators.required]),
+      avatar: new FormControl(`${this.profile.avatar}`, [Validators.required]),
     });
   }
+
   posts = [
     {
       avatarUrl:
@@ -253,7 +313,67 @@ export class ProfileComponent implements OnInit {
     this.dialog3.nativeElement.close();
     this.cdr3.detectChanges();
   }
+
   save(profile: Profile) {
-    console.log(profile);
+    console.log('valuene', this.myEditForm.value);
+    if (!profile.displayName) {
+      profile.displayName = this.profile.displayName;
+    }
+    if (!profile.bio) {
+      profile.bio = this.profile.bio;
+    }
+    if (!profile.country) {
+      profile.country = this.profile.country;
+    }
+    if (!profile.avatar) {
+      profile.avatar = this.profile.avatar;
+    }
+    const id =
+      `avatar_${this.userFirebase.uid}_` +
+      Math.floor(
+        Math.random() * Math.floor(Math.random() * Date.now())
+      ).toString();
+    this.idAvatar = id;
+    if (this.selectedFile) {
+      this.store.dispatch(
+        StorageActions.create({
+          id: this.idAvatar,
+          file: this.selectedFile,
+          idToken: this.isToken,
+        })
+      );
+    }
+    console.log('file', this.selectedFile);
+    this.profile$.subscribe((value) => {
+      if (value) {
+        this.store.dispatch(
+          ProfileActions.update({
+            id: this.profile.id,
+            profile: this.myEditForm.value,
+            idToken: this.isToken,
+          })
+        );
+      }
+    });
+
+    this.closeEditProfileDialog();
+  }
+  selectedImage: string | ArrayBuffer | null = null;
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  handleFileInput(event: Event) {
+    const inputElement = this.fileInput.nativeElement as HTMLInputElement;
+    const selectedFiles = inputElement.files;
+
+    if (selectedFiles && selectedFiles.length > 0) {
+      // Thực hiện xử lý với tệp đã chọn tại đây
+
+      this.selectedFile = selectedFiles[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.selectedImage = e.target?.result || null;
+      };
+
+      reader.readAsDataURL(this.selectedFile);
+    }
   }
 }

@@ -78,7 +78,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private auth: Auth
   ) {
     onAuthStateChanged(this.auth, async (user) => {
-      console.log(user + 'User firebase');
       if (user) {
         let idToken = await user!.getIdToken(true);
         this.idToken = idToken;
@@ -96,14 +95,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions.push(
-      this.profile$.subscribe((profile) => {
-        if (profile) {
-          this.profile = profile;
-          this.postForm.patchValue({
-            authorId: profile._id,
-          });
-        }
-      }),
       this.store
         .select('storage', 'isGetSuccess')
         .pipe(
@@ -134,13 +125,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
       }),
 
-      // this.storage$.subscribe((storage)=>{
-      //   if(storage){
-      //     this.postForm.patchValue({
-      //       media: storage.urls
-      //     })
-      //   }
-      // }),
+      this.storage$.subscribe((storage) => {
+        if (storage) {
+          this.postForm.patchValue({
+            media: storage.urls,
+          });
+        }
+      }),
       this.isCreateImgSuccess$.subscribe((isCreateSuccess) => {
         console.log('value of isCreateSuccess: ' + isCreateSuccess);
         if (isCreateSuccess) {
@@ -214,14 +205,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       route: `/profile/${this.profile.id}`,
     },
   ];
-  // navProfile = [
-  //   {
-  //     icon: 'account_circle',
-  //     text: 'Profile',
-  //     backgroundColor: false,
-  //     route: `/profile/${this.profile.id}`,
-  //   },
-  // ];
 
   ngOnInit(): void {
     const currentRoute = this.router.url;
@@ -261,9 +244,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.navItems.forEach((nav) => {
       if (nav == selectedNav) {
-        // const profileId = this.profile.id; // Thay bằng id của user
-        // nav.route = `/profile/${profileId}`;
-
         nav.backgroundColor = true;
         this.currentPage = nav.route;
       } else {
@@ -274,28 +254,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.router.navigate([selectedNav.route]);
   }
-  // toProfile(selectedNav: any) {
-  //   if (selectedNav.backgroundColor) {
-  //     return;
-  //   }
 
-  //   this.navProfile.forEach((item) => {
-  //     if (item == selectedNav) {
-  //       item.backgroundColor = true;
-
-  //     } else {
-  //       item.backgroundColor = false;
-  //       // Đặt lại màu nền cho biểu tượng cũ
-  //     }
-  //   });
-
-  //   this.router.navigate([selectedNav.route]);
-  // }
   return(icon: string) {
-    // Chuyển hướng đến trang home
     this.router.navigate(['/home']);
 
-    // Đặt màu nền của biểu tượng tương ứng thành true và của các biểu tượng khác thành false
     this.navItems.forEach((nav) => {
       nav.backgroundColor = nav.icon === icon;
     });

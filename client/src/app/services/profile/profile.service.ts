@@ -26,4 +26,16 @@ export class ProfileService {
       }
     );
   }
+
+  update(id: string, profile: Profile, idToken: string) {
+    return this.httpClient.put<Profile>(
+      `http://localhost:3000/v1/profile?id=${id}`,
+      profile,
+      {
+        headers: new HttpHeaders({
+          Authorization: `Bearer ${idToken}`,
+        }),
+      }
+    );
+  }
 }
