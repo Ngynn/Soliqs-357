@@ -4,9 +4,10 @@
       <mat-icon (click)="back()">arrow_back</mat-icon>
       <h2>Communities</h2>
     </div>
-    <div class="right">
+    <div class="right" >
       <mat-icon>search</mat-icon>
-      <mat-icon>group_add</mat-icon>
+      <mat-icon (click)="openDialog()">group_add</mat-icon>
+      
     </div>
   </div>
   <div class="title">
@@ -59,7 +60,7 @@
         </button>
       </div>
     </div>
-    <div class="all">
+    <div class="all" *ngFor="let groups of groupsList" >
       <div class="leftsuggest" (click)="goToInternal()">
         <div class="avatar">
           <img
@@ -69,8 +70,8 @@
         </div>
         <div class="name">
           <div class="groupname">
-            <span class="textname">niềm vui</span>
-            <span class="textmember">100k member</span>
+            <span class="textname">{{groups.name}}</span>
+            <span class="textmember">{{groups.members.length}} members</span>
           </div>
           <div class="imguser">
             <img
@@ -86,8 +87,40 @@
         </div>
       </div>
       <div class="rightsuggest">
-        <button mat-raised-button color="primary">Join</button>
+        <button mat-raised-button color="primary" (click)="joinGroup( groups)">Join</button>
       </div>
     </div>
+   
   </div>
 </div>
+
+<dialog class="group_add" style="color: #1f1a1c" #createGroupDialog>
+  <div class="btnClose" (click)="closeDialog()">
+    <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
+  </div>
+  <h2 style="display: flex; justify-content: center; font-weight: 500;">
+    Create a group
+  </h2>
+  <div class="inputGroup" [formGroup]="groupForm">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Name Group</mat-label>
+        <input matInput placeholder="" formControlName="name">
+      </mat-form-field>
+    </div>
+    <div >
+      <mat-form-field appearance="fill">
+        <mat-label>Privacy</mat-label>
+        <select matNativeControl required>
+          <option >Public</option>
+          <option >Private</option>
+        </select>
+      </mat-form-field>
+    </div>
+    
+    <div>
+      <button (click)="createGroup()" class="confirmBtn" mat-raised-button color="primary">Confirm</button>
+    </div>
+  </div>
+  
+</dialog>
