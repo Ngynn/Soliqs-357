@@ -4,8 +4,8 @@ export interface UserState {
   user: User;
   isLoading: boolean;
   isSuccess: boolean;
-  errorMessage: any;
   isGetLoading: boolean;
   isGetSuccess: boolean;
-  getErrorMessage: any;
+  isGetFailure: boolean;
+  errorMessage: any;
 }

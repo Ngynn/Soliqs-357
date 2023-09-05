@@ -77,43 +77,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }>,
     private auth: Auth
   ) {
-    // onAuthStateChanged(this.auth, async (user) => {
-    //   console.log(user + 'User firebase');
-    //   if (user) {
-    //     let idToken = await user!.getIdToken(true);
-    //     this.idToken = idToken;
-    //     this.store.dispatch(
-    //       UserActions.getUser({ uid: user.uid, idToken: idToken })
-    //     );
-    //     console.log(user.uid, idToken);
-
-    //     this.store.dispatch(
-    //       ProfileActions.get({ id: user.uid, idToken: idToken })
-    //     );
-
-    //     // this.store.dispatch(AuthActions.storedIdToken(idToken));
-    //   }
-    // });
-
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
         let idToken = await user!.getIdToken(true);
         this.idToken = idToken;
-        console.log('idToken', idToken);
+        this.store.dispatch(
+          UserActions.get({ uid: user.uid, idToken: idToken })
+        );
+        console.log(user.uid, idToken);
+
         this.store.dispatch(
           ProfileActions.get({ id: user.uid, idToken: idToken })
         );
-        console.log('profile', user);
-      } else {
-        console.log('no user', user);
-      }
-    });
-    this.profile$.subscribe((profile) => {
-      if (profile) {
-        this.profile = profile;
-        this.postForm.patchValue({
-          authorId: profile._id,
-        });
+
+        // this.store.dispatch(AuthActions.storedIdToken(idToken));
       }
     });
 
@@ -161,18 +138,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
           console.log(this.idToken);
 
           this.store.dispatch(
-            StorageActions.get({
-              id: this.idPost,
-              idToken: this.idToken,
-            })
+            StorageActions.get({ id: this.idPost, idToken: this.idToken })
           );
         }
+      }),
+      this.idToken$.subscribe((value) => {
+        this.idToken = value;
       })
     );
-
-    this.idToken$.subscribe((value) => {
-      this.idToken = value;
-    });
   }
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => {
@@ -232,14 +205,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       route: `/profile/${this.profile.id}`,
     },
   ];
-  // navProfile = [
-  //   {
-  //     icon: 'account_circle',
-  //     text: 'Profile',
-  //     backgroundColor: false,
-  //     route: `/profile/${this.profile.id}`,
-  //   },
-  // ];
 
   ngOnInit(): void {
     const currentRoute = this.router.url;
@@ -279,9 +244,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.navItems.forEach((nav) => {
       if (nav == selectedNav) {
-        // const profileId = this.profile.id; // Thay bằng id của user
-        // nav.route = `/profile/${profileId}`;
-
         nav.backgroundColor = true;
         this.currentPage = nav.route;
       } else {
@@ -292,28 +254,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.router.navigate([selectedNav.route]);
   }
-  // toProfile(selectedNav: any) {
-  //   if (selectedNav.backgroundColor) {
-  //     return;
-  //   }
 
-  //   this.navProfile.forEach((item) => {
-  //     if (item == selectedNav) {
-  //       item.backgroundColor = true;
-
-  //     } else {
-  //       item.backgroundColor = false;
-  //       // Đặt lại màu nền cho biểu tượng cũ
-  //     }
-  //   });
-
-  //   this.router.navigate([selectedNav.route]);
-  // }
   return(icon: string) {
-    // Chuyển hướng đến trang home
     this.router.navigate(['/home']);
 
-    // Đặt màu nền của biểu tượng tương ứng thành true và của các biểu tượng khác thành false
     this.navItems.forEach((nav) => {
       nav.backgroundColor = nav.icon === icon;
     });

@@ -3,7 +3,7 @@ import { Storage } from '../../models/storage.model';
 
 export const create = createAction(
   '[storage] Create ',
-  props<{ file: File; id: string; idToken: string; uid: string }>()
+  props<{ file: File; id: string; idToken: string }>()
 );
 export const createSuccess = createAction('[storage] Create Success');
 export const createFailure = createAction(
@@ -13,7 +13,7 @@ export const createFailure = createAction(
 
 export const get = createAction(
   '[storage] Get',
-  props<{ id: string; idToken: string; uid: string }>()
+  props<{ id: string; idToken: string }>()
 );
 
 export const getSuccess = createAction(

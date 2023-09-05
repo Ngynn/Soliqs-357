@@ -12,31 +12,32 @@ export class UserEffects {
 
   create$ = createEffect(() =>
     this.action$.pipe(
-      ofType(UserAction.createUser),
+      ofType(UserAction.create),
       switchMap((action) => {
-        console.log('id token: '+ action.idToken)
-        return this.userService.createUser(action.idToken);
+        return this.userService.create(action.idToken);
       }),
       map(() => {
-        return UserAction.createUserSuccess();
+        return UserAction.createSuccess();
       }),
       catchError((error) => {
-        return of(UserAction.createUserFailure({ errorMessage: error }));
+        return of(UserAction.createFailure({ errorMessage: error }));
       })
     )
   );
-  getUser$ = createEffect(() => this.action$.pipe(
-    ofType(UserAction.getUser),
-    exhaustMap((action) =>
-        this.userService.getUser(action.uid,action.idToken).pipe(
-            map((user) => {
-                return UserAction.getUserSuccess({ user: user })
-            }),
-            catchError((error) => of(UserAction.getUserFailure({errorMessage: error})))
-        )
-    )
-)
-);
 
-  
+  getUser$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(UserAction.get),
+      exhaustMap((action) =>
+        this.userService.get(action.uid, action.idToken).pipe(
+          map((user) => {
+            return UserAction.getSuccess({ user: user });
+          }),
+          catchError((error) =>
+            of(UserAction.getFailure({ errorMessage: error }))
+          )
+        )
+      )
+    )
+  );
 }

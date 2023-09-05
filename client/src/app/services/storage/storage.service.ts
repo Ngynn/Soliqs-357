@@ -17,7 +17,7 @@ export class StorageService {
     });
 
     return this.httpClient.post(
-      `http://localhost:3000/storage/upload/$${id}`,
+      `http://localhost:3000/storage/upload?folderName=${id}`,
       formData,
       { headers }
     );
@@ -29,7 +29,7 @@ export class StorageService {
     });
 
     return this.httpClient.get<Storage>(
-      `http://localhost:3000/storage?folderName=$${id}`,
+      `http://localhost:3000/storage?folderName=${id}`,
       {
         headers,
       }

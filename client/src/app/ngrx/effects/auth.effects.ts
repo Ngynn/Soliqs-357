@@ -34,7 +34,7 @@ export class AuthEffects {
         return AuthActions.logoutSuccess();
       }),
       catchError((error) => {
-        return of(AuthActions.logoutFailure({ errorLogOutMessage: error }));
+        return of(AuthActions.logoutFailure({ errorMessage: error }));
       })
     );
   });

@@ -5,11 +5,10 @@ import {
   Post,
   Body,
   Put,
-  Param,
+  Query,
   Delete,
   HttpStatus,
   HttpException,
-  Query,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
@@ -26,7 +25,7 @@ export class ProfileController {
 
   @Post()
   async create(@Body() createProfileDto: CreateProfileDto): Promise<Profile> {
-    const requiredFields = ['id', 'displayName', 'email', 'userName'];
+    const requiredFields = ['id', 'userName', 'email'];
     const missingFields = requiredFields.filter(
       (field) => !createProfileDto[field],
     );
@@ -62,7 +61,7 @@ export class ProfileController {
     }
   }
 
-  @Get('detail')
+  @Get()
   async findOne(@Query('id') id: string) {
     try {
       const profile = await this.profileService.findOne(id);
@@ -94,8 +93,8 @@ export class ProfileController {
     }
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string) {
+  @Delete()
+  async remove(@Query('id') id: string) {
     try {
       const deletedProfile = await this.profileService.remove(id);
       if (!deletedProfile) {

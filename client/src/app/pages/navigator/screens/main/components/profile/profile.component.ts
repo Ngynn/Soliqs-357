@@ -21,6 +21,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageState } from 'src/app/ngrx/states/storage.state';
 import { Subscription, mergeMap } from 'rxjs';
 import * as StorageActions from '../../../../../../ngrx/actions/storage.actions';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -37,7 +38,8 @@ export class ProfileComponent implements OnInit {
   subscriptions: Subscription[] = [];
   selectedFile: File | null = null;
   errorMessageGet$ = this.store.select('storage', 'getErrorMessage');
-
+  userFirebase$ = this.store.select('auth', 'firebaseUser');
+  userFirebase: User = <User>{};
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -48,25 +50,64 @@ export class ProfileComponent implements OnInit {
     }>,
     private auth: Auth
   ) {
-    this.profile$.subscribe((value) => {
+    // this.profile$.subscribe((value) => {
+    //   if (value.id) {
+    //     this.profile = value;
+    //     console.log('profile', value);
+    //   }
+    // });
+
+    this.userFirebase$.subscribe((value) => {
       if (value) {
-        this.profile = value;
-        console.log('profile', value);
+        this.userFirebase = value;
+        console.log('userFirebase', value);
+        this.store.dispatch(
+          ProfileActions.get({
+            id: this.userFirebase.uid,
+            idToken: this.isToken,
+          })
+        );
       }
     });
 
-    onAuthStateChanged(this.auth, async (profile) => {
-      if (profile) {
-        let idToken = await profile!.getIdToken(true);
-        this.isToken = idToken;
-        this.store.dispatch(
-          ProfileActions.get({ id: profile.uid, idToken: idToken })
-        );
-        console.log('profile', profile);
-      } else {
-        console.log('no user', profile);
+    this.idToken$.subscribe((value) => {
+      if (value) {
+        this.isToken = value;
+        console.log('token', value);
       }
     });
+    this.storage$.subscribe((value) => {
+      if (value) {
+        console.log('storage', value);
+      }
+    });
+    this.subscriptions.push(
+      this.store
+        .select('storage', 'isCreateSuccess')
+        .pipe(
+          mergeMap((isCreateSuccess) => {
+            if (isCreateSuccess) {
+              return this.storage$;
+            } else {
+              return [];
+            }
+          })
+        )
+        .subscribe((storage) => {
+          if (storage) {
+            this.myEditForm.patchValue({
+              avatar: storage.urls,
+            });
+            this.store.dispatch(
+              ProfileActions.update({
+                id: this.profile.id,
+                profile: this.profile,
+                idToken: this.isToken,
+              })
+            );
+          }
+        })
+    );
   }
 
   public myEditForm!: FormGroup;
@@ -287,9 +328,11 @@ export class ProfileComponent implements OnInit {
     if (!profile.avatar) {
       profile.avatar = this.profile.avatar;
     }
-    const id = Math.floor(
-      Math.random() * Math.floor(Math.random() * Date.now())
-    ).toString();
+    const id =
+      `avatar_${this.userFirebase.uid}_` +
+      Math.floor(
+        Math.random() * Math.floor(Math.random() * Date.now())
+      ).toString();
     this.idAvatar = id;
     if (this.selectedFile) {
       this.store.dispatch(
