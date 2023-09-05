@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="img-item" (click)="Selectitem(item)">
-        <img *ngFor="let imageUrl of item.media" ngIf="imageUrl" [src]="imageUrl" alt="" />
+        <img *ngFor="let imageUrl of item.media" [src]="imageUrl" alt="" />
       </div>
       <div class="reaction">
         <div class="item-reaction" (click)="openCommentDialog()">

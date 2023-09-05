@@ -153,14 +153,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
           this.closePostDialog();
         }
       }),
-
-      this.storage$.subscribe((storage) => {
-        if (storage) {
-          this.postForm.patchValue({
-            media: storage.urls,
-          });
-        }
-      }),
       this.isCreateImgSuccess$.subscribe((isCreateSuccess) => {
         console.log('value of isCreateSuccess: ' + isCreateSuccess);
         if (isCreateSuccess) {
@@ -188,15 +180,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isSlidebarPost = true;
     const id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now())).toString()
 
-    this.idPost = id
+    this.idPost = `post/${this.profile.id}/${id}`;
     this.postForm.patchValue({
-      id: id,
+      id: this.idPost,
     });
     if (this.selectedFile) {
       this.store.dispatch(
         StorageActions.create({
           file: this.selectedFile,
-          id: id,
+          id: this.idPost,
           idToken: this.idToken,
         })
       );
