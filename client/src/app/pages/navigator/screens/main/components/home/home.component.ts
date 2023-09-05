@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   userData$ = this.store.select('user', 'user');
   isCreatePostSuccess$ = this.store.select('post','isSuccess');
   isCreateImgSuccess$ = this.store.select('storage','isCreateSuccess');
-  
+  userFirebase$ = this.store.select('auth','firebaseUser')
   user: User = <User>{};
   idToken: string = '';
   subscriptions: Subscription[] = [];
@@ -85,20 +85,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.user = value;
       }
     });
-    onAuthStateChanged(this.auth, async (user) => {
-      console.log(user + 'User firebase');
-      if (user) {
-        let idToken = await user!.getIdToken(true);
-        this.idToken = idToken;
-        this.store.dispatch(UserActions.get({ uid: user.uid, idToken: idToken }));
-        console.log(user.uid,idToken);
-        this.store.dispatch(
-          ProfileActions.get({ id: user.uid, idToken: idToken })
-        );
-        this.store.dispatch(PostActions.get({idToken: idToken}))
-        // this.store.dispatch(AuthActions.storedIdToken(idToken));
-      }
-    });
+
     this.profile$.subscribe((profile)=>{
       if(profile){
         this.profile = profile;
@@ -108,6 +95,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(
+      this.idToken$.subscribe((idToken)=>{
+          if(idToken){
+            this.idToken = idToken
+          }
+      }),
+      this.userFirebase$.subscribe((userFirebase)=>{
+        if(userFirebase.uid){
+          console.log(userFirebase);
+          this.store.dispatch(ProfileActions.get({id: userFirebase.uid, idToken: this.idToken}))
+        }
+      }),
       this.post$.subscribe((posts)=>{
         if(posts){
           console.log(posts);
