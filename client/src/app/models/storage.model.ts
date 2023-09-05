@@ -1,4 +1,4 @@
-export interface Storage{
-    folderName: string,
-    urls: string[],
+export interface Storage {
+  folderName: string;
+  urls: string[];
 }

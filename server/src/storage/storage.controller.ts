@@ -6,6 +6,7 @@ import {
   Param,
   ParseFilePipe,
   Post,
+  Query,
   UploadedFile,
   UploadedFiles,
   UseInterceptors,
@@ -18,7 +19,7 @@ import { Storage } from './entities/storage.entity';
 export class StorageController {
   constructor(private readonly storageService: StorageService) {}
 
-  @Post('upload/:folderName')
+  @Post('upload')
   @UseInterceptors(FilesInterceptor('files'))
   async uploadFiles(
     @UploadedFiles(
@@ -32,7 +33,7 @@ export class StorageController {
       }),
     )
     files: Express.Multer.File[],
-    @Param('folderName') folderName: string,
+    @Query('folderName') folderName: string,
   ): Promise<{ urls: string[] }> {
     try {
       const urls = await this.storageService.uploadFiles(files, folderName);
@@ -46,8 +47,8 @@ export class StorageController {
     }
   }
 
-  @Get(':folderName')
-  async getFiles(@Param('folderName') folderName: string): Promise<Storage> {
+  @Get()
+  async getFiles(@Query('folderName') folderName: string): Promise<Storage> {
     try {
       const files = await this.storageService.getFilesByFolderName(folderName);
       if (!files) {
