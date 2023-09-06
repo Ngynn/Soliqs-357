@@ -139,6 +139,24 @@ export class SuggestComponent implements OnDestroy, OnInit {
             console.log(this.groupJoined);
           }
         }),
+      this.isJoinSuccess$
+        .pipe(
+          mergeMap((res) => {
+            if (res) {
+              return this.groups$;
+            } else {
+              return [];
+            }
+          })
+        )
+        .subscribe((data) => {
+          if (data) {
+            this.groups = data;
+            console.log(this.groups);
+            console.log(this.groups._id);
+            
+          }
+        }),
       this.isCreating$.subscribe((res) => {
         if (res) {
           this.openSnackBar('Creating group...');
@@ -157,14 +175,29 @@ export class SuggestComponent implements OnDestroy, OnInit {
           );
         }
       }),
+      this.isJoinSuccess$.subscribe((res) => {
+        if (res) {
+          this.openSnackBar('Join group successfully!');
+          this.store.dispatch(
+            GroupActions.getOne({
+              id: this.groups._id,
+              idToken: this.idToken,
+            })
+          );
+        }
+      }),
       this.errorMessage$.subscribe((res) => {
         if (res) {
           this.dialog.nativeElement.close();
           this.groupForm.reset();
           this.openSnackBar(`Error: ${res.error.message}`);
         }
-      })
+      }),
+      
     );
+
+    
+    
   }
 
   ngOnDestroy(): void {
@@ -181,17 +214,16 @@ export class SuggestComponent implements OnDestroy, OnInit {
       })
     );
   }
-  // joined = false;
 
-  // join() {
-  //   if(this.profile._id.includes(this.groups._id)) {
-  //     this.joined = true;
-  //   } else {
-  //     this.joined = false;
-  //   }
-  // }
+  joinGroup(id: string, idToken: string) {
+    console.log(this.groups._id);
+    
+    this.store.dispatch(
+      GroupActions.join({ id: id, uid: this.profile._id, idToken: idToken })
+    );
+    
 
-  joinGroup() {}
+  }
 
   getDetail() {}
 

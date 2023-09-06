@@ -38,7 +38,7 @@ export class AppComponent {
 
         this.store.dispatch(AuthActions.storedIdToken(idToken));
         this.store.dispatch(AuthActions.storedFirebaseUser(newUser));
-        // this.router.navigate(['/loading']);
+        this.router.navigate(['/loading']);
       } else {
         this.router.navigate(['/login']);
       }

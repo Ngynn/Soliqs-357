@@ -29,7 +29,7 @@ import * as ProfileAction from 'src/app/ngrx/actions/profile.actions';
 export class InternalComponent implements OnInit, OnDestroy {
   isCreateGroupSuccess$ = this.store.select('group', 'isSuccess');
 
-  isGetDetailSuccess$ = this.store.select('group', 'isGetSuccess');
+  isGetDetailSuccess$ = this.store.select('group', 'isGetLoading');
   errorMessage$ = this.store.select('group', 'errorMessage');
 
   groups: Group = <Group>{};
@@ -69,6 +69,8 @@ export class InternalComponent implements OnInit, OnDestroy {
       profile: ProfileState;
     }>
   ) {}
+
+  
 
   ngOnInit(): void {
     throw new Error('Method not implemented.');
