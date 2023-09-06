@@ -29,7 +29,7 @@ import * as ProfileAction from 'src/app/ngrx/actions/profile.actions';
 export class InternalComponent implements OnInit, OnDestroy {
   isCreateGroupSuccess$ = this.store.select('group', 'isSuccess');
 
-  isGetDetailSuccess$ = this.store.select('group', 'isGetSuccess');
+  isGetDetailSuccess$ = this.store.select('group', 'isGetLoading');
   errorMessage$ = this.store.select('group', 'errorMessage');
 
   groups: Group = <Group>{};
@@ -76,11 +76,8 @@ export class InternalComponent implements OnInit, OnDestroy {
     this.userFirebase$.subscribe((userFirebase) => {
       if(userFirebase) {
         this.store.dispatch(UserAction.get({ uid: userFirebase.uid, idToken: this.idToken }));
-      }
-    });
-    this.userFirebase$.subscribe((userFirebase) => {
-      if(userFirebase) {
         this.store.dispatch(ProfileAction.get({ id: userFirebase.uid, idToken: this.idToken }));
+
       }
     });
     this.subscriptions.push(
@@ -99,23 +96,27 @@ export class InternalComponent implements OnInit, OnDestroy {
           if (user) {
             this.store.dispatch(
               ProfileAction.get({ id: user.uid, idToken: this.idToken })
+              
             );
+            console.log(user);
+
           }
         }),
     );
-    this.isGetDetailSuccess$.subscribe((isGetDetailSuccess) => {
-      console.log('value of getDetailSuccess' + isGetDetailSuccess );
-      if(isGetDetailSuccess) {
-        this.store.dispatch(GroupAction.getDetail({id: this.groups._id, idToken: this.idToken }));
-        console.log('id of group  ' + this.groups._id);
-    }});
+    
+
     this.groups$.subscribe((group) => {
       this.groups = group;
-      console.log('id of group' + this.groups._id);
     });
+    
+    this.store.dispatch(GroupAction.getDetail({ id: this.id, idToken: this.idToken }));
+    
+    
     
     
   }
+
+  
 
   ngOnInit(): void {
     throw new Error('Method not implemented.');

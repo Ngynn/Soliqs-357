@@ -66,7 +66,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
     members: new FormControl<string[]>([]),
     posts: new FormControl<string[]>([]),
   });
-
+  
   user: User = <User>{};
   userFirebase: any = null;
 
@@ -89,16 +89,11 @@ export class SuggestComponent implements OnDestroy, OnInit {
     }),
     this.userFirebase$.subscribe((userFirebase) => {
       if(userFirebase.uid) {
-        this.store.dispatch(UserAction.get({ uid: userFirebase.uid, idToken: this.idToken })
-        );
+        this.store.dispatch(UserAction.get({ uid: userFirebase.uid, idToken: this.idToken }));
+        this.store.dispatch(ProfileAction.get({ id: userFirebase.uid, idToken: this.idToken }));
       }
     }),
-    this.userFirebase$.subscribe((userFirebase) => {
-      if(userFirebase.uid) {
-        this.store.dispatch(ProfileAction.get({ id: userFirebase.uid, idToken: this.idToken })
-        );
-      }
-    }),
+
     this.profile$.subscribe((user) => {
       if(user) {
         this.profile = user;
@@ -185,22 +180,12 @@ export class SuggestComponent implements OnDestroy, OnInit {
     );
     this.closeDialog();
   }
-  // joined = false;
- 
-  // join() {
-  //   if(this.profile._id.includes(this.groups._id)) {
-  //     this.joined = true;
-  //   } else {
-  //     this.joined = false;
-  //   }
-  // }
- 
+
 
   joinGroup(id: string, uid: string, idToken: string) {
     this.groups._id = id;
-    this.store.dispatch(GroupAction.getDetail({ id: this.groups._id, idToken: idToken }));
+    // this.store.dispatch(GroupAction.getDetail({ id: this.groups._id, idToken: idToken }));
     console.log('id of group' + this.groups._id);
-    
     uid = this.profile._id;
     idToken = this.idToken;
     this.store.dispatch(GroupAction.join({ id: this.groups._id , uid: uid, idToken: idToken }));
@@ -208,15 +193,12 @@ export class SuggestComponent implements OnDestroy, OnInit {
     
   }
 
-  getDetail(id: string, idToken: string) {
+  getDetail(id: string) {
     this.groups._id = id;
-    this.store.dispatch(GroupAction.getDetail({ id: this.groups._id, idToken: idToken }));
-    if(this.groups._id) {
-      this.router.navigate([`/group/detail/${this.groups._id}`]);
-    } else {
-      // this.router.navigate(['/group/internal']);
-    }
+    this.router.navigate([`/group/detail/${id}`]);
+
   }
+
   back() {
     this.location.back();
   }
