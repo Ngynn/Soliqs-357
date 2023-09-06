@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Group } from 'src/app/models/group.model';
 
-export const create = createAction('[Group] Create', props<{ group: Group }>());
+export const create = createAction('[Group] Create', props<{ group: Group; idToken: string }>());
 
 export const createSuccess = createAction('[Group] Create Success');
 
@@ -45,3 +45,19 @@ export const joinFailure = createAction(
   '[Group] Join Failure',
   props<{ errorMessage: any }>()
 );
+
+export const getDetail = createAction(
+  '[Group] Get Detail',
+  props<{ id: string, idToken: string }>()
+);
+
+export const getDetailSuccess = createAction(
+  '[Group] Get Detail Success',
+  props<{ group: Group }>()
+);
+
+export const getDetailFailure = createAction(
+  '[Group] Get Detail Failure',
+  props<{ errorMessage: any }>()
+);
+

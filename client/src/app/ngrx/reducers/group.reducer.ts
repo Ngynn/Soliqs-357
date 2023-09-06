@@ -136,5 +136,40 @@ export const groupReducer = createReducer(
       isSuccess: false,
       errorMessage,
     };
+  }),
+
+  on(GroupAction.getDetail, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      isGetLoading: true,
+      isGetSuccess: false,
+      getErrorMessage: '',
+      group: <Group>{},
+    };
+  }),
+
+  on(GroupAction.getDetailSuccess, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      isGetLoading: false,
+      isGetSuccess: true,
+      getErrorMessage: '',
+      group: action.group,
+    };
+  }),
+
+  on(GroupAction.getDetailFailure, (state, { type, errorMessage }) => {
+    console.log(type);
+    return {
+      ...state,
+      isGetLoading: false,
+      isGetSuccess: false,
+      getErrorMessage: errorMessage,
+      group: <Group>{},
+    };
   })
+  
+
 );

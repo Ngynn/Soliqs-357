@@ -72,4 +72,20 @@ export class GroupEffects {
       )
     )
   );
+
+  getGroup$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GroupActions.getDetail),
+      exhaustMap((action) =>
+        this.groupService.getGroup(action.id, action.idToken).pipe(
+          map((group) => {
+            return GroupActions.getDetailSuccess({ group: group });
+          }),
+          catchError((error) =>
+            of(GroupActions.getDetailFailure({ errorMessage: error }))
+          )
+        )
+      )
+    )
+  );
 }

@@ -33,4 +33,13 @@ export class GroupService {
       }
     );
   }
+
+  getGroup(id: string, idToken: string) {
+    return this.httpClient.get<Group>(`http://localhost:3000/v1/group/detail?id=${id}`,
+    {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${idToken}`,
+      }),
+    });
+  }
 }
