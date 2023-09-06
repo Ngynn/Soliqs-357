@@ -83,17 +83,6 @@ export class ProfileComponent implements OnInit {
         console.log('token', value);
       }
     });
-
-    // this.isCreateImgSuccess$.subscribe((res) => {
-    //   if (res) {
-    //     this.store.dispatch(
-    //       StorageActions.get({
-    //         fileName: `posts/${this.profile.id}/${this.idAvatar}`,
-    //         idToken: this.isToken,
-    //       })
-    //     );
-    //   }
-    // }),
   }
 
   public myEditForm!: FormGroup;
@@ -103,7 +92,7 @@ export class ProfileComponent implements OnInit {
       displayName: new FormControl('', [Validators.required]),
       bio: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]),
-      website: new FormControl('', [Validators.required]),
+      phone: new FormControl('', [Validators.required]),
       avatar: new FormControl(`${this.profile.avatar}`, [Validators.required]),
     });
   }

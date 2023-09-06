@@ -164,7 +164,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
           this.selectedImage = null;
           this.fileInput.nativeElement.value = '';
           this.closePostDialog();
-          this.store.dispatch(PostActions.get({ idToken: this.idToken }));
+          this.store.dispatch(
+            PostActions.get({ idToken: this.idToken, page: 0, pageSize: 2 })
+          );
         }
       })
     );

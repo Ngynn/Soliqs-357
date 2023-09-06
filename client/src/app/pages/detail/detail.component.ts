@@ -2,19 +2,16 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Input,
   ViewChild,
   inject,
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { PostComponent } from 'src/app/components/post/post.component';
 import { Location } from '@angular/common';
-import { Store } from '@ngrx/store';
+
 import { Post } from 'src/app/models/post.model';
-import { PostState } from 'src/app/ngrx/states/post.state';
-import { HttpParams } from '@angular/common/http';
+
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
@@ -22,7 +19,7 @@ import { HttpParams } from '@angular/common/http';
 })
 export class DetailComponent implements OnInit {
   item: {} | any;
-  post$ = this.store.select('post', 'posts');
+
   postDetail: Post[] = [];
   allPost = [
     {
@@ -81,29 +78,22 @@ export class DetailComponent implements OnInit {
       monitoringCount: 20,
     },
   ];
-
+  postId!: string | null;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
-    private store: Store<{
-      post: PostState;
-    }>
-  ) {
-    this.post$.subscribe((value) => {
-      if (value) {
-        this.postDetail = value;
-        console.log('post', value);
+    private location: Location
+  ) {}
+  ngOnInit(): void {
+    this.route.queryParamMap.subscribe((params) => {
+      this.postId = params.get('id');
+
+      if (this.postId) {
+        console.log('postId:', this.postId);
       }
     });
-  }
-  ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      const id = HttpParams.prototype.get.call(params, 'id');
-      console.log('id', id);
-      this.item = this.allPost.find((item: any) => item.id == id);
-      console.log('item', this.item);
-    });
+    this.item = this.allPost.find((post) => post.id === 1);
+    console.log(this.item);
   }
 
   item1 = {
