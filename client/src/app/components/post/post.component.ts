@@ -3,34 +3,103 @@ import {
   Component,
   ElementRef,
   Input,
+  OnDestroy,
   OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
 
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription, combineLatest } from 'rxjs';
+import { Profile } from 'src/app/models/profile.model';
+import { AuthState } from 'src/app/ngrx/states/auth.state';
+import { PostState } from 'src/app/ngrx/states/post.state';
+import { ProfileState } from 'src/app/ngrx/states/profile.state';
+import { StorageState } from 'src/app/ngrx/states/storage.state';
+import * as PostActions from '../../ngrx/actions/post.actions';
+import { Post } from 'src/app/models/post.model';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
 })
-export class PostComponent implements OnInit {
-  constructor(private router: Router) {
+export class PostComponent implements OnInit, OnDestroy {
+  throttle = 500;
+  scrollDistance = 1;
+  scrollUpDistance = 2;
+  page = 1;
 
-    
-    
+  posts: Array<Post> = [];
+  posts$!: Observable<PostState>;
+
+  idToken: string = '';
+  idToken$ = this.store.select('auth', 'idToken');
+
+  profile: Profile = <Profile>{};
+  profile$ = this.store.select('profile', 'profile');
+
+  subscriptions: Subscription[] = [];
+  onScrollDown(ev: any) {
+    this.page += 1;
+    this.store.dispatch(
+      PostActions.get({ idToken: this.idToken, page: this.page, pageSize: 2 })
+    );
   }
-  ngOnInit(): void {
-console.log(this.post);
 
+  constructor(private router: Router,
+    private store: Store<{
+      auth: AuthState;
+      storage: StorageState;
+      profile: ProfileState;
+      post: PostState;
+    }>
+  ) {
+
+
+
+
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
+
+  ngOnInit(): void {
+    this.subscriptions.push(
+      combineLatest([this.idToken$, this.profile$]).subscribe(
+        ([idToken, profile]) => {
+          this.profile = profile;
+          this.idToken = idToken;
+          console.log(idToken);
+          
+        }
+      ),
+    )
+    this.store.dispatch(PostActions.get({ idToken: this.idToken, page: 0, pageSize: 2 }))
+    
+    // this.posts$.subscribe((res) => {
+    //   if (res.isSuccess) {
+    //     if (res.posts === undefined || !res.posts) return;
+    //     res.posts.map((post) => {
+    //       this.posts.push(post);
+    //     });
+    //   }
+    // });
   }
   @Input() post!: [] | any;
   itemSelected: any;
   Selectitem(item: any) {
     this.itemSelected = item;
     console.log(this.itemSelected);
-    this.router.navigate([`photo/${item.id}/${item.uid}/${item.username}}}`]);
+    this.router.navigate(['/photo'], {
+      queryParams: {
+        id: item._id,
+      },
+      queryParamsHandling: 'merge'
+    });
   }
 
   item1 = {
@@ -38,32 +107,14 @@ console.log(this.post);
     favorite: false,
     monitoring: false,
   };
-  item2 = {
-    sync: false,
-    favorite: false,
-    monitoring: false,
-  };
-  item3 = {
-    sync: false,
-    favorite: false,
-    monitoring: false,
-  };
-  item4 = {
-    sync: false,
-    favorite: false,
-    monitoring: false,
-  };
+
   showImageInput = false;
   @ViewChild('appDialog2', { static: true })
   dialog2!: ElementRef<HTMLDialogElement>;
   cdr2 = inject(ChangeDetectorRef);
 
   handleImageUpload(event: any) {
-    const file = event.target.files[0]; // Lấy file hình ảnh từ sự kiện
-
-    // Thực hiện các xử lý liên quan đến tệp hình ảnh tại đây
-
-    // Sau khi hoàn thành xử lý, bạn có thể ẩn input file bằng cách đặt lại biến showImageInput về false
+    const file = event.target.files[0];
     this.showImageInput = false;
   }
 
@@ -74,27 +125,6 @@ console.log(this.post);
       this.item1.sync = false;
     }
   }
-  repost2() {
-    if (!this.item2.sync) {
-      this.item2.sync = true;
-    } else {
-      this.item2.sync = false;
-    }
-  }
-  repost3() {
-    if (!this.item3.sync) {
-      this.item3.sync = true;
-    } else {
-      this.item3.sync = false;
-    }
-  }
-  repost4() {
-    if (!this.item4.sync) {
-      this.item4.sync = true;
-    } else {
-      this.item4.sync = false;
-    }
-  }
   like1() {
     if (!this.item1.favorite) {
       this.item1.favorite = true;
@@ -102,27 +132,7 @@ console.log(this.post);
       this.item1.favorite = false;
     }
   }
-  like2() {
-    if (!this.item2.favorite) {
-      this.item2.favorite = true;
-    } else {
-      this.item2.favorite = false;
-    }
-  }
-  like3() {
-    if (!this.item3.favorite) {
-      this.item3.favorite = true;
-    } else {
-      this.item3.favorite = false;
-    }
-  }
-  like4() {
-    if (!this.item4.favorite) {
-      this.item4.favorite = true;
-    } else {
-      this.item4.favorite = false;
-    }
-  }
+
   monitoring1() {
     if (!this.item1.monitoring) {
       this.item1.monitoring = true;
@@ -130,27 +140,7 @@ console.log(this.post);
       this.item1.monitoring = false;
     }
   }
-  monitoring2() {
-    if (!this.item2.monitoring) {
-      this.item2.monitoring = true;
-    } else {
-      this.item2.monitoring = false;
-    }
-  }
-  monitoring3() {
-    if (!this.item3.monitoring) {
-      this.item3.monitoring = true;
-    } else {
-      this.item3.monitoring = false;
-    }
-  }
-  monitoring4() {
-    if (!this.item4.monitoring) {
-      this.item4.monitoring = true;
-    } else {
-      this.item4.monitoring = false;
-    }
-  }
+
   openCommentDialog() {
     this.dialog2.nativeElement.showModal();
     this.cdr2.detectChanges();
@@ -160,5 +150,5 @@ console.log(this.post);
     this.cdr2.detectChanges();
   }
 
-  
+
 }

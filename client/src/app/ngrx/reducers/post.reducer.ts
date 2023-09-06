@@ -66,7 +66,7 @@ export const postReducer = createReducer(
         }
     }),
     on(PostAction.getFailure, (state, { type, errorMessage }) => {
-        console.log(type)
+        console.log(type,errorMessage)
         return {
             ...state,
             isGetLoading: false,

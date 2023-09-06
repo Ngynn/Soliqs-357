@@ -5,38 +5,8 @@
     </div>
     <div class="navigate">
       <mat-tab-group animationDuration="0ms">
-        <mat-tab label="For you">
+        <mat-tab label="For you"   >
           <div class="move">
-            <div class="post">
-              <div class="top">
-                <div class="avatar">
-                  <img src="{{ profile.avatar }}" alt="" />
-                </div>
-                <div class="input">
-                  <form class="form" [formGroup]="postForm">
-                    <input formControlName="content" placeholder="What is happening?!"/>
-                  </form>
-                  <div class="img-file" *ngIf="selectedFile">
-                    <img [src]="selectedImage" alt="Selected Image" />
-                  </div>
-                </div>
-              </div>
-              <div class="bottom">
-                <div class="icon">
-                  <input type="file" accept="image/*" style="display: none" (change)="handleFileInput($event)" #fileInput />
-                  <mat-icon 
-                    (click)="fileInput.click()">image</mat-icon>
-                  <mat-icon style="margin-right: 30px">gif</mat-icon>
-                  <mat-icon style="margin-right: 30px">poll</mat-icon>
-                  <mat-icon style="margin-right: 30px">emoji_emotions</mat-icon>
-                  <mat-icon style="margin-right: 30px">schedule</mat-icon>
-                </div>
-                <!-- <div class="divice"></div> -->
-                <div class="button">
-                  <button mat-raised-button color="primary" (click)="post()">Post</button>
-                </div>
-              </div>
-            </div>
             <div class="posts">
               <app-post [post]="postReal"></app-post>
             </div>
@@ -44,30 +14,8 @@
         </mat-tab>
 
         <mat-tab label="Following">
-          <div class="move">
-            <div class="post">
-              <div class="top">
-                <div class="avatar" *ngIf="user">
-                  <img src="{{ profile.avatar }}" alt="" />
-                </div>
-                <div class="input">
-                  <input type="text" placeholder="What is happening?!" />
-                </div>
-              </div>
-              <div class="bottom">
-                <div class="icon">
-                  <mat-icon style="margin-right: 30px">image</mat-icon>
-                  <mat-icon style="margin-right: 30px">gif</mat-icon>
-                  <mat-icon style="margin-right: 30px">poll</mat-icon>
-                  <mat-icon style="margin-right: 30px">emoji_emotions</mat-icon>
-                  <mat-icon style="margin-right: 30px">schedule</mat-icon>
-                </div>
-                <!-- <div class="divice"></div> -->
-                <div class="button">
-                  <button mat-raised-button color="primary">Post</button>
-                </div>
-              </div>
-            </div>
+          <div class="move"  >
+
             <div class="posts">
               <div class="item">
                 <div class="top-item">
