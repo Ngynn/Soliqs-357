@@ -102,7 +102,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
       if (nav.route === currentRoute) {
         nav.backgroundColor = true;
-        // console.log(nav.text, 'BackgroundColor set to true');
       } else {
         nav.backgroundColor = false;
       }
@@ -245,7 +244,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       icon: 'account_circle',
       text: 'Profile',
       backgroundColor: false,
-      route: `/profile/${this.profile.id}`,
+      route: '/profile',
     },
   ];
 

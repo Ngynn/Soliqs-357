@@ -33,18 +33,23 @@ export class ProfileComponent implements OnInit {
   profile: Profile = <Profile>{};
   profile$ = this.store.select('profile', 'profile');
   isToken: string = '';
-  idAvatar: string = '';
+
   idToken$ = this.store.select('auth', 'idToken');
   storage$ = this.store.select('storage', 'storage');
   isCreateImgSuccess$ = this.store.select('storage', 'isCreateSuccess');
   subscriptions: Subscription[] = [];
-  selectedFile: File | null = null;
+
   errorMessageGet$ = this.store.select('storage', 'getErrorMessage');
   userFirebase$ = this.store.select('auth', 'firebaseUser');
   userFirebase: User = <User>{};
   avatarUser = false;
   post$ = this.store.select('post', 'posts');
   postProfile: Post[] = [];
+  formData: FormData = new FormData();
+  fileName: string = '';
+  file: any;
+  idAvatar: string = '';
+  selectedFile: File | null = null;
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -65,7 +70,9 @@ export class ProfileComponent implements OnInit {
     });
     this.post$.subscribe((value) => {
       if (value) {
-        this.postProfile = value;
+        this.postProfile = value.filter(
+          (post) => post.authorId._id === this.profile._id
+        );
         console.log('post', value);
       }
     });
@@ -77,27 +84,16 @@ export class ProfileComponent implements OnInit {
       }
     });
 
-    this.isCreateImgSuccess$.subscribe((isCreateSuccess) => {
-      console.log('value of isCreateSuccess: ' + isCreateSuccess);
-      if (isCreateSuccess) {
-        console.log('getoprofile');
-        if (this.avatarUser) {
-          this.store.dispatch(
-            StorageActions.get({
-              fileName: this.idAvatar,
-              idToken: this.isToken,
-            })
-          );
-        }
-      }
-    });
-
-    this.storage$.subscribe((value) => {
-      if (value.folderName) {
-        console.log('storage', value);
-        this.profile.avatar = value.urls[0];
-      }
-    });
+    // this.isCreateImgSuccess$.subscribe((res) => {
+    //   if (res) {
+    //     this.store.dispatch(
+    //       StorageActions.get({
+    //         fileName: `posts/${this.profile.id}/${this.idAvatar}`,
+    //         idToken: this.isToken,
+    //       })
+    //     );
+    //   }
+    // }),
   }
 
   public myEditForm!: FormGroup;
@@ -319,23 +315,20 @@ export class ProfileComponent implements OnInit {
     if (!profile.avatar) {
       profile.avatar = this.profile.avatar;
     }
-    const id =
-      `avatar/${this.profile.id}/` +
-      Math.floor(
-        Math.random() * Math.floor(Math.random() * Date.now())
-      ).toString();
+    const id = Math.floor(
+      Math.random() * Math.floor(Math.random() * Date.now())
+    ).toString();
     this.idAvatar = id;
-    if (this.selectedFile) {
+    if (this.file) {
       this.store.dispatch(
         StorageActions.create({
-          fileName: this.idAvatar,
-          file: this.selectedFile,
+          fileName: `avatars/${this.profile.id}/${id}`,
+          file: this.file,
           idToken: this.isToken,
         })
       );
     }
-    console.log('id', this.idAvatar);
-    console.log('file', this.selectedFile);
+
     this.profile$.subscribe((value) => {
       if (value) {
         this.store.dispatch(
@@ -352,20 +345,15 @@ export class ProfileComponent implements OnInit {
   }
   selectedImage: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
-  handleFileInput(event: Event) {
-    const inputElement = this.fileInput.nativeElement as HTMLInputElement;
-    const selectedFiles = inputElement.files;
+  handleFileInput(event: any) {
+    const file: File = event.target.files[0];
+    this.formData.append('image', file, file.name);
+    this.file = file;
 
-    if (selectedFiles && selectedFiles.length > 0) {
-      // Thực hiện xử lý với tệp đã chọn tại đây
-
-      this.selectedFile = selectedFiles[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.selectedImage = e.target?.result || null;
-      };
-
-      reader.readAsDataURL(this.selectedFile);
-    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.selectedImage = reader.result;
+    };
   }
 }

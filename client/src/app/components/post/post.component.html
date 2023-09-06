@@ -8,10 +8,10 @@
         <div class="content-top-item">
           <div class="container-user-top-item">
             <div class="left-container-user-top-item">
-              <div class="username-top-item">{{ item.authorId?.userName }}</div>
-              <div class="tagname-top-item">
+              <div class="username-top-item">
                 {{ item.authorId?.displayName }}
               </div>
+              <div class="tagname-top-item">@{{ item.authorId?.userName }}</div>
               <div class="time-top-item">{{ item?.createdAt }}</div>
               <div class="divice-content-top-item"></div>
             </div>
@@ -28,7 +28,7 @@
         <img *ngFor="let imageUrl of item?.media" [src]="imageUrl" alt="" />
       </div>
       <div class="reaction">
-        <div class="item-reaction" (click)="openCommentDialog()">
+        <div class="item-reaction" (click)="openCommentDialog(item)">
           <mat-icon>sms</mat-icon>
           <div class="count">{{ item?.commentCount }}</div>
         </div>
@@ -68,19 +68,20 @@
   <div class="btnClose" (click)="closeCommentDialog()">
     <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="" />
   </div>
-  <div class="top-dialog">
+  <div class="top-dialog" *ngFor="let comment of commentsPost">
     <div class="avatar-top-dialog">
-      <img src="../../../../../../../assets/imgs/Rectangle 14.png" alt="" />
+      <img [src]="comment.authorId.avatar" alt="" />
     </div>
     <div class="content-top-dialog">
       <div class="container-user-top-dialog">
-        <div class="username-top-dialog">Netflix</div>
-        <div class="tagname-top-dialog">@netflix</div>
-        <div class="time-top-dialog">Aug 15</div>
+        <div class="username-top-dialog">
+          {{ comment.authorId.displayName }}
+        </div>
+        <div class="tagname-top-dialog">@{{ comment.authorId.userName }}</div>
+        <div class="time-top-dialog">{{ comment.createdAt }}</div>
       </div>
       <div class="content-user-top-dialog">
-        Ronaldo chính thức gia nhập Manchester United, trở về mái nhà xưa sau 12
-        năm xa cách
+        {{ comment.content }}
       </div>
     </div>
   </div>

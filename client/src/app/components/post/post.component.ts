@@ -8,24 +8,56 @@ import {
 } from '@angular/core';
 
 import { Router } from '@angular/router';
-
+import { Comment } from 'src/app/models/comment.model';
+import { Store } from '@ngrx/store';
+import { CommentState } from 'src/app/ngrx/states/comment.state';
+import { AuthState } from 'src/app/ngrx/states/auth.state';
+import { PostState } from 'src/app/ngrx/states/post.state';
+import * as postActions from '../../ngrx/actions/post.actions';
+import * as CommentActions from '../../ngrx/actions/comment.actions';
+import * as AuthActions from '../../ngrx/actions/auth.actions';
+import { Post } from 'src/app/models/post.model';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
 })
 export class PostComponent {
-  constructor(private router: Router) {
+  commentsPost: Array<Comment> = [];
+  comments$ = this.store.select('comment', 'comments');
+  idToken$ = this.store.select('auth', 'idToken');
+  idToken = '';
+  post$ = this.store.select('post', 'posts');
+  idpost: string = '';
+  selectedPost: any;
 
-    
-    
+  constructor(
+    private router: Router,
+    private store: Store<{
+      comment: CommentState;
+      auth: AuthState;
+      post: PostState;
+    }>
+  ) {
+    this.idToken$.subscribe((idToken) => {
+      if (idToken) {
+        this.idToken = idToken;
+      }
+    });
+    this.comments$.subscribe((comments) => {
+      console.log('comments', comments);
+      if (comments.length) {
+        this.commentsPost = comments;
+        console.log('comments', this.commentsPost);
+      }
+    });
   }
   @Input() post!: [] | any;
   itemSelected: any;
   Selectitem(item: any) {
     this.itemSelected = item;
-    console.log(this.itemSelected);
-    this.router.navigate([`photo/${item.id}/${item.uid}/${item.username}}}`]);
+    console.log(item);
+    this.router.navigate([`${item._id}/${item.id}/${item.authorId.userName}`]);
   }
 
   item1 = {
@@ -146,7 +178,19 @@ export class PostComponent {
       this.item4.monitoring = false;
     }
   }
-  openCommentDialog() {
+  openCommentDialog(item: Post) {
+    this.selectedPost = item;
+    console.log(this.selectedPost);
+
+    this.store.dispatch(
+      CommentActions.get({
+        idToken: this.idToken,
+        postId: this.selectedPost.id,
+      })
+    );
+
+    console.log('idbaipostne', this.selectedPost.id);
+
     this.dialog2.nativeElement.showModal();
     this.cdr2.detectChanges();
   }
@@ -154,6 +198,4 @@ export class PostComponent {
     this.dialog2.nativeElement.close();
     this.cdr2.detectChanges();
   }
-
-  
 }

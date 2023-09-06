@@ -22,18 +22,6 @@
         <mat-icon class="icon">{{ nav.icon }}</mat-icon>
         <span class="text">{{ nav.text }}</span>
       </div>
-      <!-- <div
-        class="nav"
-        *ngFor="let navItem of navProfile; let a = index"
-        (click)="toProfile(navItem)"
-        [ngClass]="{
-          selected: currentPage === navItem.route,
-          colored: navItem.backgroundColor
-        }"
-      >
-        <mat-icon class="icon">{{ navItem.icon }}</mat-icon>
-        <span class="text">{{ navItem.text }}</span>
-      </div> -->
     </div>
 
     <div class="btn" (click)="openPostDialog()">
