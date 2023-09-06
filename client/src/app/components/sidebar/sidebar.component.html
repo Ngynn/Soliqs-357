@@ -46,15 +46,31 @@
 
       <div class="name">
         <span class="text">{{ profile.displayName }}</span>
-        <span class="text">@ {{ profile.userName }}</span>
+        <span class="text">@{{ profile.userName }}</span>
       </div>
     </div>
 
-    <button class="logout" mat-flat-button color="accent" (click)="logout()">
-      Logout
-    </button>
     <div class="more">
-      <mat-icon class="icon">more_horiz</mat-icon>
+      <!-- <mat-icon [matMenuTriggerFor]="menu">more</mat-icon>
+      <mat-menu #menu="matMenu">
+       
+      </mat-menu> -->
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon style="color: #1f1a1c">more_horiz</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item style="width: 100%">
+          <button
+            class="logout"
+            mat-flat-button
+            color="accent"
+            (click)="logout()"
+            style="width: 100%"
+          >
+            Logout
+          </button>
+        </button>
+      </mat-menu>
     </div>
   </div>
 </div>

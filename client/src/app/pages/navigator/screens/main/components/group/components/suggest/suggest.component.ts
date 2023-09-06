@@ -28,6 +28,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./suggest.component.scss'],
 })
 export class SuggestComponent implements OnDestroy, OnInit {
+  isNavigateSuccessg$ = this.store.select('group', 'isSuccess');
   isJoinSuccess$ = this.store.select('group', 'isSuccess');
   errorMessage$ = this.store.select('group', 'errorMessage');
 
@@ -95,15 +96,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
             posts: new FormControl<string[]>([]),
           });
           if (this.idToken && this.profile._id) {
-            this.store.dispatch(
-              GroupActions.getAll({ idToken: this.idToken, uid: profile._id })
-            );
-            this.store.dispatch(
-              GroupActions.getJoined({
-                uid: profile._id,
-                idToken: this.idToken,
-              })
-            );
+            this.getAllGroup();
           }
         }
       ),
@@ -153,8 +146,6 @@ export class SuggestComponent implements OnDestroy, OnInit {
           if (data) {
             this.groups = data;
             console.log(this.groups);
-            console.log(this.groups._id);
-            
           }
         }),
       this.isCreating$.subscribe((res) => {
@@ -167,12 +158,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
           this.dialog.nativeElement.close();
           this.groupForm.reset();
           this.openSnackBar('Create group successfully!');
-          this.store.dispatch(
-            GroupActions.getAll({
-              idToken: this.idToken,
-              uid: this.profile._id,
-            })
-          );
+          this.getAllGroup();
         }
       }),
       this.isJoinSuccess$.subscribe((res) => {
@@ -192,12 +178,19 @@ export class SuggestComponent implements OnDestroy, OnInit {
           this.groupForm.reset();
           this.openSnackBar(`Error: ${res.error.message}`);
         }
-      }),
-      
+      })
     );
+    
+    
+  }
 
-    
-    
+  getAllGroup(): void {
+    this.store.dispatch(
+      GroupActions.getAll({ idToken: this.idToken, uid: this.profile._id })
+    );
+    this.store.dispatch(
+      GroupActions.getJoined({ uid: this.profile._id, idToken: this.idToken })
+    );
   }
 
   ngOnDestroy(): void {
@@ -216,15 +209,21 @@ export class SuggestComponent implements OnDestroy, OnInit {
   }
 
   joinGroup(id: string, idToken: string) {
-    console.log(this.groups._id);
-    
     this.store.dispatch(
       GroupActions.join({ id: id, uid: this.profile._id, idToken: idToken })
     );
-  
   }
 
-  getDetail() {}
+  getDetail(id: string, idToken: string) {
+    this.store.dispatch(
+      GroupActions.getOne({ id: this.groups._id, idToken: this.idToken })
+    );
+    // console.log(id);
+    // console.log(idToken);
+    
+    
+    this.router.navigate([`/group/detail/${id}`]);
+  }
 
   back() {
     this.location.back();

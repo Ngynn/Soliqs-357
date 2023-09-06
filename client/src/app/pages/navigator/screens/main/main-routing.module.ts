@@ -30,7 +30,7 @@ const routes: Routes = [
           import('./components/group/group.module').then((m) => m.GroupModule),
       },
       {
-        path: `profile/:id`,
+        path: 'profile',
         component: ProfileComponent,
       },
     ],

@@ -110,11 +110,18 @@
     .more {
       display: flex;
       cursor: pointer;
-      .icon {
-        color: black;
+     button{
+      width: 100%;
+      span{
+        width: 100%;
       }
+     }
     }
   }
+}
+::ng-deep .mdc-list-item__primary-text{
+
+  width: 100%;
 }
 
 .post {
