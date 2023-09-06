@@ -1,6 +1,6 @@
 .navigate {
   // border-bottom: 1px solid #d4c2c8;
-  position: sticky;
+  // position: sticky;
   top: 0;
   z-index: 100;
   background-color: white;
@@ -11,7 +11,6 @@
 ::ng-deep .mat-mdc-tab-header{
   width: 101%;
   position: sticky;
-
   top: 0;
   z-index: 100;
   background-color: white;

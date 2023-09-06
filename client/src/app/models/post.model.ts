@@ -12,4 +12,5 @@ export interface Post {
     tags: string[],
     bookmarks: string[],
     isPrivate: boolean,
+    createdAt: string
 }
