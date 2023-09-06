@@ -143,7 +143,7 @@ export class PostController {
   @Put('like')
   async likePost(
     @Query('id') id: string,
-    @Body('profileId') profileId: string,
+    @Query('profileId') profileId: string,
   ) {
     try {
       const post = await this.postService.findOne(id);
@@ -161,7 +161,7 @@ export class PostController {
   @Put('unlike')
   async unlikePost(
     @Query('id') id: string,
-    @Body('profileId') profileId: string,
+    @Query('profileId') profileId: string,
   ) {
     try {
       const post = await this.postService.findOne(id);
