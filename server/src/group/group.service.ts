@@ -25,9 +25,13 @@ export class GroupService {
     }
   }
 
-  async findAll() {
+  async findAll(uid: string) {
     try {
-      const groups = await this.groupModel.find().exec();
+      const groups = await this.groupModel
+        .find({ members: { $ne: uid } })
+        .populate('members', 'userName displayName avatar', this.profileModel)
+        .exec();
+
       return groups;
     } catch (error) {
       throw new HttpException(error.message, error.status);
@@ -40,6 +44,17 @@ export class GroupService {
         .findOne({ _id: id })
         .populate('members', 'userName displayName avatar', this.profileModel);
       return group;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async findJoinedGroups(uid: string): Promise<Group[]> {
+    try {
+      const groups = await this.groupModel
+        .find({ members: uid })
+        .populate('members', 'userName displayName avatar', this.profileModel);
+      return groups;
     } catch (error) {
       throw new HttpException(error.message, error.status);
     }

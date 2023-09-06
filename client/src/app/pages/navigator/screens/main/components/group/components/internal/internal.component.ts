@@ -39,10 +39,8 @@ export class InternalComponent implements OnInit, OnDestroy {
 
   groupsList$: Observable<Group[]> = this.store.select('group', 'groupList');
 
-
   user$ = this.store.select('user', 'user');
   user: User = <User>{};
-
 
   profile: Profile = <Profile>{};
   profile$ = this.store.select('profile', 'profile');
@@ -61,61 +59,16 @@ export class InternalComponent implements OnInit, OnDestroy {
   posts: string[] = [];
   id: string = '';
 
-
-
   userFirebase: any = null;
-  constructor(private location: Location, private store: Store<{
-    group: GroupState;
-    user: UserState;
-    auth: AuthState;
-    profile: ProfileState;
-  }>) {
-    this.idToken$.subscribe((idToken) => {
-      this.idToken = idToken;
-    });
-    this.userFirebase$.subscribe((userFirebase) => {
-      if(userFirebase) {
-        this.store.dispatch(UserAction.get({ uid: userFirebase.uid, idToken: this.idToken }));
-      }
-    });
-    this.userFirebase$.subscribe((userFirebase) => {
-      if(userFirebase) {
-        this.store.dispatch(ProfileAction.get({ id: userFirebase.uid, idToken: this.idToken }));
-      }
-    });
-    this.subscriptions.push(
-      this.store
-        .select('user', 'isGetSuccess')
-        .pipe(
-          mergeMap((isGetSuccess) => {
-            if (isGetSuccess) {
-              return this.user$;
-            } else {
-              return [];
-            }
-          })
-        )
-        .subscribe((user) => {
-          if (user) {
-            this.store.dispatch(
-              ProfileAction.get({ id: user.uid, idToken: this.idToken })
-            );
-          }
-        }),
-    );
-    this.isGetDetailSuccess$.subscribe((isGetDetailSuccess) => {
-      console.log('value of getDetailSuccess' + isGetDetailSuccess );
-      if(isGetDetailSuccess) {
-        this.store.dispatch(GroupAction.getDetail({id: this.groups._id, idToken: this.idToken }));
-        console.log('id of group  ' + this.groups._id);
-    }});
-    this.groups$.subscribe((group) => {
-      this.groups = group;
-      console.log('id of group' + this.groups._id);
-    });
-    
-    
-  }
+  constructor(
+    private location: Location,
+    private store: Store<{
+      group: GroupState;
+      user: UserState;
+      auth: AuthState;
+      profile: ProfileState;
+    }>
+  ) {}
 
   ngOnInit(): void {
     throw new Error('Method not implemented.');
@@ -124,7 +77,7 @@ export class InternalComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
   joined: boolean = false;
-  
+
   showImageInput = false;
   @ViewChild('appDialog2', { static: true })
   dialog2!: ElementRef<HTMLDialogElement>;
@@ -142,7 +95,7 @@ export class InternalComponent implements OnInit, OnDestroy {
   join(): void {
     this.joined = true;
   }
- 
+
   openCommentDialog() {
     this.dialog2.nativeElement.showModal();
     this.cdr2.detectChanges();

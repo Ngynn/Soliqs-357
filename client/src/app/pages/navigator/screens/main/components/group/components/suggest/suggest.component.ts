@@ -12,16 +12,15 @@ import { Location } from '@angular/common';
 import { GroupState } from 'src/app/ngrx/states/group.state';
 import { Store } from '@ngrx/store';
 import { Group } from 'src/app/models/group.model';
-import { Observable, Subscription, mergeMap } from 'rxjs';
-import * as GroupAction from 'src/app/ngrx/actions/group.actions';
+import { Observable, Subscription, combineLatest, mergeMap } from 'rxjs';
+import * as GroupActions from 'src/app/ngrx/actions/group.actions';
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Auth, User, onAuthStateChanged, user } from '@angular/fire/auth';
+
 import { UserState } from 'src/app/ngrx/states/user.state';
 import { Profile } from 'src/app/models/profile.model';
 import { ProfileState } from 'src/app/ngrx/states/profile.state';
-import * as UserAction from 'src/app/ngrx/actions/user.actions';
-import * as ProfileAction from 'src/app/ngrx/actions/profile.actions';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-suggest',
@@ -29,25 +28,29 @@ import * as ProfileAction from 'src/app/ngrx/actions/profile.actions';
   styleUrls: ['./suggest.component.scss'],
 })
 export class SuggestComponent implements OnDestroy, OnInit {
-  isGetSuccess$ = this.store.select('group', 'isGetSuccess');
-  isCreateGroupSuccess$ = this.store.select('group', 'isSuccess');
   isJoinSuccess$ = this.store.select('group', 'isSuccess');
   errorMessage$ = this.store.select('group', 'errorMessage');
 
   groups: Group = <Group>{};
   groups$: Observable<Group> = this.store.select('group', 'group');
+  isGetSuccess$ = this.store.select('group', 'isGetSuccess');
+  isCreating$ = this.store.select('group', 'isLoading');
+  isCreateSuccess$ = this.store.select('group', 'isSuccess');
 
   groupsList: Group[] = [];
-
   groupsList$: Observable<Group[]> = this.store.select('group', 'groupList');
+
+  groupJoined: Group[] = [];
+  groupJoined$: Observable<Group[]> = this.store.select('group', 'groupJoined');
+  isGetJoinedSuccess$ = this.store.select('group', 'isGetJoinedSuccess');
 
   user$ = this.store.select('user', 'user');
 
   profile: Profile = <Profile>{};
   profile$ = this.store.select('profile', 'profile');
 
-  idToken$ = this.store.select('auth', 'idToken');
   idToken: string = '';
+  idToken$ = this.store.select('auth', 'idToken');
 
   userFirebase$ = this.store.select('auth', 'firebaseUser');
 
@@ -67,126 +70,119 @@ export class SuggestComponent implements OnDestroy, OnInit {
     posts: new FormControl<string[]>([]),
   });
 
-  user: User = <User>{};
-  userFirebase: any = null;
-
   constructor(
     private router: Router,
+    private _snackBar: MatSnackBar,
     private location: Location,
-    private auth: Auth,
     private store: Store<{
       group: GroupState;
       user: UserState;
       auth: AuthState;
       profile: ProfileState;
     }>
-  ) {
-    
-    this.idToken$.subscribe((idToken) => {
-      if(idToken) {
-        this.idToken = idToken;
-      }
-    }),
-    this.userFirebase$.subscribe((userFirebase) => {
-      if(userFirebase.uid) {
-        this.store.dispatch(UserAction.get({ uid: userFirebase.uid, idToken: this.idToken })
-        );
-      }
-    }),
-    this.userFirebase$.subscribe((userFirebase) => {
-      if(userFirebase.uid) {
-        this.store.dispatch(ProfileAction.get({ id: userFirebase.uid, idToken: this.idToken })
-        );
-      }
-    }),
-    this.profile$.subscribe((user) => {
-      if(user) {
-        this.profile = user;
-        this.groupForm.patchValue({
-          owner: user!._id,
-          members: [user!._id],
-        });
-      }
-    }),
+  ) {}
+
+  ngOnInit(): void {
     this.subscriptions.push(
-      this.store
-        .select('user', 'isGetSuccess')
-        .pipe(
-          mergeMap((isGetSuccess) => {
-            if (isGetSuccess) {
-              return this.user$;
-            } else {
-              return [];
-            }
-          })
-        )
-        .subscribe((user) => {
-          if (user) {
+      combineLatest([this.idToken$, this.profile$]).subscribe(
+        ([idToken, profile]) => {
+          this.idToken = idToken;
+          this.profile = profile;
+          this.groupForm = new FormGroup({
+            name: new FormControl('', Validators.required),
+            owner: new FormControl(profile._id),
+            members: new FormControl<string[]>([profile._id]),
+            posts: new FormControl<string[]>([]),
+          });
+          if (this.idToken && this.profile._id) {
             this.store.dispatch(
-              ProfileAction.get({ id: user.uid, idToken: this.idToken })
+              GroupActions.getAll({ idToken: this.idToken, uid: profile._id })
+            );
+            this.store.dispatch(
+              GroupActions.getJoined({
+                uid: profile._id,
+                idToken: this.idToken,
+              })
             );
           }
-        }),
-      this.store
-        .select('profile', 'isSuccess')
+        }
+      ),
+      this.isGetSuccess$
         .pipe(
-          mergeMap((isSuccess) => {
-            if (isSuccess) {
-              return this.profile$;
+          mergeMap((res) => {
+            if (res) {
+              return this.groupsList$;
             } else {
               return [];
             }
           })
         )
-        .subscribe((profile) => {
-          if (profile) {
-            this.groupForm.patchValue({
-              owner: profile._id,
-            });
+        .subscribe((data) => {
+          if (data) {
+            this.groupsList = data;
+            console.log(data);
           }
         }),
-      this.isCreateGroupSuccess$.subscribe((isSuccess) => {
-        console.log('value of createSuccess' + isSuccess);
-        if (isSuccess) {
-          this.store.dispatch(GroupAction.get());
+      this.isGetJoinedSuccess$
+        .pipe(
+          mergeMap((res) => {
+            if (res) {
+              return this.groupJoined$;
+            } else {
+              return [];
+            }
+          })
+        )
+        .subscribe((data) => {
+          if (data) {
+            this.groupJoined = data;
+            console.log(this.groupJoined);
+          }
+        }),
+      this.isCreating$.subscribe((res) => {
+        if (res) {
+          this.openSnackBar('Creating group...');
         }
       }),
-      this.isJoinSuccess$.subscribe((isSuccess) => {
-        console.log('value of joinSuccess' + isSuccess);
-        if (isSuccess) {
-          this.store.dispatch(GroupAction.getDetail({ id: this.groups._id, idToken: this.idToken }));
-          console.log('id of group' + this.groups._id);
-          
+      this.isCreateSuccess$.subscribe((res) => {
+        if (res) {
+          this.dialog.nativeElement.close();
+          this.groupForm.reset();
+          this.openSnackBar('Create group successfully!');
+          this.store.dispatch(
+            GroupActions.getAll({
+              idToken: this.idToken,
+              uid: this.profile._id,
+            })
+          );
+        }
+      }),
+      this.errorMessage$.subscribe((res) => {
+        if (res) {
+          this.dialog.nativeElement.close();
+          this.groupForm.reset();
+          this.openSnackBar(`Error: ${res.error.message}`);
         }
       })
     );
-
-    this.store.dispatch(GroupAction.get());
-
-    this.groupsList$.subscribe((groupList) => {
-      this.groupsList = groupList;
-    });
-    
   }
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
   ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
   }
 
   createGroup() {
     this.store.dispatch(
-      GroupAction.create({
-        group:<Group> this.groupForm.value,
+      GroupActions.create({
+        group: this.groupForm.value,
         idToken: this.idToken,
       })
     );
-    this.closeDialog();
   }
   // joined = false;
- 
+
   // join() {
   //   if(this.profile._id.includes(this.groups._id)) {
   //     this.joined = true;
@@ -194,33 +190,15 @@ export class SuggestComponent implements OnDestroy, OnInit {
   //     this.joined = false;
   //   }
   // }
- 
 
-  joinGroup(id: string, uid: string, idToken: string) {
-    this.groups._id = id;
-    this.store.dispatch(GroupAction.getDetail({ id: this.groups._id, idToken: idToken }));
-    console.log('id of group' + this.groups._id);
-    
-    uid = this.profile._id;
-    idToken = this.idToken;
-    this.store.dispatch(GroupAction.join({ id: this.groups._id , uid: uid, idToken: idToken }));
-    console.log('id of group' + this.groups._id);
-    
-  }
+  joinGroup() {}
 
-  getDetail(id: string, idToken: string) {
-    this.groups._id = id;
-    this.store.dispatch(GroupAction.getDetail({ id: this.groups._id, idToken: idToken }));
-    if(this.groups._id) {
-      this.router.navigate([`/group/detail/${this.groups._id}`]);
-    } else {
-      // this.router.navigate(['/group/internal']);
-    }
-  }
+  getDetail() {}
+
   back() {
     this.location.back();
   }
-  
+
   @ViewChild('createGroupDialog', { static: true })
   dialog!: ElementRef<HTMLDialogElement>;
   cdr = inject(ChangeDetectorRef);
@@ -233,5 +211,14 @@ export class SuggestComponent implements OnDestroy, OnInit {
   closeDialog() {
     this.dialog.nativeElement.close();
     this.cdr.detectChanges();
+  }
+
+  openSnackBar(message: any) {
+    this._snackBar.open(message, '', {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 2000,
+      panelClass: ['snackbar'],
+    });
   }
 }

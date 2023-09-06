@@ -4,13 +4,16 @@ import * as GroupAction from '../actions/group.actions';
 import { Group } from 'src/app/models/group.model';
 
 export const initualState: GroupState = {
-  group: <Group>{},
+  group: <any>{},
+  groupJoined: [],
   groupList: [],
   isLoading: false,
   isSuccess: false,
   errorMessage: '',
   isGetLoading: false,
   isGetSuccess: false,
+  isGettingJoined: false,
+  isGetJoinedSuccess: false,
 };
 
 export const groupReducer = createReducer(
@@ -45,35 +48,35 @@ export const groupReducer = createReducer(
     };
   }),
 
-  on(GroupAction.get, (state, action) => {
+  on(GroupAction.getAll, (state, action) => {
     console.log(action.type);
     return {
       ...state,
       isGetLoading: true,
       isGetSuccess: false,
-      getErrorMessage: '',
+      errorMessage: '',
       groupList: [],
     };
   }),
 
-  on(GroupAction.getSuccess, (state, action) => {
+  on(GroupAction.getAllSuccess, (state, action) => {
     console.log(action.type);
     return {
       ...state,
       isGetLoading: false,
       isGetSuccess: true,
-      getErrorMessage: '',
+      errorMessage: '',
       groupList: action.groupList,
     };
   }),
 
-  on(GroupAction.getFailure, (state, { type, errorMessage }) => {
+  on(GroupAction.getAllFailure, (state, { type, errorMessage }) => {
     console.log(type);
     return {
       ...state,
       isGetLoading: false,
       isGetSuccess: false,
-      getErrorMessage: errorMessage,
+      errorMessage: errorMessage,
       groupList: [],
     };
   }),
@@ -138,38 +141,69 @@ export const groupReducer = createReducer(
     };
   }),
 
-  on(GroupAction.getDetail, (state, action) => {
+  on(GroupAction.getOne, (state, action) => {
     console.log(action.type);
     return {
       ...state,
       isGetLoading: true,
       isGetSuccess: false,
-      getErrorMessage: '',
+      errorMessage: '',
       group: <Group>{},
     };
   }),
 
-  on(GroupAction.getDetailSuccess, (state, action) => {
+  on(GroupAction.getOneSuccess, (state, action) => {
     console.log(action.type);
     return {
       ...state,
       isGetLoading: false,
       isGetSuccess: true,
-      getErrorMessage: '',
+      errorMessage: '',
       group: action.group,
     };
   }),
 
-  on(GroupAction.getDetailFailure, (state, { type, errorMessage }) => {
+  on(GroupAction.getOneFailure, (state, { type, errorMessage }) => {
     console.log(type);
     return {
       ...state,
       isGetLoading: false,
       isGetSuccess: false,
-      getErrorMessage: errorMessage,
+      errorMessage: errorMessage,
       group: <Group>{},
     };
-  })
-  
+  }),
 
+  on(GroupAction.getJoined, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      isGettingJoined: true,
+      isGetJoinedSuccess: false,
+      getErrorMessage: '',
+      groupJoined: [],
+    };
+  }),
+
+  on(GroupAction.getJoinedSuccess, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      isGettingJoined: false,
+      isGetJoinedSuccess: true,
+      errorMessage: '',
+      groupJoined: action.groupJoined,
+    };
+  }),
+
+  on(GroupAction.getJoinedFailure, (state, { type, errorMessage }) => {
+    console.log(type);
+    return {
+      ...state,
+      isGettingJoined: false,
+      isGetJoinedSuccess: false,
+      errorMessage: errorMessage,
+      groupJoined: [],
+    };
+  })
 );
