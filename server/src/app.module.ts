@@ -57,7 +57,7 @@ export class AppModule implements NestModule {
       .forRoutes(
         UserController,
         ProfileController,
-        PostController,
+        // PostController,
         StorageController,
         GroupController,
       );

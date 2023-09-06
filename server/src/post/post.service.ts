@@ -125,7 +125,7 @@ export class PostService {
   async like(id: string, profileId: string): Promise<Posts> {
     try {
       const post = await this.postModel.findOneAndUpdate(
-        { id: id },
+        { _id: id },
         {
           $addToSet: { likes: profileId },
         },
@@ -141,7 +141,7 @@ export class PostService {
   async unlike(id: string, profileId: string): Promise<Posts> {
     try {
       const post = await this.postModel.findOneAndUpdate(
-        { id: id },
+        { _id: id },
         {
           $pull: { likes: profileId },
         },
