@@ -21,7 +21,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageState } from 'src/app/ngrx/states/storage.state';
 import { Subscription, mergeMap } from 'rxjs';
 import * as StorageActions from '../../../../../../ngrx/actions/storage.actions';
-
+import { PostState } from 'src/app/ngrx/states/post.state';
+import * as PostActions from '../../../../../../ngrx/actions/post.actions';
+import { Post } from 'src/app/models/post.model';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -31,15 +33,23 @@ export class ProfileComponent implements OnInit {
   profile: Profile = <Profile>{};
   profile$ = this.store.select('profile', 'profile');
   isToken: string = '';
-  idAvatar: string = '';
+
   idToken$ = this.store.select('auth', 'idToken');
   storage$ = this.store.select('storage', 'storage');
   isCreateImgSuccess$ = this.store.select('storage', 'isCreateSuccess');
   subscriptions: Subscription[] = [];
-  selectedFile: File | null = null;
+
   errorMessageGet$ = this.store.select('storage', 'getErrorMessage');
   userFirebase$ = this.store.select('auth', 'firebaseUser');
   userFirebase: User = <User>{};
+  avatarUser = false;
+  post$ = this.store.select('post', 'posts');
+  postProfile: Post[] = [];
+  formData: FormData = new FormData();
+  fileName: string = '';
+  file: any;
+  idAvatar: string = '';
+  selectedFile: File | null = null;
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -47,26 +57,23 @@ export class ProfileComponent implements OnInit {
       auth: AuthState;
       profile: ProfileState;
       storage: StorageState;
+      post: PostState;
     }>,
     private auth: Auth
   ) {
-    // this.profile$.subscribe((value) => {
-    //   if (value.id) {
-    //     this.profile = value;
-    //     console.log('profile', value);
-    //   }
-    // });
-
-    this.userFirebase$.subscribe((value) => {
+    this.profile$.subscribe((value) => {
       if (value) {
-        this.userFirebase = value;
-        console.log('userFirebase', value);
-        this.store.dispatch(
-          ProfileActions.get({
-            id: this.userFirebase.uid,
-            idToken: this.isToken,
-          })
+        this.profile = value;
+
+        console.log('profile', value);
+      }
+    });
+    this.post$.subscribe((value) => {
+      if (value) {
+        this.postProfile = value.filter(
+          (post) => post.authorId._id === this.profile._id
         );
+        console.log('post', value);
       }
     });
 
@@ -76,38 +83,6 @@ export class ProfileComponent implements OnInit {
         console.log('token', value);
       }
     });
-    this.storage$.subscribe((value) => {
-      if (value) {
-        console.log('storage', value);
-      }
-    });
-    this.subscriptions.push(
-      this.store
-        .select('storage', 'isCreateSuccess')
-        .pipe(
-          mergeMap((isCreateSuccess) => {
-            if (isCreateSuccess) {
-              return this.storage$;
-            } else {
-              return [];
-            }
-          })
-        )
-        .subscribe((storage) => {
-          if (storage) {
-            this.myEditForm.patchValue({
-              avatar: storage.urls,
-            });
-            this.store.dispatch(
-              ProfileActions.update({
-                id: this.profile.id,
-                profile: this.profile,
-                idToken: this.isToken,
-              })
-            );
-          }
-        })
-    );
   }
 
   public myEditForm!: FormGroup;
@@ -117,7 +92,7 @@ export class ProfileComponent implements OnInit {
       displayName: new FormControl('', [Validators.required]),
       bio: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]),
-      website: new FormControl('', [Validators.required]),
+      phone: new FormControl('', [Validators.required]),
       avatar: new FormControl(`${this.profile.avatar}`, [Validators.required]),
     });
   }
@@ -315,6 +290,7 @@ export class ProfileComponent implements OnInit {
   }
 
   save(profile: Profile) {
+    this.avatarUser = true;
     console.log('valuene', this.myEditForm.value);
     if (!profile.displayName) {
       profile.displayName = this.profile.displayName;
@@ -328,22 +304,20 @@ export class ProfileComponent implements OnInit {
     if (!profile.avatar) {
       profile.avatar = this.profile.avatar;
     }
-    const id =
-      `avatar_${this.userFirebase.uid}_` +
-      Math.floor(
-        Math.random() * Math.floor(Math.random() * Date.now())
-      ).toString();
+    const id = Math.floor(
+      Math.random() * Math.floor(Math.random() * Date.now())
+    ).toString();
     this.idAvatar = id;
-    if (this.selectedFile) {
+    if (this.file) {
       this.store.dispatch(
         StorageActions.create({
-          fileName: this.idAvatar,
-          file: this.selectedFile,
+          fileName: `avatars/${this.profile.id}/${id}`,
+          file: this.file,
           idToken: this.isToken,
         })
       );
     }
-    console.log('file', this.selectedFile);
+
     this.profile$.subscribe((value) => {
       if (value) {
         this.store.dispatch(
@@ -360,20 +334,15 @@ export class ProfileComponent implements OnInit {
   }
   selectedImage: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
-  handleFileInput(event: Event) {
-    const inputElement = this.fileInput.nativeElement as HTMLInputElement;
-    const selectedFiles = inputElement.files;
+  handleFileInput(event: any) {
+    const file: File = event.target.files[0];
+    this.formData.append('image', file, file.name);
+    this.file = file;
 
-    if (selectedFiles && selectedFiles.length > 0) {
-      // Thực hiện xử lý với tệp đã chọn tại đây
-
-      this.selectedFile = selectedFiles[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.selectedImage = e.target?.result || null;
-      };
-
-      reader.readAsDataURL(this.selectedFile);
-    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.selectedImage = reader.result;
+    };
   }
 }
