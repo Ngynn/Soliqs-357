@@ -221,8 +221,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
     this.store.dispatch(
       GroupActions.join({ id: id, uid: this.profile._id, idToken: idToken })
     );
-    
-
+  
   }
 
   getDetail() {}
