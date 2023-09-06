@@ -5,6 +5,7 @@ import { AuthState } from './ngrx/states/auth.state';
 
 import * as AuthActions from './ngrx/actions/auth.actions';
 import * as UserActions from './ngrx/actions/user.actions';
+import * as ProfileAtions from './ngrx/actions/profile.actions';
 import { User } from './models/user.model';
 import { combineLatest } from 'rxjs';
 import { UserState } from './ngrx/states/user.state';
@@ -37,7 +38,7 @@ export class AppComponent {
 
         this.store.dispatch(AuthActions.storedIdToken(idToken));
         this.store.dispatch(AuthActions.storedFirebaseUser(newUser));
-        this.router.navigate(['/loading']);
+        // this.router.navigate(['/loading']);
       } else {
         this.router.navigate(['/login']);
       }
@@ -48,6 +49,9 @@ export class AppComponent {
         if (idToken && firebaseUser.uid) {
           this.store.dispatch(
             UserActions.get({ uid: firebaseUser.uid, idToken })
+          );
+          this.store.dispatch(
+            ProfileAtions.get({ id: firebaseUser.uid, idToken })
           );
         }
       }

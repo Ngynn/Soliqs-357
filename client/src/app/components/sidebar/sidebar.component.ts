@@ -15,8 +15,6 @@ import { AuthState } from 'src/app/ngrx/states/auth.state';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { UserState } from 'src/app/ngrx/states/user.state';
-
 import { PostState } from 'src/app/ngrx/states/post.state';
 
 import { Profile } from 'src/app/models/profile.model';
@@ -27,7 +25,6 @@ import { StorageState } from 'src/app/ngrx/states/storage.state';
 
 import * as AuthActions from '../../ngrx/actions/auth.actions';
 import * as StorageActions from '../../ngrx/actions/storage.actions';
-import * as ProfileActions from '../../ngrx/actions/profile.actions';
 import * as PostActions from '../../ngrx/actions/post.actions';
 
 @Component({
@@ -112,7 +109,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         ([idToken, profile]) => {
           this.profile = profile;
           this.idToken = idToken;
-          console.log(idToken);
+          // console.log(idToken);
         }
       ),
 
