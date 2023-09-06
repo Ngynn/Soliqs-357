@@ -9,7 +9,9 @@
           <div class="container-user-top-item">
             <div class="left-container-user-top-item">
               <div class="username-top-item">{{ item.authorId.userName }}</div>
-              <div class="tagname-top-item">{{ item.authorId.displayName }}</div>
+              <div class="tagname-top-item">
+                @{{ item.authorId.displayName }}
+              </div>
               <div class="time-top-item">{{ item.createdAt }}</div>
               <div class="divice-content-top-item"></div>
             </div>
