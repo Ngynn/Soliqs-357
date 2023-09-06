@@ -15,7 +15,7 @@
   <div class="main">
     
     <div class="all" *ngFor="let groups of groupsList" >
-      <div class="leftsuggest" (click)="goToInternal()">
+      <div class="leftsuggest" (click)="getDetail(groups._id, idToken)">
         <div class="avatar">
           <img
             src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t1.15752-9/368985091_658717739518529_532326993777845950_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=ae9488&_nc_ohc=Zr5-kfc5XioAX8AylKJ&_nc_ht=scontent.fsgn2-9.fna&oh=03_AdQVPxZFt-05fFkvfDvrRq-E8h1on6PgQlGQ9Fag6aWYSA&oe=650A5B43"
@@ -27,7 +27,7 @@
             <span class="textname">{{ groups.name }}</span>
             <span class="textmember">{{ groups.members.length }} members</span>
           </div>
-          <div class="imguser">
+          <div class="imguser" >
             <img
               src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png"
             />
@@ -40,11 +40,11 @@
           </div>
         </div>
       </div>
-      <div class="rightsuggest">
-        <button mat-raised-button color="primary" *ngIf="checkJoin(false)"  (click)="joinGroup( groups._id, profile._id , idToken)">
+      <div class="rightsuggest" >
+        <button mat-raised-button color="primary"(click)="joinGroup( groups._id, profile._id , idToken)">
           Join
         </button>
-        <button mat-raised-button color="primary" *ngIf="checkJoin(true)"  (click)="joinGroup( groups._id, profile._id , idToken)">
+        <button mat-raised-button color="primary" >
           Joined
         </button>
        

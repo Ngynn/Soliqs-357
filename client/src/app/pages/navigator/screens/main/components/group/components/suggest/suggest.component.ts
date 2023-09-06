@@ -35,9 +35,10 @@ export class SuggestComponent implements OnDestroy, OnInit {
   errorMessage$ = this.store.select('group', 'errorMessage');
 
   groups: Group = <Group>{};
+  groups$: Observable<Group> = this.store.select('group', 'group');
+
   groupsList: Group[] = [];
 
-  groups$: Observable<Group> = this.store.select('group', 'group');
   groupsList$: Observable<Group[]> = this.store.select('group', 'groupList');
 
   user$ = this.store.select('user', 'user');
@@ -50,7 +51,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
 
   userFirebase$ = this.store.select('auth', 'firebaseUser');
 
-
+  avatarUrl: string = '';
   uid: string = '';
   subscriptions: Subscription[] = [];
 
@@ -153,8 +154,8 @@ export class SuggestComponent implements OnDestroy, OnInit {
       this.isJoinSuccess$.subscribe((isSuccess) => {
         console.log('value of joinSuccess' + isSuccess);
         if (isSuccess) {
-          this.store.dispatch(GroupAction.getDetail({ id: this.groups._id }));
-          // console.log(this.groups._id);
+          this.store.dispatch(GroupAction.getDetail({ id: this.groups._id, idToken: this.idToken }));
+          console.log('id of group' + this.groups._id);
           
         }
       })
@@ -164,7 +165,6 @@ export class SuggestComponent implements OnDestroy, OnInit {
 
     this.groupsList$.subscribe((groupList) => {
       this.groupsList = groupList;
-      // console.log(groupList);
     });
     
   }
@@ -185,39 +185,42 @@ export class SuggestComponent implements OnDestroy, OnInit {
     );
     this.closeDialog();
   }
-
+  // joined = false;
  
-  checkJoin(join: boolean) {
-    if (this.profile._id && join) {
-      return true;
-    } else   {
-      return false;
-    }
-    
-  }
+  // join() {
+  //   if(this.profile._id.includes(this.groups._id)) {
+  //     this.joined = true;
+  //   } else {
+  //     this.joined = false;
+  //   }
+  // }
  
 
   joinGroup(id: string, uid: string, idToken: string) {
     this.groups._id = id;
-    // console.log(this.groups._id+"_id");
-    this.store.dispatch(GroupAction.getDetail({ id: this.groups._id }));
+    this.store.dispatch(GroupAction.getDetail({ id: this.groups._id, idToken: idToken }));
+    console.log('id of group' + this.groups._id);
+    
     uid = this.profile._id;
-    // console.log(uid+" profile");
     idToken = this.idToken;
     this.store.dispatch(GroupAction.join({ id: this.groups._id , uid: uid, idToken: idToken }));
+    console.log('id of group' + this.groups._id);
+    
   }
 
-
-
-  goToInternal() {
-    this.router.navigate(['/group/internal']);
+  getDetail(id: string, idToken: string) {
+    this.groups._id = id;
+    this.store.dispatch(GroupAction.getDetail({ id: this.groups._id, idToken: idToken }));
+    if(this.groups._id) {
+      this.router.navigate([`/group/detail/${this.groups._id}`]);
+    } else {
+      // this.router.navigate(['/group/internal']);
+    }
   }
-
   back() {
     this.location.back();
   }
   
-
   @ViewChild('createGroupDialog', { static: true })
   dialog!: ElementRef<HTMLDialogElement>;
   cdr = inject(ChangeDetectorRef);

@@ -48,7 +48,7 @@ export const joinFailure = createAction(
 
 export const getDetail = createAction(
   '[Group] Get Detail',
-  props<{ id: string }>()
+  props<{ id: string, idToken: string }>()
 );
 
 export const getDetailSuccess = createAction(

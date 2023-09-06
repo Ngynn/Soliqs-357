@@ -113,7 +113,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         ([idToken, profile]) => {
           this.profile = profile;
           this.idToken = idToken;
-          console.log(idToken);
+          // console.log(idToken);
         }
       ),
 
