@@ -3,8 +3,6 @@ import {
   Component,
   ElementRef,
   Input,
-  OnDestroy,
-  OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -13,7 +11,7 @@ import { Router } from '@angular/router';
 import { Comment } from 'src/app/models/comment.model';
 import { Store } from '@ngrx/store';
 import { CommentState } from 'src/app/ngrx/states/comment.state';
-
+import * as CommentActions from '../../ngrx/actions//comment.actions';
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { PostState } from 'src/app/ngrx/states/post.state';
 
@@ -104,7 +102,15 @@ export class PostComponent {
     }
   }
 
-  openCommentDialog() {
+  openCommentDialog(item: any) {
+    this.selectedPost = item;
+    this.store.dispatch(
+      CommentActions.get({
+        idToken: this.idToken,
+        postId: item._id,
+      })
+    );
+    console.log('baipostne', item);
     this.dialog2.nativeElement.showModal();
     this.cdr2.detectChanges();
   }
