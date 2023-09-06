@@ -39,10 +39,8 @@ export class InternalComponent implements OnInit, OnDestroy {
 
   groupsList$: Observable<Group[]> = this.store.select('group', 'groupList');
 
-
   user$ = this.store.select('user', 'user');
   user: User = <User>{};
-
 
   profile: Profile = <Profile>{};
   profile$ = this.store.select('profile', 'profile');
@@ -61,60 +59,16 @@ export class InternalComponent implements OnInit, OnDestroy {
   posts: string[] = [];
   id: string = '';
 
-
-
   userFirebase: any = null;
-  constructor(private location: Location, private store: Store<{
-    group: GroupState;
-    user: UserState;
-    auth: AuthState;
-    profile: ProfileState;
-  }>) {
-    this.idToken$.subscribe((idToken) => {
-      this.idToken = idToken;
-    });
-    this.userFirebase$.subscribe((userFirebase) => {
-      if(userFirebase) {
-        this.store.dispatch(UserAction.get({ uid: userFirebase.uid, idToken: this.idToken }));
-        this.store.dispatch(ProfileAction.get({ id: userFirebase.uid, idToken: this.idToken }));
-
-      }
-    });
-    this.subscriptions.push(
-      this.store
-        .select('user', 'isGetSuccess')
-        .pipe(
-          mergeMap((isGetSuccess) => {
-            if (isGetSuccess) {
-              return this.user$;
-            } else {
-              return [];
-            }
-          })
-        )
-        .subscribe((user) => {
-          if (user) {
-            this.store.dispatch(
-              ProfileAction.get({ id: user.uid, idToken: this.idToken })
-              
-            );
-            console.log(user);
-
-          }
-        }),
-    );
-    
-
-    this.groups$.subscribe((group) => {
-      this.groups = group;
-    });
-    
-    this.store.dispatch(GroupAction.getDetail({ id: this.id, idToken: this.idToken }));
-    
-    
-    
-    
-  }
+  constructor(
+    private location: Location,
+    private store: Store<{
+      group: GroupState;
+      user: UserState;
+      auth: AuthState;
+      profile: ProfileState;
+    }>
+  ) {}
 
   
 
@@ -125,7 +79,7 @@ export class InternalComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
   joined: boolean = false;
-  
+
   showImageInput = false;
   @ViewChild('appDialog2', { static: true })
   dialog2!: ElementRef<HTMLDialogElement>;
@@ -143,7 +97,7 @@ export class InternalComponent implements OnInit, OnDestroy {
   join(): void {
     this.joined = true;
   }
- 
+
   openCommentDialog() {
     this.dialog2.nativeElement.showModal();
     this.cdr2.detectChanges();
