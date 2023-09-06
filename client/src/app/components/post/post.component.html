@@ -1,5 +1,5 @@
-<div class="move">
-  <div class="posts">
+
+  <div class="posts" >
     <div class="item" *ngFor="let item of post">
       <div class="top-item">
         <div class="avatar-top-item">
@@ -30,13 +30,13 @@
       <div class="reaction">
         <div class="item-reaction" (click)="openCommentDialog()">
           <mat-icon>sms</mat-icon>
-          <div class="count">{{ item.commentCount }}</div>
+          <div class="count">{{ item.comments }}</div>
         </div>
         <div class="item-reaction" (click)="repost1()">
           <mat-icon [ngStyle]="{ color: item1.sync ? '#944170' : '#504349' }"
             >sync</mat-icon
           >
-          <div class="count">{{ item.repostCount }}</div>
+          <div class="count">{{ item.shares }}</div>
         </div>
         <div class="item-reaction" (click)="like1()">
           <mat-icon
@@ -45,7 +45,7 @@
             }"
             >favorite</mat-icon
           >
-          <div class="count">{{ item.likeCount }}</div>
+          <div class="count">{{ item.likes }}</div>
         </div>
         <div class="item-reaction" (click)="monitoring1()">
           <mat-icon
@@ -54,15 +54,14 @@
             }"
             >legend_toggle</mat-icon
           >
-          <div class="count">{{ item.monitoringCount }}</div>
+          <div class="count">{{ item.bookmarks }}</div>
         </div>
         <div class="item-reaction">
           <mat-icon>file_upload</mat-icon>
         </div>
       </div>
     </div>
-  </div>
-</div>
+
 
 <dialog class="comment-dialog" style="color: #1f1a1c" #appDialog2>
   <div class="btnClose" (click)="closeCommentDialog()">

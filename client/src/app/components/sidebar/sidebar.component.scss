@@ -136,9 +136,12 @@
     }
     .input{
       .img-file {
-        img{
-          width: 200px;
-          height: 100px;
+        width: 300px;
+        height: 300px;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
         }
       }
     }
@@ -150,7 +153,7 @@
       overflow-wrap: break-word;
       word-wrap: break-word;
       width: 500px;
-      height: 150px;
+      height: 70px;
       outline: none;
       border: none;
       font-size: 20px;
@@ -209,7 +212,7 @@
 dialog {
   position: fixed;
   inset-block-start: 0px;
-  inset-block-end: 54%;
+  inset-block-end: 20%;
   user-select: text;
   visibility: visible;
   overflow: auto;
@@ -230,31 +233,6 @@ dialog {
   font-weight: 500;/* Màu nền mới khi được chọn */
 }
 
-
-// .selected {
-//   border-radius: 20px;
-//   background-color: #fdd9e8;
-//   font-weight: 500; /* Thay thế 'yourSelectedColor' bằng màu bạn muốn */
-// }
-
-
- // .nav {
-          //   display: flex;
-          //   flex-direction: row;
-          //   align-items: center;
-          //   width: 100%;
-          //   height: 50px;
-          //   cursor: pointer;
-
-          //   .text {
-          //     color: black;
-          //   }
-
-          //   .icon {
-          //     margin: 0 20px;
-          //     color: black;
-          //   }
-          // }
       
 
    

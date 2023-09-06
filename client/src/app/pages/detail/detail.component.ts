@@ -75,20 +75,24 @@ export class DetailComponent implements OnInit {
       monitoringCount: 20,
     },
   ];
+  postId!: string|null;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private location: Location
   ) {}
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const idParam = params.get('id');
-      if (idParam != null) {
-        const itemId = +idParam;
-        this.item = this.allPost.find((post) => post.id === itemId);
-        console.log(this.item);
+    this.route.queryParamMap.subscribe(params => {
+      this.postId = params.get('id');
+
+      if (this.postId) {
+
+        console.log('postId:', this.postId);
+
       }
     });
+    this.item = this.allPost.find((post) => post.id === 1);
+    console.log(this.item);
   }
 
   item1 = {
