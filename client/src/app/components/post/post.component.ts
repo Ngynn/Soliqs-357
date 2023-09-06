@@ -10,15 +10,12 @@ import {
 } from '@angular/core';
 
 import { Router } from '@angular/router';
+import { Comment } from 'src/app/models/comment.model';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { Profile } from 'src/app/models/profile.model';
+import { CommentState } from 'src/app/ngrx/states/comment.state';
+
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { PostState } from 'src/app/ngrx/states/post.state';
-import { ProfileState } from 'src/app/ngrx/states/profile.state';
-import { StorageState } from 'src/app/ngrx/states/storage.state';
-import * as PostActions from '../../ngrx/actions/post.actions';
-import { Post } from 'src/app/models/post.model';
 
 @Component({
   selector: 'app-post',
@@ -26,7 +23,35 @@ import { Post } from 'src/app/models/post.model';
   styleUrls: ['./post.component.scss'],
 })
 export class PostComponent {
-  constructor(private router: Router) {}
+  commentsPost: Array<Comment> = [];
+  comments$ = this.store.select('comment', 'comments');
+  idToken$ = this.store.select('auth', 'idToken');
+  idToken = '';
+  post$ = this.store.select('post', 'posts');
+  idpost: string = '';
+  selectedPost: any;
+
+  constructor(
+    private router: Router,
+    private store: Store<{
+      comment: CommentState;
+      auth: AuthState;
+      post: PostState;
+    }>
+  ) {
+    this.idToken$.subscribe((idToken) => {
+      if (idToken) {
+        this.idToken = idToken;
+      }
+    });
+    this.comments$.subscribe((comments) => {
+      console.log('comments', comments);
+      if (comments.length) {
+        this.commentsPost = comments;
+        console.log('comments', this.commentsPost);
+      }
+    });
+  }
   @Input() post!: [] | any;
   itemSelected: any;
   Selectitem(item: any) {
@@ -36,7 +61,7 @@ export class PostComponent {
       queryParams: {
         id: item._id,
       },
-      queryParamsHandling: 'merge'
+      queryParamsHandling: 'merge',
     });
   }
 
@@ -87,6 +112,4 @@ export class PostComponent {
     this.dialog2.nativeElement.close();
     this.cdr2.detectChanges();
   }
-
-
 }

@@ -2,15 +2,16 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Input,
   ViewChild,
   inject,
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { PostComponent } from 'src/app/components/post/post.component';
 import { Location } from '@angular/common';
+
+import { Post } from 'src/app/models/post.model';
+
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
@@ -18,6 +19,8 @@ import { Location } from '@angular/common';
 })
 export class DetailComponent implements OnInit {
   item: {} | any;
+
+  postDetail: Post[] = [];
   allPost = [
     {
       id: 1,
@@ -75,20 +78,18 @@ export class DetailComponent implements OnInit {
       monitoringCount: 20,
     },
   ];
-  postId!: string|null;
+  postId!: string | null;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private location: Location
   ) {}
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe(params => {
+    this.route.queryParamMap.subscribe((params) => {
       this.postId = params.get('id');
 
       if (this.postId) {
-
         console.log('postId:', this.postId);
-
       }
     });
     this.item = this.allPost.find((post) => post.id === 1);

@@ -76,7 +76,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     };
   }
 
-
   postForm = new FormGroup({
     id: new FormControl(''),
     authorId: new FormControl('', Validators.required),
@@ -100,7 +99,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
       if (nav.route === currentRoute) {
         nav.backgroundColor = true;
-
       } else {
         nav.backgroundColor = false;
       }
@@ -166,7 +164,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
           this.selectedImage = null;
           this.fileInput.nativeElement.value = '';
           this.closePostDialog();
-          this.store.dispatch(PostActions.get({ idToken: this.idToken, page: 0 ,pageSize: 2 }));
+          this.store.dispatch(
+            PostActions.get({ idToken: this.idToken, page: 0, pageSize: 2 })
+          );
         }
       })
     );
@@ -243,7 +243,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       icon: 'account_circle',
       text: 'Profile',
       backgroundColor: false,
-      route: `/profile/${this.profile.id}`,
+      route: '/profile',
     },
   ];
 
