@@ -10,12 +10,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Location } from '@angular/common';
 
-import { Post } from 'src/app/models/post.model';
+
 import { AuthState } from 'src/app/ngrx/states/auth.state';
-import { PostState } from 'src/app/ngrx/states/post.state';
+
 import { Store } from '@ngrx/store';
 import { Subscription, combineLatest } from 'rxjs';
+
+import { Post } from 'src/app/models/post.model';
 import * as PostActions from '../../ngrx/actions/post.actions'
+import { PostState } from 'src/app/ngrx/states/post.state';
+
+
+import { CommentState } from 'src/app/ngrx/states/comment.state'
+import * as CommentActions from '../../ngrx/actions/comment.actions'
+import { Comment } from 'src/app/models/comment.model';
 
 @Component({
   selector: 'app-detail',
@@ -23,66 +31,8 @@ import * as PostActions from '../../ngrx/actions/post.actions'
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
-  item: {} | any;
 
-  postDetail: Post[] = [];
-  allPost = [
-    {
-      id: 1,
-      uid: 1,
-      avatarUrl:
-        'https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png',
-      username: 'Nguyễn Minh Mập',
-      tagname: '@MậpMủmMỉm',
-      time: '15 tháng 8',
-      content: 'Hình ảnh sếp Lu Lu khi thấy chúng tôi làm cho sếp bất ngờ',
-      imageUrls: [
-        'https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      ],
 
-      commentCount: '13k',
-      repostCount: '11k',
-      likeCount: '14k',
-      monitoringCount: '200k',
-    },
-    {
-      id: 2,
-      uid: 2,
-      avatarUrl:
-        'https://vnmedia.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/062023/1_20230613142853.jpg',
-      username: 'Trần Thành Huy',
-      tagname: '@HuyHuyHuy',
-      time: '15 tháng 8',
-      content: 'hình ảnh nhân vật ',
-      imageUrls: [
-        'https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      ],
-
-      commentCount: '12k',
-      repostCount: '13k',
-      likeCount: '15k',
-      monitoringCount: '200k',
-    },
-    {
-      id: 3,
-      uid: 3,
-      avatarUrl:
-        'https://img.freepik.com/free-photo/cute-spitz_144627-7076.jpg?t=st=1692779137~exp=1692779737~hmac=3cc3a2ec042e6477875c549361ec7360c2f89645580f9510231302152fa2e4e1',
-      username: 'Phùng Minh Khoa',
-      tagname: '@KhoaKhoaKhoa',
-      time: '15 tháng 8',
-      content: 'hình ảnh của chó cỏ ',
-      imageUrls: [
-        'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        'https://images.pexels.com/photos/1198802/pexels-photo-1198802.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      ],
-      commentCount: 120,
-      repostCount: 3,
-      likeCount: 1,
-      monitoringCount: 20,
-    },
-  ];
 
 
   postId!: string | null;
@@ -94,6 +44,9 @@ export class DetailComponent implements OnInit {
   idToken$ = this.store.select('auth', 'idToken');
   idToken: string = '';
 
+  comments: Array<Comment> = []
+  comments$ = this.store.select('comment', 'comments')
+
 
 
 
@@ -104,8 +57,23 @@ export class DetailComponent implements OnInit {
     private store: Store<{
       auth: AuthState;
       post: PostState;
+      comment: CommentState;
     }>
-  ) { }
+  ) {
+    this.post$.subscribe((post) => {
+      if (post._id) {
+        this.post = post
+
+      }
+    }),
+    this.comments$.subscribe((comments)=>{
+      if(comments.length){
+        console.log(comments);
+        
+        this.comments = comments
+      }
+    })
+   }
   ngOnInit(): void {
 
     this.subscriptions.push(
@@ -115,25 +83,15 @@ export class DetailComponent implements OnInit {
           console.log(idToken);
         }
       ),
-      this.post$.subscribe((post) => {
-        if (post._id) {
-          this.post = post
-        }
-      }),
     )
     this.route.queryParamMap.subscribe((params) => {
       this.postId = params.get('id');
       if(this.postId){
+        this.comments = []
         this.store.dispatch(PostActions.getById({idToken: this.idToken, id: this.postId}))
+        this.store.dispatch(CommentActions.get({postId: this.postId, idToken: this.idToken}))
       }
     });
-
-
-
-
-
-    this.item = this.allPost.find((post) => post.id === 1);
-    console.log(this.item);
   }
 
   item1 = {
@@ -264,7 +222,9 @@ export class DetailComponent implements OnInit {
   }
   return(icon: string) {
     // Chuyển hướng đến trang home
-    this.location.back();
+    // this.location.back();
+    this.router.navigate(['/home'])
+    this.comments= []
 
     // Đặt màu nền của biểu tượng tương ứng thành true và của các biểu tượng khác thành false
   }

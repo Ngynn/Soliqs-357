@@ -87,7 +87,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private auth: Auth
   ) {
-    this.store.dispatch(PostActions.get({ idToken: this.idToken, page: 0, pageSize: 2 }));
+    this.store.dispatch(PostActions.get({ idToken: this.idToken, page: 0, pageSize: 100 }));
     this.userData$.subscribe((value) => {
       if (value) {
         this.user = value;
