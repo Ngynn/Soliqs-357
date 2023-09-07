@@ -88,6 +88,35 @@ export class DetailComponent implements OnInit {
       this.postId = params.get('id');
       if(this.postId){
         this.comments = []
+        this.post = {
+          _id: '',
+          id: '',
+          media: [],
+          authorId: {
+            _id: '',
+            id: '',
+            userName: '',
+            displayName: '',
+            email: '',
+            phone: '',
+            country: '',
+            avatar: '',
+            cover: '',
+            bio: '',
+            gender: '',
+            followers: [],
+            following: [],
+            blocked: []
+          },
+          content: '',
+          likes: [],
+          comments: [],
+          shares: [],
+          tags: [],
+          bookmarks: [],
+          isPrivate: false,
+          createdAt: '',
+        }
         this.store.dispatch(PostActions.getById({idToken: this.idToken, id: this.postId}))
         this.store.dispatch(CommentActions.get({postId: this.postId, idToken: this.idToken}))
       }
@@ -220,7 +249,7 @@ export class DetailComponent implements OnInit {
     this.dialog2.nativeElement.close();
     this.cdr2.detectChanges();
   }
-  return(icon: string) {
+  return() {
     // Chuyển hướng đến trang home
     // this.location.back();
     this.router.navigate(['/home'])
