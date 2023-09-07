@@ -265,7 +265,7 @@ export class DetailComponent implements OnInit {
     this.dialog2.nativeElement.close();
     this.cdr2.detectChanges();
   }
-  return(icon: string) {
+  return() {
     // Chuyển hướng đến trang home
     // this.location.back();
     this.store.dispatch(PostActions.clearAllState());
