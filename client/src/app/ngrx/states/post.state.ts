@@ -1,11 +1,11 @@
-import { Post } from "src/app/models/post.model";
+import { Post } from 'src/app/models/post.model';
 
 export interface PostState {
-    posts: Post[];
-    isLoading: boolean;
-    isSuccess: boolean;
-    errorMessage: any;
-    isGetLoading: boolean;
-    isGetSuccess: boolean;
-    getErrorMessage: any;
+  posts: Post[];
+  isLoading: boolean;
+  isSuccess: boolean;
+  errorMessage: any;
+  isGetLoading: boolean;
+  isGetSuccess: boolean;
+  getErrorMessage: any;
 }

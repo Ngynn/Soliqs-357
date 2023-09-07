@@ -90,7 +90,7 @@
       grid-gap: 3px;
 
       border-radius: 20px;
-      overflow: hidden;
+      // overflow: hidden;
       img {
         max-width: 100%;
         image-rendering: crisp-edges;
@@ -133,7 +133,7 @@
   max-height: calc((100% - 6px) - 2em);
   user-select: text;
   visibility: visible;
-  overflow: auto;
+  // overflow: auto;
 
   .btnClose {
     margin: 5px;

@@ -6,15 +6,23 @@
     <div class="navigate">
       <mat-tab-group animationDuration="0ms">
         <mat-tab label="For you">
-          <div class="move">
+          <div
+            class="move"
+            infinite-scroll
+            [infiniteScrollDistance]="scrollDistance"
+            [infiniteScrollUpDistance]="scrollUpDistance"
+            [infiniteScrollThrottle]="throttle"
+            (scrolled)="onScrollDown($event)"
+          >
+            >
             <div class="posts">
-              <app-post [post]="postReal"></app-post>
+              <app-post [post]="posts"></app-post>
             </div>
           </div>
         </mat-tab>
 
         <mat-tab label="Following">
-          <div class="move">
+          <!-- <div class="move">
             <div class="posts">
               <div class="item">
                 <div class="top-item">
@@ -160,7 +168,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </mat-tab>
       </mat-tab-group>
     </div>
