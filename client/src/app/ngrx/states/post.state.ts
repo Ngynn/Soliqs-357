@@ -1,4 +1,4 @@
-import { Post } from "src/app/models/post.model";
+import { Post } from 'src/app/models/post.model';
 
 export interface PostState {
     posts: Post[];
@@ -8,4 +8,7 @@ export interface PostState {
     isGetLoading: boolean;
     isGetSuccess: boolean;
     getErrorMessage: any;
+    isGetByIdSuccess: boolean;
+    isGetByIdLoading: boolean;
+    post: Post;
 }

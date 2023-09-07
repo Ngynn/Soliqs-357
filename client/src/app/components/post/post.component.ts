@@ -44,13 +44,6 @@ export class PostComponent {
         this.idToken = idToken;
       }
     });
-    this.comments$.subscribe((comments) => {
-      console.log('comments', comments);
-      if (comments.length) {
-        this.commentsPost = comments;
-        console.log('comments', this.commentsPost);
-      }
-    });
   }
   @Input() post!: [] | any;
   itemSelected: any;

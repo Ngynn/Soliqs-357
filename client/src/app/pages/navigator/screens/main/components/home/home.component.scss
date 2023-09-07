@@ -5,21 +5,18 @@
   z-index: 100;
   background-color: white;
   width: 100%;
-  
 
+  ::ng-deep .mat-mdc-tab-header {
+    width: 101%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: white;
+  }
 
-::ng-deep .mat-mdc-tab-header{
-  width: 101%;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background-color: white;
-
-}
-
-// .mat-tab-body-wrapper {
-//   overflow-y: auto;
-// }
+  // .mat-tab-body-wrapper {
+  //   overflow-y: auto;
+  // }
 }
 
 .container {
@@ -77,12 +74,11 @@
       border: none;
       font-size: 20px;
     }
-    .img-file{
-      img{
-              width: 300px;
-      height: 200px;
+    .img-file {
+      img {
+        width: 300px;
+        height: 200px;
       }
-
     }
   }
 
@@ -177,8 +173,6 @@
             }
           }
 
-
-
           .icon-content-top-item {
             color: #504349;
           }
@@ -193,29 +187,26 @@
         }
       }
     }
-    .container-item-img{
+    .container-item-img {
       padding-left: 80px;
-
     }
 
     .img-item {
-
       width: calc(100%);
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       grid-gap: 3px;
 
       border-radius: 20px;
-      overflow: hidden;
+      // overflow: hidden;
       img {
         cursor: pointer;
         width: 100%;
         height: 100%;
         float: left;
-
       }
     }
-    .remaining-count{
+    .remaining-count {
       margin-left: 10px;
       color: #504349;
     }
@@ -241,14 +232,12 @@
       }
     }
   }
-
 }
-.detail-dialog{
+.detail-dialog {
   width: 100vw;
   height: 100vh;
   border: none;
   margin: 0;
-
 }
 
 .comment-dialog {
@@ -262,7 +251,7 @@
   max-height: calc((100% - 6px) - 2em);
   user-select: text;
   visibility: visible;
-  overflow: auto;
+  // overflow: auto;
 
   .btnClose {
     margin: 5px;
@@ -274,13 +263,11 @@
   }
 
   .top-dialog {
-
     align-items: center;
     justify-content: center;
     display: flex;
-    .avatar-top-dialog{
+    .avatar-top-dialog {
       margin: 20px;
-
     }
 
     .content-top-dialog {
@@ -289,31 +276,27 @@
         justify-content: flex-start;
         display: flex;
       }
-
     }
-
   }
-  .input-comment{
+  .input-comment {
     margin: 20px;
     width: 90%;
 
-    input{
+    input {
       font-size: large;
       outline: none;
       border: none;
       width: 100%;
-
     }
   }
-  .bottom-dialog{
+  .bottom-dialog {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .button-comment{
-      button{
+    .button-comment {
+      button {
         border-radius: 20px;
       }
     }
   }
-
 }
