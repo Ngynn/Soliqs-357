@@ -24,11 +24,11 @@
           </div>
         </div>
       </div>
-      <div class="img-item" (click)="Selectitem(item)">
+      <div class="img-item" (click)="Selectitem(item)" *ngIf="item.media[0]">
         <img *ngFor="let imageUrl of item?.media" [src]="imageUrl" alt="" />
       </div>
       <div class="reaction">
-        <div class="item-reaction" (click)="openCommentDialog(item)">
+        <div class="item-reaction">
           <mat-icon>sms</mat-icon>
           <div class="count">{{ item?.commentCount }}</div>
         </div>
@@ -91,6 +91,7 @@
         type="text"
         placeholder="Post your comment!"
         formControlName="content"
+        #fileInput
       />
     </div>
 

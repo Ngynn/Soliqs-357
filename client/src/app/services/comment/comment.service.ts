@@ -13,7 +13,7 @@ export class CommentService {
       Authorization: `Bearer ${idToken}`,
     });
     console.log('postIdservice', postId);
-    console.log('idToken', idToken);
+
     return this.httpClient.get<Comment[]>(
       `http://localhost:3000/v1/comment?postId=${postId}`,
       {

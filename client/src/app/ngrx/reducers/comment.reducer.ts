@@ -76,5 +76,19 @@ export const commentReducer = createReducer(
       errorMessage,
       comments: [],
     };
+  }),
+
+  on(CommentAction.clearAllState, (state) => {
+    return {
+      ...state,
+      comments: [],
+      isLoading: false,
+      isSuccess: false,
+      errorMessage: '',
+      isGetLoading: false,
+      isGetSuccess: false,
+      isCreateLoading: false,
+      isCreateSuccess: false,
+    };
   })
 );

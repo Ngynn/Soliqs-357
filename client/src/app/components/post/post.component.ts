@@ -26,8 +26,6 @@ import { Subscription, combineLatest, mergeMap } from 'rxjs';
   styleUrls: ['./post.component.scss'],
 })
 export class PostComponent {
-  commentsPost: Array<Comment> = [];
-  comments$ = this.store.select('comment', 'comments');
   idToken$ = this.store.select('auth', 'idToken');
   profile$ = this.store.select('profile', 'profile');
   profile: Profile = <Profile>{};
@@ -36,6 +34,11 @@ export class PostComponent {
   idpost: string = '';
   selectedPost: any;
   authorId: string = '';
+
+  isCommentSuccess$ = this.store.select('comment', 'isCreateSuccess');
+  commentsPost: Array<Comment> = [];
+  comments$ = this.store.select('comment', 'comments');
+
   subscriptions: Subscription[] = [];
   constructor(
     private router: Router,
@@ -58,7 +61,6 @@ export class PostComponent {
       console.log('comments', comments);
       if (comments.length) {
         this.commentsPost = comments;
-        console.log('comments', this.commentsPost);
       }
     });
   }
@@ -75,6 +77,7 @@ export class PostComponent {
   };
 
   @Input() post!: [] | any;
+  postCommented: any;
   itemSelected: any;
   Selectitem(item: any) {
     this.itemSelected = item;
@@ -103,6 +106,11 @@ export class PostComponent {
     this.showImageInput = false;
   }
   postComment() {
+    this.commentData = {
+      authorId: this.profile._id,
+      content: this.commentForm.value.content || '',
+      postId: this.postCommented._id,
+    };
     this.store.dispatch(
       CommentActions.create({
         idToken: this.idToken,
@@ -110,9 +118,6 @@ export class PostComponent {
         comment: this.commentData,
       })
     );
-    console.log('====================================');
-    console.log('commentData', this.commentData);
-    console.log('====================================');
   }
 
   repost1() {
@@ -141,18 +146,14 @@ export class PostComponent {
   openCommentDialog(item: any) {
     this.selectedPost = item;
     this.authorId = item.authorId._id;
-    this.store.dispatch(
-      CommentActions.get({
-        idToken: this.idToken,
-        postId: item._id,
-      })
-    );
+    // this.store.dispatch(
+    //   CommentActions.get({
+    //     idToken: this.idToken,
+    //     postId: item._id,
+    //   })
+    // );
+    this.postCommented = item;
     console.log('_id', item._id);
-    this.commentData = {
-      authorId: this.authorId,
-      content: this.commentForm.value.content || '',
-      postId: item.id,
-    };
     console.log('authorId', this.authorId);
     console.log('baipostne', item);
 

@@ -37,3 +37,5 @@ export const updateFailure = createAction(
   '[Comment] Update Failure',
   props<{ errorMessage: any }>()
 );
+
+export const clearAllState = createAction('[Comment] Clear All State');
