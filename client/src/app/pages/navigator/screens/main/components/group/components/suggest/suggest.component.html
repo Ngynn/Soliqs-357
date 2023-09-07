@@ -14,7 +14,7 @@
   </div>
   <div class="main">
     <div class="all" *ngFor="let groups of groupJoined">
-      <div class="leftsuggest" (click)="getDetail()">
+      <div class="leftsuggest" (click)="getDetail(this.groups._id, idToken)">
         <div class="avatar">
           <img src="../../../../../../../../../assets/soliqs-logo.png" alt="" />
         </div>
@@ -38,7 +38,7 @@
   </div>
   <div class="main">
     <div class="all" *ngFor="let groups of groupsList">
-      <div class="leftsuggest" (click)="getDetail()">
+      <div class="leftsuggest" (click)="getDetail(this.groups._id, idToken)">
         <div class="avatar">
           <img src="../../../../../../../../../assets/soliqs-logo.png" alt="" />
         </div>

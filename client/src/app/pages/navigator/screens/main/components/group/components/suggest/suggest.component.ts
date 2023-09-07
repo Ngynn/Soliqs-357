@@ -28,6 +28,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./suggest.component.scss'],
 })
 export class SuggestComponent implements OnDestroy, OnInit {
+  isNavigateSuccessg$ = this.store.select('group', 'isSuccess');
   isJoinSuccess$ = this.store.select('group', 'isSuccess');
   errorMessage$ = this.store.select('group', 'errorMessage');
 
@@ -145,7 +146,6 @@ export class SuggestComponent implements OnDestroy, OnInit {
           if (data) {
             this.groups = data;
             console.log(this.groups);
-            console.log(this.groups._id);
           }
         }),
       this.isCreating$.subscribe((res) => {
@@ -180,6 +180,8 @@ export class SuggestComponent implements OnDestroy, OnInit {
         }
       })
     );
+    
+    
   }
 
   getAllGroup(): void {
@@ -207,14 +209,21 @@ export class SuggestComponent implements OnDestroy, OnInit {
   }
 
   joinGroup(id: string, idToken: string) {
-    console.log(this.groups._id);
-
     this.store.dispatch(
       GroupActions.join({ id: id, uid: this.profile._id, idToken: idToken })
     );
   }
 
-  getDetail() {}
+  getDetail(id: string, idToken: string) {
+    this.store.dispatch(
+      GroupActions.getOne({ id: this.groups._id, idToken: this.idToken })
+    );
+    // console.log(id);
+    // console.log(idToken);
+    
+    
+    this.router.navigate([`/group/detail/${id}`]);
+  }
 
   back() {
     this.location.back();

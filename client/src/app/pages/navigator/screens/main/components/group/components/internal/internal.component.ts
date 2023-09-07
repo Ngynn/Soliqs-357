@@ -13,13 +13,12 @@ import { GroupState } from 'src/app/ngrx/states/group.state';
 import { UserState } from 'src/app/ngrx/states/user.state';
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { ProfileState } from 'src/app/ngrx/states/profile.state';
-import { Observable, Subscription, mergeMap } from 'rxjs';
+import { Observable, Subscription, combineLatest, mergeMap } from 'rxjs';
 import { Group } from 'src/app/models/group.model';
 import { Profile } from 'src/app/models/profile.model';
-import { User } from '@angular/fire/auth';
-import * as GroupAction from 'src/app/ngrx/actions/group.actions';
-import * as UserAction from 'src/app/ngrx/actions/user.actions';
-import * as ProfileAction from 'src/app/ngrx/actions/profile.actions';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import * as GroupActions from 'src/app/ngrx/actions/group.actions';
+
 
 @Component({
   selector: 'app-internal',
@@ -27,29 +26,24 @@ import * as ProfileAction from 'src/app/ngrx/actions/profile.actions';
   styleUrls: ['./internal.component.scss'],
 })
 export class InternalComponent implements OnInit, OnDestroy {
-  isCreateGroupSuccess$ = this.store.select('group', 'isSuccess');
 
-  isGetDetailSuccess$ = this.store.select('group', 'isGetLoading');
   errorMessage$ = this.store.select('group', 'errorMessage');
 
   groups: Group = <Group>{};
   groups$: Observable<Group> = this.store.select('group', 'group');
-
-  groupsList: Group[] = [];
-
-  groupsList$: Observable<Group[]> = this.store.select('group', 'groupList');
+  isGetSuccess$ = this.store.select('group', 'isGetSuccess');
 
   user$ = this.store.select('user', 'user');
-  user: User = <User>{};
 
   profile: Profile = <Profile>{};
   profile$ = this.store.select('profile', 'profile');
 
-  idToken$ = this.store.select('auth', 'idToken');
   idToken: string = '';
+  idToken$ = this.store.select('auth', 'idToken');
 
   userFirebase$ = this.store.select('auth', 'firebaseUser');
 
+  avatarUrl: string = '';
   uid: string = '';
   subscriptions: Subscription[] = [];
 
@@ -57,7 +51,6 @@ export class InternalComponent implements OnInit, OnDestroy {
   owner: string = '';
   members: string[] = [];
   posts: string[] = [];
-  id: string = '';
 
   userFirebase: any = null;
   constructor(
@@ -67,8 +60,53 @@ export class InternalComponent implements OnInit, OnDestroy {
       user: UserState;
       auth: AuthState;
       profile: ProfileState;
-    }>
-  ) {}
+      
+    }>,
+    private _snackBar: MatSnackBar,
+    
+  ) {
+    this.subscriptions.push(
+      // combineLatest([this.idToken$, this.profile$]).subscribe(
+      //   ([idToken, profile]) => {
+      //     this.idToken = idToken;
+      //     this.profile = profile;
+      //     this.name = this.groups.name;
+      //     this.owner = this.groups.owner;
+      //     this.members = this.groups.members;
+          
+
+      //     if(this.idToken && this.profile) {
+      //       this.store.dispatch(GroupActions.getOne({ id: this.groups._id, idToken: this.idToken }));
+      //     }
+      //   }
+      // ),
+      // this.isGetSuccess$
+      //   .pipe(
+      //     mergeMap((isGetSuccess) => {
+      //       if (isGetSuccess) {
+      //         return this.groups$;
+      //       } else {
+      //         return [];
+      //       }
+      //     })
+      //   )
+      //   .subscribe((groups) => {
+      //     if(groups) {
+      //       this.groups = groups;
+      //     }
+      //   }),
+      //   this.isGetSuccess$.subscribe((isGetSuccess) => {
+      //     if (isGetSuccess) {
+      //       this.openSnackBar('Get group successfully');
+      //     }
+      //   }),
+        
+      
+
+    );
+
+      
+  }
 
   
 
@@ -108,5 +146,14 @@ export class InternalComponent implements OnInit, OnDestroy {
   }
   back() {
     this.location.back();
+  }
+
+  openSnackBar(message: any) {
+    this._snackBar.open(message, '', {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 2000,
+      panelClass: ['snackbar'],
+    });
   }
 }
