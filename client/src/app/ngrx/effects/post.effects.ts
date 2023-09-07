@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
 import { PostService } from 'src/app/services/post/post.service';
 import * as PostActions from '../actions/post.actions';
 
@@ -42,4 +42,18 @@ export class PostEffects {
       )
     )
   );
+
+  getPostById$ = createEffect(() =>
+   this.actions$.pipe(
+    ofType(PostActions.getById),
+    exhaustMap((action) =>
+        this.postService.getPostById( action.idToken, action.id ).pipe(
+            map((post) => {
+                return PostActions.getByIdSuccess( {post: post})
+            }),
+            catchError((error) => of(PostActions.getByIdFailure({errorMessage: error})))
+        )
+    )
+)
+);
 }

@@ -23,6 +23,18 @@ export const getSuccess = createAction(
   props<{ posts: Post[] }>()
 );
 export const getFailure = createAction(
-  '[Post] Get Failure',
-  props<{ errorMessage: any }>()
+    '[Post] Get Failure',
+    props<{ errorMessage: any }>()
+);
+
+export const getById = createAction(
+    '[Post] Get By Id ', props<{ idToken: string, id: string | null}>()
+)
+export const getByIdSuccess = createAction(
+    '[Post] Get By Id Success',
+    props<{ post: Post }>()
+);
+export const getByIdFailure = createAction(
+    '[Post] Get By Id Failure',
+    props<{ errorMessage: any }>()
 );
