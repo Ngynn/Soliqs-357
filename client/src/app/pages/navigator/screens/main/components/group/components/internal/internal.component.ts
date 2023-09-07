@@ -86,11 +86,11 @@ export class InternalComponent implements OnInit, OnDestroy {
   ) { }
   ngOnInit(): void {
     this.subscriptions.push(
-      combineLatest([this.idToken$, this.userFirebase$]).subscribe(
-        ([idToken, userFirebase]) => {
+      combineLatest([this.idToken$, this.profile$]).subscribe(
+        ([idToken, profile]) => {
           this.idToken = idToken;
-          this.userFirebase = userFirebase;
-          console.log(this.userFirebase);
+          this.profile = profile;
+          console.log(this.profile);
           
         }
         
@@ -102,6 +102,34 @@ export class InternalComponent implements OnInit, OnDestroy {
           
         } 
       }),
+      this.profile$.subscribe((profile) => {
+        if (profile._id) {
+          this.profile = profile;
+        }
+      }),
+      this.isGetJoinedSuccess$
+        .pipe(
+          mergeMap((res) => {
+            if (res) {
+              return this.groupJoined$;
+            } else {
+              return [];
+            }
+          })
+        )
+        .subscribe((data) => {
+          if (data) {
+            this.groupJoined = data;
+            console.log(this.groupJoined);
+            if( this.groupJoined.find((profile) => profile._id === this.profile._id)) {
+              this.join = true;
+            } else {
+              this.join = false;
+            }
+            console.log(this.join);
+            
+          }
+        }),
 
       
         
