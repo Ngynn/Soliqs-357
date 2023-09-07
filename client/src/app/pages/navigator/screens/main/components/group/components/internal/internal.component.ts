@@ -18,6 +18,8 @@ import { Group } from 'src/app/models/group.model';
 import { Profile } from 'src/app/models/profile.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as GroupActions from 'src/app/ngrx/actions/group.actions';
+import { ActivatedRoute } from '@angular/router';
+import { group } from '@angular/animations';
 
 
 @Component({
@@ -26,12 +28,22 @@ import * as GroupActions from 'src/app/ngrx/actions/group.actions';
   styleUrls: ['./internal.component.scss'],
 })
 export class InternalComponent implements OnInit, OnDestroy {
+  isJoinSuccess$ = this.store.select('group', 'isSuccess');
 
   errorMessage$ = this.store.select('group', 'errorMessage');
 
   groups: Group = <Group>{};
   groups$: Observable<Group> = this.store.select('group', 'group');
   isGetSuccess$ = this.store.select('group', 'isGetSuccess');
+
+  groupsList: Group[] = [];
+  groupsList$: Observable<Group[]> = this.store.select('group', 'groupList');
+
+  groupJoined: Group[] = [];
+  groupJoined$: Observable<Group[]> = this.store.select('group', 'groupJoined');
+  isGetJoinedSuccess$ = this.store.select('group', 'isGetJoinedSuccess');
+
+
 
   user$ = this.store.select('user', 'user');
 
@@ -49,8 +61,12 @@ export class InternalComponent implements OnInit, OnDestroy {
 
   name: string = '';
   owner: string = '';
-  members: string[] = [];
+  member: Profile[] = [];
   posts: string[] = [];
+  groupId!: string | null;
+
+  join: boolean = false;
+  
 
   userFirebase: any = null;
   constructor(
@@ -60,63 +76,65 @@ export class InternalComponent implements OnInit, OnDestroy {
       user: UserState;
       auth: AuthState;
       profile: ProfileState;
-      
+    
+
     }>,
     private _snackBar: MatSnackBar,
-    
-  ) {
-    this.subscriptions.push(
-      // combineLatest([this.idToken$, this.profile$]).subscribe(
-      //   ([idToken, profile]) => {
-      //     this.idToken = idToken;
-      //     this.profile = profile;
-      //     this.name = this.groups.name;
-      //     this.owner = this.groups.owner;
-      //     this.members = this.groups.members;
-          
+    private route: ActivatedRoute
 
-      //     if(this.idToken && this.profile) {
-      //       this.store.dispatch(GroupActions.getOne({ id: this.groups._id, idToken: this.idToken }));
-      //     }
-      //   }
-      // ),
-      // this.isGetSuccess$
-      //   .pipe(
-      //     mergeMap((isGetSuccess) => {
-      //       if (isGetSuccess) {
-      //         return this.groups$;
-      //       } else {
-      //         return [];
-      //       }
-      //     })
-      //   )
-      //   .subscribe((groups) => {
-      //     if(groups) {
-      //       this.groups = groups;
-      //     }
-      //   }),
-      //   this.isGetSuccess$.subscribe((isGetSuccess) => {
-      //     if (isGetSuccess) {
-      //       this.openSnackBar('Get group successfully');
-      //     }
-      //   }),
+
+  ) { }
+  ngOnInit(): void {
+    this.subscriptions.push(
+      combineLatest([this.idToken$, this.userFirebase$]).subscribe(
+        ([idToken, userFirebase]) => {
+          this.idToken = idToken;
+          this.userFirebase = userFirebase;
+          console.log(this.userFirebase);
+          
+        }
         
+        
+      ),
+      this.groups$.subscribe((groups) => {
+        if(groups._id) {
+          this.groups = groups;
+          
+        } 
+      }),
+
       
+        
+      this.route.queryParamMap.subscribe((params) => {
+        this.groupId = params.get('id');
+        if (this.groupId) {
+          this.store.dispatch(
+            GroupActions.getOne({ id: this.groupId, idToken: this.idToken })
+          );
+        }
+      }),
+      
+
 
     );
+    
+    
 
-      
+    
+
+    
+
+
   }
-
   
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
-  joined: boolean = false;
+
+ 
+
 
   showImageInput = false;
   @ViewChild('appDialog2', { static: true })
@@ -132,9 +150,7 @@ export class InternalComponent implements OnInit, OnDestroy {
     this.showImageInput = false;
   }
 
-  join(): void {
-    this.joined = true;
-  }
+  
 
   openCommentDialog() {
     this.dialog2.nativeElement.showModal();

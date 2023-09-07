@@ -14,17 +14,19 @@
   </div>
   <div class="main">
     <div class="all" *ngFor="let groups of groupJoined">
-      <div class="leftsuggest" (click)="getDetail(this.groups._id, idToken)">
+      <div class="leftsuggest" (click)="SelectGroup(groups)">
         <div class="avatar">
           <img src="../../../../../../../../../assets/soliqs-logo.png" alt="" />
         </div>
         <div class="name">
-          <div class="groupname">
+          
             <span class="textname">{{ groups.name }}</span>
             <span class="textmember">{{ groups.members.length }} members</span>
-          </div>
-          <div class="imguser" *ngFor="let member of groups.members">
-            <img [src]="member.avatar" />
+          
+          <div class="imguser" >
+            <div *ngFor="let member of groups.members">
+              <img [src]="member.avatar" />
+            </div>
           </div>
         </div>
       </div>
@@ -38,19 +40,23 @@
   </div>
   <div class="main">
     <div class="all" *ngFor="let groups of groupsList">
-      <div class="leftsuggest" (click)="getDetail(this.groups._id, idToken)">
+      <div class="leftsuggest" (click)="SelectGroup(groups)">
         <div class="avatar">
           <img src="../../../../../../../../../assets/soliqs-logo.png" alt="" />
         </div>
+
         <div class="name">
-          <div class="groupname">
             <span class="textname">{{ groups.name }}</span>
             <span class="textmember">{{ groups.members.length }} members</span>
-          </div>
-          <div class="imguser" *ngFor="let member of groups.members">
-            <img [src]="member.avatar" />
-          </div>
+            <div class="imguser" >
+              <div *ngFor="let member of groups.members, let i=index">
+                <div >
+                  <img  [src]="member.avatar" />
+                </div>
+              </div>
+            </div>
         </div>
+
       </div>
       <div class="rightsuggest">
         <button mat-raised-button color="primary" (click)="joinGroup(this.groups._id, idToken)">

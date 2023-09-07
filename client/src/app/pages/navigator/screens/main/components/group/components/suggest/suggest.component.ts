@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Input,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -21,6 +22,7 @@ import { UserState } from 'src/app/ngrx/states/user.state';
 import { Profile } from 'src/app/models/profile.model';
 import { ProfileState } from 'src/app/ngrx/states/profile.state';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { query } from '@angular/animations';
 
 @Component({
   selector: 'app-suggest',
@@ -214,15 +216,23 @@ export class SuggestComponent implements OnDestroy, OnInit {
     );
   }
 
-  getDetail(id: string, idToken: string) {
-    this.store.dispatch(
-      GroupActions.getOne({ id: this.groups._id, idToken: this.idToken })
-    );
-    // console.log(id);
-    // console.log(idToken);
-    
-    
-    this.router.navigate([`/group/detail/${id}`]);
+  
+
+  @Input() group!: [] | any;
+  groupSelected: any;
+  SelectGroup(group: any) {
+    this.groupSelected = group;
+    console.log(this.groupSelected);
+    this.router.navigate(['/group/detail'], {
+      queryParams: {
+        id: group._id,
+      },
+      queryParamsHandling: 'merge',
+    });
+    if(this.groupSelected.members.includes(this.profile._id)) {
+      console.log('You are in this group');
+      
+    }
   }
 
   back() {
