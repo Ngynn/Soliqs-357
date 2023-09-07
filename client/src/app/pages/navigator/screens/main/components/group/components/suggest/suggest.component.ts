@@ -132,6 +132,8 @@ export class SuggestComponent implements OnDestroy, OnInit {
           if (data) {
             this.groupJoined = data;
             console.log(this.groupJoined);
+            console.log("end");
+            
           }
         }),
       this.isJoinSuccess$
