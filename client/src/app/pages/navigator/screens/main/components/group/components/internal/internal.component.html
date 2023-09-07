@@ -27,7 +27,7 @@
           </div>
         </div>
 
-        <span class="numofmember"> {{groups.members.length}} </span>
+        <span class="numofmember"*ngIf="this.groups.members"> {{this.groups.members.length}} </span>
         <span class="textmember">Member</span>
       </div>
       <div class="btn">
@@ -35,16 +35,17 @@
         <button
           mat-raised-button
           color="primary"
-          *ngIf="join"
+          *ngIf="join === true"
+          
          
         >
-          Join
+         Join
         </button>
         <button
           mat-raised-button
           color="primary"
-          [disabled]="!join"
-          *ngIf="!join"
+          disabled="join"
+          *ngIf="join == false"
           
         >
           Joined

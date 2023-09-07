@@ -18,7 +18,7 @@ import { Group } from 'src/app/models/group.model';
 import { Profile } from 'src/app/models/profile.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as GroupActions from 'src/app/ngrx/actions/group.actions';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { group } from '@angular/animations';
 
 
@@ -61,10 +61,10 @@ export class InternalComponent implements OnInit, OnDestroy {
 
   name: string = '';
   owner: string = '';
-  member: Profile[] = [];
+  members: string[] = [];
   posts: string[] = [];
   groupId!: string | null;
-
+  // member: Profile[] = [];
   join: boolean = false;
   
 
@@ -80,7 +80,8 @@ export class InternalComponent implements OnInit, OnDestroy {
 
     }>,
     private _snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
 
 
   ) { }
@@ -90,7 +91,6 @@ export class InternalComponent implements OnInit, OnDestroy {
         ([idToken, profile]) => {
           this.idToken = idToken;
           this.profile = profile;
-          console.log(this.profile);
           
         }
         
@@ -107,29 +107,6 @@ export class InternalComponent implements OnInit, OnDestroy {
           this.profile = profile;
         }
       }),
-      this.isGetJoinedSuccess$
-        .pipe(
-          mergeMap((res) => {
-            if (res) {
-              return this.groupJoined$;
-            } else {
-              return [];
-            }
-          })
-        )
-        .subscribe((data) => {
-          if (data) {
-            this.groupJoined = data;
-            console.log(this.groupJoined);
-            if( this.groupJoined.find((profile) => profile._id === this.profile._id)) {
-              this.join = true;
-            } else {
-              this.join = false;
-            }
-            console.log(this.join);
-            
-          }
-        }),
 
       
         
@@ -139,21 +116,33 @@ export class InternalComponent implements OnInit, OnDestroy {
           this.store.dispatch(
             GroupActions.getOne({ id: this.groupId, idToken: this.idToken })
           );
+        } 
+        if(this.groupId === this.groups._id) {
+          this.groups.members.forEach((member) => {
+            if (member._id === this.profile._id) {
+              this.join = true;
+              console.log("tham gia rồi");
+              // console.log(this.groups._id);
+              
+              
+            } else {
+              this.join = false;
+              console.log("chưa tham gia");
+              // console.log(this.groups._id);
+  
+            }
+          }
+          )
         }
+        
       }),
-      
-
-
     );
     
+
+   
     
-
-    
-
-    
-
-
   }
+  
   
 
 
@@ -189,7 +178,8 @@ export class InternalComponent implements OnInit, OnDestroy {
     this.cdr2.detectChanges();
   }
   back() {
-    this.location.back();
+    this.router.navigate(['/group/suggest']);
+
   }
 
   openSnackBar(message: any) {

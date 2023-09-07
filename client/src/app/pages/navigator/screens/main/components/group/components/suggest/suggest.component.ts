@@ -229,14 +229,11 @@ export class SuggestComponent implements OnDestroy, OnInit {
       },
       queryParamsHandling: 'merge',
     });
-    if(this.groupSelected.members.includes(this.profile._id)) {
-      console.log('You are in this group');
-      
-    }
+    
   }
 
   back() {
-    this.location.back();
+    this.router.navigate(['/group/suggest']);
   }
 
   @ViewChild('createGroupDialog', { static: true })
