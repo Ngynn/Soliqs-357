@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   Input,
-  OnDestroy,
   OnInit,
   ViewChild,
   inject,
@@ -13,39 +12,72 @@ import { Router } from '@angular/router';
 import { Comment } from 'src/app/models/comment.model';
 import { Store } from '@ngrx/store';
 import { CommentState } from 'src/app/ngrx/states/comment.state';
-
+import * as CommentActions from '../../ngrx/actions//comment.actions';
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { PostState } from 'src/app/ngrx/states/post.state';
-
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Profile } from 'src/app/models/profile.model';
+import { ProfileState } from 'src/app/ngrx/states/profile.state';
+import * as ProfileActions from '../../ngrx/actions/profile.actions';
+import { Subscription, combineLatest, mergeMap } from 'rxjs';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
 })
 export class PostComponent {
-  commentsPost: Array<Comment> = [];
-  comments$ = this.store.select('comment', 'comments');
   idToken$ = this.store.select('auth', 'idToken');
+  profile$ = this.store.select('profile', 'profile');
+  profile: Profile = <Profile>{};
   idToken = '';
   post$ = this.store.select('post', 'posts');
   idpost: string = '';
   selectedPost: any;
+  authorId: string = '';
 
+  isCommentSuccess$ = this.store.select('comment', 'isCreateSuccess');
+  commentsPost: Array<Comment> = [];
+  comments$ = this.store.select('comment', 'comments');
+
+  subscriptions: Subscription[] = [];
   constructor(
     private router: Router,
     private store: Store<{
       comment: CommentState;
       auth: AuthState;
       post: PostState;
+      profile: ProfileState;
     }>
   ) {
-    this.idToken$.subscribe((idToken) => {
-      if (idToken) {
-        this.idToken = idToken;
+    this.subscriptions.push(
+      combineLatest([this.idToken$, this.profile$]).subscribe(
+        ([idToken, profile]) => {
+          this.idToken = idToken;
+          this.profile = profile;
+        }
+      )
+    );
+    this.comments$.subscribe((comments) => {
+      console.log('comments', comments);
+      if (comments.length) {
+        this.commentsPost = comments;
       }
     });
   }
+  commentForm = new FormGroup({
+    content: new FormControl('', Validators.required),
+    authorId: new FormControl(''),
+    postId: new FormControl(''),
+  });
+
+  commentData = {
+    authorId: '',
+    content: this.commentForm.value.content || '',
+    postId: '',
+  };
+
   @Input() post!: [] | any;
+  postCommented: any;
   itemSelected: any;
   Selectitem(item: any) {
     this.itemSelected = item;
@@ -73,6 +105,20 @@ export class PostComponent {
     const file = event.target.files[0];
     this.showImageInput = false;
   }
+  postComment() {
+    this.commentData = {
+      authorId: this.profile._id,
+      content: this.commentForm.value.content || '',
+      postId: this.postCommented._id,
+    };
+    this.store.dispatch(
+      CommentActions.create({
+        idToken: this.idToken,
+        postId: this.selectedPost._id,
+        comment: this.commentData,
+      })
+    );
+  }
 
   repost1() {
     if (!this.item1.sync) {
@@ -97,7 +143,20 @@ export class PostComponent {
     }
   }
 
-  openCommentDialog() {
+  openCommentDialog(item: any) {
+    this.selectedPost = item;
+    this.authorId = item.authorId._id;
+    // this.store.dispatch(
+    //   CommentActions.get({
+    //     idToken: this.idToken,
+    //     postId: item._id,
+    //   })
+    // );
+    this.postCommented = item;
+    console.log('_id', item._id);
+    console.log('authorId', this.authorId);
+    console.log('baipostne', item);
+
     this.dialog2.nativeElement.showModal();
     this.cdr2.detectChanges();
   }

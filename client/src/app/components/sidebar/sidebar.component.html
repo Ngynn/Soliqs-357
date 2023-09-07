@@ -45,16 +45,12 @@
       </div>
 
       <div class="name">
-        <span class="text">{{ profile.displayName }}</span>
-        <span class="text">@{{ profile.userName }}</span>
+        <span class="textdisplayName">{{ profile.displayName }}</span>
+        <span class="textuserName">@{{ profile.userName }}</span>
       </div>
     </div>
 
     <div class="more">
-      <!-- <mat-icon [matMenuTriggerFor]="menu">more</mat-icon>
-      <mat-menu #menu="matMenu">
-       
-      </mat-menu> -->
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon style="color: #1f1a1c">more_horiz</mat-icon>
       </button>
@@ -82,10 +78,7 @@
   <div class="post">
     <div class="top">
       <div class="avatar">
-        <img
-          src="https://static01.nyt.com/images/2022/12/30/multimedia/30soccer-ronaldo-1-76fd/30soccer-ronaldo-1-76fd-videoSixteenByNine3000.jpg"
-          alt=""
-        />
+        <img src="{{ profile.avatar }}" alt="" />
       </div>
       <div class="input">
         <form class="form" [formGroup]="postForm">

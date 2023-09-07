@@ -108,5 +108,21 @@ export const postReducer = createReducer(
       getErrorMessage: action.errorMessage,
       post: <Post>{},
     };
+  }),
+
+  on(PostAction.clearAllState, (state) => {
+    return {
+      ...state,
+      posts: [],
+      isLoading: false,
+      isSuccess: false,
+      errorMessage: '',
+      isGetLoading: false,
+      isGetSuccess: false,
+      getErrorMessage: '',
+      isGetByIdSuccess: false,
+      isGetByIdLoading: false,
+      post: <Post>{},
+    };
   })
 );

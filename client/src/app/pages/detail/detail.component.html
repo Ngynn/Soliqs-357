@@ -1,6 +1,6 @@
-<div class="container-detail-post" *ngIf="post">
+<div class="container-detail-post" *ngIf="post._id">
   <div class="left-detail-post">
-    <mat-icon class="close-icon" (click)="return('home')">close</mat-icon>
+    <mat-icon class="close-icon" (click)="return()">close</mat-icon>
     <div class="carousel">
       <div class="carousel-inner">
         <ng-container *ngFor="let imageUrl of post.media; let i = index">
@@ -122,7 +122,7 @@
         <div class="comments-detail-post" *ngIf="comments">
           <div class="comment-detail-post" *ngFor="let comment of comments">
             <div class="img-user-comment-detail-post">
-              <img src="{{ post.authorId.avatar }}" alt="" />
+              <img src="{{ comment.authorId.avatar }}" alt="" />
             </div>
             <div class="content-comment-detail-post">
               <div class="content-comment">
@@ -152,9 +152,14 @@
             />
           </div>
           <div class="input-detail-post">
-            <div class="text-comment">
-              <textarea placeholder="Post your reply!"></textarea>
-            </div>
+            <form class="formcomment" [formGroup]="commentForm">
+              <div class="text-comment">
+                <textarea
+                  placeholder="Post your reply!"
+                  formControlName="content"
+                ></textarea>
+              </div>
+            </form>
             <div class="post-btn-comment">
               <div class="icon-comment">
                 <mat-icon>image</mat-icon>
@@ -162,7 +167,13 @@
                 <mat-icon>gif</mat-icon>
               </div>
               <div class="post-btn">
-                <button mat-raised-button color="primary">Reply</button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="postComment()"
+                >
+                  Reply
+                </button>
               </div>
             </div>
           </div>

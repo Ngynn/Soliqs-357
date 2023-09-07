@@ -5,9 +5,6 @@ export type CommentDocument = HydratedDocument<Comment>;
 
 @Schema({ timestamps: true })
 export class Comment {
-  @Prop({ required: true, unique: true })
-  id: string;
-
   @Prop({ type: mongoose.Types.ObjectId, ref: 'Posts', required: true })
   postId: string;
 
