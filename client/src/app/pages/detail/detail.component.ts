@@ -10,20 +10,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Location } from '@angular/common';
 
-
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 
 import { Store } from '@ngrx/store';
 import { Subscription, combineLatest } from 'rxjs';
 
 import { Post } from 'src/app/models/post.model';
-import * as PostActions from '../../ngrx/actions/post.actions'
+import * as PostActions from '../../ngrx/actions/post.actions';
 import { PostState } from 'src/app/ngrx/states/post.state';
 
-
-import { CommentState } from 'src/app/ngrx/states/comment.state'
-import * as CommentActions from '../../ngrx/actions/comment.actions'
+import { CommentState } from 'src/app/ngrx/states/comment.state';
+import * as CommentActions from '../../ngrx/actions/comment.actions';
 import { Comment } from 'src/app/models/comment.model';
+import { ProfileState } from 'src/app/ngrx/states/profile.state';
+import { Profile } from 'src/app/models/profile.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-detail',
@@ -31,24 +32,33 @@ import { Comment } from 'src/app/models/comment.model';
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
-
-
-
+  profile$ = this.store.select('profile', 'profile');
+  profile!: Profile;
 
   postId!: string | null;
-  post$ = this.store.select('post', 'post')
-  post!: Post
+  post$ = this.store.select('post', 'post');
+  post!: Post;
 
   subscriptions: Subscription[] = [];
 
   idToken$ = this.store.select('auth', 'idToken');
   idToken: string = '';
 
-  comments: Array<Comment> = []
-  comments$ = this.store.select('comment', 'comments')
+  comments: Array<Comment> = [];
+  comments$ = this.store.select('comment', 'comments');
+  isCommentSuccess$ = this.store.select('comment', 'isCreateSuccess');
 
+  commentForm = new FormGroup({
+    content: new FormControl('', Validators.required),
+    authorId: new FormControl(''),
+    postId: new FormControl(''),
+  });
 
-
+  commentData = {
+    authorId: '',
+    content: this.commentForm.value.content || '',
+    postId: '',
+  };
 
   constructor(
     private router: Router,
@@ -58,40 +68,75 @@ export class DetailComponent implements OnInit {
       auth: AuthState;
       post: PostState;
       comment: CommentState;
+      profile: ProfileState;
     }>
   ) {
     this.post$.subscribe((post) => {
       if (post._id) {
-        this.post = post
-
+        this.post = post;
       }
     }),
-    this.comments$.subscribe((comments)=>{
-      if(comments.length){
-        console.log(comments);
-        
-        this.comments = comments
-      }
-    })
-   }
-  ngOnInit(): void {
+      this.comments$.subscribe((comments) => {
+        if (comments.length) {
+          console.log(comments);
 
+          this.comments = comments;
+        }
+      });
+    this.isCommentSuccess$.subscribe((isSuccess) => {
+      this.route.queryParamMap.subscribe((params) => {
+        this.postId = params.get('id');
+      });
+      if (isSuccess) {
+        this.commentForm.reset();
+        this.commentData = {
+          authorId: '',
+          content: this.commentForm.value.content || '',
+          postId: '',
+        };
+        this.comments = [];
+        this.store.dispatch(
+          CommentActions.get({ postId: this.postId!, idToken: this.idToken })
+        );
+      }
+    });
+  }
+  ngOnInit(): void {
     this.subscriptions.push(
-      combineLatest([this.idToken$]).subscribe(
-        ([idToken]) => {
+      combineLatest([this.idToken$, this.profile$]).subscribe(
+        ([idToken, profile$]) => {
+          this.profile = profile$;
           this.idToken = idToken;
           console.log(idToken);
         }
-      ),
-    )
+      )
+    );
     this.route.queryParamMap.subscribe((params) => {
       this.postId = params.get('id');
-      if(this.postId){
-        this.comments = []
-        this.store.dispatch(PostActions.getById({idToken: this.idToken, id: this.postId}))
-        this.store.dispatch(CommentActions.get({postId: this.postId, idToken: this.idToken}))
+      if (this.postId) {
+        this.comments = [];
+        this.store.dispatch(
+          PostActions.getById({ idToken: this.idToken, id: this.postId })
+        );
+        this.store.dispatch(
+          CommentActions.get({ postId: this.postId, idToken: this.idToken })
+        );
       }
     });
+  }
+  postComment() {
+    this.commentData = {
+      authorId: this.profile._id,
+      content: this.commentForm.value.content || '',
+      postId: this.post._id,
+    };
+    this.store.dispatch(
+      CommentActions.create({
+        idToken: this.idToken,
+        postId: this.post._id,
+        comment: this.commentData,
+      })
+    );
   }
 
   item1 = {
@@ -223,8 +268,10 @@ export class DetailComponent implements OnInit {
   return(icon: string) {
     // Chuyển hướng đến trang home
     // this.location.back();
-    this.router.navigate(['/home'])
-    this.comments= []
+    this.store.dispatch(PostActions.clearAllState());
+    this.store.dispatch(CommentActions.clearAllState());
+    this.router.navigate(['/home']);
+    this.comments = [];
 
     // Đặt màu nền của biểu tượng tương ứng thành true và của các biểu tượng khác thành false
   }

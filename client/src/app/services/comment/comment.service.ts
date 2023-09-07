@@ -13,7 +13,7 @@ export class CommentService {
       Authorization: `Bearer ${idToken}`,
     });
     console.log('postIdservice', postId);
-    console.log('idToken', idToken);
+
     return this.httpClient.get<Comment[]>(
       `http://localhost:3000/v1/comment?postId=${postId}`,
       {
@@ -22,13 +22,13 @@ export class CommentService {
     );
   }
 
-  createComment(comment: Comment, idToken: string) {
+  createComment(comment: Comment, idToken: string, postId: string) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${idToken}`,
     });
 
     return this.httpClient.post<Comment>(
-      `http://localhost:3000/v1/comment?id=${comment.postId}`,
+      `http://localhost:3000/v1/comment?id=${postId}`,
       comment,
       { headers }
     );

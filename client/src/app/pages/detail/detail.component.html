@@ -152,9 +152,14 @@
             />
           </div>
           <div class="input-detail-post">
-            <div class="text-comment">
-              <textarea placeholder="Post your reply!"></textarea>
-            </div>
+            <form class="formcomment" [formGroup]="commentForm">
+              <div class="text-comment">
+                <textarea
+                  placeholder="Post your reply!"
+                  formControlName="content"
+                ></textarea>
+              </div>
+            </form>
             <div class="post-btn-comment">
               <div class="icon-comment">
                 <mat-icon>image</mat-icon>
@@ -162,7 +167,13 @@
                 <mat-icon>gif</mat-icon>
               </div>
               <div class="post-btn">
-                <button mat-raised-button color="primary">Reply</button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="postComment()"
+                >
+                  Reply
+                </button>
               </div>
             </div>
           </div>
