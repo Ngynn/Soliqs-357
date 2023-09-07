@@ -68,7 +68,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-
   postForm = new FormGroup({
     id: new FormControl(''),
     authorId: new FormControl('', Validators.required),
@@ -87,7 +86,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private auth: Auth
   ) {
-    this.store.dispatch(PostActions.get({ idToken: this.idToken, page: 0, pageSize: 2 }));
+    this.store.dispatch(
+      PostActions.get({ idToken: this.idToken, page: 0, pageSize: 10 })
+    );
     this.userData$.subscribe((value) => {
       if (value) {
         this.user = value;

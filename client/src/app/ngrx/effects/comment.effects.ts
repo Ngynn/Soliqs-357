@@ -31,14 +31,16 @@ export class CommentEffects {
     this.actions$.pipe(
       ofType(CommentActions.create),
       exhaustMap((action) =>
-        this.commentService.createComment(action.comment, action.idToken).pipe(
-          map(() => {
-            return CommentActions.createSuccess();
-          }),
-          catchError((error) =>
-            of(CommentActions.createFailure({ errorMessage: error }))
+        this.commentService
+          .createComment(action.comment, action.idToken, action.postId)
+          .pipe(
+            map(() => {
+              return CommentActions.createSuccess();
+            }),
+            catchError((error) =>
+              of(CommentActions.createFailure({ errorMessage: error }))
+            )
           )
-        )
       )
     )
   );

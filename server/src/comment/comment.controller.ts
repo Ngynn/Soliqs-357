@@ -28,14 +28,9 @@ export class CommentController {
     @Query('id') id: string,
   ) {
     try {
-      const post = await this.postService.findOne(id);
-
-      if (!post) {
-        throw new HttpException('Post not found', HttpStatus.BAD_REQUEST);
-      }
       const newComment = await this.commentService.create({
         ...createCommentDto,
-        postId: post.id,
+        postId: id,
       });
 
       return newComment;

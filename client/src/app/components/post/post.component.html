@@ -78,29 +78,37 @@
           {{ comment.authorId.displayName }}
         </div>
         <div class="tagname-top-dialog">@{{ comment.authorId.userName }}</div>
-        <div class="time-top-dialog">{{ comment.createdAt }}</div>
+        <!-- <div class="time-top-dialog">{{ comment.createdAt }}</div> -->
       </div>
       <div class="content-user-top-dialog">
         {{ comment.content }}
       </div>
     </div>
   </div>
-  <div class="input-comment">
-    <input type="text" placeholder="Post your comment!" />
-  </div>
+  <form class="formcomment" [formGroup]="commentForm">
+    <div class="input-comment">
+      <input
+        type="text"
+        placeholder="Post your comment!"
+        formControlName="content"
+      />
+    </div>
 
-  <div class="bottom-dialog">
-    <div class="icon-dialog">
-      <mat-icon style="margin-right: 10px">image</mat-icon>
-      <mat-icon style="margin-right: 10px">gif</mat-icon>
-      <mat-icon style="margin-right: 10px">poll</mat-icon>
-      <mat-icon style="margin-right: 10px">emoji_emotions</mat-icon>
-      <mat-icon style="margin-right: 10px">schedule</mat-icon>
+    <div class="bottom-dialog">
+      <div class="icon-dialog">
+        <mat-icon style="margin-right: 10px">image</mat-icon>
+        <mat-icon style="margin-right: 10px">gif</mat-icon>
+        <mat-icon style="margin-right: 10px">poll</mat-icon>
+        <mat-icon style="margin-right: 10px">emoji_emotions</mat-icon>
+        <mat-icon style="margin-right: 10px">schedule</mat-icon>
+      </div>
+      <div class="button-comment">
+        <button mat-raised-button color="primary" (click)="postComment()">
+          Post
+        </button>
+      </div>
     </div>
-    <div class="button-comment">
-      <button mat-raised-button color="primary">Post</button>
-    </div>
-  </div>
+  </form>
 </dialog>
 <!-- <dialog #appDialogDetailPost class="detail-dialog">
   <app-detail [post]="itemSelected"></app-detail>
