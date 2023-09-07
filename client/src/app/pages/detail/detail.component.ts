@@ -11,6 +11,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Post } from 'src/app/models/post.model';
+import { AuthState } from 'src/app/ngrx/states/auth.state';
+import { PostState } from 'src/app/ngrx/states/post.state';
+import { Store } from '@ngrx/store';
+import { Subscription, combineLatest } from 'rxjs';
+import * as PostActions from '../../ngrx/actions/post.actions'
 
 @Component({
   selector: 'app-detail',
@@ -78,20 +83,55 @@ export class DetailComponent implements OnInit {
       monitoringCount: 20,
     },
   ];
+
+
   postId!: string | null;
+  post$ = this.store.select('post', 'post')
+  post!: Post
+
+  subscriptions: Subscription[] = [];
+
+  idToken$ = this.store.select('auth', 'idToken');
+  idToken: string = '';
+
+
+
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location
-  ) {}
+    private location: Location,
+    private store: Store<{
+      auth: AuthState;
+      post: PostState;
+    }>
+  ) { }
   ngOnInit(): void {
+
+    this.subscriptions.push(
+      combineLatest([this.idToken$]).subscribe(
+        ([idToken]) => {
+          this.idToken = idToken;
+          console.log(idToken);
+        }
+      ),
+      this.post$.subscribe((post) => {
+        if (post._id) {
+          this.post = post
+        }
+      }),
+    )
     this.route.queryParamMap.subscribe((params) => {
       this.postId = params.get('id');
-
-      if (this.postId) {
-        console.log('postId:', this.postId);
+      if(this.postId){
+        this.store.dispatch(PostActions.getById({idToken: this.idToken, id: this.postId}))
       }
     });
+
+
+
+
+
     this.item = this.allPost.find((post) => post.id === 1);
     console.log(this.item);
   }

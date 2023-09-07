@@ -18,6 +18,15 @@ export class PostService {
        {headers}
     );
   }
+  getPostById(idToken: string,id: string | null) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${idToken}`
+    });
+    return this.httpClient.get<Post>(
+      `http://localhost:3000/v1/post?id=${id}`,
+       {headers}
+    );
+  }
 
 
   createPost(post: any, idToken: string) {

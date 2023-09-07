@@ -1,9 +1,9 @@
-<div class="container-detail-post" *ngIf="item">
+<div class="container-detail-post" *ngIf="post">
   <div class="left-detail-post">
     <mat-icon class="close-icon" (click)="return('home')">close</mat-icon>
     <div class="carousel">
       <div class="carousel-inner">
-        <ng-container *ngFor="let imageUrl of item.imageUrls; let i = index">
+        <ng-container *ngFor="let imageUrl of post.media; let i = index">
           <input
             class="carousel-open"
             type="radio"
@@ -18,7 +18,7 @@
           </div>
 
           <label
-            [for]="'carousel-' + (i === 0 ? item.imageUrls.length : i)"
+            [for]="'carousel-' + (i === 0 ? post.media.length : i)"
             class="carousel-control prev control-{{ i + 1 }}"
           >
             ‹
@@ -30,7 +30,7 @@
             ›
           </label>
           <ol class="carousel-indicators">
-            <li *ngFor="let _ of item.imageUrls; let j = index">
+            <li *ngFor="let _ of post.media; let j = index">
               <label
                 [for]="'carousel-' + (j + 1)"
                 class="carousel-bullet"
@@ -50,16 +50,16 @@
         <div class="info-detail-post">
           <div class="user-detail-post">
             <div class="img-user-detail-post">
-              <img src="{{ item.avatarUrl }}" alt="" />
+              <img src="{{ post.authorId.avatar }}" alt="" />
             </div>
             <div class="user-detail-name">
               <div class="username-detail-post">
-                <span class="userName">{{ item.username }}</span>
-                <span class="tagUsername">{{ item.tagname }}</span>
+                <span class="userName">{{ post.authorId.userName }}</span>
+                <span class="tagUsername">{{ post.authorId.displayName }}</span>
               </div>
 
               <div class="time-detail-post">
-                <span>{{ item.time }} </span>
+                <span>{{ post.createdAt }} </span>
                 <span>123 </span>
                 <span>View</span>
               </div>
@@ -68,7 +68,7 @@
         </div>
       </div>
       <div class="content-detail-post">
-        <span class="content">{{ item.content }}</span>
+        <span class="content">{{ post.content }}</span>
       </div>
       <div class="reaction-detail-post">
         <div class="reaction">
@@ -108,13 +108,13 @@
         <div class="comments-detail-post">
           <div class="comment-detail-post">
             <div class="img-user-comment-detail-post">
-              <img src="{{ item.avatarUrl }}" alt="" />
+              <img src="{{ post.authorId.avatar }}" alt="" />
             </div>
             <div class="content-comment-detail-post">
               <div class="content-comment">
                 <div class="userName-comment">
-                  <span class="userName">{{ item.username }} </span>
-                  <span class="tagUsername"> {{ item.tagname }}</span>
+                  <span class="userName">{{ post.authorId.userName }} </span>
+                  <span class="tagUsername"> {{ post.authorId.displayName  }}</span>
                   <span class="time-comment"> 11h </span>
                 </div>
                 <div class="comment-user">

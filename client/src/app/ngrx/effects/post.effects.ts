@@ -21,6 +21,19 @@ export class PostEffects {
     )
     );
 
+    getPostById$ = createEffect(() => this.actions$.pipe(
+        ofType(PostActions.getById),
+        exhaustMap((action) =>
+            this.postService.getPostById( action.idToken, action.id ).pipe(
+                map((post) => {
+                    return PostActions.getByIdSuccess( {post: post})
+                }),
+                catchError((error) => of(PostActions.getByIdFailure({errorMessage: error})))
+            )
+        )
+    )
+    );
+
     createPost$ = createEffect(() => this.actions$.pipe(
         ofType(PostActions.create),
         exhaustMap((action) =>

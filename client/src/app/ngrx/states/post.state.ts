@@ -8,4 +8,7 @@ export interface PostState {
     isGetLoading: boolean;
     isGetSuccess: boolean;
     getErrorMessage: any;
+    isGetByIdSuccess: boolean;
+    isGetByIdLoading: boolean;
+    post: Post;
 }
