@@ -91,33 +91,26 @@ export class InternalComponent implements OnInit, OnDestroy {
         ([idToken, profile]) => {
           this.idToken = idToken;
           this.profile = profile;
-          console.log("0");
-          
-          
-        }
+          if(this.groupId && this.groups._id) {
+            this.checkJoin();
+          }
+        },
+        
+        
         
         
       ),
       this.groups$.subscribe((groups) => {
+        
         if(groups._id ) {
           this.groups = groups;
           console.log(this.groups);
-          console.log("1");
-          
-          
-          
-        } else {
-          console.log("chưa có nhóm");
-          
-        }
+        } 
       }),
       this.profile$.subscribe((profile) => {
         if (profile._id) {
           this.profile = profile;
           console.log(this.profile);
-          console.log("2");
-          
-          
         }
       }),
 
@@ -125,35 +118,13 @@ export class InternalComponent implements OnInit, OnDestroy {
         
       this.route.queryParamMap.subscribe((params) => {
         this.groupId = params.get('id');
-        console.log("3");
+
         
         if (this.groupId) {
           this.store.dispatch(
             GroupActions.getOne({ id: this.groupId, idToken: this.idToken })
           );
-          console.log("4");
-          
         } 
-        if(this.groupId ) {
-          console.log("5");
-          
-          this.groups.members.forEach((member) => {
-            if (member._id === this.profile._id) {
-              this.join = true;
-              console.log("tham gia rồi");
-              // console.log(this.groups._id);
-              
-              
-            } else {
-              this.join = false;
-              console.log("chưa tham gia");
-              // console.log(this.groups._id);
-  
-            }
-          }
-          )
-        }
-        
       }),
     );
     
@@ -164,6 +135,23 @@ export class InternalComponent implements OnInit, OnDestroy {
   
   
 
+  checkJoin() {
+      this.groups.members.forEach((member) => {
+        if (member._id === this.profile._id) {
+          this.join = true;
+          console.log("tham gia rồi");
+          // console.log(this.groups._id);
+          
+          
+        } else {
+          this.join = false;
+          console.log("chưa tham gia");
+          // console.log(this.groups._id);
+
+        }
+      }
+      )
+  }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
