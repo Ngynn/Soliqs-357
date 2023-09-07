@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Comment } from 'src/app/models/comment.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class CommentService {
     console.log('postIdservice', postId);
 
     return this.httpClient.get<Comment[]>(
-      `http://localhost:3000/v1/comment?postId=${postId}`,
+      environment.hostingURL + `/v1/comment?postId=${postId}`,
       {
         headers,
       }
@@ -28,7 +29,7 @@ export class CommentService {
     });
 
     return this.httpClient.post<Comment>(
-      `http://localhost:3000/v1/comment?id=${postId}`,
+      environment.hostingURL + `/v1/comment?id=${postId}`,
       comment,
       { headers }
     );

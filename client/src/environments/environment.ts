@@ -8,4 +8,5 @@ export const environment = {
     messagingSenderId: '305276211428',
     measurementId: 'G-6J2TVDZ9YY',
   },
+  hostingURL: 'https://soliqs-service-litp66xtuq-as.a.run.app',
 };

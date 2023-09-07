@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Storage } from '../../models/storage.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class StorageService {
     });
 
     return this.httpClient.post(
-      `http://localhost:3000/storage/upload?folderName=${fileName}`,
+      environment.hostingURL + `/storage/upload?folderName=${fileName}`,
       formData,
       { headers }
     );
@@ -29,7 +30,7 @@ export class StorageService {
     });
 
     return this.httpClient.get<Storage>(
-      `http://localhost:3000/storage?folderName=${fileName}`,
+      environment.hostingURL + `/storage?folderName=${fileName}`,
       {
         headers,
       }

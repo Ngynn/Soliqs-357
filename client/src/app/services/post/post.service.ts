@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from 'src/app/models/post.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -14,17 +15,18 @@ export class PostService {
     });
 
     return this.httpClient.get<Post[]>(
-      `http://localhost:3000/v1/post/all?page=${page}&limit=${pageSize}&sortBy=createdAt&sortOrder=desc`,
+      environment.hostingURL +
+        `/v1/post/all?page=${page}&limit=${pageSize}&sortBy=createdAt&sortOrder=desc`,
       { headers }
     );
   }
-  getPostById(idToken: string,id: string | null) {
+  getPostById(idToken: string, id: string | null) {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${idToken}`
+      Authorization: `Bearer ${idToken}`,
     });
     return this.httpClient.get<Post>(
-      `http://localhost:3000/v1/post?id=${id}`,
-       {headers}
+      environment.hostingURL + `/v1/post?id=${id}`,
+      { headers }
     );
   }
 
@@ -33,8 +35,12 @@ export class PostService {
       Authorization: `Bearer ${idToken}`,
     });
 
-    return this.httpClient.post<Post>(`http://localhost:3000/v1/post`, post, {
-      headers,
-    });
+    return this.httpClient.post<Post>(
+      environment.hostingURL + `/v1/post`,
+      post,
+      {
+        headers,
+      }
+    );
   }
 }
