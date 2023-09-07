@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,14 +14,18 @@ export class UserService {
       Authorization: `Bearer ${idToken}`, // Đảm bảo có khoảng cách giữa 'Bearer' và token
     });
 
-    return this.httpClient.post<User>('http://localhost:3000/v1/user', null, {
-      headers,
-    });
+    return this.httpClient.post<User>(
+      environment.hostingURL + '/v1/user',
+      null,
+      {
+        headers,
+      }
+    );
   }
 
   get(uid: string, idToken: string) {
     return this.httpClient.get<User>(
-      `http://localhost:3000/v1/user?id=${uid}`,
+      environment.hostingURL + `/v1/user?id=${uid}`,
       {
         headers: new HttpHeaders({
           Authorization: `Bearer ${idToken}`,

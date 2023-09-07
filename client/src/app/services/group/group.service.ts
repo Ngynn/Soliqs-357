@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Group } from 'src/app/models/group.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class GroupService {
 
   getAll(idToken: string, uid: string) {
     return this.httpClient.get<Group[]>(
-      `http://localhost:3000/v1/group/all?uid=${uid}`,
+      environment.hostingURL + `/v1/group/all?uid=${uid}`,
       {
         headers: new HttpHeaders({
           Authorization: `Bearer ${idToken}`,
@@ -21,7 +22,7 @@ export class GroupService {
 
   create(idToken: string, group: Group) {
     return this.httpClient.post<Group>(
-      `http://localhost:3000/v1/group`,
+      environment.hostingURL + `/v1/group`,
       group,
       {
         headers: new HttpHeaders({
@@ -33,7 +34,7 @@ export class GroupService {
 
   update(idToken: string, id: string, group: Group) {
     return this.httpClient.put<Group>(
-      `http://localhost:3000/v1/group/detail?id=${id}`,
+      environment.hostingURL + `/v1/group/detail?id=${id}`,
       group,
       {
         headers: new HttpHeaders({
@@ -45,7 +46,7 @@ export class GroupService {
 
   join(id: string, uid: string, idToken: string) {
     return this.httpClient.put<Group>(
-      `http://localhost:3000/v1/group/join?id=${id}&uid=${uid}`,
+      environment.hostingURL + `/v1/group/join?id=${id}&uid=${uid}`,
       null,
       {
         headers: new HttpHeaders({
@@ -57,7 +58,7 @@ export class GroupService {
 
   getOne(id: string, idToken: string) {
     return this.httpClient.get<Group>(
-      `http://localhost:3000/v1/group/detail?id=${id}`,
+      environment.hostingURL + `/v1/group/detail?id=${id}`,
       {
         headers: new HttpHeaders({
           Authorization: `Bearer ${idToken}`,
@@ -68,7 +69,7 @@ export class GroupService {
 
   getJoined(uid: string, idToken: string) {
     return this.httpClient.get<Group[]>(
-      `http://localhost:3000/v1/group/joined?uid=${uid}`,
+      environment.hostingURL + `/v1/group/joined?uid=${uid}`,
       {
         headers: new HttpHeaders({
           Authorization: `Bearer ${idToken}`,
