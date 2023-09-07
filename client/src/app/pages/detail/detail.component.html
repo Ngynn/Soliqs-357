@@ -122,7 +122,7 @@
         <div class="comments-detail-post" *ngIf="comments">
           <div class="comment-detail-post" *ngFor="let comment of comments">
             <div class="img-user-comment-detail-post">
-              <img src="{{ post.authorId.avatar }}" alt="" />
+              <img src="{{ comment.authorId.avatar }}" alt="" />
             </div>
             <div class="content-comment-detail-post">
               <div class="content-comment">

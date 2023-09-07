@@ -1,6 +1,4 @@
-.move {
-  padding-top: 20px;
-}
+
 .posts {
   width: 100%;
   display: flex;
@@ -12,7 +10,7 @@
   .item {
     width: calc(100% - 20px);
     display: flex;
-    align-items: center;
+    // align-items: center;
     justify-content: flex-start;
     flex-direction: column;
     padding: 10px;
@@ -31,8 +29,8 @@
         justify-content: center;
         align-items: center;
         img {
-          width: 60px;
-          height: 60px;
+          width: 55px;
+          height: 55px;
           border-radius: 10px;
           cursor: pointer;
         }
@@ -44,7 +42,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 10px;
+         
           /* Căn giữa theo chiều dọc */
 
           .left-container-user-top-item {
@@ -55,7 +53,7 @@
 
             .username-top-item {
               color: #1f1a1c;
-              font-size: 22px;
+              font-size: 20px;
               font-weight: 500;
               margin-right: 10px;
             }
@@ -87,11 +85,11 @@
       width: fit-content;
       height: fit-content;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
 
       img {
-        max-width: max-content;
-        max-height: max-content;
+        max-width: fit-content;
+        max-height: 800px;
         min-width: 400px;
         min-height: 400px;
         width: 100%;
@@ -99,6 +97,7 @@
         border-radius: 10px;
         object-fit: contain;
         cursor: pointer;
+        margin-left: 50px;
       }
     }
 
