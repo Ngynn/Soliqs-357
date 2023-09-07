@@ -17,26 +17,26 @@ export const initualState: PostState = {
 };
 
 export const postReducer = createReducer(
-    initualState,
-    on(PostAction.create, (state, action) => {
-        console.log(action.type)
-        return {
-            ...state,
-            isLoading: true,
-            isSuccess: false,
-            errorMessage: '',
-        }
-    }),
+  initualState,
+  on(PostAction.create, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      isLoading: true,
+      isSuccess: false,
+      errorMessage: '',
+    };
+  }),
 
-    on(PostAction.createSuccess, (state, action) => {
-        console.log(action.type)
-        return {
-            ...state,
-            isLoading: false,
-            isSuccess: true,
-            errorMessage: '',
-        }
-    }),
+  on(PostAction.createSuccess, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      isLoading: false,
+      isSuccess: true,
+      errorMessage: '',
+    };
+  }),
 
     on(PostAction.createFailure, (state, { type, errorMessage }) => {
         console.log(type, errorMessage)

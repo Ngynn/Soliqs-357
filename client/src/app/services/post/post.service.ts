@@ -8,14 +8,14 @@ import { Post } from 'src/app/models/post.model';
 export class PostService {
   constructor(private httpClient: HttpClient) {}
 
-  getPosts(idToken: string,page: number, pageSize: number) {
+  getPosts(idToken: string, page: number, pageSize: number) {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${idToken}`
+      Authorization: `Bearer ${idToken}`,
     });
 
     return this.httpClient.get<Post[]>(
-      `http://localhost:3000/v1/post/all?page=${page}&limit=${pageSize}`,
-       {headers}
+      `http://localhost:3000/v1/post/all?page=${page}&limit=${pageSize}&sortBy=createdAt&sortOrder=desc`,
+      { headers }
     );
   }
   getPostById(idToken: string,id: string | null) {
@@ -28,12 +28,13 @@ export class PostService {
     );
   }
 
-
   createPost(post: any, idToken: string) {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${idToken}`
+      Authorization: `Bearer ${idToken}`,
     });
 
-    return this.httpClient.post<Post>(`http://localhost:3000/v1/post`, post, {headers});
+    return this.httpClient.post<Post>(`http://localhost:3000/v1/post`, post, {
+      headers,
+    });
   }
 }
