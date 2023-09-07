@@ -24,6 +24,7 @@ import { GroupModule } from './group/group.module';
 import { PostModule } from './post/post.module';
 import { PostController } from './post/post.controller';
 import { CommentModule } from './comment/comment.module';
+import { GroupController } from './group/group.controller';
 
 @Module({
   imports: [
@@ -56,8 +57,9 @@ export class AppModule implements NestModule {
       .forRoutes(
         UserController,
         ProfileController,
-        PostController,
-        // StorageController,
+        // PostController,
+        StorageController,
+        GroupController,
       );
   }
 }

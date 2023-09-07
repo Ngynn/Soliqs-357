@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="header">
+  <div class="header" >
     <div class="left">
       <mat-icon (click)="back()">arrow_back</mat-icon>
       <h2>Communities</h2>
@@ -15,7 +15,7 @@
       />
     </div>
     <div class="groupname">
-      <h2>niềm vui</h2>
+      <h2>{{groups.name}}</h2>
       <span>Đây là nơi lưu trữ những hình ảnh đẹp</span>
     </div>
     <div class="member">
@@ -30,7 +30,7 @@
           src="https://cdn.punchng.com/wp-content/uploads/2022/12/19070956/5f5e3cbe-1224-4a46-b8e7-612f5de03c8c.jpg"
         />
 
-        <span class="numofmember"> 55.5K </span>
+        <span class="numofmember"> {{groups._id}} </span>
         <span class="textmember">Member</span>
       </div>
       <div class="btn">
@@ -54,10 +54,13 @@
       </div>
     </div>
   </div>
+  <div class="posts">
+    <!-- <app-post [post]="postReal"></app-post> -->
+  </div>
   <div class="navigate">
     <mat-tab-group animationDuration="0ms">
       <mat-tab label="Home">
-        <app-post [post]="posts"></app-post>
+        <app-post></app-post>
       </mat-tab>
 
       <mat-tab label="About">

@@ -42,10 +42,10 @@ export class GroupController {
     }
   }
 
-  @Get()
-  async findAll() {
+  @Get('all')
+  async findAll(@Query('uid') uid: string) {
     try {
-      const groups = await this.groupService.findAll();
+      const groups = await this.groupService.findAll(uid);
       return groups;
     } catch (error) {
       throw error;
@@ -57,6 +57,16 @@ export class GroupController {
     try {
       const group = await this.groupService.findOne(id);
       return group;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Get('joined')
+  async findJoinedGroups(@Query('uid') uid: string) {
+    try {
+      const groups = await this.groupService.findJoinedGroups(uid);
+      return groups;
     } catch (error) {
       throw error;
     }

@@ -103,10 +103,29 @@ export class PostService {
     return posts;
   }
 
+  async findAllAndSortByAuthorId(
+    authorId: string,
+    page: number,
+    limit: number,
+    sortBy = 'createdAt',
+    sortOrder: 'asc' | 'desc' = 'desc',
+  ): Promise<Posts[]> {
+    const sortOptions = { [sortBy]: sortOrder };
+    const skip = page * limit;
+    const posts = await this.postModel
+      .find({ authorId: authorId })
+      .populate('authorId', 'userName displayName avatar', this.profileModel)
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(limit)
+      .exec();
+    return posts;
+  }
+
   async like(id: string, profileId: string): Promise<Posts> {
     try {
       const post = await this.postModel.findOneAndUpdate(
-        { id: id },
+        { _id: id },
         {
           $addToSet: { likes: profileId },
         },
@@ -122,7 +141,7 @@ export class PostService {
   async unlike(id: string, profileId: string): Promise<Posts> {
     try {
       const post = await this.postModel.findOneAndUpdate(
-        { id: id },
+        { _id: id },
         {
           $pull: { likes: profileId },
         },
