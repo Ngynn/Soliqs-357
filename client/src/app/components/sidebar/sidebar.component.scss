@@ -97,8 +97,15 @@
         margin: 0 10px;
         display: flex;
         flex-direction: column;
-        .text {
-          color: black;
+        .textdisplayName {
+          color: #291520;
+          font-weight: 500;
+          font-size: 17px;
+        }
+        .textuserName{
+          color: #291520;
+          font-weight: 400;
+          font-size: 16px;
         }
       }
     }
