@@ -95,15 +95,7 @@ export class SuggestComponent implements OnDestroy, OnInit {
             posts: new FormControl<string[]>([]),
           });
           if (this.idToken && this.profile._id) {
-            this.store.dispatch(
-              GroupActions.getAll({ idToken: this.idToken, uid: profile._id })
-            );
-            this.store.dispatch(
-              GroupActions.getJoined({
-                uid: profile._id,
-                idToken: this.idToken,
-              })
-            );
+            this.getAllGroup();
           }
         }
       ),
@@ -139,6 +131,23 @@ export class SuggestComponent implements OnDestroy, OnInit {
             console.log(this.groupJoined);
           }
         }),
+      this.isJoinSuccess$
+        .pipe(
+          mergeMap((res) => {
+            if (res) {
+              return this.groups$;
+            } else {
+              return [];
+            }
+          })
+        )
+        .subscribe((data) => {
+          if (data) {
+            this.groups = data;
+            console.log(this.groups);
+            console.log(this.groups._id);
+          }
+        }),
       this.isCreating$.subscribe((res) => {
         if (res) {
           this.openSnackBar('Creating group...');
@@ -149,10 +158,16 @@ export class SuggestComponent implements OnDestroy, OnInit {
           this.dialog.nativeElement.close();
           this.groupForm.reset();
           this.openSnackBar('Create group successfully!');
+          this.getAllGroup();
+        }
+      }),
+      this.isJoinSuccess$.subscribe((res) => {
+        if (res) {
+          this.openSnackBar('Join group successfully!');
           this.store.dispatch(
-            GroupActions.getAll({
+            GroupActions.getOne({
+              id: this.groups._id,
               idToken: this.idToken,
-              uid: this.profile._id,
             })
           );
         }
@@ -164,6 +179,15 @@ export class SuggestComponent implements OnDestroy, OnInit {
           this.openSnackBar(`Error: ${res.error.message}`);
         }
       })
+    );
+  }
+
+  getAllGroup(): void {
+    this.store.dispatch(
+      GroupActions.getAll({ idToken: this.idToken, uid: this.profile._id })
+    );
+    this.store.dispatch(
+      GroupActions.getJoined({ uid: this.profile._id, idToken: this.idToken })
     );
   }
 
@@ -181,17 +205,14 @@ export class SuggestComponent implements OnDestroy, OnInit {
       })
     );
   }
-  // joined = false;
 
-  // join() {
-  //   if(this.profile._id.includes(this.groups._id)) {
-  //     this.joined = true;
-  //   } else {
-  //     this.joined = false;
-  //   }
-  // }
+  joinGroup(id: string, idToken: string) {
+    console.log(this.groups._id);
 
-  joinGroup() {}
+    this.store.dispatch(
+      GroupActions.join({ id: id, uid: this.profile._id, idToken: idToken })
+    );
+  }
 
   getDetail() {}
 

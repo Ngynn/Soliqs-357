@@ -22,11 +22,11 @@
         height: 30px;
       }
     }
-    .mid{
+    .mid {
       height: 10%;
       .searchBar {
         height: 10%;
-        
+
         // display: flex;
         // align-items: center;
         // justify-content: center;
@@ -37,7 +37,7 @@
           align-items: center;
           width: 100%;
           margin-bottom: 30px;
-    
+
           .iconSearch {
             margin-left: 10px;
           }
@@ -55,12 +55,11 @@
         }
       }
     }
-    
-  
+
     .under {
       height: 80%;
       width: 100%;
-      overflow-y: scroll;
+      //overflow-y: scroll;
       .listUser {
         height: 80%;
         width: 100%;
@@ -92,14 +91,11 @@
       }
     }
   }
-  
 }
 
 .right {
   height: 100%;
   width: 70%;
-
-
 }
 
 .newMessage {

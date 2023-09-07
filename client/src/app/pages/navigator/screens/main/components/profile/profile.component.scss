@@ -46,7 +46,6 @@
 .bio {
   height: 40%;
   margin-bottom: 16px;
- 
 
   #background {
     height: 200px;
@@ -134,13 +133,13 @@
           color: #536471;
         }
       }
-      #bioprofile{
+      #bioprofile {
         word-wrap: break-word;
         max-width: 80%;
-         span{
+        span {
           font-size: 15px;
           color: #291520;
-         }
+        }
       }
     }
     #date {
@@ -351,7 +350,7 @@
     max-height: calc((100% - 6px) - 2em);
     user-select: text;
     visibility: visible;
-    overflow: auto;
+    // overflow: auto;
   }
 
   .top-dialog {
@@ -418,8 +417,9 @@
   max-height: calc((100% - 6px) - 2em);
   user-select: text;
   visibility: visible;
-  overflow: auto;
+  // overflow: auto;
   padding: 0;
+
   #top {
     height: 50px;
     padding-right: 16px;
@@ -431,28 +431,27 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      .btnClose{
+      .btnClose {
         height: 70%;
         width: 40px;
         border-radius: 50%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        #box{
+        #box {
           height: 35px;
           width: 35px;
           border-radius: 50%;
           display: flex;
           justify-content: center;
           align-items: center;
-          img{
+          img {
             width: 10px;
             height: 10px;
           }
         }
-        
       }
-      #box:hover{
+      #box:hover {
         cursor: pointer;
         background-color: #e6e6e6;
       }
@@ -524,8 +523,6 @@
         background-color: #444444;
         opacity: 0.5;
         cursor: pointer;
-       
-       
       }
       #addImg:hover {
         cursor: pointer;
@@ -559,7 +556,7 @@
         align-items: center;
         // background-image: url('{{ selectedImage }}');
         // background-size: cover;
-       
+
         #addImg {
           width: 50px;
           height: 50px;
@@ -568,8 +565,8 @@
           justify-content: center;
           align-items: center;
           background-color: #444444;
-         opacity: 0.5;
-          img{
+          opacity: 0.5;
+          img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
@@ -647,7 +644,7 @@
         justify-content: flex-start;
         align-items: center;
         margin-left: 12px;
-        textarea{
+        textarea {
           width: 100%;
           height: 100%;
           border: none;
@@ -656,7 +653,7 @@
           white-space: normal;
           font-family: sans-serif;
           resize: none;
-          overflow: auto;
+          // overflow: auto;
         }
         textarea::-webkit-scrollbar {
           display: none;
@@ -664,28 +661,28 @@
       }
     }
 
-    #container_location{
+    #container_location {
       height: 60px;
       padding: 12px 20px;
-      #location{
+      #location {
         height: 30%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         margin-left: 12px;
         margin-top: 5px;
-        span{
+        span {
           font-size: 13px;
           color: #536471;
         }
       }
-      #input_location{
+      #input_location {
         height: 60%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         margin-left: 12px;
-        input{
+        input {
           width: 100%;
           height: 100%;
           border: none;
@@ -695,28 +692,28 @@
       }
     }
 
-    #container_website{
+    #container_website {
       height: 60px;
       padding: 12px 20px;
-      #website{
+      #website {
         height: 30%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         margin-left: 12px;
         margin-top: 5px;
-        span{
+        span {
           font-size: 13px;
           color: #536471;
         }
       }
-      #input_website{
+      #input_website {
         height: 60%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         margin-left: 12px;
-        input{
+        input {
           width: 100%;
           height: 100%;
           border: none;
@@ -726,35 +723,32 @@
       }
     }
 
-    #container_birthday{
+    #container_birthday {
       height: 60px;
       padding: 12px 20px;
-      #birthday{
+      #birthday {
         height: 30%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        #title{
+        #title {
           font-size: 15px;
           color: #536471;
         }
-        #edit{
+        #edit {
           font-size: 15px;
-          color: #1D9BF0;
+          color: #1d9bf0;
         }
 
-        #edit:hover{
+        #edit:hover {
           cursor: pointer;
           text-decoration: underline;
         }
       }
-      #date{
+      #date {
         font-size: 20px;
-        color: #0F1419;
+        color: #0f1419;
       }
     }
-
-    
   }
-
 }
