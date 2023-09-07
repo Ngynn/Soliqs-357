@@ -1,7 +1,7 @@
 <div class="container">
   <div class="header">
     <div class="left">
-      <mat-icon (click)="back()">arrow_back</mat-icon>
+      <!-- <mat-icon (click)="back()">arrow_back</mat-icon> -->
       <h2>Communities</h2>
     </div>
     <div class="right">
@@ -14,17 +14,19 @@
   </div>
   <div class="main">
     <div class="all" *ngFor="let groups of groupJoined">
-      <div class="leftsuggest" (click)="getDetail()">
+      <div class="leftsuggest" (click)="SelectGroup(groups)">
         <div class="avatar">
           <img src="../../../../../../../../../assets/soliqs-logo.png" alt="" />
         </div>
         <div class="name">
-          <div class="groupname">
+          
             <span class="textname">{{ groups.name }}</span>
             <span class="textmember">{{ groups.members.length }} members</span>
-          </div>
-          <div class="imguser" *ngFor="let member of groups.members">
-            <img [src]="member.avatar" />
+          
+          <div class="imguser" >
+            <div *ngFor="let member of groups.members">
+              <img [src]="member.avatar" />
+            </div>
           </div>
         </div>
       </div>
@@ -38,19 +40,23 @@
   </div>
   <div class="main">
     <div class="all" *ngFor="let groups of groupsList">
-      <div class="leftsuggest" (click)="getDetail()">
+      <div class="leftsuggest" (click)="SelectGroup(groups)">
         <div class="avatar">
           <img src="../../../../../../../../../assets/soliqs-logo.png" alt="" />
         </div>
+
         <div class="name">
-          <div class="groupname">
             <span class="textname">{{ groups.name }}</span>
             <span class="textmember">{{ groups.members.length }} members</span>
-          </div>
-          <div class="imguser" *ngFor="let member of groups.members">
-            <img [src]="member.avatar" />
-          </div>
+            <div class="imguser" >
+              <div *ngFor="let member of groups.members, let i=index">
+                <div >
+                  <img  [src]="member.avatar" />
+                </div>
+              </div>
+            </div>
         </div>
+
       </div>
       <div class="rightsuggest">
         <button mat-raised-button color="primary" (click)="joinGroup(this.groups._id, idToken)">

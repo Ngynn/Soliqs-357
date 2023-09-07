@@ -19,18 +19,15 @@
       <span>Đây là nơi lưu trữ những hình ảnh đẹp</span>
     </div>
     <div class="member">
-      <div class="imgmember">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png"
-        />
-        <img
-          src="https://upload.wikimedia.org/wikipedia/vi/thumb/5/5c/Chelsea_crest.svg/1200px-Chelsea_crest.svg.png"
-        />
-        <img
-          src="https://cdn.punchng.com/wp-content/uploads/2022/12/19070956/5f5e3cbe-1224-4a46-b8e7-612f5de03c8c.jpg"
-        />
+      <div >
+        <div class="imgmember" *ngFor="let member of groups.members">
+          <div>
+            <img  [src]="member.avatar" />
 
-        <span class="numofmember"> {{groups._id}} </span>
+          </div>
+        </div>
+
+        <span class="numofmember"*ngIf="this.groups.members"> {{this.groups.members.length}} </span>
         <span class="textmember">Member</span>
       </div>
       <div class="btn">
@@ -38,16 +35,18 @@
         <button
           mat-raised-button
           color="primary"
-          *ngIf="!joined"
-          (click)="join()"
+          *ngIf="join === true"
+          
+         
         >
-          Join
+         Join
         </button>
         <button
           mat-raised-button
           color="primary"
-          [disabled]="joined"
-          *ngIf="joined"
+          disabled="join"
+          *ngIf="join == false"
+          
         >
           Joined
         </button>
@@ -91,7 +90,7 @@
             </div>
             <div class="textaboutCalendar">
               <span>Created 16 tháng 12, 2021 by</span>
-              <span class="createBy"> @MậpMủmMỉm</span>
+              <span class="createBy"> @{{groups.owner}}</span>
             </div>
           </div>
         </div>

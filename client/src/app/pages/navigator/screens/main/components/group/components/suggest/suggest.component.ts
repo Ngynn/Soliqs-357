@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Input,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -21,6 +22,7 @@ import { UserState } from 'src/app/ngrx/states/user.state';
 import { Profile } from 'src/app/models/profile.model';
 import { ProfileState } from 'src/app/ngrx/states/profile.state';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { query } from '@angular/animations';
 
 @Component({
   selector: 'app-suggest',
@@ -28,6 +30,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./suggest.component.scss'],
 })
 export class SuggestComponent implements OnDestroy, OnInit {
+  isNavigateSuccessg$ = this.store.select('group', 'isSuccess');
   isJoinSuccess$ = this.store.select('group', 'isSuccess');
   errorMessage$ = this.store.select('group', 'errorMessage');
 
@@ -145,7 +148,6 @@ export class SuggestComponent implements OnDestroy, OnInit {
           if (data) {
             this.groups = data;
             console.log(this.groups);
-            console.log(this.groups._id);
           }
         }),
       this.isCreating$.subscribe((res) => {
@@ -180,6 +182,8 @@ export class SuggestComponent implements OnDestroy, OnInit {
         }
       })
     );
+    
+    
   }
 
   getAllGroup(): void {
@@ -207,17 +211,29 @@ export class SuggestComponent implements OnDestroy, OnInit {
   }
 
   joinGroup(id: string, idToken: string) {
-    console.log(this.groups._id);
-
     this.store.dispatch(
       GroupActions.join({ id: id, uid: this.profile._id, idToken: idToken })
     );
   }
 
-  getDetail() {}
+  
+
+  @Input() group!: [] | any;
+  groupSelected: any;
+  SelectGroup(group: any) {
+    this.groupSelected = group;
+    console.log(this.groupSelected);
+    this.router.navigate(['/group/detail'], {
+      queryParams: {
+        id: group._id,
+      },
+      queryParamsHandling: 'merge',
+    });
+    
+  }
 
   back() {
-    this.location.back();
+    this.router.navigate(['/group/suggest']);
   }
 
   @ViewChild('createGroupDialog', { static: true })
