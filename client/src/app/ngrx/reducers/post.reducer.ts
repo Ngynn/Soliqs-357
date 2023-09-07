@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { PostState } from '../states/post.state';
 import * as PostAction from '../actions/post.actions';
+import { Post } from 'src/app/models/post.model';
 
 export const initualState: PostState = {
   posts: [],
@@ -10,6 +11,9 @@ export const initualState: PostState = {
   isGetLoading: false,
   isGetSuccess: false,
   getErrorMessage: '',
+  isGetByIdSuccess: false,
+  isGetByIdLoading: false,
+  post: <Post>{},
 };
 
 export const postReducer = createReducer(
@@ -23,7 +27,6 @@ export const postReducer = createReducer(
       errorMessage: '',
     };
   }),
-
   on(PostAction.createSuccess, (state, action) => {
     console.log(action.type);
     return {
@@ -33,7 +36,6 @@ export const postReducer = createReducer(
       errorMessage: '',
     };
   }),
-
   on(PostAction.createFailure, (state, { type, errorMessage }) => {
     console.log(type, errorMessage);
     return {
@@ -71,6 +73,40 @@ export const postReducer = createReducer(
       isGetSuccess: false,
       getErrorMessage: errorMessage,
       posts: [],
+    };
+  }),
+
+  on(PostAction.getById, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      isGetByIdLoading: true,
+      isGetByIdSuccess: false,
+      getErrorMessage: '',
+      post: <Post>{},
+      posts: [],
+    };
+  }),
+
+  on(PostAction.getByIdSuccess, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      isGetByIdLoading: false,
+      isGetByIdSuccess: true,
+      getErrorMessage: '',
+      post: action.post,
+    };
+  }),
+
+  on(PostAction.getByIdFailure, (state, action) => {
+    console.log(action.type);
+    return {
+      ...state,
+      isGetByIdLoading: false,
+      isGetByIdSuccess: false,
+      getErrorMessage: action.errorMessage,
+      post: <Post>{},
     };
   })
 );

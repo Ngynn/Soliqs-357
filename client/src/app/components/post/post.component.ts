@@ -19,6 +19,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Profile } from 'src/app/models/profile.model';
 import { ProfileState } from 'src/app/ngrx/states/profile.state';
 import * as ProfileActions from '../../ngrx/actions/profile.actions';
+import { Subscription, combineLatest, mergeMap } from 'rxjs';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
@@ -35,6 +36,7 @@ export class PostComponent {
   idpost: string = '';
   selectedPost: any;
   authorId: string = '';
+  subscriptions: Subscription[] = [];
   constructor(
     private router: Router,
     private store: Store<{
@@ -44,21 +46,19 @@ export class PostComponent {
       profile: ProfileState;
     }>
   ) {
-    this.idToken$.subscribe((idToken) => {
-      if (idToken) {
-        this.idToken = idToken;
-      }
-    });
+    this.subscriptions.push(
+      combineLatest([this.idToken$, this.profile$]).subscribe(
+        ([idToken, profile]) => {
+          this.idToken = idToken;
+          this.profile = profile;
+        }
+      )
+    );
     this.comments$.subscribe((comments) => {
       console.log('comments', comments);
       if (comments.length) {
         this.commentsPost = comments;
         console.log('comments', this.commentsPost);
-      }
-    });
-    this.profile$.subscribe((profile) => {
-      if (profile) {
-        this.profile = profile;
       }
     });
   }
