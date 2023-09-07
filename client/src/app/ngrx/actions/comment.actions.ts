@@ -3,7 +3,7 @@ import { Comment } from 'src/app/models/comment.model';
 
 export const create = createAction(
   '[Comment] Create',
-  props<{ comment: Comment; idToken: string }>()
+  props<{ comment: any; idToken: string; postId: string }>()
 );
 
 export const createSuccess = createAction('[Comment] Create Success');
@@ -37,3 +37,5 @@ export const updateFailure = createAction(
   '[Comment] Update Failure',
   props<{ errorMessage: any }>()
 );
+
+export const clearAllState = createAction('[Comment] Clear All State');

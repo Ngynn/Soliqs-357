@@ -13,13 +13,14 @@ import { GroupState } from 'src/app/ngrx/states/group.state';
 import { UserState } from 'src/app/ngrx/states/user.state';
 import { AuthState } from 'src/app/ngrx/states/auth.state';
 import { ProfileState } from 'src/app/ngrx/states/profile.state';
-import { Observable, Subscription, mergeMap } from 'rxjs';
+import { Observable, Subscription, combineLatest, mergeMap } from 'rxjs';
 import { Group } from 'src/app/models/group.model';
 import { Profile } from 'src/app/models/profile.model';
-import { User } from '@angular/fire/auth';
-import * as GroupAction from 'src/app/ngrx/actions/group.actions';
-import * as UserAction from 'src/app/ngrx/actions/user.actions';
-import * as ProfileAction from 'src/app/ngrx/actions/profile.actions';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import * as GroupActions from 'src/app/ngrx/actions/group.actions';
+import { ActivatedRoute, Router } from '@angular/router';
+import { group } from '@angular/animations';
+
 
 @Component({
   selector: 'app-internal',
@@ -27,29 +28,34 @@ import * as ProfileAction from 'src/app/ngrx/actions/profile.actions';
   styleUrls: ['./internal.component.scss'],
 })
 export class InternalComponent implements OnInit, OnDestroy {
-  isCreateGroupSuccess$ = this.store.select('group', 'isSuccess');
+  isJoinSuccess$ = this.store.select('group', 'isSuccess');
 
-  isGetDetailSuccess$ = this.store.select('group', 'isGetLoading');
   errorMessage$ = this.store.select('group', 'errorMessage');
 
   groups: Group = <Group>{};
   groups$: Observable<Group> = this.store.select('group', 'group');
+  isGetSuccess$ = this.store.select('group', 'isGetSuccess');
 
   groupsList: Group[] = [];
-
   groupsList$: Observable<Group[]> = this.store.select('group', 'groupList');
 
+  groupJoined: Group[] = [];
+  groupJoined$: Observable<Group[]> = this.store.select('group', 'groupJoined');
+  isGetJoinedSuccess$ = this.store.select('group', 'isGetJoinedSuccess');
+
+
+
   user$ = this.store.select('user', 'user');
-  user: User = <User>{};
 
   profile: Profile = <Profile>{};
   profile$ = this.store.select('profile', 'profile');
 
-  idToken$ = this.store.select('auth', 'idToken');
   idToken: string = '';
+  idToken$ = this.store.select('auth', 'idToken');
 
   userFirebase$ = this.store.select('auth', 'firebaseUser');
 
+  avatarUrl: string = '';
   uid: string = '';
   subscriptions: Subscription[] = [];
 
@@ -57,7 +63,10 @@ export class InternalComponent implements OnInit, OnDestroy {
   owner: string = '';
   members: string[] = [];
   posts: string[] = [];
-  id: string = '';
+  groupId!: string | null;
+  // member: Profile[] = [];
+  join: boolean = false;
+  
 
   userFirebase: any = null;
   constructor(
@@ -67,18 +76,82 @@ export class InternalComponent implements OnInit, OnDestroy {
       user: UserState;
       auth: AuthState;
       profile: ProfileState;
-    }>
-  ) {}
+    
 
+    }>,
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private router: Router
+
+
+  ) { }
+  ngOnInit(): void {
+    this.subscriptions.push(
+      combineLatest([this.idToken$, this.profile$]).subscribe(
+        ([idToken, profile]) => {
+          this.idToken = idToken;
+          this.profile = profile;
+          
+        }
+        
+        
+      ),
+      this.groups$.subscribe((groups) => {
+        if(groups._id) {
+          this.groups = groups;
+          
+        } 
+      }),
+      this.profile$.subscribe((profile) => {
+        if (profile._id) {
+          this.profile = profile;
+        }
+      }),
+
+      
+        
+      this.route.queryParamMap.subscribe((params) => {
+        this.groupId = params.get('id');
+        if (this.groupId) {
+          this.store.dispatch(
+            GroupActions.getOne({ id: this.groupId, idToken: this.idToken })
+          );
+        } 
+        if(this.groupId === this.groups._id) {
+          this.groups.members.forEach((member) => {
+            if (member._id === this.profile._id) {
+              this.join = true;
+              console.log("tham gia rồi");
+              // console.log(this.groups._id);
+              
+              
+            } else {
+              this.join = false;
+              console.log("chưa tham gia");
+              // console.log(this.groups._id);
+  
+            }
+          }
+          )
+        }
+        
+      }),
+    );
+    
+
+   
+    
+  }
+  
   
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
-  joined: boolean = false;
+
+ 
+
 
   showImageInput = false;
   @ViewChild('appDialog2', { static: true })
@@ -94,9 +167,7 @@ export class InternalComponent implements OnInit, OnDestroy {
     this.showImageInput = false;
   }
 
-  join(): void {
-    this.joined = true;
-  }
+  
 
   openCommentDialog() {
     this.dialog2.nativeElement.showModal();
@@ -107,6 +178,16 @@ export class InternalComponent implements OnInit, OnDestroy {
     this.cdr2.detectChanges();
   }
   back() {
-    this.location.back();
+    this.router.navigate(['/group/suggest']);
+
+  }
+
+  openSnackBar(message: any) {
+    this._snackBar.open(message, '', {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 2000,
+      panelClass: ['snackbar'],
+    });
   }
 }

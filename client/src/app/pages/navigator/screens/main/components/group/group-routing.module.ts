@@ -14,7 +14,7 @@ const routes: Routes = [
         component: SuggestComponent,
       },
       {
-        path: 'detail/:id',
+        path: 'detail',
         component: InternalComponent,
       },
     ],

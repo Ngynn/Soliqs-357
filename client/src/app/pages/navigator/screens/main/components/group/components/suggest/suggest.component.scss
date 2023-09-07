@@ -12,7 +12,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
     .left {
       display: flex;
       flex-direction: row;
@@ -80,75 +79,47 @@
     .all {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      width: 100%;
       cursor: pointer;
       padding: 10px;
-      width: calc(100% - 20px);
-
       .leftsuggest {
         display: flex;
-        flex-direction: row;
         width: 85%;
-
         .avatar {
           height: 80px;
-          width: 80px;
-
+          width: 20%;
           img {
-            width: 100%;
+            width: 80%;
             height: 100%;
             border-radius: 12px;
             object-fit: cover;
             border: 0.5px solid #d4c2c8;
           }
         }
-
         .name {
+          width: 80%;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
-          margin-left: 10px;
-          .imguser {
+          .imguser { 
             display: flex;
             flex-direction: row;
-            position: relative;
-
             img {
               width: 30px;
               height: 30px;
               border-radius: 50%;
               object-fit: cover;
             }
-            img:nth-child(1) {
-              left: 0;
-              z-index: 1;
-            }
-            img:nth-child(2) {
-              left: 20px;
-              z-index: 2;
-            }
-            img:nth-child(3) {
-              left: 40px;
-              z-index: 3;
-            }
-
-            img:nth-child(n + 2) {
-              margin-left: -15px;
-            }
           }
-          .groupname {
-            display: flex;
-            flex-direction: column;
-            .textname {
-              font-weight: 500;
-              font-size: 17px;
-            }
-
-            .textmember {
-              font-size: 15px;
-              font-weight: 400;
-            }
+          .textname {
+            font-weight: 500;
+            font-size: 17px;
           }
+
+          .textmember {
+            font-size: 15px;
+            font-weight: 400;
+          }
+          
         }
       }
       .rightsuggest {

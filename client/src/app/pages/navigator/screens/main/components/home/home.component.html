@@ -22,153 +22,19 @@
         </mat-tab>
 
         <mat-tab label="Following">
-          <!-- <div class="move">
+          <div
+            class="move"
+            infinite-scroll
+            [infiniteScrollDistance]="scrollDistance"
+            [infiniteScrollUpDistance]="scrollUpDistance"
+            [infiniteScrollThrottle]="throttle"
+            (scrolled)="onScrollDown($event)"
+          >
+            >
             <div class="posts">
-              <div class="item">
-                <div class="top-item">
-                  <div class="avatar-top-item">
-                    <img
-                      src="https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png"
-                      alt=""
-                    />
-                  </div>
-                  <div class="content-top-item">
-                    <div class="container-user-top-item">
-                      <div class="left-container-user-top-item">
-                        <div class="username-top-item">Mu</div>
-                        <div class="tagname-top-item">@mu</div>
-                        <div class="time-top-item">Aug 15</div>
-                        <div class="divice-content-top-item"></div>
-                      </div>
-                      <div class="icon-content-top-item">
-                        <mat-icon>more_horiz</mat-icon>
-                      </div>
-                    </div>
-                    <div class="content-user-top-item">
-                      Ronaldo chính thức gia nhập Manchester United, trở về mái
-                      nhà xưa sau 12 năm xa cách
-                    </div>
-                  </div>
-                </div>
-                <div class="container-item-img">
-                  <div class="img-item">
-                    <img
-                      src="https://cdn1.tuoitre.vn/zoom/600_315/2021/9/3/0untitled-4-1630623197289312843800-crop-16306232345251445467404.png"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div class="reaction">
-                  <div class="item-reaction" (click)="openCommentDialog()">
-                    <mat-icon>sms</mat-icon>
-                    <div class="count">13k</div>
-                  </div>
-                  <div class="item-reaction" (click)="repost1()">
-                    <mat-icon
-                      [ngStyle]="{ color: item1.sync ? '#944170' : '#504349' }"
-                      >sync</mat-icon
-                    >
-                    <div class="count">11k</div>
-                  </div>
-                  <div class="item-reaction" (click)="like1()">
-                    <mat-icon
-                      [ngStyle]="{
-                        color: item1.favorite ? '#944170' : '#504349'
-                      }"
-                      >favorite</mat-icon
-                    >
-                    <div class="count">14k</div>
-                  </div>
-                  <div class="item-reaction" (click)="monitoring1()">
-                    <mat-icon
-                      [ngStyle]="{
-                        color: item1.monitoring ? '#944170' : '#504349'
-                      }"
-                      >legend_toggle</mat-icon
-                    >
-                    <div class="count">2M</div>
-                  </div>
-                  <div class="item-reaction">
-                    <mat-icon>file_upload</mat-icon>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="top-item">
-                  <div class="avatar-top-item">
-                    <img
-                      src="../../../../../../../assets/imgs/Rectangle 14.png"
-                      alt=""
-                    />
-                  </div>
-                  <div class="content-top-item">
-                    <div class="container-user-top-item">
-                      <div class="left-container-user-top-item">
-                        <div class="username-top-item">Netflix</div>
-                        <div class="tagname-top-item">@netflix</div>
-                        <div class="time-top-item">Aug 15</div>
-                        <div class="divice-content-top-item"></div>
-                      </div>
-                      <div class="icon-content-top-item">
-                        <mat-icon>more_horiz</mat-icon>
-                      </div>
-                    </div>
-                    <div class="content-user-top-item">
-                      Gal Gadot's first movie (Fast & Furious) is on Netflix now
-                      — and her latest movie (Heart of Stone) is on Netflix
-                      Friday!
-                    </div>
-                  </div>
-                </div>
-                <div class="container-item-img">
-                  <div class="img-item">
-                    <img
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjoGr1Xb3hX9FcOZWi8b07rG9MpxsyEHwaGQ&usqp=CAU"
-                      alt=""
-                    />
-                    <img
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjoGr1Xb3hX9FcOZWi8b07rG9MpxsyEHwaGQ&usqp=CAU"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div class="reaction">
-                  <div class="item-reaction" (click)="openCommentDialog()">
-                    <mat-icon>sms</mat-icon>
-                    <div class="count">13k</div>
-                  </div>
-                  <div class="item-reaction" (click)="repost2()">
-                    <mat-icon
-                      [ngStyle]="{ color: item2.sync ? '#944170' : '#504349' }"
-                      >sync</mat-icon
-                    >
-                    <div class="count">11k</div>
-                  </div>
-                  <div class="item-reaction" (click)="like2()">
-                    <mat-icon
-                      [ngStyle]="{
-                        color: item2.favorite ? '#944170' : '#504349'
-                      }"
-                      >favorite</mat-icon
-                    >
-                    <div class="count">14k</div>
-                  </div>
-                  <div class="item-reaction" (click)="monitoring2()">
-                    <mat-icon
-                      [ngStyle]="{
-                        color: item2.monitoring ? '#944170' : '#504349'
-                      }"
-                      >legend_toggle</mat-icon
-                    >
-                    <div class="count">2M</div>
-                  </div>
-                  <div class="item-reaction">
-                    <mat-icon>file_upload</mat-icon>
-                  </div>
-                </div>
-              </div>
+              <app-post [post]="posts"></app-post>
             </div>
-          </div> -->
+          </div>
         </mat-tab>
       </mat-tab-group>
     </div>

@@ -211,7 +211,7 @@
 
     .all-top-comments-detail {
       height: 100%;
-      // overflow: auto;
+      overflow: auto;
       .center-right-detail-post {
         display: flex;
         flex-direction: column;
@@ -458,7 +458,7 @@
   max-height: calc((100% - 6px) - 2em);
   user-select: text;
   visibility: visible;
-  //overflow: auto;
+  // overflow: auto;
 
   .btnClose {
     margin: 5px;
